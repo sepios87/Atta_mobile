@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:atta/entities/filter.dart';
 import 'package:atta/entities/restaurant.dart';
 import 'package:atta/extensions/border_radius.dart';
@@ -9,6 +11,7 @@ import 'package:atta/theme/spacing.dart';
 import 'package:atta/theme/text_style.dart';
 import 'package:atta/widgets/app_bar.dart';
 import 'package:atta/widgets/bottom_navigation_bar.dart';
+import 'package:atta/widgets/item_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -40,7 +43,8 @@ class HomeScreen extends StatelessWidget {
           if (state.selectedRestaurant != null) {
             showModalBottomSheet<void>(
               context: context,
-              builder: (_) => const _RestaurantDetail(),
+              isScrollControlled: true,
+              builder: (_) => _RestaurantDetail(state.selectedRestaurant!),
             ).whenComplete(() {
               context.read<HomeCubit>().onRestaurantUnselected();
             });

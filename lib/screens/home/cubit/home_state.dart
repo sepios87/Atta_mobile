@@ -12,15 +12,7 @@ final class HomeState {
 
   factory HomeState.initial() {
     return HomeState._(
-      restaurants: List.filled(
-        10,
-        const AttaRestaurant(
-          id: 'id',
-          name: 'Papa burger',
-          imageUrl: 'https://picsum.photos/200/300',
-          filter: [AttaFilter.burger],
-        ),
-      ),
+      restaurants: mockedData,
       searchRestaurants: const [],
       activeFilters: const [],
       isOnSearch: false,

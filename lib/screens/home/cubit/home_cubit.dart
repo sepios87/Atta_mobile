@@ -1,6 +1,7 @@
 import 'package:atta/entities/filter.dart';
 import 'package:atta/entities/restaurant.dart';
 import 'package:atta/entities/wrapped.dart';
+import 'package:atta/mock.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
