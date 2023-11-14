@@ -77,9 +77,12 @@ class _LogoAnimationState extends State<_LogoAnimation> with SingleTickerProvide
     super.initState();
 
     Future.delayed(const Duration(seconds: 2), () {
-      _animationController
-        ..forward()
-        ..repeat(reverse: true);
+      if (_animation.isDisposed) return;
+      try {
+        _animationController
+          ..forward()
+          ..repeat(reverse: true);
+      } catch (_) {}
     });
   }
 

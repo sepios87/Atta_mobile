@@ -9,9 +9,9 @@ final GoRouter _router = GoRouter(
       },
     ),
     GoRoute(
-      path: '/home',
+      path: HomePage.path,
       builder: (BuildContext context, GoRouterState state) {
-        return const HomeScreen();
+        return HomePage.screen;
       },
     ),
     GoRoute(

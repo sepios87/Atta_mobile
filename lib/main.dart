@@ -5,9 +5,12 @@ import 'package:atta/screens/restaurant_detail/restaurant_detail_screen.dart';
 import 'package:atta/services/restaurant_service.dart';
 import 'package:atta/theme/colors.dart';
 import 'package:atta/theme/radius.dart';
+import 'package:atta/theme/spacing.dart';
+import 'package:atta/theme/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 part 'app/router.dart';
 part 'theme/theme.dart';
@@ -32,6 +35,13 @@ class AttaApp extends StatelessWidget {
       child: MaterialApp.router(
         theme: _attaThemeData,
         routerConfig: _router,
+        locale: const Locale('fr', 'FR'),
+        localizationsDelegates: const [
+          GlobalWidgetsLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: const [Locale('en', 'US'), Locale('fr', 'FR')],
       ),
     );
   }

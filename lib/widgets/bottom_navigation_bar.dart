@@ -6,27 +6,33 @@ class AttaBottomNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      backgroundColor: AttaColors.black,
-      showUnselectedLabels: false,
-      showSelectedLabels: false,
-      currentIndex: 1, // TODO(florian): Change this
-      selectedItemColor: AttaColors.primaryLight,
-      unselectedItemColor: AttaColors.white,
-      items: const [
-        BottomNavigationBarItem(
-          icon: Icon(Icons.favorite_rounded),
-          label: 'Favoris',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home_rounded),
-          label: 'Accueil',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.shopping_cart_rounded),
-          label: 'Réservations',
-        ),
-      ],
+    return Theme(
+      data: ThemeData(
+        splashFactory: InkRipple.splashFactory,
+      ),
+      child: BottomNavigationBar(
+        backgroundColor: AttaColors.black,
+        showUnselectedLabels: false,
+        showSelectedLabels: false,
+        currentIndex: 1, // TODO(florian): Change this
+        selectedItemColor: AttaColors.primaryLight,
+        unselectedItemColor: AttaColors.white,
+
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite_rounded),
+            label: 'Favoris',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home_rounded),
+            label: 'Accueil',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_cart_rounded),
+            label: 'Réservations',
+          ),
+        ],
+      ),
     );
   }
 }

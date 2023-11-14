@@ -4,9 +4,14 @@ import 'package:atta/theme/colors.dart';
 import 'package:atta/theme/radius.dart';
 import 'package:atta/theme/spacing.dart';
 import 'package:atta/theme/text_style.dart';
+import 'package:atta/widgets/bottom_navigation_bar.dart';
+import 'package:atta/widgets/item_card.dart';
+import 'package:atta/widgets/search_bar.dart';
 import 'package:atta/widgets/select_hourly.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class RestaurantDetailScreenArgument {
   const RestaurantDetailScreenArgument({
@@ -52,29 +57,43 @@ class RestaurantDetailScreen extends StatelessWidget {
                     ),
                   ),
                   bottom: PreferredSize(
-                    preferredSize: const Size.fromHeight(78 + AttaSpacing.m),
+                    preferredSize: const Size.fromHeight(82 + AttaSpacing.m),
                     child: Padding(
                       padding: const EdgeInsets.only(top: AttaSpacing.m),
                       child: Container(
                         width: double.infinity,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 20,
-                          vertical: 10,
+                        padding: const EdgeInsets.only(
+                          left: AttaSpacing.m,
+                          right: AttaSpacing.m,
+                          top: AttaSpacing.xxs,
+                          bottom: AttaSpacing.m,
                         ),
                         decoration: BoxDecoration(
                           color: AttaColors.white,
                           borderRadius: BorderRadiusExt.top(AttaRadius.medium),
                         ),
-                        child: SelectHourly(),
+                        child: SelectHourly(
+                          openingTimes: state.restaurant.openingTimes,
+                          selectedDate: state.selectedDate,
+                          selectedOpeningTime: state.selectedOpeningTime,
+                          onDateChanged: (date) {
+                            context.read<RestaurantDetailCubit>().selectDate(date);
+                          },
+                          onOpeningTimeChanged: (openingTime) {
+                            context.read<RestaurantDetailCubit>().selectOpeningTime(openingTime);
+                          },
+                        ),
                       ),
                     ),
                   ),
                 ),
                 SliverToBoxAdapter(
                   child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: AttaSpacing.m,
-                      vertical: AttaSpacing.l,
+                    padding: const EdgeInsets.only(
+                      left: AttaSpacing.m,
+                      right: AttaSpacing.m,
+                      top: AttaSpacing.l,
+                      bottom: AttaSpacing.m,
                     ),
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -95,53 +114,59 @@ class RestaurantDetailScreen extends StatelessWidget {
                             if (state.restaurant.category.isNotEmpty)
                               Row(
                                 children: [
-                                  const Icon(Icons.table_restaurant_outlined),
+                                  const Icon(Icons.food_bank_outlined),
                                   const SizedBox(width: AttaSpacing.xxs),
-                                  Text(state.restaurant.category.first.toString()),
+                                  Text(state.restaurant.category.first.name),
                                 ],
                               ),
-                            const SizedBox(width: AttaSpacing.l),
-                            Row(
-                              children: [
-                                const Icon(Icons.location_on_outlined),
-                                const SizedBox(width: AttaSpacing.xxs),
-                                Text(state.restaurant.address),
-                              ],
+                            const SizedBox(width: AttaSpacing.xs),
+                            Expanded(
+                              child: TextButton.icon(
+                                onPressed: () => launchUrlString(
+                                  'https://www.google.com/maps/search/?api=1&query=${state.restaurant.address}',
+                                ),
+                                icon: const Icon(Icons.location_on_outlined),
+                                label: Text(
+                                  state.restaurant.address,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () => launchUrlString(state.restaurant.website),
+                              icon: const Icon(CupertinoIcons.globe),
+                            ),
+                            IconButton(
+                              onPressed: () => launchUrlString('tel:${state.restaurant.phone}'),
+                              icon: const Icon(Icons.phone_outlined),
                             ),
                           ],
                         ),
-                        // Text(state.restaurant.description),
-                        const SizedBox(height: AttaSpacing.l),
-                        Container(
-                          height: 1000,
-                          color: Colors.blue,
-                        ),
-                        Container(
-                          height: 1000,
-                          color: Colors.blue,
+                        const SizedBox(height: AttaSpacing.m),
+                        Text(state.restaurant.description),
+                        const SizedBox(height: AttaSpacing.m),
+                        AttaSearchBar(
+                          onFocus: (isOnFocus) {},
+                          onSearch: (value) {},
                         ),
                       ],
                     ),
                   ),
                 ),
-                // SliverList(
-                //   delegate: SliverChildListDelegate(
-                //     [
-                //       Text(state.restaurant.name),
-                //       Text(state.restaurant.description),
-                //       Container(
-                //         height: 1000,
-                //         color: Colors.red,
-                //       ),
-                //       Container(
-                //         height: 1000,
-                //         color: Colors.blue,
-                //       ),
-                //     ],
-                //   ),
-                // ),
+                DecoratedSliver(
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                  ),
+                  sliver: SliverList(
+                    delegate: SliverChildListDelegate(
+                      [...state.restaurant.dishes.map(DishItemCard.new)],
+                    ),
+                  ),
+                ),
               ],
             ),
+            bottomNavigationBar: const AttaBottomNavigationBar(),
           );
         },
       ),

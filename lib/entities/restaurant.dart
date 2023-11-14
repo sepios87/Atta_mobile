@@ -2,7 +2,7 @@ import 'package:atta/entities/day.dart';
 import 'package:atta/entities/dish.dart';
 import 'package:atta/entities/filter.dart';
 import 'package:atta/entities/menu.dart';
-import 'package:flutter/material.dart';
+import 'package:atta/entities/opening_time.dart';
 
 class AttaRestaurant {
   const AttaRestaurant({
@@ -29,17 +29,7 @@ class AttaRestaurant {
   final String phone;
   final String email;
   final String website;
-  final Map<Day, List<AttaOpeningTime>> openingTimes;
+  final Map<AttaDay, List<AttaOpeningTime>> openingTimes;
   final List<AttaDish> dishes;
   final List<AttaMenu> menus;
-}
-
-class AttaOpeningTime {
-  const AttaOpeningTime({
-    required this.open,
-    required this.close,
-  });
-
-  final TimeOfDay open;
-  final TimeOfDay close;
 }

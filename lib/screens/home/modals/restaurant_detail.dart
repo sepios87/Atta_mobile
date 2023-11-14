@@ -103,14 +103,20 @@ class _RestaurantDetail extends StatelessWidget {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AttaColors.secondary,
                         ),
-                        child: const Text('Carte et précommande'),
+                        child: const Text(
+                          'Voir le restaurant',
+                          textAlign: TextAlign.center,
+                        ),
                       ),
                     ),
                     const SizedBox(width: AttaSpacing.s),
                     Expanded(
                       child: ElevatedButton(
                         onPressed: () {},
-                        child: const Text('Réserver directement'),
+                        child: const Text(
+                          'Réserver directement',
+                          textAlign: TextAlign.center,
+                        ),
                       ),
                     ),
                   ],

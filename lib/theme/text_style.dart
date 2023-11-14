@@ -44,4 +44,10 @@ class AttaTextStyle {
         fontWeight: FontWeight.w400,
         fontSize: 13,
       );
+
+  static TextStyle get button => const TextStyle(
+        fontFamily: 'Inter',
+        fontWeight: FontWeight.w500,
+        fontSize: 15,
+      );
 }

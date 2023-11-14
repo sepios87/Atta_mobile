@@ -11,6 +11,7 @@ ThemeData get _attaThemeData {
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
+        textStyle: AttaTextStyle.button,
         minimumSize: const Size(double.infinity, 38),
         backgroundColor: AttaColors.primaryLight,
         foregroundColor: Colors.white,
@@ -18,13 +19,21 @@ ThemeData get _attaThemeData {
           borderRadius: BorderRadius.circular(AttaRadius.small),
         ),
         elevation: 0,
-        padding: EdgeInsets.zero,
+        padding: const EdgeInsets.symmetric(
+          vertical: AttaSpacing.xxs,
+          horizontal: AttaSpacing.xs,
+        ),
       ),
     ),
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
         foregroundColor: AttaColors.black,
-        padding: EdgeInsets.zero,
+        padding: const EdgeInsets.symmetric(
+          vertical: AttaSpacing.xxs,
+          horizontal: AttaSpacing.xs,
+        ),
+        alignment: Alignment.centerLeft,
+        textStyle: AttaTextStyle.button,
       ),
     ),
   );

@@ -2,6 +2,7 @@ import 'package:atta/entities/day.dart';
 import 'package:atta/entities/dish.dart';
 import 'package:atta/entities/filter.dart';
 import 'package:atta/entities/menu.dart';
+import 'package:atta/entities/opening_time.dart';
 import 'package:atta/entities/restaurant.dart';
 import 'package:flutter/material.dart';
 
@@ -12,13 +13,14 @@ final mockedData = List.filled(
     name: 'Papa burger',
     imageUrl: 'https://picsum.photos/200/300',
     category: [AttaFilter.burger],
-    address: '12 rue du bourg',
-    description: 'lorem ipsum dolor sit amet',
+    address: '6 Rue Charles Michels, Limoges',
+    description:
+        'Le papaburger est un restaurant de burger végétarien. Nous proposons des burgers de qualité avec des produits frais et locaux.',
     email: 'resto@gmail.com',
     phone: '0123456789',
     website: 'https://google.com',
     openingTimes: {
-      Day.monday: const [
+      AttaDay.tuesday: const [
         AttaOpeningTime(
           open: TimeOfDay(hour: 12, minute: 0),
           close: TimeOfDay(hour: 14, minute: 0),
