@@ -5,13 +5,22 @@ final GoRouter _router = GoRouter(
     GoRoute(
       path: '/',
       builder: (BuildContext context, GoRouterState state) {
+        return const PreloadScreen();
+      },
+    ),
+    GoRoute(
+      path: '/home',
+      builder: (BuildContext context, GoRouterState state) {
         return const HomeScreen();
       },
     ),
     GoRoute(
       path: '/restaurant-details',
       builder: (BuildContext context, GoRouterState state) {
-        return const RestaurantDetailScreen();
+        final args = state.extra! as RestaurantDetailScreenArgument;
+        return RestaurantDetailScreen(
+          arguments: args,
+        );
       },
     ),
     GoRoute(

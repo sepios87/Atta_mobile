@@ -37,7 +37,7 @@ class _DefaultContent extends StatelessWidget {
                         left: AttaSpacing.xs,
                         child: Container(
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(AttaRadius.radiusSmall),
+                            borderRadius: BorderRadius.circular(AttaRadius.small),
                             color: AttaColors.primaryLight,
                           ),
                           padding: const EdgeInsets.symmetric(

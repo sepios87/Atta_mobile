@@ -1,9 +1,8 @@
-import 'dart:math';
-
 import 'package:atta/entities/filter.dart';
 import 'package:atta/entities/restaurant.dart';
-import 'package:atta/extensions/border_radius.dart';
+import 'package:atta/extensions/border_radius_ext.dart';
 import 'package:atta/screens/home/cubit/home_cubit.dart';
+import 'package:atta/screens/restaurant_detail/restaurant_detail_screen.dart';
 import 'package:atta/theme/animation.dart';
 import 'package:atta/theme/colors.dart';
 import 'package:atta/theme/radius.dart';
@@ -14,6 +13,7 @@ import 'package:atta/widgets/bottom_navigation_bar.dart';
 import 'package:atta/widgets/item_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 part 'widgets/search_bar.dart';
@@ -62,7 +62,7 @@ class HomeScreen extends StatelessWidget {
               body: Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadiusExt.top(AttaRadius.radiusMedium),
+                  borderRadius: BorderRadiusExt.top(AttaRadius.medium),
                 ),
                 child: Column(
                   children: [

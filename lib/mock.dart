@@ -11,7 +11,7 @@ final mockedData = List.filled(
     id: 'id',
     name: 'Papa burger',
     imageUrl: 'https://picsum.photos/200/300',
-    filter: [AttaFilter.burger],
+    category: [AttaFilter.burger],
     address: '12 rue du bourg',
     description: 'lorem ipsum dolor sit amet',
     email: 'resto@gmail.com',
@@ -19,11 +19,11 @@ final mockedData = List.filled(
     website: 'https://google.com',
     openingTimes: {
       Day.monday: const [
-        OpeningTime(
+        AttaOpeningTime(
           open: TimeOfDay(hour: 12, minute: 0),
           close: TimeOfDay(hour: 14, minute: 0),
         ),
-        OpeningTime(
+        AttaOpeningTime(
           open: TimeOfDay(hour: 18, minute: 0),
           close: TimeOfDay(hour: 22, minute: 0),
         ),
@@ -31,7 +31,7 @@ final mockedData = List.filled(
     },
     dishes: List.filled(
       10,
-      Dish(
+      AttaDish(
         id: '1',
         name: 'Burger',
         imageUrl: 'https://picsum.photos/200/300',
@@ -41,7 +41,7 @@ final mockedData = List.filled(
       ),
     ),
     menus: [
-      Menu(
+      AttaMenu(
         id: '1',
         name: 'Menu',
         imageUrl: 'https://picsum.photos/200/300',

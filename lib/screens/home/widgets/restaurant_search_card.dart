@@ -15,7 +15,7 @@ class _RestaurantSearchCard extends StatelessWidget {
             horizontal: AttaSpacing.m,
           ),
           leading: ClipRRect(
-            borderRadius: BorderRadius.circular(AttaRadius.radiusSmall),
+            borderRadius: BorderRadius.circular(AttaRadius.small),
             child: Image.network(
               restaurant.imageUrl,
               width: 48,
@@ -35,7 +35,7 @@ class _RestaurantSearchCard extends StatelessWidget {
             restaurant.name,
           ),
           subtitle: Text(
-            restaurant.filter.map((filter) => filter.name).join(', '),
+            restaurant.category.map((filter) => filter.name).join(', '),
           ),
         ),
       ),

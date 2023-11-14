@@ -9,7 +9,7 @@ class AttaRestaurant {
     required this.id,
     required this.name,
     required this.imageUrl,
-    required this.filter,
+    required this.category,
     required this.description,
     required this.address,
     required this.phone,
@@ -23,19 +23,19 @@ class AttaRestaurant {
   final String id;
   final String name;
   final String imageUrl;
-  final List<AttaFilter> filter;
+  final List<AttaFilter> category;
   final String description;
   final String address;
   final String phone;
   final String email;
   final String website;
-  final Map<Day, List<OpeningTime>> openingTimes;
-  final List<Dish> dishes;
-  final List<Menu> menus;
+  final Map<Day, List<AttaOpeningTime>> openingTimes;
+  final List<AttaDish> dishes;
+  final List<AttaMenu> menus;
 }
 
-class OpeningTime {
-  const OpeningTime({
+class AttaOpeningTime {
+  const AttaOpeningTime({
     required this.open,
     required this.close,
   });

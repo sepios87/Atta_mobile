@@ -1,5 +1,6 @@
 import 'package:atta/entities/dish.dart';
 import 'package:atta/entities/menu.dart';
+import 'package:atta/extensions/double_ext.dart';
 import 'package:atta/theme/radius.dart';
 import 'package:atta/theme/spacing.dart';
 import 'package:atta/theme/text_style.dart';
@@ -23,36 +24,50 @@ class _ItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IntrinsicHeight(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          Container(
-            clipBehavior: Clip.antiAlias,
-            height: 68,
-            width: 68,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(AttaRadius.radiusSmall),
-            ),
-            child: Image.network(
-              imageUrl,
-              fit: BoxFit.cover,
-            ),
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: () {},
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: AttaSpacing.m,
+            vertical: AttaSpacing.s,
           ),
-          const SizedBox(width: AttaSpacing.s),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(name, style: AttaTextStyle.subHeader),
-                const SizedBox(height: AttaSpacing.xs),
-                Text(description),
-              ],
-            ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Container(
+                clipBehavior: Clip.antiAlias,
+                height: 68,
+                width: 68,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(AttaRadius.small),
+                ),
+                child: Image.network(
+                  imageUrl,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              const SizedBox(width: AttaSpacing.s),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(name, style: AttaTextStyle.subHeader),
+                    const SizedBox(height: AttaSpacing.xs),
+                    Text(
+                      description,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: AttaSpacing.m),
+              Text(price.toEuro),
+            ],
           ),
-          const SizedBox(width: AttaSpacing.s),
-          Text(price.toString()),
-        ],
+        ),
       ),
     );
   }
@@ -64,7 +79,7 @@ class DishItemCard extends StatelessWidget {
     super.key,
   });
 
-  final Dish dish;
+  final AttaDish dish;
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +99,7 @@ class MenuItemCard extends StatelessWidget {
     super.key,
   });
 
-  final Menu menu;
+  final AttaMenu menu;
 
   @override
   Widget build(BuildContext context) {

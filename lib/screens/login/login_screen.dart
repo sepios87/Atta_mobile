@@ -1,4 +1,4 @@
-import 'package:atta/extensions/border_radius.dart';
+import 'package:atta/extensions/border_radius_ext.dart';
 import 'package:atta/theme/radius.dart';
 import 'package:atta/theme/spacing.dart';
 import 'package:atta/theme/text_style.dart';
@@ -15,7 +15,7 @@ class LoginScreen extends StatelessWidget {
         padding: const EdgeInsets.all(AttaSpacing.xl),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadiusExt.top(AttaRadius.radiusMedium),
+          borderRadius: BorderRadiusExt.top(AttaRadius.medium),
         ),
         child: Column(
           children: [
@@ -59,7 +59,7 @@ Commencez par créer votre compte pour pouvoir réserver une table dans votre re
                   ),
                 ),
               ],
-            )
+            ),
           ],
         ),
       ),

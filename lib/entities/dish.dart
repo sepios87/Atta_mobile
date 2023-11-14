@@ -1,5 +1,5 @@
-class Dish {
-  Dish({
+class AttaDish {
+  AttaDish({
     required this.id,
     required this.name,
     required this.imageUrl,

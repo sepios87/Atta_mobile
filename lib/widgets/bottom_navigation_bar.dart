@@ -10,7 +10,7 @@ class AttaBottomNavigationBar extends StatelessWidget {
       backgroundColor: AttaColors.black,
       showUnselectedLabels: false,
       showSelectedLabels: false,
-      currentIndex: 1, // TODO: Change this
+      currentIndex: 1, // TODO(florian): Change this
       selectedItemColor: AttaColors.primaryLight,
       unselectedItemColor: AttaColors.white,
       items: const [

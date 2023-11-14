@@ -10,15 +10,14 @@ final class HomeState {
     required this.selectedRestaurant,
   });
 
-  factory HomeState.initial() {
-    return HomeState._(
-      restaurants: mockedData,
-      searchRestaurants: const [],
-      activeFilters: const [],
-      isOnSearch: false,
-      selectedRestaurant: null,
-    );
-  }
+  HomeState.initial()
+      : this._(
+          restaurants: mockedData,
+          searchRestaurants: [],
+          activeFilters: [],
+          isOnSearch: false,
+          selectedRestaurant: null,
+        );
 
   final List<AttaRestaurant> restaurants;
   final List<AttaRestaurant> searchRestaurants;
@@ -34,7 +33,7 @@ final class HomeState {
   List<AttaRestaurant> filterRestaurants(List<AttaRestaurant> list) {
     if (activeFilters.isEmpty) return list;
 
-    return list.where((r) => r.filter.any(activeFilters.contains)).toList();
+    return list.where((r) => r.category.any(activeFilters.contains)).toList();
   }
 
   HomeState copyWith({

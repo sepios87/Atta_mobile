@@ -15,9 +15,15 @@ ThemeData get _attaThemeData {
         backgroundColor: AttaColors.primaryLight,
         foregroundColor: Colors.white,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AttaRadius.radiusSmall),
+          borderRadius: BorderRadius.circular(AttaRadius.small),
         ),
         elevation: 0,
+        padding: EdgeInsets.zero,
+      ),
+    ),
+    textButtonTheme: TextButtonThemeData(
+      style: TextButton.styleFrom(
+        foregroundColor: AttaColors.black,
         padding: EdgeInsets.zero,
       ),
     ),

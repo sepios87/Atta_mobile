@@ -22,7 +22,7 @@ class _RestaurantCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ClipRRect(
-              borderRadius: BorderRadius.circular(AttaRadius.radiusSmall),
+              borderRadius: BorderRadius.circular(AttaRadius.small),
               child: Stack(
                 children: [
                   Image.network(
@@ -57,7 +57,7 @@ class _RestaurantCard extends StatelessWidget {
                 style: AttaTextStyle.subHeader,
               ),
             ),
-            Text(restaurant.filter.first.name, style: AttaTextStyle.content),
+            Text(restaurant.category.first.name, style: AttaTextStyle.content),
           ],
         ),
       ),

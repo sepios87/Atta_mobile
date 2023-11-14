@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
 
 class AttaTextStyle {
+  static TextStyle get bigHeader => const TextStyle(
+        fontFamily: 'WorkSans',
+        fontWeight: FontWeight.w900,
+        fontSize: 26,
+        height: 1.2,
+        color: Colors.black,
+      );
+
   static TextStyle get header => const TextStyle(
         fontFamily: 'WorkSans',
         fontWeight: FontWeight.w600,

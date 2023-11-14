@@ -1,6 +1,8 @@
 import 'package:atta/screens/home/home_screen.dart';
-import 'package:atta/screens/login_screen.dart';
-import 'package:atta/screens/restaurant_detail_screen.dart';
+import 'package:atta/screens/login/login_screen.dart';
+import 'package:atta/screens/preload/preload_screen.dart';
+import 'package:atta/screens/restaurant_detail/restaurant_detail_screen.dart';
+import 'package:atta/services/restaurant_service.dart';
 import 'package:atta/theme/colors.dart';
 import 'package:atta/theme/radius.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +12,7 @@ import 'package:go_router/go_router.dart';
 part 'app/router.dart';
 part 'theme/theme.dart';
 
+final restaurantService = RestaurantService();
 void main() {
   runApp(const AttaApp());
 }

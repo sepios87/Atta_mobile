@@ -1,5 +1,5 @@
-class Menu {
-  Menu({
+class AttaMenu {
+  AttaMenu({
     required this.id,
     required this.name,
     required this.imageUrl,

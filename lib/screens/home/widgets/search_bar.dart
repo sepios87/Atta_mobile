@@ -31,7 +31,7 @@ class _SearchBarState extends State<_SearchBar> {
           color: Colors.grey,
         ),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AttaRadius.radiusFull),
+          borderRadius: BorderRadius.circular(AttaRadius.full),
           borderSide: BorderSide.none,
         ),
         contentPadding: EdgeInsets.zero,
