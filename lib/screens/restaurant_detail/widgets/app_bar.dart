@@ -26,9 +26,30 @@ class _AppBar extends StatelessWidget {
             ),
           ],
           flexibleSpace: FlexibleSpaceBar(
-            background: Image.network(
-              state.restaurant.imageUrl,
-              fit: BoxFit.fill,
+            background: Stack(
+              children: [
+                Positioned.fill(
+                  child: Image.network(
+                    state.restaurant.imageUrl,
+                    fit: BoxFit.fill,
+                  ),
+                ),
+                Positioned.fill(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          AttaColors.black.withOpacity(0.6),
+                          AttaColors.black.withOpacity(0.1),
+                          AttaColors.black.withOpacity(0),
+                        ],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           bottom: PreferredSize(

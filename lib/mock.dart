@@ -17,7 +17,7 @@ List<AttaRestaurant> generateMockedData() {
   final List<AttaRestaurant> mockedData = [];
 
   for (int i = 0; i < 50; i++) {
-    final randomImageSize = '${_random.nextInt(800) + 800}x${_random.nextInt(800) + 800}';
+    final randomImageSize = '${_random.nextInt(800) + 1000}x${_random.nextInt(800) + 1000}';
 
     final restaurant = AttaRestaurant(
       id: '$i',

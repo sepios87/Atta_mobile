@@ -1,7 +1,7 @@
 part of '../restaurant_detail_screen.dart';
 
 class _SearchBar extends StatelessWidget {
-  const _SearchBar({super.key});
+  const _SearchBar();
 
   @override
   Widget build(BuildContext context) {
