@@ -58,7 +58,7 @@ class _RestaurantDetail extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom: 82),
                     itemCount: restaurant.dishes.length,
                     itemBuilder: (ctx, index) {
-                      return DishItemCard(restaurant.dishes[index]);
+                      return FormulaCard(formula: restaurant.dishes[index]);
                     },
                   ),
                 ),
@@ -92,13 +92,14 @@ class _RestaurantDetail extends StatelessWidget {
                     Expanded(
                       child: ElevatedButton(
                         onPressed: () {
-                          Navigator.of(context).pop();
-                          context.push(
-                            '/restaurant-details',
-                            extra: RestaurantDetailScreenArgument(
-                              restaurantId: restaurant.id,
-                            ),
-                          );
+                          context
+                            ..pop()
+                            ..push(
+                              RestaurantDetailPage.path,
+                              extra: RestaurantDetailScreenArgument(
+                                restaurantId: restaurant.id,
+                              ),
+                            );
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AttaColors.secondary,

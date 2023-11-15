@@ -12,7 +12,7 @@ class RestaurantService {
   List<AttaRestaurant> get lastRestaurantList => _restaurantStreamController.value;
 
   Future<void> fetchRestaurants() async {
-    await Future<void>.delayed(const Duration(seconds: 5));
+    // await Future<void>.delayed(const Duration(seconds: 5));
     _restaurantStreamController.add(mockedData);
   }
 

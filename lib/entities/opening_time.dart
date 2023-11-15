@@ -1,4 +1,3 @@
-import 'package:atta/entities/day.dart';
 import 'package:flutter/material.dart';
 
 class AttaOpeningTime {

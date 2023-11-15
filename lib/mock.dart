@@ -12,7 +12,7 @@ final mockedData = List.filled(
     id: 'id',
     name: 'Papa burger',
     imageUrl: 'https://picsum.photos/200/300',
-    category: [AttaFilter.burger],
+    category: [AttaCategoryFilter.burger],
     address: '6 Rue Charles Michels, Limoges',
     description:
         'Le papaburger est un restaurant de burger végétarien. Nous proposons des burgers de qualité avec des produits frais et locaux.',

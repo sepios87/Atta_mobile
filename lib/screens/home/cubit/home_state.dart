@@ -21,7 +21,7 @@ final class HomeState {
 
   final List<AttaRestaurant> restaurants;
   final List<AttaRestaurant> searchRestaurants;
-  final List<AttaFilter> activeFilters;
+  final List<AttaCategoryFilter> activeFilters;
 
   final AttaRestaurant? selectedRestaurant;
 
@@ -39,7 +39,7 @@ final class HomeState {
   HomeState copyWith({
     List<AttaRestaurant>? restaurants,
     List<AttaRestaurant>? searchRestaurants,
-    List<AttaFilter>? activeFilters,
+    List<AttaCategoryFilter>? activeFilters,
     bool? isOnSearch,
     Wrapped<AttaRestaurant?>? selectedRestaurant,
   }) {

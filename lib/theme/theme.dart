@@ -36,5 +36,35 @@ ThemeData get _attaThemeData {
         textStyle: AttaTextStyle.button,
       ),
     ),
+    chipTheme: ChipThemeData(
+      showCheckmark: false,
+      side: const BorderSide(color: Colors.white),
+      shape: const StadiumBorder(),
+      labelPadding: const EdgeInsets.symmetric(
+        horizontal: AttaSpacing.xxs,
+      ),
+      secondarySelectedColor: AttaColors.white,
+      labelStyle: const TextStyle(color: ChipLabelColor()),
+      color: MaterialStateProperty.resolveWith<Color>(
+        (Set<MaterialState> states) {
+          if (states.contains(MaterialState.selected)) {
+            return AttaColors.black;
+          }
+          return AttaColors.white;
+        },
+      ),
+    ),
   );
+}
+
+class ChipLabelColor extends Color implements MaterialStateColor {
+  const ChipLabelColor() : super(0xFF000000);
+
+  @override
+  Color resolve(Set<MaterialState> states) {
+    if (states.contains(MaterialState.selected)) {
+      return Colors.white;
+    }
+    return AttaColors.black;
+  }
 }

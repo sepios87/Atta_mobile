@@ -3,30 +3,28 @@ part of '../main.dart';
 final GoRouter _router = GoRouter(
   routes: [
     GoRoute(
-      path: '/',
+      path: PreloadPage.path,
       builder: (BuildContext context, GoRouterState state) {
-        return const PreloadScreen();
+        return PreloadPage.getScreen();
       },
     ),
     GoRoute(
       path: HomePage.path,
       builder: (BuildContext context, GoRouterState state) {
-        return HomePage.screen;
+        return HomePage.getScreen();
       },
     ),
     GoRoute(
-      path: '/restaurant-details',
+      path: RestaurantDetailPage.path,
       builder: (BuildContext context, GoRouterState state) {
         final args = state.extra! as RestaurantDetailScreenArgument;
-        return RestaurantDetailScreen(
-          arguments: args,
-        );
+        return RestaurantDetailPage.getScreen(args);
       },
     ),
     GoRoute(
-      path: '/login',
+      path: LoginPage.path,
       builder: (BuildContext context, GoRouterState state) {
-        return const LoginScreen();
+        return LoginPage.getScreen();
       },
     ),
   ],

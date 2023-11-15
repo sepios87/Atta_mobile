@@ -10,11 +10,11 @@ class _Filters extends StatelessWidget {
         horizontal: AttaSpacing.m,
       ),
       scrollDirection: Axis.horizontal,
-      child: BlocSelector<HomeCubit, HomeState, List<AttaFilter>>(
+      child: BlocSelector<HomeCubit, HomeState, List<AttaCategoryFilter>>(
         selector: (state) => state.activeFilters,
         builder: (context, state) {
           return Row(
-            children: AttaFilter.values.map((filter) {
+            children: AttaCategoryFilter.values.map((filter) {
               final isSelected = state.contains(filter);
 
               return Padding(
@@ -25,16 +25,8 @@ class _Filters extends StatelessWidget {
                   duration: AttaAnimation.fastAnimation,
                   child: FilterChip(
                     key: ValueKey('${filter.name}-$isSelected'),
-                    side: const BorderSide(color: Colors.white),
+                    selected: isSelected,
                     label: Text(filter.name),
-                    shape: const StadiumBorder(),
-                    labelPadding: const EdgeInsets.symmetric(
-                      horizontal: AttaSpacing.xxs,
-                    ),
-                    labelStyle: AttaTextStyle.caption.copyWith(
-                      color: isSelected ? AttaColors.white : AttaColors.black,
-                    ),
-                    backgroundColor: isSelected ? AttaColors.black : AttaColors.white,
                     onSelected: (_) {
                       context.read<HomeCubit>().selectFilter(filter);
                     },

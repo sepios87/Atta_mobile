@@ -1,4 +1,4 @@
-enum AttaFilter {
+enum AttaCategoryFilter {
   fastFood._('Fast Food'),
   pizza._('Pizza'),
   sushi._('Sushi'),
@@ -8,7 +8,17 @@ enum AttaFilter {
   dessert._('Dessert'),
   vegan._('Vegan');
 
-  const AttaFilter._(this.name);
+  const AttaCategoryFilter._(this.name);
+
+  final String name;
+}
+
+enum AttaFormulaFilter {
+  dish._('Plat'),
+  menu._('Menu'),
+  drink._('Boisson');
+
+  const AttaFormulaFilter._(this.name);
 
   final String name;
 }

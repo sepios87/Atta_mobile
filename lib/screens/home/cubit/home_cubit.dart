@@ -10,8 +10,8 @@ part 'home_state.dart';
 class HomeCubit extends Cubit<HomeState> {
   HomeCubit() : super(HomeState.initial());
 
-  void selectFilter(AttaFilter filter) {
-    final activeFilersCopy = List<AttaFilter>.from(state.activeFilters);
+  void selectFilter(AttaCategoryFilter filter) {
+    final activeFilersCopy = List<AttaCategoryFilter>.from(state.activeFilters);
 
     if (activeFilersCopy.contains(filter)) {
       emit(
@@ -38,7 +38,6 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   void onSearchFocusChange(bool isOnSearch) {
-    print('coucou2 $isOnSearch');
     if (state.searchRestaurants.isEmpty) {
       emit(state.copyWith(isOnSearch: isOnSearch));
     }

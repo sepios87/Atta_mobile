@@ -4,8 +4,14 @@ import 'package:atta/theme/spacing.dart';
 import 'package:atta/theme/text_style.dart';
 import 'package:flutter/material.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class LoginPage {
+  static const path = '/login';
+
+  static Widget getScreen() => const _LoginScreen();
+}
+
+class _LoginScreen extends StatelessWidget {
+  const _LoginScreen();
 
   @override
   Widget build(BuildContext context) {

@@ -1,3 +1,4 @@
+import 'package:atta/screens/login/login_screen.dart';
 import 'package:atta/theme/colors.dart';
 import 'package:atta/theme/text_style.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,7 @@ class AttaAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       title: GestureDetector(
-        onTap: () => context.push('/login'),
+        onTap: () => context.push(LoginPage.path),
         child: Text(
           'Se connecter',
           style: AttaTextStyle.subHeader.copyWith(

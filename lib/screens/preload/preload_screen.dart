@@ -1,3 +1,4 @@
+import 'package:atta/screens/home/home_screen.dart';
 import 'package:atta/screens/preload/cubit/preload_cubit.dart';
 import 'package:atta/theme/colors.dart';
 import 'package:atta/theme/spacing.dart';
@@ -6,43 +7,49 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-class PreloadScreen extends StatelessWidget {
-  const PreloadScreen({super.key});
+class PreloadPage {
+  static const path = '/';
+
+  static Widget getScreen() => BlocProvider(
+        create: (context) => PreloadCubit(),
+        child: const _PreloadScreen(),
+      );
+}
+
+class _PreloadScreen extends StatelessWidget {
+  const _PreloadScreen();
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => PreloadCubit(),
-      child: BlocListener<PreloadCubit, PreloadState>(
-        listener: (context, state) {
-          if (state.status is PreloadErrorStatus) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(
-                  (state.status as PreloadErrorStatus).message,
+    return BlocListener<PreloadCubit, PreloadState>(
+      listener: (context, state) {
+        if (state.status is PreloadErrorStatus) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                (state.status as PreloadErrorStatus).message,
+              ),
+            ),
+          );
+        }
+        if (state.status is PreloadLoadedStatus) {
+          context.pushReplacement(HomePage.path);
+        }
+      },
+      child: Scaffold(
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const _LogoAnimation(),
+              const SizedBox(height: AttaSpacing.xl),
+              Text(
+                'Chargement...',
+                style: AttaTextStyle.header.copyWith(
+                  color: AttaColors.white,
                 ),
               ),
-            );
-          }
-          if (state.status is PreloadLoadedStatus) {
-            context.pushReplacement('/home');
-          }
-        },
-        child: Scaffold(
-          body: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const _LogoAnimation(),
-                const SizedBox(height: AttaSpacing.xl),
-                Text(
-                  'Chargement...',
-                  style: AttaTextStyle.header.copyWith(
-                    color: AttaColors.white,
-                  ),
-                ),
-              ],
-            ),
+            ],
           ),
         ),
       ),

@@ -10,7 +10,7 @@ import 'package:atta/theme/spacing.dart';
 import 'package:atta/theme/text_style.dart';
 import 'package:atta/widgets/app_bar.dart';
 import 'package:atta/widgets/bottom_navigation_bar.dart';
-import 'package:atta/widgets/item_card.dart';
+import 'package:atta/widgets/formula_card.dart';
 import 'package:atta/widgets/search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,18 +25,17 @@ part 'widgets/search_content.dart';
 part 'widgets/restaurant_search_card.dart';
 part 'modals/restaurant_detail.dart';
 
-// TODO(florian): create page for all screens
 class HomePage {
   static const path = '/home';
 
-  static Widget get screen => BlocProvider(
+  static Widget getScreen() => BlocProvider(
         create: (context) => HomeCubit(),
-        child: const HomeScreen(),
+        child: const _HomeScreen(),
       );
 }
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class _HomeScreen extends StatelessWidget {
+  const _HomeScreen();
 
   @override
   Widget build(BuildContext context) {

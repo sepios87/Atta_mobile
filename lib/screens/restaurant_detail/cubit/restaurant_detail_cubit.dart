@@ -1,3 +1,4 @@
+import 'package:atta/entities/filter.dart';
 import 'package:atta/entities/restaurant.dart';
 import 'package:atta/entities/wrapped.dart';
 import 'package:atta/main.dart';
@@ -26,5 +27,17 @@ class RestaurantDetailCubit extends Cubit<RestaurantDetailState> {
 
   void selectOpeningTime(TimeOfDay time) {
     emit(state.copyWith(selectedOpeningTime: Wrapped.value(time)));
+  }
+
+  void selectFormulaFilter(AttaFormulaFilter filter) {
+    if (state.selectedFormulaFilter == filter) {
+      emit(state.copyWith(selectedFormulaFilter: const Wrapped.value(null)));
+    } else {
+      emit(state.copyWith(selectedFormulaFilter: Wrapped.value(filter)));
+    }
+  }
+
+  void onSearchTextChange(String value) {
+    emit(state.copyWith(searchValue: value));
   }
 }

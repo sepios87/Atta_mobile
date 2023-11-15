@@ -16,15 +16,17 @@ class _DefaultContent extends StatelessWidget {
           builder: (context, restaurants) {
             return Column(
               children: [
-                _RestaurantList(
-                  title: 'Les plus populaires',
-                  restaurants: restaurants.map((restaurant) => _RestaurantCard(restaurant: restaurant)).toList(),
-                ),
+                if (restaurants.isNotEmpty)
+                  _RestaurantList(
+                    title: 'Les plus populaires',
+                    restaurants: restaurants.map((restaurant) => _RestaurantCard(restaurant: restaurant)).toList(),
+                  ),
                 const SizedBox(height: AttaSpacing.l),
-                _RestaurantList(
-                  title: 'Les plus populaires',
-                  restaurants: restaurants.map((restaurant) => _RestaurantCard(restaurant: restaurant)).toList(),
-                ),
+                if (restaurants.isNotEmpty)
+                  _RestaurantList(
+                    title: 'Les plus populaires',
+                    restaurants: restaurants.map((restaurant) => _RestaurantCard(restaurant: restaurant)).toList(),
+                  ),
                 const SizedBox(height: AttaSpacing.l),
                 if (restaurants.isNotEmpty)
                   Padding(
@@ -54,7 +56,13 @@ class _DefaultContent extends StatelessWidget {
                       ),
                     ),
                   ),
-                const SizedBox(height: 1000),
+                const SizedBox(height: AttaSpacing.l),
+                if (restaurants.isNotEmpty)
+                  _RestaurantList(
+                    title: 'Les plus hots',
+                    restaurants: restaurants.map((restaurant) => _RestaurantCard(restaurant: restaurant)).toList(),
+                  ),
+                const SizedBox(height: AttaSpacing.l),
               ],
             );
           },

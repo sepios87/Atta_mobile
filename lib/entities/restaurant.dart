@@ -23,7 +23,7 @@ class AttaRestaurant {
   final String id;
   final String name;
   final String imageUrl;
-  final List<AttaFilter> category;
+  final List<AttaCategoryFilter> category;
   final String description;
   final String address;
   final String phone;

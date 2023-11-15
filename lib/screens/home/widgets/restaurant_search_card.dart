@@ -9,7 +9,14 @@ class _RestaurantSearchCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          context.push(
+            RestaurantDetailPage.path,
+            extra: RestaurantDetailScreenArgument(
+              restaurantId: restaurant.id,
+            ),
+          );
+        },
         child: ListTile(
           contentPadding: const EdgeInsets.symmetric(
             horizontal: AttaSpacing.m,

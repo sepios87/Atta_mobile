@@ -1,17 +1,14 @@
-class AttaDish {
+import 'package:atta/entities/formula.dart';
+
+class AttaDish extends AttaFormula {
   AttaDish({
-    required this.id,
-    required this.name,
-    required this.imageUrl,
-    required this.description,
-    required this.price,
+    required super.id,
+    required super.name,
+    required super.imageUrl,
+    required super.description,
+    required super.price,
     required this.ingredients,
   });
 
-  final String id;
-  final String name;
-  final String imageUrl;
-  final String description;
-  final double price;
   final List<String> ingredients;
 }
