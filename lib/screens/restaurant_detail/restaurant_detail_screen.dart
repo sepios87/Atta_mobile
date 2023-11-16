@@ -16,7 +16,6 @@ import 'package:atta/widgets/select_hourly.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 part 'widgets/app_bar.dart';

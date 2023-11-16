@@ -1,6 +1,3 @@
-import 'package:atta/theme/colors.dart';
-import 'package:atta/theme/radius.dart';
-import 'package:atta/theme/text_style.dart';
 import 'package:flutter/material.dart';
 
 class AttaSearchBar extends StatefulWidget {

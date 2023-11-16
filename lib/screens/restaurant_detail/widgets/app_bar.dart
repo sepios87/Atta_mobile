@@ -11,9 +11,9 @@ class _AppBar extends StatelessWidget {
       builder: (context, state) {
         return SliverAppBar(
           // Remove the bottom line artefact
-          shape: RoundedRectangleBorder(
+          shape: const RoundedRectangleBorder(
             side: BorderSide(
-              color: AttaColors.white,
+              color: Colors.transparent,
             ),
           ),
           expandedHeight: 280,
