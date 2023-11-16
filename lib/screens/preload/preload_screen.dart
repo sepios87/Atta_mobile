@@ -34,6 +34,7 @@ class _PreloadScreen extends StatelessWidget {
           );
         }
         if (state.status is PreloadLoadedStatus) {
+          // Keep go to replace the preload screen
           context.go(initialFullPath ?? HomePage.path);
         }
       },

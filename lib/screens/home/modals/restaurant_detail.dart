@@ -94,7 +94,7 @@ class _RestaurantDetail extends StatelessWidget {
                         onPressed: () {
                           context
                             ..pop()
-                            ..goNamed(
+                            ..adapativePushNamed(
                               RestaurantDetailPage.routeName,
                               pathParameters: RestaurantDetailScreenArgument(
                                 restaurantId: restaurant.id,

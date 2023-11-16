@@ -79,9 +79,9 @@ class SelectHourly extends StatelessWidget {
                   itemCount: openingTimesOfDay.length,
                   separatorBuilder: (context, index) => const SizedBox(width: AttaSpacing.s),
                   itemBuilder: (context, index) => _TimeItem(
-                    time: openingTimesOfDay[index].format(context),
-                    onTap: () => onOpeningTimeChanged(openingTimesOfDay[index]),
-                    isSelected: openingTimesOfDay[index] == selectedOpeningTime,
+                    time: openingTimesOfDay.elementAt(index).format(context),
+                    onTap: () => onOpeningTimeChanged(openingTimesOfDay.elementAt(index)),
+                    isSelected: openingTimesOfDay.elementAt(index) == selectedOpeningTime,
                   ),
                 ),
         ),

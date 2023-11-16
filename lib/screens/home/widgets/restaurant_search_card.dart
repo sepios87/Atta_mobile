@@ -10,7 +10,7 @@ class _RestaurantSearchCard extends StatelessWidget {
     return Material(
       child: InkWell(
         onTap: () {
-          context.pushNamed(
+          context.adapativePushNamed(
             RestaurantDetailPage.routeName,
             pathParameters: RestaurantDetailScreenArgument(
               restaurantId: restaurant.id,

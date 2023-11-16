@@ -3,8 +3,8 @@ import 'package:atta/entities/opening_time.dart';
 import 'package:flutter/material.dart';
 
 extension MapOpeningTimeExtension on Map<AttaDay, List<AttaOpeningTime>> {
-  List<TimeOfDay> getTimesOfDay(AttaDay day) {
-    if (!containsKey(day)) return [];
+  Set<TimeOfDay> getTimesOfDay(AttaDay day) {
+    if (!containsKey(day)) return {};
     final times = <TimeOfDay>[];
     for (final openingTime in this[day]!) {
       // TODO(florian): refacto and update for 30min diff
@@ -19,6 +19,8 @@ extension MapOpeningTimeExtension on Map<AttaDay, List<AttaOpeningTime>> {
       times.add(openingTime.close);
     }
 
-    return times;
+    times.sort((a, b) => a.hour > b.hour ? 1 : -1);
+
+    return Set.from(times);
   }
 }

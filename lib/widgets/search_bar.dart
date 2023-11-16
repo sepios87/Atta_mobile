@@ -65,21 +65,10 @@ class _AttaSearchBarState extends State<AttaSearchBar> {
             focusNode: _focusNode,
             controller: _textEditingController,
             onTapOutside: (_) => _focusNode.unfocus(),
-            decoration: InputDecoration(
-              prefixIcon: const Icon(Icons.search),
-              fillColor: AttaColors.white,
+            decoration: const InputDecoration(
+              prefixIcon: Icon(Icons.search),
               hintText: 'Rechercher',
               isDense: true,
-              filled: true,
-              hintStyle: AttaTextStyle.label.copyWith(
-                height: 0.9,
-                color: Colors.grey,
-              ),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(AttaRadius.full),
-                borderSide: BorderSide.none,
-              ),
-              contentPadding: EdgeInsets.zero,
             ),
           ),
         ),

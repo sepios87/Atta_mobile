@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:atta/screens/home/home_screen.dart';
 import 'package:atta/screens/login/login_screen.dart';
 import 'package:atta/screens/preload/preload_screen.dart';
@@ -36,6 +38,14 @@ class AttaApp extends StatelessWidget {
         systemNavigationBarIconBrightness: Brightness.light,
       ),
       child: MaterialApp.router(
+        scrollBehavior: const MaterialScrollBehavior().copyWith(
+          dragDevices: {
+            PointerDeviceKind.mouse,
+            PointerDeviceKind.touch,
+            PointerDeviceKind.stylus,
+            PointerDeviceKind.unknown,
+          },
+        ),
         theme: _attaThemeData,
         routerConfig: _router,
         locale: const Locale('fr', 'FR'),

@@ -9,10 +9,30 @@ ThemeData get _attaThemeData {
       foregroundColor: AttaColors.white,
       elevation: 0,
     ),
+    textSelectionTheme: TextSelectionThemeData(
+      cursorColor: AttaColors.black,
+      selectionColor: AttaColors.white.withOpacity(0.4),
+      selectionHandleColor: AttaColors.white,
+    ),
+    inputDecorationTheme: InputDecorationTheme(
+      filled: true,
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(AttaRadius.full),
+        borderSide: BorderSide.none,
+      ),
+      contentPadding: const EdgeInsets.symmetric(
+        horizontal: AttaSpacing.m,
+      ),
+      fillColor: AttaColors.white,
+      hintStyle: AttaTextStyle.label.copyWith(
+        color: Colors.grey,
+      ),
+      isCollapsed: true,
+    ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         textStyle: AttaTextStyle.button,
-        minimumSize: const Size(double.infinity, 38),
+        minimumSize: const Size(double.infinity, 48),
         backgroundColor: AttaColors.primaryLight,
         foregroundColor: Colors.white,
         shape: RoundedRectangleBorder(

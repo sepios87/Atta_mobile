@@ -26,7 +26,7 @@ class _SearchBar extends StatelessWidget {
             context.read<RestaurantDetailCubit>().onSearchTextChange(value);
           },
         ),
-        const SizedBox(height: AttaSpacing.xxs),
+        const SizedBox(height: AttaSpacing.xs),
         BlocSelector<RestaurantDetailCubit, RestaurantDetailState, AttaFormulaFilter?>(
           selector: (state) => state.selectedFormulaFilter,
           builder: (context, state) {

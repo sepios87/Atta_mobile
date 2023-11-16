@@ -19,12 +19,9 @@ class _AppBar extends StatelessWidget {
           expandedHeight: 280,
           pinned: true,
           automaticallyImplyLeading: false,
-          leading: Padding(
-            padding: const EdgeInsets.only(left: AttaSpacing.xs),
-            child: IconButton(
-              onPressed: () => context.goNamed(HomePage.routeName),
-              icon: const Icon(Icons.arrow_back_ios),
-            ),
+          leading: IconButton(
+            onPressed: () => context.adaptativePopNamed(HomePage.routeName),
+            icon: const Icon(Icons.arrow_back_ios_new),
           ),
           leadingWidth: 48,
           actions: [
