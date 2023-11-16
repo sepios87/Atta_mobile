@@ -1,6 +1,17 @@
 part of '../main.dart';
 
+String? initialFullPath;
+
 final GoRouter _router = GoRouter(
+  initialLocation: PreloadPage.path,
+  redirect: (context, state) {
+    // If not preload data, redirect to preload page
+    if (state.fullPath != '/' && !restaurantService.isLoaded) {
+      initialFullPath = state.uri.toString();
+      return '/';
+    }
+    return null;
+  },
   routes: [
     GoRoute(
       path: PreloadPage.path,
@@ -10,19 +21,23 @@ final GoRouter _router = GoRouter(
     ),
     GoRoute(
       path: HomePage.path,
+      name: HomePage.routeName,
       builder: (BuildContext context, GoRouterState state) {
         return HomePage.getScreen();
       },
     ),
     GoRoute(
       path: RestaurantDetailPage.path,
+      name: RestaurantDetailPage.routeName,
       builder: (BuildContext context, GoRouterState state) {
-        final args = state.extra! as RestaurantDetailScreenArgument;
-        return RestaurantDetailPage.getScreen(args);
+        return RestaurantDetailPage.getScreen(
+          RestaurantDetailScreenArgument.fromPathParameters(state.pathParameters),
+        );
       },
     ),
     GoRoute(
       path: LoginPage.path,
+      name: LoginPage.routeName,
       builder: (BuildContext context, GoRouterState state) {
         return LoginPage.getScreen();
       },

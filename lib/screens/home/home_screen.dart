@@ -12,10 +12,10 @@ import 'package:atta/widgets/app_bar.dart';
 import 'package:atta/widgets/bottom_navigation_bar.dart';
 import 'package:atta/widgets/formula_card.dart';
 import 'package:atta/widgets/search_bar.dart';
+import 'package:atta/widgets/skeleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 
 part 'widgets/restaurant_card.dart';
 part 'widgets/restaurant_list.dart';
@@ -27,6 +27,7 @@ part 'modals/restaurant_detail.dart';
 
 class HomePage {
   static const path = '/home';
+  static const routeName = 'home';
 
   static Widget getScreen() => BlocProvider(
         create: (context) => HomeCubit(),

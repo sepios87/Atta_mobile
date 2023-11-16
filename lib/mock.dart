@@ -77,10 +77,10 @@ Map<AttaDay, List<AttaOpeningTime>> _generateOpeningTimes() {
 
   for (final day in AttaDay.values) {
     openingTimes[day] = List.generate(
-      _random.nextInt(3) + 1,
+      _random.nextInt(2) + 1,
       (index) => AttaOpeningTime(
-        open: TimeOfDay(hour: _random.nextInt(12), minute: _random.nextInt(60)),
-        close: TimeOfDay(hour: _random.nextInt(12) + 12, minute: _random.nextInt(60)),
+        open: TimeOfDay(hour: _random.nextInt(12), minute: 0),
+        close: TimeOfDay(hour: _random.nextInt(12) + 12, minute: 0),
       ),
     );
   }

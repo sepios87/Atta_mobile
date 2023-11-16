@@ -10,6 +10,8 @@ import 'package:atta/theme/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+// ignore: depend_on_referenced_packages
+import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:go_router/go_router.dart';
 
 part 'app/router.dart';
@@ -17,6 +19,7 @@ part 'theme/theme.dart';
 
 final restaurantService = RestaurantService();
 void main() {
+  usePathUrlStrategy();
   runApp(const AttaApp());
 }
 

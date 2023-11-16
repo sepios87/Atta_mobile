@@ -33,9 +33,9 @@ class _RestaurantCard extends StatelessWidget {
                     cacheHeight: 98,
                     cacheWidth: 128,
                     loadingBuilder: (context, child, loadingProgress) {
-                      return Skeletonizer(
-                        enabled: loadingProgress != null,
-                        child: child,
+                      if (loadingProgress == null) return child;
+                      return const AttaSkeleton(
+                        size: Size(double.infinity, 98),
                       );
                     },
                   ),

@@ -3,6 +3,7 @@ import 'package:atta/extensions/double_ext.dart';
 import 'package:atta/theme/radius.dart';
 import 'package:atta/theme/spacing.dart';
 import 'package:atta/theme/text_style.dart';
+import 'package:atta/widgets/skeleton.dart';
 import 'package:flutter/material.dart';
 
 class FormulaCard extends StatelessWidget {
@@ -17,10 +18,12 @@ class FormulaCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final imageHeight = formula.description.length > 60 ? 86.0 : 68.0;
+
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        onTap: () {},
+        onTap: onTap,
         child: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: AttaSpacing.m,
@@ -32,7 +35,7 @@ class FormulaCard extends StatelessWidget {
               children: [
                 Container(
                   clipBehavior: Clip.antiAlias,
-                  height: formula.description.length > 60 ? 86 : 68,
+                  height: imageHeight,
                   width: 68,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(AttaRadius.small),
@@ -40,6 +43,12 @@ class FormulaCard extends StatelessWidget {
                   child: Image.network(
                     formula.imageUrl,
                     fit: BoxFit.cover,
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return AttaSkeleton(
+                        size: Size(68, imageHeight),
+                      );
+                    },
                   ),
                 ),
                 const SizedBox(width: AttaSpacing.s),

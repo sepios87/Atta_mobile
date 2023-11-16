@@ -7,18 +7,26 @@ class _AppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<RestaurantDetailCubit, RestaurantDetailState>(
       buildWhen: (state, previous) =>
-          state.selectedDate != previous.selectedDate && state.selectedOpeningTime != previous.selectedOpeningTime,
+          state.selectedDate != previous.selectedDate || state.selectedOpeningTime != previous.selectedOpeningTime,
       builder: (context, state) {
         return SliverAppBar(
           // Remove the bottom line artefact
           shape: RoundedRectangleBorder(
             side: BorderSide(
-              width: 0,
               color: AttaColors.white,
             ),
           ),
           expandedHeight: 280,
           pinned: true,
+          automaticallyImplyLeading: false,
+          leading: Padding(
+            padding: const EdgeInsets.only(left: AttaSpacing.xs),
+            child: IconButton(
+              onPressed: () => context.goNamed(HomePage.routeName),
+              icon: const Icon(Icons.arrow_back_ios),
+            ),
+          ),
+          leadingWidth: 48,
           actions: [
             IconButton(
               onPressed: () {},
@@ -31,7 +39,7 @@ class _AppBar extends StatelessWidget {
                 Positioned.fill(
                   child: Image.network(
                     state.restaurant.imageUrl,
-                    fit: BoxFit.fill,
+                    fit: BoxFit.cover,
                   ),
                 ),
                 Positioned.fill(

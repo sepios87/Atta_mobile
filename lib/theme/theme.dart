@@ -38,7 +38,7 @@ ThemeData get _attaThemeData {
     ),
     chipTheme: ChipThemeData(
       showCheckmark: false,
-      side: const BorderSide(color: Colors.white),
+      side: const BorderSide(color: Colors.transparent),
       shape: const StadiumBorder(),
       labelPadding: const EdgeInsets.symmetric(
         horizontal: AttaSpacing.xxs,

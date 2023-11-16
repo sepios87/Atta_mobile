@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 class LoginPage {
   static const path = '/login';
+  static const routeName = 'login';
 
   static Widget getScreen() => const _LoginScreen();
 }

@@ -1,3 +1,4 @@
+import 'package:atta/main.dart';
 import 'package:atta/screens/home/home_screen.dart';
 import 'package:atta/screens/preload/cubit/preload_cubit.dart';
 import 'package:atta/theme/colors.dart';
@@ -33,7 +34,7 @@ class _PreloadScreen extends StatelessWidget {
           );
         }
         if (state.status is PreloadLoadedStatus) {
-          context.pushReplacement(HomePage.path);
+          context.go(initialFullPath ?? HomePage.path);
         }
       },
       child: Scaffold(

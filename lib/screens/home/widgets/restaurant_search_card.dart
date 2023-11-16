@@ -10,11 +10,11 @@ class _RestaurantSearchCard extends StatelessWidget {
     return Material(
       child: InkWell(
         onTap: () {
-          context.push(
-            RestaurantDetailPage.path,
-            extra: RestaurantDetailScreenArgument(
+          context.pushNamed(
+            RestaurantDetailPage.routeName,
+            pathParameters: RestaurantDetailScreenArgument(
               restaurantId: restaurant.id,
-            ),
+            ).toPathParameters(),
           );
         },
         child: ListTile(
@@ -31,10 +31,8 @@ class _RestaurantSearchCard extends StatelessWidget {
               cacheHeight: 48,
               cacheWidth: 48,
               loadingBuilder: (context, child, loadingProgress) {
-                return Skeletonizer(
-                  enabled: loadingProgress != null,
-                  child: child,
-                );
+                if (loadingProgress == null) return child;
+                return const AttaSkeleton(size: Size(48, 48));
               },
             ),
           ),

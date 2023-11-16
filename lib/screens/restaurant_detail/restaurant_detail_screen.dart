@@ -2,6 +2,7 @@ import 'package:atta/entities/filter.dart';
 import 'package:atta/entities/formula.dart';
 import 'package:atta/entities/restaurant.dart';
 import 'package:atta/extensions/border_radius_ext.dart';
+import 'package:atta/screens/home/home_screen.dart';
 import 'package:atta/screens/restaurant_detail/cubit/restaurant_detail_cubit.dart';
 import 'package:atta/theme/colors.dart';
 import 'package:atta/theme/radius.dart';
@@ -14,22 +15,30 @@ import 'package:atta/widgets/select_hourly.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sliver_tools/sliver_tools.dart';
+import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 part 'widgets/app_bar.dart';
 part 'widgets/search_bar.dart';
+part 'widgets/header.dart';
 
 class RestaurantDetailScreenArgument {
   const RestaurantDetailScreenArgument({
     required this.restaurantId,
   });
 
+  RestaurantDetailScreenArgument.fromPathParameters(Map<String, String> parameters) : restaurantId = parameters['id']!;
+
   final String restaurantId;
+
+  Map<String, String> toPathParameters() => {
+        'id': restaurantId,
+      };
 }
 
 class RestaurantDetailPage {
-  static const path = '/restaurant-detail';
+  static const path = '/restaurant-detail/:id';
+  static const routeName = 'restaurant-detail';
 
   static Widget getScreen(RestaurantDetailScreenArgument arg) => BlocProvider(
         create: (context) => RestaurantDetailCubit(
@@ -49,74 +58,7 @@ class _RestaurantDetailScreen extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           const _AppBar(),
-          BlocSelector<RestaurantDetailCubit, RestaurantDetailState, AttaRestaurant>(
-            selector: (state) => state.restaurant,
-            builder: (context, restaurant) {
-              return SliverToBoxAdapter(
-                child: Container(
-                  padding: const EdgeInsets.only(
-                    left: AttaSpacing.m,
-                    right: AttaSpacing.m,
-                    top: AttaSpacing.l,
-                    bottom: AttaSpacing.m,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadiusExt.top(AttaRadius.medium),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        restaurant.name,
-                        style: AttaTextStyle.bigHeader.copyWith(
-                          color: AttaColors.secondary,
-                        ),
-                      ),
-                      const SizedBox(height: AttaSpacing.s),
-                      Row(
-                        children: [
-                          if (restaurant.category.isNotEmpty)
-                            Row(
-                              children: [
-                                const Icon(Icons.food_bank_outlined),
-                                const SizedBox(width: AttaSpacing.xxs),
-                                Text(restaurant.category.first.name),
-                              ],
-                            ),
-                          const SizedBox(width: AttaSpacing.xs),
-                          Expanded(
-                            child: TextButton.icon(
-                              onPressed: () => launchUrlString(
-                                'https://www.google.com/maps/search/?api=1&query=${restaurant.address}',
-                              ),
-                              icon: const Icon(Icons.location_on_outlined),
-                              label: Text(
-                                restaurant.address,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () => launchUrlString(restaurant.website),
-                            icon: const Icon(CupertinoIcons.globe),
-                          ),
-                          IconButton(
-                            onPressed: () => launchUrlString('tel:${restaurant.phone}'),
-                            icon: const Icon(Icons.phone_outlined),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: AttaSpacing.m),
-                      Text(restaurant.description),
-                    ],
-                  ),
-                ),
-              );
-            },
-          ),
-          const _SearchBar(),
+          const _Header(),
           DecoratedSliver(
             decoration: const BoxDecoration(
               color: Colors.white,

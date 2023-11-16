@@ -94,11 +94,11 @@ class _RestaurantDetail extends StatelessWidget {
                         onPressed: () {
                           context
                             ..pop()
-                            ..push(
-                              RestaurantDetailPage.path,
-                              extra: RestaurantDetailScreenArgument(
+                            ..goNamed(
+                              RestaurantDetailPage.routeName,
+                              pathParameters: RestaurantDetailScreenArgument(
                                 restaurantId: restaurant.id,
-                              ),
+                              ).toPathParameters(),
                             );
                         },
                         style: ElevatedButton.styleFrom(
