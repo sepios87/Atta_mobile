@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:atta/entities/dish.dart';
 import 'package:atta/entities/restaurant.dart';
 import 'package:atta/mock.dart';
 import 'package:collection/collection.dart';
@@ -20,5 +21,12 @@ class RestaurantService {
 
   AttaRestaurant? getRestaurantById(String id) {
     return lastRestaurantList.firstWhereOrNull((r) => r.id == id);
+  }
+
+  AttaDish? getDishById(String restaurantId, String dishId) {
+    final restaurant = getRestaurantById(restaurantId);
+    if (restaurant == null) return null;
+
+    return restaurant.dishes.firstWhereOrNull((d) => d.id == dishId);
   }
 }

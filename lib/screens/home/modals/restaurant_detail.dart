@@ -58,7 +58,18 @@ class _RestaurantDetail extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom: 82),
                     itemCount: restaurant.dishes.length,
                     itemBuilder: (ctx, index) {
-                      return FormulaCard(formula: restaurant.dishes[index]);
+                      return FormulaCard(
+                        formula: restaurant.dishes[index],
+                        onTap: () {
+                          context.adapativePushNamed(
+                            DishDetailPage.routeName,
+                            pathParameters: DishDetailScreenArgument(
+                              restaurantId: restaurant.id,
+                              dishId: restaurant.dishes[index].id,
+                            ).toPathParameters(),
+                          );
+                        },
+                      );
                     },
                   ),
                 ),

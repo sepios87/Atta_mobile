@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:atta/screens/dish_detail/dish_detail.dart';
 import 'package:atta/screens/home/home_screen.dart';
 import 'package:atta/screens/login/login_screen.dart';
 import 'package:atta/screens/preload/preload_screen.dart';

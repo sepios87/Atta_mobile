@@ -3,6 +3,7 @@ import 'package:atta/entities/formula.dart';
 import 'package:atta/entities/restaurant.dart';
 import 'package:atta/extensions/border_radius_ext.dart';
 import 'package:atta/extensions/context_ext.dart';
+import 'package:atta/screens/dish_detail/dish_detail.dart';
 import 'package:atta/screens/home/home_screen.dart';
 import 'package:atta/screens/restaurant_detail/cubit/restaurant_detail_cubit.dart';
 import 'package:atta/theme/colors.dart';
@@ -34,22 +35,30 @@ class RestaurantDetailScreenArgument {
   Map<String, String> toPathParameters() => {
         'id': restaurantId,
       };
+
+  static const String parametersPath = ':id';
 }
 
 class RestaurantDetailPage {
-  static const path = '/restaurant-detail/:id';
+  static const path = '/restaurant-detail/${RestaurantDetailScreenArgument.parametersPath}';
   static const routeName = 'restaurant-detail';
 
   static Widget getScreen(RestaurantDetailScreenArgument arg) => BlocProvider(
         create: (context) => RestaurantDetailCubit(
           restaurantId: arg.restaurantId,
         ),
-        child: const _RestaurantDetailScreen(),
+        child: _RestaurantDetailScreen(
+          restaurantId: arg.restaurantId,
+        ),
       );
 }
 
 class _RestaurantDetailScreen extends StatelessWidget {
-  const _RestaurantDetailScreen();
+  const _RestaurantDetailScreen({
+    required this.restaurantId,
+  });
+
+  final String restaurantId;
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +99,21 @@ class _RestaurantDetailScreen extends StatelessWidget {
                       )
                     : SliverList(
                         delegate: SliverChildListDelegate(
-                          formulaList.map((e) => FormulaCard(formula: e)).toList(),
+                          formulaList
+                              .map((e) => FormulaCard(
+                                    formula: e,
+                                    onTap: () {
+                                      // TODO(florian): a ajuster pour les menus
+                                      context.adapativePushNamed(
+                                        DishDetailPage.routeName,
+                                        pathParameters: DishDetailScreenArgument(
+                                          restaurantId: restaurantId,
+                                          dishId: e.id,
+                                        ).toPathParameters(),
+                                      );
+                                    },
+                                  ))
+                              .toList(),
                         ),
                       );
               },

@@ -36,6 +36,15 @@ final GoRouter _router = GoRouter(
       },
     ),
     GoRoute(
+      path: DishDetailPage.path,
+      name: DishDetailPage.routeName,
+      builder: (BuildContext context, GoRouterState state) {
+        return DishDetailPage.getScreen(
+          DishDetailScreenArgument.fromPathParameters(state.pathParameters),
+        );
+      },
+    ),
+    GoRoute(
       path: LoginPage.path,
       name: LoginPage.routeName,
       builder: (BuildContext context, GoRouterState state) {
