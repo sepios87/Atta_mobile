@@ -5,7 +5,9 @@ import 'package:atta/screens/home/home_screen.dart';
 import 'package:atta/screens/login/login_screen.dart';
 import 'package:atta/screens/preload/preload_screen.dart';
 import 'package:atta/screens/restaurant_detail/restaurant_detail_screen.dart';
+import 'package:atta/screens/user/user_screen.dart';
 import 'package:atta/services/restaurant_service.dart';
+import 'package:atta/services/user_service.dart';
 import 'package:atta/theme/colors.dart';
 import 'package:atta/theme/radius.dart';
 import 'package:atta/theme/spacing.dart';
@@ -20,6 +22,7 @@ import 'package:go_router/go_router.dart';
 part 'app/router.dart';
 part 'theme/theme.dart';
 
+final userService = UserService();
 final restaurantService = RestaurantService();
 void main() {
   usePathUrlStrategy();

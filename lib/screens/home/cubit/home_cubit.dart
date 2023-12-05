@@ -1,6 +1,10 @@
+import 'dart:async';
+
 import 'package:atta/entities/filter.dart';
 import 'package:atta/entities/restaurant.dart';
+import 'package:atta/entities/user.dart';
 import 'package:atta/entities/wrapped.dart';
+import 'package:atta/main.dart';
 import 'package:atta/mock.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,7 +12,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 part 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
-  HomeCubit() : super(HomeState.initial());
+  HomeCubit() : super(HomeState.initial()) {
+    _userSubscription = userService.userStream.listen((user) {
+      emit(state.copyWith(user: Wrapped.value(user)));
+    });
+    emit(state.copyWith(user: Wrapped.value(userService.user)));
+  }
+
+  StreamSubscription<AttaUser?>? _userSubscription;
+
+  @override
+  Future<void> close() {
+    _userSubscription?.cancel();
+    return super.close();
+  }
 
   void selectFilter(AttaCategoryFilter filter) {
     final activeFilersCopy = List<AttaCategoryFilter>.from(state.activeFilters);

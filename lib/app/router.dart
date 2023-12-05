@@ -51,5 +51,12 @@ final GoRouter _router = GoRouter(
         return LoginPage.getScreen();
       },
     ),
+    GoRoute(
+      path: UserPage.path,
+      name: UserPage.routeName,
+      builder: (BuildContext context, GoRouterState state) {
+        return UserPage.getScreen();
+      },
+    ),
   ],
 );

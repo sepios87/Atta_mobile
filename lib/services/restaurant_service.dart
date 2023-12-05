@@ -15,7 +15,7 @@ class RestaurantService {
   bool get isLoaded => _restaurantStreamController.hasValue;
 
   Future<void> fetchRestaurants() async {
-    // await Future<void>.delayed(const Duration(seconds: 5));
+    await Future<void>.delayed(const Duration(seconds: 2));
     _restaurantStreamController.add(mockedData);
   }
 
