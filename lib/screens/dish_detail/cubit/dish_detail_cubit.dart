@@ -14,4 +14,12 @@ class DishDetailCubit extends Cubit<DishDetailState> {
             dish: restaurantService.getDishById(restaurantId, dishId)!,
           ),
         );
+
+  void changeQuantity(int quantity) {
+    emit(state.copyWith(quantity: quantity));
+  }
+
+  void addToCart() {
+    // TODO(florian): implement addToCart
+  }
 }

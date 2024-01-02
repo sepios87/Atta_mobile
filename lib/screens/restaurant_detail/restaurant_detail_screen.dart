@@ -1,5 +1,7 @@
+import 'package:atta/entities/dish.dart';
 import 'package:atta/entities/filter.dart';
 import 'package:atta/entities/formula.dart';
+import 'package:atta/entities/menu.dart';
 import 'package:atta/entities/restaurant.dart';
 import 'package:atta/extensions/border_radius_ext.dart';
 import 'package:atta/extensions/context_ext.dart';
@@ -94,16 +96,22 @@ class _RestaurantDetailScreen extends StatelessWidget {
                     ? const SliverFillRemaining(
                         hasScrollBody: false,
                         child: Center(
-                          child: Text('Aucun résultat'),
+                          child: Padding(
+                            padding: EdgeInsets.only(top: AttaSpacing.m, bottom: AttaSpacing.xl),
+                            child: Text('Aucun résultat'),
+                          ),
                         ),
                       )
                     : SliverList(
                         delegate: SliverChildListDelegate(
                           formulaList
-                              .map((e) => FormulaCard(
-                                    formula: e,
-                                    onTap: () {
+                              .map(
+                                (e) => FormulaCard(
+                                  formula: e,
+                                  onTap: () {
+                                    if (e is AttaMenu) {
                                       // TODO(florian): a ajuster pour les menus
+                                    } else if (e is AttaDish) {
                                       context.adapativePushNamed(
                                         DishDetailPage.routeName,
                                         pathParameters: DishDetailScreenArgument(
@@ -111,8 +119,10 @@ class _RestaurantDetailScreen extends StatelessWidget {
                                           dishId: e.id,
                                         ).toPathParameters(),
                                       );
-                                    },
-                                  ))
+                                    }
+                                  },
+                                ),
+                              )
                               .toList(),
                         ),
                       );

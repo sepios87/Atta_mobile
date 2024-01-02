@@ -36,6 +36,13 @@ final GoRouter _router = GoRouter(
       },
     ),
     GoRoute(
+      path: ReservationPage.path,
+      name: ReservationPage.routeName,
+      builder: (BuildContext context, GoRouterState state) {
+        return ReservationPage.getScreen();
+      },
+    ),
+    GoRoute(
       path: DishDetailPage.path,
       name: DishDetailPage.routeName,
       builder: (BuildContext context, GoRouterState state) {

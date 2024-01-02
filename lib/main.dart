@@ -4,6 +4,7 @@ import 'package:atta/screens/dish_detail/dish_detail.dart';
 import 'package:atta/screens/home/home_screen.dart';
 import 'package:atta/screens/login/login_screen.dart';
 import 'package:atta/screens/preload/preload_screen.dart';
+import 'package:atta/screens/reservation/reservation_screen.dart';
 import 'package:atta/screens/restaurant_detail/restaurant_detail_screen.dart';
 import 'package:atta/screens/user/user_screen.dart';
 import 'package:atta/services/restaurant_service.dart';

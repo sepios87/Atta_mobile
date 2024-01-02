@@ -1,5 +1,7 @@
 import 'package:atta/entities/formula.dart';
+import 'package:atta/entities/menu.dart';
 import 'package:atta/extensions/double_ext.dart';
+import 'package:atta/theme/colors.dart';
 import 'package:atta/theme/radius.dart';
 import 'package:atta/theme/spacing.dart';
 import 'package:atta/theme/text_style.dart';
@@ -21,7 +23,7 @@ class FormulaCard extends StatelessWidget {
     final imageHeight = formula.description.length > 60 ? 86.0 : 68.0;
 
     return Material(
-      color: Colors.transparent,
+      color: formula is AttaMenu ? AttaColors.white : Colors.transparent,
       child: InkWell(
         onTap: onTap,
         child: Padding(
