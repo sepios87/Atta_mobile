@@ -124,9 +124,14 @@ class _RestaurantDetail extends StatelessWidget {
                     const SizedBox(width: AttaSpacing.s),
                     Expanded(
                       child: ElevatedButton(
-                        onPressed: () => context.adapativePushNamed(
-                          ReservationPage.routeName,
-                        ),
+                        onPressed: () => context
+                          ..pop()
+                          ..adapativePushNamed(
+                            ReservationPage.routeName,
+                            pathParameters: ReservationScreenArgument(
+                              restaurantId: restaurant.id,
+                            ).toPathParameters(),
+                          ),
                         child: const Text(
                           'Réserver directement',
                           textAlign: TextAlign.center,

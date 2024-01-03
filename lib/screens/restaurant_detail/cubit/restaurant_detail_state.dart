@@ -10,12 +10,14 @@ class RestaurantDetailState {
     required this.searchValue,
   });
 
-  RestaurantDetailState.initial({
+  const RestaurantDetailState.initial({
     required AttaRestaurant restaurant,
+    required DateTime selectedDate,
+    required TimeOfDay? selectedOpeningTime,
   }) : this._(
           restaurant: restaurant,
-          selectedDate: DateTime.now(),
-          selectedOpeningTime: null,
+          selectedDate: selectedDate,
+          selectedOpeningTime: selectedOpeningTime,
           selectedFormulaFilter: null,
           searchValue: '',
         );

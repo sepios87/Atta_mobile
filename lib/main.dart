@@ -7,6 +7,7 @@ import 'package:atta/screens/preload/preload_screen.dart';
 import 'package:atta/screens/reservation/reservation_screen.dart';
 import 'package:atta/screens/restaurant_detail/restaurant_detail_screen.dart';
 import 'package:atta/screens/user/user_screen.dart';
+import 'package:atta/services/reservation_service.dart';
 import 'package:atta/services/restaurant_service.dart';
 import 'package:atta/services/user_service.dart';
 import 'package:atta/theme/colors.dart';
@@ -25,6 +26,7 @@ part 'theme/theme.dart';
 
 final userService = UserService();
 final restaurantService = RestaurantService();
+final reservationService = ReservationService();
 void main() {
   usePathUrlStrategy();
   runApp(const AttaApp());

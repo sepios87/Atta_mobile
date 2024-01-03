@@ -13,6 +13,8 @@ class RestaurantDetailCubit extends Cubit<RestaurantDetailState> {
   }) : super(
           RestaurantDetailState.initial(
             restaurant: restaurantService.getRestaurantById(restaurantId)!,
+            selectedDate: reservationService.selectedDate ?? DateTime.now(),
+            selectedOpeningTime: reservationService.selectedTime,
           ),
         );
 
@@ -23,10 +25,18 @@ class RestaurantDetailCubit extends Cubit<RestaurantDetailState> {
         selectedOpeningTime: const Wrapped.value(null),
       ),
     );
+    reservationService.setReservationTime(
+      time: state.selectedOpeningTime,
+      date: date,
+    );
   }
 
   void selectOpeningTime(TimeOfDay time) {
     emit(state.copyWith(selectedOpeningTime: Wrapped.value(time)));
+    reservationService.setReservationTime(
+      time: time,
+      date: state.selectedDate,
+    );
   }
 
   void selectFormulaFilter(AttaFormulaFilter filter) {

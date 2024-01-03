@@ -27,7 +27,7 @@ class __DishImageState extends State<_DishImage> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
-    final imageSize = MediaQuery.sizeOf(context).height * 0.5 - (32 - AttaSpacing.m) / 2; // 32 = button width + margin
+    final imageSize = MediaQuery.sizeOf(context).width - 36 - AttaSpacing.m; // 36 = button width + margin
 
     return FadeTransition(
       opacity: _animation,

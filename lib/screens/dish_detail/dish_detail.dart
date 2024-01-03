@@ -63,6 +63,7 @@ class _DishDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final imageSize = MediaQuery.sizeOf(context).height * 0.5;
+    final dish = context.read<DishDetailCubit>().state.dish;
 
     return Scaffold(
       appBar: _AppBar(restaurantId: restaurantId),
@@ -72,100 +73,100 @@ class _DishDetailScreen extends StatelessWidget {
           color: AttaColors.white,
           borderRadius: BorderRadiusExt.top(AttaRadius.medium),
         ),
-        child: BlocBuilder<DishDetailCubit, DishDetailState>(
-          builder: (context, state) {
-            return Stack(
-              children: [
-                SingleChildScrollView(
-                  padding: const EdgeInsets.only(bottom: AttaSpacing.l + AttaSpacing.m + 42),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      const SizedBox(height: AttaSpacing.l),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
-                        child: Text(state.dish.name, style: AttaTextStyle.bigHeader),
-                      ),
-                      const SizedBox(height: AttaSpacing.l),
-                      SizedBox(
-                        width: double.infinity,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            const SizedBox(width: AttaSpacing.m),
-                            AttaNumber(
-                              isVertical: true,
-                              quantity: state.quantity,
-                              onChange: (value) => context.read<DishDetailCubit>().changeQuantity(value),
-                            ),
-                            const Spacer(),
-                            Transform.translate(
-                              offset: Offset(imageSize / 6, 0),
-                              child: _DishImage(imageUrl: state.dish.imageUrl),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: AttaSpacing.xl),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
-                        child: Text(
-                          'Description',
-                          style: AttaTextStyle.header,
-                        ),
-                      ),
-                      const SizedBox(height: AttaSpacing.s),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
-                        child: Text(
-                          state.dish.description,
-                          style: AttaTextStyle.content,
-                        ),
-                      ),
-                      const SizedBox(height: AttaSpacing.m),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
-                        child: Text(
-                          'Ingredients',
-                          style: AttaTextStyle.header,
-                        ),
-                      ),
-                      const SizedBox(height: AttaSpacing.s),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
-                        child: Text(
-                          state.dish.ingredients.join(', '),
-                          style: AttaTextStyle.content,
-                        ),
-                      ),
-                    ],
+        child: Stack(
+          children: [
+            SingleChildScrollView(
+              padding: const EdgeInsets.only(bottom: AttaSpacing.l + AttaSpacing.m + 42),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const SizedBox(height: AttaSpacing.l),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
+                    child: Text(dish.name, style: AttaTextStyle.bigHeader),
                   ),
-                ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      left: AttaSpacing.m,
-                      right: AttaSpacing.m,
-                      bottom: AttaSpacing.m,
+                  const SizedBox(height: AttaSpacing.l),
+                  SizedBox(
+                    width: double.infinity,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        const SizedBox(width: AttaSpacing.m),
+                        AttaNumber(
+                          isVertical: true,
+                          initialValue: context.read<DishDetailCubit>().state.quantity,
+                          onChange: (value) => context.read<DishDetailCubit>().changeQuantity(value),
+                        ),
+                        const Spacer(),
+                        Transform.translate(
+                          offset: Offset(imageSize / 6, 0),
+                          child: _DishImage(imageUrl: dish.imageUrl),
+                        ),
+                      ],
                     ),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        context.read<DishDetailCubit>().addToCart();
-                        context.adaptativePopNamed(
-                          RestaurantDetailPage.routeName,
-                          pathParameters: RestaurantDetailScreenArgument(restaurantId: restaurantId).toPathParameters(),
-                        );
-                      },
-                      child: Text(
+                  ),
+                  const SizedBox(height: AttaSpacing.xl),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
+                    child: Text(
+                      'Description',
+                      style: AttaTextStyle.header,
+                    ),
+                  ),
+                  const SizedBox(height: AttaSpacing.s),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
+                    child: Text(
+                      dish.description,
+                      style: AttaTextStyle.content,
+                    ),
+                  ),
+                  const SizedBox(height: AttaSpacing.m),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
+                    child: Text(
+                      'Ingredients',
+                      style: AttaTextStyle.header,
+                    ),
+                  ),
+                  const SizedBox(height: AttaSpacing.s),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
+                    child: Text(
+                      dish.ingredients.join(', '),
+                      style: AttaTextStyle.content,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  left: AttaSpacing.m,
+                  right: AttaSpacing.m,
+                  bottom: AttaSpacing.m,
+                ),
+                child: ElevatedButton(
+                  onPressed: () {
+                    context.read<DishDetailCubit>().addToCart();
+                    context.adaptativePopNamed(
+                      RestaurantDetailPage.routeName,
+                      pathParameters: RestaurantDetailScreenArgument(restaurantId: restaurantId).toPathParameters(),
+                    );
+                  },
+                  child: BlocBuilder<DishDetailCubit, DishDetailState>(
+                    builder: (context, state) {
+                      return Text(
                         'Ajouter au panier (${state.quantity}) - ${(state.dish.price * state.quantity).toEuro}',
-                      ),
-                    ),
+                      );
+                    },
                   ),
                 ),
-              ],
-            );
-          },
+              ),
+            ),
+          ],
         ),
       ),
       bottomNavigationBar: const AttaBottomNavigationBar(),

@@ -5,11 +5,13 @@ class _SelectTable extends StatefulWidget {
     required this.tables,
     required this.selectedTableId,
     required this.onTableSelected,
+    required this.minNumberOfSeats,
   });
 
   final List<AttaTable> tables;
   final String? selectedTableId;
-  final void Function(String tableId) onTableSelected;
+  final void Function(String? tableId) onTableSelected;
+  final int minNumberOfSeats;
 
   @override
   State<_SelectTable> createState() => _SelectTableState();
@@ -29,67 +31,83 @@ class _SelectTableState extends State<_SelectTable> {
     final maxTableXPosition = _calculateMaxTableXPosition(widget.tables);
     final maxTableYPosition = _calculateMaxTableYPosition(widget.tables);
 
-    return Container(
-      decoration: BoxDecoration(
-        color: AttaColors.white,
-        borderRadius: BorderRadius.circular(AttaRadius.small),
-      ),
-      child: LayoutBuilder(
-        builder: (context, ctr) {
-          return GestureDetector(
-            onTapDown: (details) {
-              final position = _transformationController.toScene(details.localPosition);
-              final table = widget.tables.firstWhereOrNull(
-                (e) {
-                  final tablePosition = Offset(
-                    (e.x * ctr.maxWidth) / maxTableXPosition,
-                    (e.y * ctr.maxHeight) / maxTableYPosition,
+    return Stack(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            color: AttaColors.white,
+            borderRadius: BorderRadius.circular(AttaRadius.small),
+          ),
+          child: LayoutBuilder(
+            builder: (context, ctr) {
+              return GestureDetector(
+                onTapUp: (details) {
+                  final position = _transformationController.toScene(details.localPosition);
+                  final table = widget.tables.firstWhereOrNull(
+                    (e) {
+                      final tablePosition = Offset(
+                        (e.x * ctr.maxWidth) / maxTableXPosition,
+                        (e.y * ctr.maxHeight) / maxTableYPosition,
+                      );
+                      final tableSize = Size(
+                        (e.width * ctr.maxWidth) / maxTableXPosition,
+                        (e.height * ctr.maxHeight) / maxTableYPosition,
+                      );
+                      final tableRect = Rect.fromLTWH(
+                        tablePosition.dx,
+                        tablePosition.dy,
+                        tableSize.width,
+                        tableSize.height,
+                      );
+                      return tableRect.contains(position);
+                    },
                   );
-                  final tableSize = Size(
-                    (e.width * ctr.maxWidth) / maxTableXPosition,
-                    (e.height * ctr.maxHeight) / maxTableYPosition,
-                  );
-                  final tableRect = Rect.fromLTWH(
-                    tablePosition.dx,
-                    tablePosition.dy,
-                    tableSize.width,
-                    tableSize.height,
-                  );
-                  return tableRect.contains(position);
+                  if (table != null && table.numberOfSeats >= widget.minNumberOfSeats) {
+                    widget.onTableSelected(table.id);
+                  } else {
+                    widget.onTableSelected(null);
+                  }
                 },
+                child: InteractiveViewer(
+                  transformationController: _transformationController,
+                  boundaryMargin: const EdgeInsets.only(
+                    right: 32,
+                    bottom: 32,
+                    top: 16,
+                    left: 16,
+                  ), // For padding number of seats widget
+                  maxScale: 3,
+                  child: Stack(
+                    clipBehavior: Clip.none,
+                    children: widget.tables
+                        .map(
+                          (e) => _Table(
+                            table: e,
+                            x: (e.x * ctr.maxWidth) / maxTableXPosition,
+                            y: (e.y * ctr.maxHeight) / maxTableYPosition,
+                            width: (e.width * ctr.maxWidth) / maxTableXPosition,
+                            height: (e.height * ctr.maxHeight) / maxTableYPosition,
+                            isSelected: e.id == widget.selectedTableId,
+                            isEnable: e.numberOfSeats >= widget.minNumberOfSeats,
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ),
               );
-              if (table != null) {
-                widget.onTableSelected(table.id);
-              }
             },
-            child: InteractiveViewer(
-              transformationController: _transformationController,
-              boundaryMargin: const EdgeInsets.only(
-                right: 32,
-                bottom: 32,
-                top: 16,
-                left: 16,
-              ), // For padding number of seats widget
-              maxScale: 3,
-              child: Stack(
-                clipBehavior: Clip.none,
-                children: widget.tables
-                    .map(
-                      (e) => _Table(
-                        table: e,
-                        x: (e.x * ctr.maxWidth) / maxTableXPosition,
-                        y: (e.y * ctr.maxHeight) / maxTableYPosition,
-                        width: (e.width * ctr.maxWidth) / maxTableXPosition,
-                        height: (e.height * ctr.maxHeight) / maxTableYPosition,
-                        isSelected: e.id == widget.selectedTableId,
-                      ),
-                    )
-                    .toList(),
-              ),
+          ),
+        ),
+        if (widget.selectedTableId != null)
+          Positioned(
+            right: AttaSpacing.s,
+            bottom: AttaSpacing.xxs,
+            child: Text(
+              'Table ${widget.selectedTableId!} selectionnée',
+              style: AttaTextStyle.caption,
             ),
-          );
-        },
-      ),
+          ),
+      ],
     );
   }
 }
@@ -102,6 +120,7 @@ class _Table extends StatelessWidget {
     required this.width,
     required this.height,
     required this.isSelected,
+    required this.isEnable,
   });
 
   final AttaTable table;
@@ -112,6 +131,7 @@ class _Table extends StatelessWidget {
   final double height;
 
   final bool isSelected;
+  final bool isEnable;
 
   @override
   Widget build(BuildContext context) {
@@ -126,7 +146,11 @@ class _Table extends StatelessWidget {
             height: height,
             width: width,
             decoration: BoxDecoration(
-              color: isSelected ? AttaColors.primaryLight : AttaColors.black,
+              color: isEnable
+                  ? isSelected
+                      ? AttaColors.primary
+                      : AttaColors.black
+                  : AttaColors.black.withOpacity(0.5),
               borderRadius: BorderRadius.circular(AttaRadius.small),
             ),
             child: Center(

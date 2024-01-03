@@ -4,44 +4,73 @@ import 'package:atta/theme/spacing.dart';
 import 'package:atta/theme/text_style.dart';
 import 'package:flutter/material.dart';
 
-class AttaNumber extends StatelessWidget {
+class AttaNumber extends StatefulWidget {
   const AttaNumber({
     required this.onChange,
-    required this.quantity,
+    required this.initialValue,
     this.isVertical = false,
     super.key,
   });
 
   final void Function(int) onChange;
-  final int quantity;
+  final int initialValue;
   final bool isVertical;
+
+  @override
+  State<AttaNumber> createState() => _AttaNumberState();
+}
+
+class _AttaNumberState extends State<AttaNumber> {
+  late final _controller = TextEditingController(text: widget.initialValue.toString());
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _onChange() {
+    if (_controller.text.isNotEmpty) {
+      widget.onChange(int.parse(_controller.text));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final addButton = SizedBox.square(
-      dimension: 32,
+      dimension: 36,
       child: IconButton(
-        onPressed: () => onChange(quantity + 1),
+        onPressed: () {
+          final value = int.parse(_controller.text);
+          _controller.text = (value + 1).toString();
+          _onChange();
+        },
         icon: Icon(Icons.add, color: AttaColors.black),
-        iconSize: 16,
+        iconSize: 18,
       ),
     );
 
     final removeButton = SizedBox.square(
-      dimension: 32,
+      dimension: 36,
       child: IconButton(
-        onPressed: quantity == 1 ? null : () => onChange(quantity - 1),
+        onPressed: () {
+          final value = int.parse(_controller.text);
+          if (value > 1) {
+            _controller.text = (value - 1).toString();
+            _onChange();
+          }
+        },
         icon: Icon(Icons.remove, color: AttaColors.black),
-        iconSize: 16,
+        iconSize: 18,
       ),
     );
 
     final widgetList = [
-      if (isVertical) addButton else removeButton,
+      if (widget.isVertical) addButton else removeButton,
       SizedBox(
-        width: isVertical ? 28 : 64,
+        width: widget.isVertical ? 28 : 64,
         child: TextField(
-          controller: TextEditingController(text: quantity.toString()),
+          controller: _controller,
           textAlign: TextAlign.center,
           style: AttaTextStyle.caption,
           decoration: InputDecoration(
@@ -51,22 +80,22 @@ class AttaNumber extends StatelessWidget {
             ),
             contentPadding: EdgeInsets.only(
               left: 3,
-              top: isVertical ? AttaSpacing.l : AttaSpacing.xxs,
-              bottom: isVertical ? AttaSpacing.l : AttaSpacing.xxs,
+              top: widget.isVertical ? AttaSpacing.l : AttaSpacing.xxs,
+              bottom: widget.isVertical ? AttaSpacing.l : AttaSpacing.xxs,
             ),
             isDense: true,
           ),
           keyboardType: TextInputType.number,
           onChanged: (value) {
             if (value.isNotEmpty) {
-              onChange(int.parse(value));
+              widget.onChange(int.parse(value));
             }
           },
         ),
       ),
-      if (isVertical) removeButton else addButton,
+      if (widget.isVertical) removeButton else addButton,
     ];
 
-    return isVertical ? Column(children: widgetList) : Row(children: widgetList);
+    return widget.isVertical ? Column(children: widgetList) : Row(children: widgetList);
   }
 }
