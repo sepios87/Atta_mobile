@@ -1,5 +1,6 @@
 import 'package:atta/extensions/border_radius_ext.dart';
 import 'package:atta/extensions/context_ext.dart';
+import 'package:atta/main.dart';
 import 'package:atta/screens/home/home_screen.dart';
 import 'package:atta/screens/login/cubit/auth_cubit.dart';
 import 'package:atta/theme/colors.dart';
@@ -43,7 +44,7 @@ class _AuthScreen extends StatelessWidget {
           borderRadius: BorderRadiusExt.top(AttaRadius.medium),
         ),
         child: SingleChildScrollView(
-          child: BlocConsumer<AuthCubit, AuthState>(
+          child: BlocConsumer<AuthCubit, AttaAuthState>(
             listener: (context, state) {
               if (state.status is AuthErrorStatus) {
                 ScaffoldMessenger.of(context).showSnackBar(

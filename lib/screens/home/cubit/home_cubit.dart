@@ -14,7 +14,7 @@ part 'home_state.dart';
 class HomeCubit extends Cubit<HomeState> {
   HomeCubit() : super(HomeState.initial()) {
     _userSubscription = userService.userStream.listen((user) {
-      if (user?.id != state.user?.id) emit(state.copyWith(user: Wrapped.value(user)));
+      if (user?.uid != state.user?.uid) emit(state.copyWith(user: Wrapped.value(user)));
     });
     emit(state.copyWith(user: Wrapped.value(userService.user)));
   }
@@ -71,11 +71,7 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
-  Future<void> onSetFavoriteRestaurant(bool isFavorite, String restaurantId) async {
-    if (isFavorite) {
-      await userService.addFavoriteRestaurant(restaurantId);
-    } else {
-      await userService.removeFavoriteRestaurant(restaurantId);
-    }
+  Future<void> onSetFavoriteRestaurant(String restaurantId) async {
+    await userService.toggleFavoriteRestaurant(restaurantId);
   }
 }

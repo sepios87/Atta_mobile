@@ -9,7 +9,7 @@ class FavoriteButton extends StatefulWidget {
   });
 
   final bool isFavorite;
-  final void Function(bool isFavorite) onFavoriteChanged;
+  final void Function() onFavoriteChanged;
 
   @override
   State<FavoriteButton> createState() => _FavoriteButtonState();
@@ -23,7 +23,7 @@ class _FavoriteButtonState extends State<FavoriteButton> {
     return IconButton(
       onPressed: () {
         setState(() => isFavorite = !isFavorite);
-        widget.onFavoriteChanged(isFavorite);
+        widget.onFavoriteChanged();
       },
       icon: AnimatedCrossFade(
         crossFadeState: isFavorite ? CrossFadeState.showFirst : CrossFadeState.showSecond,

@@ -1,6 +1,7 @@
 import 'package:atta/entities/user.dart';
 import 'package:atta/extensions/context_ext.dart';
 import 'package:atta/extensions/user_ext.dart';
+import 'package:atta/main.dart';
 import 'package:atta/screens/login/login_screen.dart';
 import 'package:atta/screens/user/user_screen.dart';
 import 'package:atta/theme/colors.dart';
@@ -18,37 +19,51 @@ class AttaAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       title: InkWell(
-        radius: AttaRadius.small,
+        borderRadius: BorderRadius.circular(AttaRadius.full),
         onTap: () {
           if (user == null) {
             context.adapativePushNamed(LoginPage.routeName);
           } else {
-            context.adapativePushNamed(UserPage.routeName);
+            // TODO(florian): add user page
+            userService.logout();
+            // context.adapativePushNamed(UserPage.routeName);
           }
         },
         child: user == null
-            ? Text(
-                'Se connecter',
-                style: AttaTextStyle.subHeader.copyWith(
-                  color: AttaColors.white,
+            ? Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: AttaSpacing.s,
+                  horizontal: AttaSpacing.m,
+                ),
+                child: Text(
+                  'Se connecter',
+                  style: AttaTextStyle.subHeader.copyWith(
+                    color: AttaColors.white,
+                  ),
                 ),
               )
             : Row(
                 children: [
                   CircleAvatar(
-                      radius: 18,
-                      backgroundImage: user!.imageUrl != null ? NetworkImage(user!.imageUrl!) : null,
-                      backgroundColor: AttaColors.primary,
-                      child: user!.imageUrl == null
-                          ? Text(
-                              user!.anagram,
-                              style: AttaTextStyle.caption.copyWith(
+                    radius: 18,
+                    backgroundImage: user!.imageUrl != null ? NetworkImage(user!.imageUrl!) : null,
+                    backgroundColor: AttaColors.primary,
+                    child: user!.imageUrl == null
+                        ? user?.anagram == null
+                            ? Icon(
+                                Icons.person,
                                 color: AttaColors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            )
-                          : null),
+                              )
+                            : Text(
+                                user!.anagram!,
+                                style: AttaTextStyle.caption.copyWith(
+                                  color: AttaColors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              )
+                        : null,
+                  ),
                   const SizedBox(width: AttaSpacing.m),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -67,14 +82,6 @@ class AttaAppBar extends StatelessWidget implements PreferredSizeWidget {
                             color: AttaColors.white,
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      if (user!.firstName == null && user!.lastName == null)
-                        Text(
-                          user!.email,
-                          style: AttaTextStyle.caption.copyWith(
-                            color: AttaColors.white,
-                            fontSize: 16,
                           ),
                         ),
                     ],

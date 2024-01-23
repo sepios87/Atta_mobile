@@ -1,27 +1,54 @@
-import 'package:isar/isar.dart';
+import 'dart:convert';
+import 'package:atta/extensions/map_ext.dart';
 
-part 'user.g.dart';
-
-@collection
 class AttaUser {
   AttaUser({
-    required this.email,
-    required this.password,
+    required this.uid,
     this.firstName,
     this.lastName,
     this.phone,
     this.imageUrl,
+    this.favoritesRestaurantsId = const {},
+    this.favoritesDishesId = const {},
+    this.favoritesMenusId = const {},
   });
 
-  @Index(unique: true)
-  final id = Isar.autoIncrement;
-  final String email;
-  final String password;
+  factory AttaUser.fromMap(String id, Map<String, dynamic> map) {
+    return AttaUser(
+      uid: id,
+      firstName: map.parse<String?>('firstName'),
+      lastName: map.parse<String?>('lastName'),
+      phone: map.parse<String?>('phone'),
+      imageUrl: map.parse<String?>('imageUrl'),
+      favoritesRestaurantsId: map.parse<List>('favoritesRestaurantsId', fallback: []).map((e) => e.toString()).toSet(),
+      favoritesDishesId: map.parse<List>('favoritesDishesId', fallback: []).map((e) => e.toString()).toSet(),
+      favoritesMenusId: map.parse<List>('favoritesMenusId', fallback: []).map((e) => e.toString()).toSet(),
+    );
+  }
+
+  final String uid;
   final String? firstName;
   final String? lastName;
   final String? phone;
   final String? imageUrl;
-  final List<String> favoritesRestaurantsId = [];
-  final List<String> favoritesDishesId = [];
-  final List<String> favoritesMenusId = [];
+  final Set<String> favoritesRestaurantsId;
+  final Set<String> favoritesDishesId;
+  final Set<String> favoritesMenusId;
+
+  Map<String, dynamic> toMap() {
+    return {
+      'firstName': firstName,
+      'lastName': lastName,
+      'phone': phone,
+      'imageUrl': imageUrl,
+      'favoritesRestaurantsId': favoritesRestaurantsId.toList(),
+      'favoritesDishesId': favoritesDishesId.toList(),
+      'favoritesMenusId': favoritesMenusId.toList(),
+    };
+  }
+
+  AttaUser copy() => AttaUser.fromMap(uid, toMap());
+
+  @override
+  String toString() => jsonEncode(toMap());
 }

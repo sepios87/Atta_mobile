@@ -47,7 +47,7 @@ class _RegisterContent extends StatelessWidget {
               ),
               const SizedBox(height: AttaSpacing.m),
               const _PasswordField(hintText: 'Confirmer le mot de passe'),
-              const SizedBox(height: AttaSpacing.l),
+              const SizedBox(height: AttaSpacing.xxl),
               ElevatedButton(
                 onPressed: () {
                   if (formKey.currentState!.validate()) {

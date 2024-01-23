@@ -13,50 +13,61 @@ class UserService {
   bool get isLogged => user != null;
 
   Future<void> init() async {
-    await Future<void>.delayed(const Duration(seconds: 2));
-    // await login('', '');
+    final user = await firebaseService.alreadyConnectedUser();
+    _userStreamController.add(user);
+  }
+
+  Future<void> forgetPassword(String email) async {
+    await firebaseService.forgetPassword(email);
   }
 
   Future<void> logout() async {
-    await Future<void>.delayed(const Duration(seconds: 1));
+    await firebaseService.logout();
     _userStreamController.add(null);
   }
 
   Future<void> login(String email, String password) async {
-    final user = await storageService.getUser(email, encryptPassword(password));
-    if (user == null) throw Exception('User not found');
+    final user = await firebaseService.login(email, _encryptPassword(password));
     _userStreamController.add(user);
   }
 
   Future<void> createAccount(String email, String password) async {
-    final isUserExist = await storageService.isUserExist(email);
-    if (isUserExist) throw Exception('User already exist');
-    final user = AttaUser(email: email, password: encryptPassword(password));
-    await storageService.saveUser(user);
+    final user = await firebaseService.createAccount(email, _encryptPassword(password));
     _userStreamController.add(user);
   }
 
-  Future<void> addFavoriteRestaurant(String restaurantId) async {
-    final currentUser = user;
-    if (currentUser == null) throw Exception('User not found');
-    currentUser.favoritesRestaurantsId.add(restaurantId);
-    await storageService.saveUser(currentUser);
-    // _userStreamController.add(user);
-    final test = await storageService.getUser(currentUser.email, currentUser.password);
-    // print(test?.favoritesRestaurantsId);
-    // print(currentUser.id);
-    // print(currentUser.favoritesRestaurantsId);
-  }
-
-  Future<void> removeFavoriteRestaurant(String restaurantId) async {
-    final currentUser = user;
-    if (currentUser == null) throw Exception('User not found');
-    currentUser.favoritesRestaurantsId.remove(restaurantId);
-    await storageService.saveUser(currentUser);
+  Future<void> signInWithGoogle() async {
+    final user = await firebaseService.signInWithGoogle();
     _userStreamController.add(user);
   }
 
-  String encryptPassword(String password) {
+  Future<void> toggleFavoriteRestaurant(String restaurantId) async {
+    final newUser = user?.copy();
+    if (newUser == null) throw Exception('User not found');
+    if (newUser.favoritesRestaurantsId.contains(restaurantId)) {
+      newUser.favoritesRestaurantsId.remove(restaurantId);
+    } else {
+      newUser.favoritesRestaurantsId.add(restaurantId);
+    }
+
+    await firebaseService.updateUser(newUser);
+    _userStreamController.add(newUser);
+  }
+
+  Future<void> toggleFavoriteDish(String dishId) async {
+    final newUser = user?.copy();
+    if (newUser == null) throw Exception('User not found');
+    if (newUser.favoritesDishesId.contains(dishId)) {
+      newUser.favoritesDishesId.remove(dishId);
+    } else {
+      newUser.favoritesDishesId.add(dishId);
+    }
+
+    await firebaseService.updateUser(newUser);
+    _userStreamController.add(newUser);
+  }
+
+  String _encryptPassword(String password) {
     final bytes = utf8.encode(password);
     final hash = sha256.convert(bytes);
     return hash.toString();

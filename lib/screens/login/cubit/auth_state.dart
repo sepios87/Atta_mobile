@@ -1,23 +1,23 @@
 part of 'auth_cubit.dart';
 
 @immutable
-class AuthState {
-  const AuthState._({
+class AttaAuthState {
+  const AttaAuthState._({
     required this.status,
   });
 
-  factory AuthState.initial() {
-    return AuthState._(
+  factory AttaAuthState.initial() {
+    return AttaAuthState._(
       status: AuthLoginStatus(),
     );
   }
 
   final AuthStatus status;
 
-  AuthState copyWith({
+  AttaAuthState copyWith({
     AuthStatus? status,
   }) {
-    return AuthState._(
+    return AttaAuthState._(
       status: status ?? this.status,
     );
   }

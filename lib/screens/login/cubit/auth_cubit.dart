@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'auth_state.dart';
 
-class AuthCubit extends Cubit<AuthState> {
-  AuthCubit() : super(AuthState.initial());
+class AuthCubit extends Cubit<AttaAuthState> {
+  AuthCubit() : super(AttaAuthState.initial());
 
   void onLogin() {
     emit(state.copyWith(status: AuthLoginStatus()));
@@ -21,7 +21,7 @@ class AuthCubit extends Cubit<AuthState> {
       emit(state.copyWith(status: AuthSuccessStatus()));
     } catch (e) {
       emit(state.copyWith(status: AuthErrorStatus(e.toString())));
-      emit(state.copyWith(status: AuthLoginStatus()));
+      emit(state.copyWith(status: AuthRegisterStatus()));
     }
   }
 
@@ -32,6 +32,26 @@ class AuthCubit extends Cubit<AuthState> {
     } catch (e) {
       emit(state.copyWith(status: AuthErrorStatus(e.toString())));
       emit(state.copyWith(status: AuthLoginStatus()));
+    }
+  }
+
+  Future<void> onSendForgetPassword(String email) async {
+    try {
+      await userService.forgetPassword(email);
+    } catch (e) {
+      emit(state.copyWith(status: AuthErrorStatus(e.toString())));
+      emit(state.copyWith(status: AuthLoginStatus()));
+    }
+  }
+
+  Future<void> signInWithGoogle() async {
+    try {
+      await userService.signInWithGoogle();
+      emit(state.copyWith(status: AuthSuccessStatus()));
+    } catch (e) {
+      final previousStatus = state.status;
+      emit(state.copyWith(status: AuthErrorStatus(e.toString())));
+      emit(state.copyWith(status: previousStatus));
     }
   }
 }

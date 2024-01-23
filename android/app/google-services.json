@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "265601211863",
+    "project_id": "atta-979bf",
+    "storage_bucket": "atta-979bf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:265601211863:android:e4e2245068b5df8a65ff92",
+        "android_client_info": {
+          "package_name": "com.example.atta"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "265601211863-mfj4hqsp4sa6dmapsu0o3flb7ufh0ftb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.atta",
+            "certificate_hash": "42dff1a281d39e799688f440a7ee3923c09596e3"
+          }
+        },
+        {
+          "client_id": "265601211863-6eo0ddv8i4pbkm6rtochuj4ledjgfjbk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKCzuAMtU7ScOhQuArXX9AMgTzulJ05kM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "265601211863-6eo0ddv8i4pbkm6rtochuj4ledjgfjbk.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "265601211863-pfa12aajq2fpr5holf1h96fbq2m7pueq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.atta.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
