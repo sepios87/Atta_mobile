@@ -65,7 +65,7 @@ class _AttaSearchBarState extends State<AttaSearchBar> {
             decoration: const InputDecoration(
               prefixIcon: Icon(Icons.search),
               hintText: 'Rechercher',
-              isDense: true,
+              // isDense: true,
             ),
           ),
         ),

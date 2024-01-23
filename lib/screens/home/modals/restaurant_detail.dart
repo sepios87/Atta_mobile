@@ -40,14 +40,24 @@ class _RestaurantDetail extends StatelessWidget {
                           fontSize: 24,
                         ),
                       ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.favorite_border_rounded,
-                          color: AttaColors.black,
-                          size: 30,
+                      if (userService.user != null)
+                        FavoriteButton(
+                          isFavorite: userService.user!.favoritesRestaurantsId.contains(restaurant.id),
+                          onFavoriteChanged: (isFavorite) => context.read<HomeCubit>().onSetFavoriteRestaurant(
+                                isFavorite,
+                                restaurant.id,
+                              ),
                         ),
-                      ),
+                      // IconButton(
+                      //   onPressed: () {},
+                      //   icon: Icon(
+                      //     userService.user!.favoritesRestaurantsId.contains(restaurant.id)
+                      //         ? Icons.favorite_rounded
+                      //         : Icons.favorite_border_rounded,
+                      //     color: AttaColors.black,
+                      //     size: 30,
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),

@@ -14,6 +14,7 @@ class PreloadCubit extends Cubit<PreloadState> {
     try {
       await userService.init();
       await restaurantService.fetchRestaurants();
+      await storageService.initDatabase();
       emit(state.copyWith(status: PreloadLoadedStatus()));
     } catch (e) {
       emit(state.copyWith(status: PreloadErrorStatus(e.toString())));

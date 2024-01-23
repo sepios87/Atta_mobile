@@ -43,10 +43,23 @@ class _AuthScreen extends StatelessWidget {
           borderRadius: BorderRadiusExt.top(AttaRadius.medium),
         ),
         child: SingleChildScrollView(
-          child: BlocSelector<AuthCubit, AuthState, AuthStatus>(
-            selector: (state) => state.status,
-            builder: (context, status) {
-              if (status is AuthRegisterStatus) {
+          child: BlocConsumer<AuthCubit, AuthState>(
+            listener: (context, state) {
+              if (state.status is AuthErrorStatus) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text((state.status as AuthErrorStatus).message),
+                    backgroundColor: Colors.red,
+                  ),
+                );
+              }
+              if (state.status is AuthSuccessStatus) {
+                context.adaptativePopNamed(HomePage.routeName);
+              }
+            },
+            buildWhen: (previous, current) => previous.status != current.status && current.status is! AuthErrorStatus,
+            builder: (context, state) {
+              if (state.status is AuthRegisterStatus) {
                 return const _RegisterContent();
               }
               return const _LoginContent();

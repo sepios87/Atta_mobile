@@ -22,12 +22,12 @@ ThemeData get _attaThemeData {
       ),
       contentPadding: const EdgeInsets.symmetric(
         horizontal: AttaSpacing.m,
+        vertical: 10,
       ),
       fillColor: AttaColors.white,
       hintStyle: AttaTextStyle.label.copyWith(
         color: Colors.grey,
       ),
-      isCollapsed: true,
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
@@ -52,7 +52,7 @@ ThemeData get _attaThemeData {
           vertical: AttaSpacing.xxs,
           horizontal: AttaSpacing.xs,
         ),
-        alignment: Alignment.centerLeft,
+        alignment: Alignment.center,
         textStyle: AttaTextStyle.button,
       ),
     ),

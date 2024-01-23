@@ -23,8 +23,18 @@ class AuthState {
   }
 }
 
-final class AuthStatus {}
+final class AuthStatus {
+  const AuthStatus();
+}
 
 final class AuthLoginStatus extends AuthStatus {}
 
 final class AuthRegisterStatus extends AuthStatus {}
+
+final class AuthErrorStatus extends AuthStatus {
+  const AuthErrorStatus(this.message);
+
+  final String message;
+}
+
+final class AuthSuccessStatus extends AuthStatus {}

@@ -6,7 +6,6 @@ import 'package:atta/entities/filter.dart';
 import 'package:atta/entities/menu.dart';
 import 'package:atta/entities/opening_time.dart';
 import 'package:atta/entities/restaurant.dart';
-import 'package:atta/entities/user.dart';
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 
@@ -88,12 +87,3 @@ Map<AttaDay, List<AttaOpeningTime>> _generateOpeningTimes() {
 
   return openingTimes;
 }
-
-AttaUser mockedUser = AttaUser(
-  id: '1',
-  email: faker.internet.email(),
-  firstName: faker.person.firstName(),
-  lastName: faker.person.lastName(),
-  phone: faker.phoneNumber.random.toString(),
-  imageUrl: 'https://picsum.photos/200',
-);

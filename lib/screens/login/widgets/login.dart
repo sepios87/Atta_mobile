@@ -6,6 +6,8 @@ class _LoginContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
+    String? email;
+    String? password;
 
     return Column(
       children: [
@@ -28,9 +30,8 @@ class _LoginContent extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               TextFormField(
-                decoration: const InputDecoration(
-                  hintText: 'Email',
-                ),
+                onSaved: (value) => email = value,
+                decoration: const InputDecoration(hintText: 'Email'),
                 keyboardType: TextInputType.emailAddress,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -40,7 +41,10 @@ class _LoginContent extends StatelessWidget {
                 },
               ),
               const SizedBox(height: AttaSpacing.m),
-              const _PasswordField(hintText: 'Mot de passe'),
+              _PasswordField(
+                hintText: 'Mot de passe',
+                onSaved: (value) => password = value,
+              ),
               const SizedBox(height: AttaSpacing.m),
               TextButton(
                 onPressed: () {},
@@ -49,10 +53,10 @@ class _LoginContent extends StatelessWidget {
               const SizedBox(height: AttaSpacing.l),
               ElevatedButton(
                 onPressed: () {
-                  if (!formKey.currentState!.validate()) return;
-                  // TODO(florian): implement login
-                  context.read<AuthCubit>().onSendLogin('', '');
-                  context.adaptativePopNamed(HomePage.routeName);
+                  if (formKey.currentState!.validate()) {
+                    formKey.currentState?.save();
+                    context.read<AuthCubit>().onSendLogin(email ?? '', password ?? '');
+                  }
                 },
                 child: const Text('Se connecter'),
               ),
@@ -85,9 +89,12 @@ class _LoginContent extends StatelessWidget {
           ],
         ),
         const SizedBox(height: AttaSpacing.xxl),
-        TextButton(
-          onPressed: () => context.read<AuthCubit>().onRegister(),
-          child: const Text('Créer un compte'),
+        SizedBox(
+          width: double.infinity,
+          child: TextButton(
+            onPressed: () => context.read<AuthCubit>().onRegister(),
+            child: const Text('Créer un compte'),
+          ),
         ),
       ],
     );

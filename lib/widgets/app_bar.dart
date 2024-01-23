@@ -1,5 +1,6 @@
 import 'package:atta/entities/user.dart';
 import 'package:atta/extensions/context_ext.dart';
+import 'package:atta/extensions/user_ext.dart';
 import 'package:atta/screens/login/login_screen.dart';
 import 'package:atta/screens/user/user_screen.dart';
 import 'package:atta/theme/colors.dart';
@@ -34,29 +35,46 @@ class AttaAppBar extends StatelessWidget implements PreferredSizeWidget {
               )
             : Row(
                 children: [
-                  if (user!.imageUrl != null)
-                    CircleAvatar(
+                  CircleAvatar(
                       radius: 18,
-                      backgroundImage: NetworkImage(user!.imageUrl!),
-                    ),
+                      backgroundImage: user!.imageUrl != null ? NetworkImage(user!.imageUrl!) : null,
+                      backgroundColor: AttaColors.primary,
+                      child: user!.imageUrl == null
+                          ? Text(
+                              user!.anagram,
+                              style: AttaTextStyle.caption.copyWith(
+                                color: AttaColors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )
+                          : null),
                   const SizedBox(width: AttaSpacing.m),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       if (user!.lastName != null)
                         Text(
-                          user!.lastName!,
+                          user!.lastName![0].toUpperCase(),
                           style: AttaTextStyle.caption.copyWith(
                             color: AttaColors.white,
                           ),
                         ),
                       if (user!.firstName != null)
                         Text(
-                          user!.firstName!,
+                          user!.firstName![0].toUpperCase(),
                           style: AttaTextStyle.caption.copyWith(
                             color: AttaColors.white,
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      if (user!.firstName == null && user!.lastName == null)
+                        Text(
+                          user!.email,
+                          style: AttaTextStyle.caption.copyWith(
+                            color: AttaColors.white,
+                            fontSize: 16,
                           ),
                         ),
                     ],

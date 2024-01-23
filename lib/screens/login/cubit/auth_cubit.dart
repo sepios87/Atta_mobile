@@ -11,11 +11,27 @@ class AuthCubit extends Cubit<AuthState> {
     emit(state.copyWith(status: AuthLoginStatus()));
   }
 
-  void onSendLogin(String email, String password) {
-    userService.login(email, password);
-  }
-
   void onRegister() {
     emit(state.copyWith(status: AuthRegisterStatus()));
+  }
+
+  Future<void> onCreateAccount(String email, String password) async {
+    try {
+      await userService.createAccount(email, password);
+      emit(state.copyWith(status: AuthSuccessStatus()));
+    } catch (e) {
+      emit(state.copyWith(status: AuthErrorStatus(e.toString())));
+      emit(state.copyWith(status: AuthLoginStatus()));
+    }
+  }
+
+  Future<void> onSendLogin(String email, String password) async {
+    try {
+      await userService.login(email, password);
+      emit(state.copyWith(status: AuthSuccessStatus()));
+    } catch (e) {
+      emit(state.copyWith(status: AuthErrorStatus(e.toString())));
+      emit(state.copyWith(status: AuthLoginStatus()));
+    }
   }
 }

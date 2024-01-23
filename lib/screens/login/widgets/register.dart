@@ -6,6 +6,8 @@ class _RegisterContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
+    String? email;
+    String? password;
 
     return Column(
       children: [
@@ -28,9 +30,8 @@ class _RegisterContent extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               TextFormField(
-                decoration: const InputDecoration(
-                  hintText: 'Email',
-                ),
+                onSaved: (value) => email = value,
+                decoration: const InputDecoration(hintText: 'Email'),
                 keyboardType: TextInputType.emailAddress,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -40,14 +41,18 @@ class _RegisterContent extends StatelessWidget {
                 },
               ),
               const SizedBox(height: AttaSpacing.m),
-              const _PasswordField(hintText: 'Mot de passe'),
+              _PasswordField(
+                hintText: 'Mot de passe',
+                onSaved: (value) => password = value,
+              ),
               const SizedBox(height: AttaSpacing.m),
               const _PasswordField(hintText: 'Confirmer le mot de passe'),
               const SizedBox(height: AttaSpacing.l),
               ElevatedButton(
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
-                    print('login');
+                    formKey.currentState?.save();
+                    context.read<AuthCubit>().onCreateAccount(email ?? '', password ?? '');
                   }
                 },
                 child: const Text('Créer son compte'),
@@ -81,9 +86,12 @@ class _RegisterContent extends StatelessWidget {
           ],
         ),
         const SizedBox(height: AttaSpacing.xxl),
-        TextButton(
-          onPressed: () => context.read<AuthCubit>().onLogin(),
-          child: const Text('Se connecter'),
+        SizedBox(
+          width: double.infinity,
+          child: TextButton(
+            onPressed: () => context.read<AuthCubit>().onLogin(),
+            child: const Text('Se connecter'),
+          ),
         ),
       ],
     );
