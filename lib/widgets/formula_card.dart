@@ -1,11 +1,12 @@
 import 'package:atta/entities/formula.dart';
 import 'package:atta/entities/menu.dart';
-import 'package:atta/extensions/double_ext.dart';
+import 'package:atta/extensions/num_ext.dart';
 import 'package:atta/theme/colors.dart';
 import 'package:atta/theme/radius.dart';
 import 'package:atta/theme/spacing.dart';
 import 'package:atta/theme/text_style.dart';
 import 'package:atta/widgets/skeleton.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class FormulaCard extends StatelessWidget {
@@ -20,7 +21,7 @@ class FormulaCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final imageHeight = formula.description.length > 60 ? 86.0 : 68.0;
+    final imageHeight = (formula.description?.length ?? 0) > 60 ? 86.0 : 68.0;
 
     return Material(
       color: formula is AttaMenu ? AttaColors.white : Colors.transparent,
@@ -42,11 +43,10 @@ class FormulaCard extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(AttaRadius.small),
                   ),
-                  child: Image.network(
-                    formula.imageUrl,
+                  child: CachedNetworkImage(
+                    imageUrl: formula.imageUrl,
                     fit: BoxFit.cover,
-                    loadingBuilder: (context, child, loadingProgress) {
-                      if (loadingProgress == null) return child;
+                    placeholder: (context, _) {
                       return AttaSkeleton(
                         size: Size(68, imageHeight),
                       );
@@ -59,12 +59,14 @@ class FormulaCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(formula.name, style: AttaTextStyle.subHeader),
-                      const SizedBox(height: AttaSpacing.xs),
-                      Text(
-                        formula.description,
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                      if (formula.description != null) ...[
+                        const SizedBox(height: AttaSpacing.xs),
+                        Text(
+                          formula.description!,
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
                     ],
                   ),
                 ),

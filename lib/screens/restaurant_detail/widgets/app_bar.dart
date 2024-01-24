@@ -32,8 +32,8 @@ class _AppBar extends StatelessWidget {
             background: Stack(
               children: [
                 Positioned.fill(
-                  child: Image.network(
-                    state.restaurant.imageUrl,
+                  child: CachedNetworkImage(
+                    imageUrl: state.restaurant.imageUrl,
                     fit: BoxFit.cover,
                   ),
                 ),

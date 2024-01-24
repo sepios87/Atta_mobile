@@ -7,8 +7,8 @@ part 'dish_detail_state.dart';
 
 class DishDetailCubit extends Cubit<DishDetailState> {
   DishDetailCubit({
-    required String restaurantId,
-    required String dishId,
+    required int restaurantId,
+    required int dishId,
   }) : super(
           DishDetailState.initial(
             dish: restaurantService.getDishById(restaurantId, dishId)!,

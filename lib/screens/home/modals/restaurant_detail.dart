@@ -31,31 +31,26 @@ class _RestaurantDetail extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(
                     horizontal: AttaSpacing.m,
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Apercu de la carte',
-                        style: AttaTextStyle.header.copyWith(
-                          fontSize: 24,
-                        ),
-                      ),
-                      if (userService.user != null)
-                        FavoriteButton(
-                          isFavorite: userService.user!.favoritesRestaurantsId.contains(restaurant.id),
-                          onFavoriteChanged: () => context.read<HomeCubit>().onSetFavoriteRestaurant(restaurant.id),
-                        ),
-                      // IconButton(
-                      //   onPressed: () {},
-                      //   icon: Icon(
-                      //     userService.user!.favoritesRestaurantsId.contains(restaurant.id)
-                      //         ? Icons.favorite_rounded
-                      //         : Icons.favorite_border_rounded,
-                      //     color: AttaColors.black,
-                      //     size: 30,
-                      //   ),
-                      // ),
-                    ],
+                  child: BlocSelector<HomeCubit, HomeState, AttaUser?>(
+                    selector: (state) => state.user,
+                    builder: (context, user) {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Apercu de la carte',
+                            style: AttaTextStyle.header.copyWith(
+                              fontSize: 24,
+                            ),
+                          ),
+                          if (user != null)
+                            FavoriteButton(
+                              isFavorite: user.favoritesRestaurantIds.contains(restaurant.id),
+                              onFavoriteChanged: () => context.read<HomeCubit>().onSetFavoriteRestaurant(restaurant.id),
+                            ),
+                        ],
+                      );
+                    },
                   ),
                 ),
                 const SizedBox(height: AttaSpacing.m),
@@ -63,16 +58,16 @@ class _RestaurantDetail extends StatelessWidget {
                   child: ListView.builder(
                     controller: scollController,
                     padding: const EdgeInsets.only(bottom: 82),
-                    itemCount: restaurant.dishes.length,
+                    itemCount: restaurant.dishs.length,
                     itemBuilder: (ctx, index) {
                       return FormulaCard(
-                        formula: restaurant.dishes[index],
+                        formula: restaurant.dishs[index],
                         onTap: () {
                           context.adapativePushNamed(
                             DishDetailPage.routeName,
                             pathParameters: DishDetailScreenArgument(
                               restaurantId: restaurant.id,
-                              dishId: restaurant.dishes[index].id,
+                              dishId: restaurant.dishs[index].id,
                             ).toPathParameters(),
                           );
                         },

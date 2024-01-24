@@ -19,6 +19,7 @@ import 'package:atta/widgets/favorite_button.dart';
 import 'package:atta/widgets/formula_card.dart';
 import 'package:atta/widgets/search_bar.dart';
 import 'package:atta/widgets/skeleton.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -47,6 +48,7 @@ class _HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<HomeCubit, HomeState>(
+      listenWhen: (previous, current) => previous.selectedRestaurant != current.selectedRestaurant,
       listener: (context, state) {
         if (state.selectedRestaurant != null) {
           showModalBottomSheet<void>(

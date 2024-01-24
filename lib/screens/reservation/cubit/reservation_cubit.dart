@@ -8,7 +8,7 @@ part 'reservation_state.dart';
 
 class ReservationCubit extends Cubit<ReservationState> {
   ReservationCubit({
-    required String restaurantId,
+    required int restaurantId,
   }) : super(
           ReservationState.initial(
             restaurant: restaurantService.getRestaurantById(restaurantId)!,

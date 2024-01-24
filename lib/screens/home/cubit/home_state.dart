@@ -11,14 +11,16 @@ final class HomeState {
     required this.user,
   });
 
-  HomeState.initial()
-      : this._(
-          restaurants: mockedData,
+  HomeState.initial({
+    AttaUser? user,
+    List<AttaRestaurant>? restaurants,
+  }) : this._(
+          restaurants: restaurants ?? [],
           searchRestaurants: [],
           activeFilters: [],
           isOnSearch: false,
           selectedRestaurant: null,
-          user: null,
+          user: user,
         );
 
   final List<AttaRestaurant> restaurants;

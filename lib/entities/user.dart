@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:atta/extensions/map_ext.dart';
 
 class AttaUser {
@@ -8,9 +7,7 @@ class AttaUser {
     this.lastName,
     this.phone,
     this.imageUrl,
-    this.favoritesRestaurantsId = const {},
-    this.favoritesDishesId = const {},
-    this.favoritesMenusId = const {},
+    this.favoritesRestaurantIds = const {},
   });
 
   factory AttaUser.fromMap(Map<String, dynamic> map) {
@@ -20,9 +17,10 @@ class AttaUser {
       lastName: map.parse<String?>('last_name'),
       phone: map.parse<String?>('phone'),
       imageUrl: map.parse<String?>('image_url'),
-      // favoritesRestaurantsId: map.parse<List>('favoritesRestaurantsId', fallback: []).map((e) => e.toString()).toSet(),
-      // favoritesDishesId: map.parse<List>('favoritesDishesId', fallback: []).map((e) => e.toString()).toSet(),
-      // favoritesMenusId: map.parse<List>('favoritesMenusId', fallback: []).map((e) => e.toString()).toSet(),
+      favoritesRestaurantIds: map.parse<List>('favoritesRestaurantIds', fallback: []).map((e) {
+        if (e is int) return e;
+        return (e as Map<String, dynamic>).parse<int>('id');
+      }).toSet(),
     );
   }
 
@@ -31,9 +29,7 @@ class AttaUser {
   final String? lastName;
   final String? phone;
   final String? imageUrl;
-  final Set<String> favoritesRestaurantsId;
-  final Set<String> favoritesDishesId;
-  final Set<String> favoritesMenusId;
+  final Set<int> favoritesRestaurantIds;
 
   Map<String, dynamic> toMap() {
     return {
@@ -42,14 +38,12 @@ class AttaUser {
       'last_name': lastName,
       'phone': phone,
       'image_url': imageUrl,
-      // 'favoritesRestaurantsId': favoritesRestaurantsId.toList(),
-      // 'favoritesDishesId': favoritesDishesId.toList(),
-      // 'favoritesMenusId': favoritesMenusId.toList(),
+      'favoritesRestaurantIds': favoritesRestaurantIds.toList(),
     };
   }
 
   AttaUser copy() => AttaUser.fromMap(toMap());
 
   @override
-  String toString() => jsonEncode(toMap());
+  String toString() => toMap().toString();
 }

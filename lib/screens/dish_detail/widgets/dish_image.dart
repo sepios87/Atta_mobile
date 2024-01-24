@@ -53,13 +53,14 @@ class __DishImageState extends State<_DishImage> with SingleTickerProviderStateM
               ),
               child: ClipOval(
                 clipBehavior: Clip.hardEdge,
-                child: Image.network(
-                  widget.imageUrl,
+                child: CachedNetworkImage(
+                  imageUrl: widget.imageUrl,
                   width: imageSize,
                   height: imageSize,
                   fit: BoxFit.cover,
-                  cacheHeight: imageSize.toInt(),
-                  cacheWidth: imageSize.toInt(),
+                  placeholder: (context, _) {
+                    return AttaSkeleton(size: Size(imageSize, imageSize));
+                  },
                 ),
               ),
             ),

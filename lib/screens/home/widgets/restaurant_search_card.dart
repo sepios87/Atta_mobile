@@ -23,15 +23,12 @@ class _RestaurantSearchCard extends StatelessWidget {
           ),
           leading: ClipRRect(
             borderRadius: BorderRadius.circular(AttaRadius.small),
-            child: Image.network(
-              restaurant.imageUrl,
+            child: CachedNetworkImage(
+              imageUrl: restaurant.imageUrl,
               width: 48,
               height: 48,
               fit: BoxFit.cover,
-              cacheHeight: 48,
-              cacheWidth: 48,
-              loadingBuilder: (context, child, loadingProgress) {
-                if (loadingProgress == null) return child;
+              placeholder: (context, _) {
                 return const AttaSkeleton(size: Size(48, 48));
               },
             ),

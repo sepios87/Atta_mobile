@@ -10,7 +10,7 @@ class AttaReservation {
     required this.comment,
   });
 
-  final String id;
+  final int id;
   final String userId;
   final DateTime dateTime;
   final String restaurantId;

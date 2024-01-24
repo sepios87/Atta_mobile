@@ -16,6 +16,7 @@ import 'package:atta/widgets/bottom_navigation_bar.dart';
 import 'package:atta/widgets/formula_card.dart';
 import 'package:atta/widgets/search_bar.dart';
 import 'package:atta/widgets/select_hourly.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,12 +31,13 @@ class RestaurantDetailScreenArgument {
     required this.restaurantId,
   });
 
-  RestaurantDetailScreenArgument.fromPathParameters(Map<String, String> parameters) : restaurantId = parameters['id']!;
+  RestaurantDetailScreenArgument.fromPathParameters(Map<String, String> parameters)
+      : restaurantId = int.parse(parameters['id']!);
 
-  final String restaurantId;
+  final int restaurantId;
 
   Map<String, String> toPathParameters() => {
-        'id': restaurantId,
+        'id': restaurantId.toString(),
       };
 
   static const String parametersPath = ':id';
@@ -60,7 +62,7 @@ class _RestaurantDetailScreen extends StatelessWidget {
     required this.restaurantId,
   });
 
-  final String restaurantId;
+  final int restaurantId;
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +82,7 @@ class _RestaurantDetailScreen extends StatelessWidget {
                 final formulaList = <AttaFormula>[];
 
                 if (selectedFormulaFilter == null || selectedFormulaFilter == AttaFormulaFilter.dish) {
-                  formulaList.addAll(state.restaurant.dishes);
+                  formulaList.addAll(state.restaurant.dishs);
                 }
                 if (selectedFormulaFilter == null || selectedFormulaFilter == AttaFormulaFilter.menu) {
                   formulaList.addAll(state.restaurant.menus);

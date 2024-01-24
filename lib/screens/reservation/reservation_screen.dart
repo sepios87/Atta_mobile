@@ -19,11 +19,12 @@ class ReservationScreenArgument {
   const ReservationScreenArgument({required this.restaurantId});
 
   ReservationScreenArgument.fromPathParameters(Map<String, String> pathParameters)
-      : restaurantId = pathParameters['id']!;
+      : restaurantId = int.parse(pathParameters['id']!);
 
-  final String restaurantId;
+  final int restaurantId;
+
   Map<String, String> toPathParameters() => {
-        'id': restaurantId,
+        'id': restaurantId.toString(),
       };
 
   static const String parametersPath = ':id';

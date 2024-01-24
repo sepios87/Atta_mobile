@@ -41,29 +41,18 @@ class UserService {
     _userStreamController.add(user);
   }
 
-  Future<void> toggleFavoriteRestaurant(String restaurantId) async {
+  Future<void> toggleFavoriteRestaurant(int restaurantId) async {
     final newUser = user?.copy();
-    if (newUser == null) throw Exception('User not found');
-    if (newUser.favoritesRestaurantsId.contains(restaurantId)) {
-      newUser.favoritesRestaurantsId.remove(restaurantId);
+
+    if (newUser?.favoritesRestaurantIds.contains(restaurantId) ?? false) {
+      newUser?.favoritesRestaurantIds.remove(restaurantId);
+      await databaseService.removeFavoriteRestaurant(restaurantId);
     } else {
-      newUser.favoritesRestaurantsId.add(restaurantId);
+      newUser?.favoritesRestaurantIds.add(restaurantId);
+      await databaseService.addFavoriteRestaurant(restaurantId);
     }
+    print(newUser);
 
-    await databaseService.updateUser(newUser);
-    _userStreamController.add(newUser);
-  }
-
-  Future<void> toggleFavoriteDish(String dishId) async {
-    final newUser = user?.copy();
-    if (newUser == null) throw Exception('User not found');
-    if (newUser.favoritesDishesId.contains(dishId)) {
-      newUser.favoritesDishesId.remove(dishId);
-    } else {
-      newUser.favoritesDishesId.add(dishId);
-    }
-
-    await databaseService.updateUser(newUser);
     _userStreamController.add(newUser);
   }
 

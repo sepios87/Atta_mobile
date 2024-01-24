@@ -25,15 +25,12 @@ class _RestaurantCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(AttaRadius.small),
               child: Stack(
                 children: [
-                  Image.network(
-                    restaurant.imageUrl,
+                  CachedNetworkImage(
+                    imageUrl: restaurant.imageUrl,
                     width: double.infinity,
                     height: 98,
                     fit: BoxFit.cover,
-                    cacheHeight: 98,
-                    cacheWidth: 128,
-                    loadingBuilder: (context, child, loadingProgress) {
-                      if (loadingProgress == null) return child;
+                    placeholder: (context, _) {
                       return const AttaSkeleton(
                         size: Size(double.infinity, 98),
                       );
@@ -57,7 +54,7 @@ class _RestaurantCard extends StatelessWidget {
                 style: AttaTextStyle.subHeader,
               ),
             ),
-            Text(restaurant.category.first.name, style: AttaTextStyle.content),
+            if (restaurant.category.isNotEmpty) Text(restaurant.category.first.name, style: AttaTextStyle.content),
           ],
         ),
       ),

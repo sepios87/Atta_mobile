@@ -40,28 +40,31 @@ class _Header extends StatelessWidget {
                     Expanded(
                       child: TextButton.icon(
                         onPressed: () => launchUrlString(
-                          'https://www.google.com/maps/search/?api=1&query=${restaurant.address}',
+                          'https://www.google.com/maps/search/?api=1&query=${restaurant.fullAddress}',
                         ),
                         icon: const Icon(Icons.location_on_outlined),
                         label: Text(
-                          restaurant.address,
+                          restaurant.fullAddress,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ),
-                    IconButton(
-                      onPressed: () => launchUrlString(restaurant.website),
-                      icon: const Icon(CupertinoIcons.globe),
-                    ),
+                    if (restaurant.website != null)
+                      IconButton(
+                        onPressed: () => launchUrlString(restaurant.website!),
+                        icon: const Icon(CupertinoIcons.globe),
+                      ),
                     IconButton(
                       onPressed: () => launchUrlString('tel:${restaurant.phone}'),
                       icon: const Icon(Icons.phone_outlined),
                     ),
                   ],
                 ),
-                const SizedBox(height: AttaSpacing.m),
-                Text(restaurant.description),
+                if (restaurant.description != null) ...[
+                  const SizedBox(height: AttaSpacing.m),
+                  Text(restaurant.description!),
+                ],
                 const SizedBox(height: AttaSpacing.m),
                 const _SearchBar(),
                 const SizedBox(height: AttaSpacing.m),

@@ -1,6 +1,6 @@
 import 'package:atta/extensions/border_radius_ext.dart';
 import 'package:atta/extensions/context_ext.dart';
-import 'package:atta/extensions/double_ext.dart';
+import 'package:atta/extensions/num_ext.dart';
 import 'package:atta/screens/dish_detail/cubit/dish_detail_cubit.dart';
 import 'package:atta/screens/restaurant_detail/restaurant_detail_screen.dart';
 import 'package:atta/theme/colors.dart';
@@ -9,6 +9,8 @@ import 'package:atta/theme/spacing.dart';
 import 'package:atta/theme/text_style.dart';
 import 'package:atta/widgets/bottom_navigation_bar.dart';
 import 'package:atta/widgets/number.dart';
+import 'package:atta/widgets/skeleton.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -22,18 +24,18 @@ class DishDetailScreenArgument {
   });
 
   DishDetailScreenArgument.fromPathParameters(Map<String, String> parameters)
-      : restaurantId = parameters['restaurantId']!,
-        dishId = parameters['dishId']!;
+      : restaurantId = int.parse(parameters['restaurantId']!),
+        dishId = int.parse(parameters['dishId']!);
 
   Map<String, String> toPathParameters() => {
-        'restaurantId': restaurantId,
-        'dishId': dishId,
+        'restaurantId': restaurantId.toString(),
+        'dishId': dishId.toString(),
       };
 
   static const String parametersPath = ':restaurantId/:dishId';
 
-  final String restaurantId;
-  final String dishId;
+  final int restaurantId;
+  final int dishId;
 }
 
 class DishDetailPage {
@@ -58,7 +60,7 @@ class _DishDetailScreen extends StatelessWidget {
     required this.restaurantId,
   });
 
-  final String restaurantId;
+  final int restaurantId;
 
   @override
   Widget build(BuildContext context) {
@@ -114,13 +116,14 @@ class _DishDetailScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: AttaSpacing.s),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
-                    child: Text(
-                      dish.description,
-                      style: AttaTextStyle.content,
+                  if (dish.description != null)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
+                      child: Text(
+                        dish.description!,
+                        style: AttaTextStyle.content,
+                      ),
                     ),
-                  ),
                   const SizedBox(height: AttaSpacing.m),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: AttaSpacing.m),

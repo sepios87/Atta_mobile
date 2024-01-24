@@ -5,7 +5,7 @@ class _AppBar extends StatelessWidget implements PreferredSizeWidget {
     required this.restaurantId,
   });
 
-  final String restaurantId;
+  final int restaurantId;
 
   @override
   Widget build(BuildContext context) {
