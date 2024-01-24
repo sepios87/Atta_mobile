@@ -25,6 +25,7 @@ List<AttaRestaurant> generateMockedData() {
       imageUrl: 'https://source.unsplash.com/random/$randomImageSize?restaurant',
       category: [AttaCategoryFilter.values[_random.nextInt(AttaCategoryFilter.values.length)]],
       address: faker.address.streetAddress(),
+      city: faker.address.city(),
       description: faker.lorem.sentence(),
       email: faker.internet.email(),
       phone: faker.phoneNumber.random.toString(),
@@ -49,7 +50,7 @@ List<AttaDish> _generateDishes() {
       imageUrl: 'https://source.unsplash.com/random/$randomImageSize?dish',
       description: faker.lorem.sentence(),
       price: _random.nextDouble() * 20,
-      ingredients: ['Ingredient 1', 'Ingredient 2', 'Ingredient 3'],
+      ingredients: 'Ingredient 1, Ingredient 2, Ingredient 3',
     );
   });
 }
@@ -72,13 +73,13 @@ List<AttaMenu> _generateMenus() {
   });
 }
 
-Map<AttaDay, List<AttaOpeningTime>> _generateOpeningTimes() {
-  final Map<AttaDay, List<AttaOpeningTime>> openingTimes = {};
+Map<AttaDay, List<AttaOpeningHoursSlots>> _generateOpeningTimes() {
+  final Map<AttaDay, List<AttaOpeningHoursSlots>> openingTimes = {};
 
   for (final day in AttaDay.values) {
     openingTimes[day] = List.generate(
       _random.nextInt(2) + 1,
-      (index) => AttaOpeningTime(
+      (index) => AttaOpeningHoursSlots(
         open: TimeOfDay(hour: _random.nextInt(12), minute: 0),
         close: TimeOfDay(hour: _random.nextInt(12) + 12, minute: 0),
       ),

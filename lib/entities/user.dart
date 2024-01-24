@@ -16,13 +16,13 @@ class AttaUser {
   factory AttaUser.fromMap(Map<String, dynamic> map) {
     return AttaUser(
       id: map.parse<String>('id'),
-      firstName: map.parse<String?>('firstName'),
-      lastName: map.parse<String?>('lastName'),
+      firstName: map.parse<String?>('first_name'),
+      lastName: map.parse<String?>('last_name'),
       phone: map.parse<String?>('phone'),
-      imageUrl: map.parse<String?>('imageUrl'),
-      favoritesRestaurantsId: map.parse<List>('favoritesRestaurantsId', fallback: []).map((e) => e.toString()).toSet(),
-      favoritesDishesId: map.parse<List>('favoritesDishesId', fallback: []).map((e) => e.toString()).toSet(),
-      favoritesMenusId: map.parse<List>('favoritesMenusId', fallback: []).map((e) => e.toString()).toSet(),
+      imageUrl: map.parse<String?>('image_url'),
+      // favoritesRestaurantsId: map.parse<List>('favoritesRestaurantsId', fallback: []).map((e) => e.toString()).toSet(),
+      // favoritesDishesId: map.parse<List>('favoritesDishesId', fallback: []).map((e) => e.toString()).toSet(),
+      // favoritesMenusId: map.parse<List>('favoritesMenusId', fallback: []).map((e) => e.toString()).toSet(),
     );
   }
 
@@ -38,11 +38,11 @@ class AttaUser {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'firstName': firstName,
-      'lastName': lastName,
+      'first_name': firstName,
+      'last_name': lastName,
       'phone': phone,
-      'imageUrl': imageUrl,
-      'favoritesRestaurantsId': favoritesRestaurantsId.toList(),
+      'image_url': imageUrl,
+      // 'favoritesRestaurantsId': favoritesRestaurantsId.toList(),
       // 'favoritesDishesId': favoritesDishesId.toList(),
       // 'favoritesMenusId': favoritesMenusId.toList(),
     };

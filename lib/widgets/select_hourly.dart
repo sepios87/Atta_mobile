@@ -18,7 +18,7 @@ class SelectHourly extends StatelessWidget {
     super.key,
   });
 
-  final Map<AttaDay, List<AttaOpeningTime>> openingTimes;
+  final Map<AttaDay, List<AttaOpeningHoursSlots>> openingTimes;
   final TimeOfDay? selectedOpeningTime;
   final void Function(TimeOfDay) onOpeningTimeChanged;
 

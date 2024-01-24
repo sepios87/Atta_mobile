@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class AttaOpeningTime {
-  const AttaOpeningTime({
+class AttaOpeningHoursSlots {
+  const AttaOpeningHoursSlots({
     required this.open,
     required this.close,
   });

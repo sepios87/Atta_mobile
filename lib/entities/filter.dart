@@ -1,12 +1,17 @@
 enum AttaCategoryFilter {
   fastFood._('Fast Food'),
   pizza._('Pizza'),
-  sushi._('Sushi'),
   burger._('Burger'),
   kebab._('Kebab'),
   salad._('Salad'),
-  dessert._('Dessert'),
-  vegan._('Vegan');
+  vegan._('Vegan'),
+  vegetarian._('Vegetarian'),
+  asian._('Asian'),
+  french._('French'),
+  italian._('Italian'),
+  mexican._('Mexican'),
+  indian._('Indian'),
+  thai._('Thai');
 
   const AttaCategoryFilter._(this.name);
 

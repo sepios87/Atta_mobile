@@ -2,7 +2,7 @@ import 'package:atta/entities/day.dart';
 import 'package:atta/entities/opening_time.dart';
 import 'package:flutter/material.dart';
 
-extension MapOpeningTimeExtension on Map<AttaDay, List<AttaOpeningTime>> {
+extension MapOpeningTimeExtension on Map<AttaDay, List<AttaOpeningHoursSlots>> {
   Set<TimeOfDay> getTimesOfDay(AttaDay day) {
     if (!containsKey(day)) return {};
     final times = <TimeOfDay>[];

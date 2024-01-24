@@ -133,7 +133,7 @@ class _DishDetailScreen extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
                     child: Text(
-                      dish.ingredients.join(', '),
+                      dish.ingredients,
                       style: AttaTextStyle.content,
                     ),
                   ),

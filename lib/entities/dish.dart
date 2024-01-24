@@ -10,5 +10,5 @@ class AttaDish extends AttaFormula {
     required this.ingredients,
   });
 
-  final List<String> ingredients;
+  final String ingredients;
 }

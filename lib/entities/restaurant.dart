@@ -12,6 +12,7 @@ class AttaRestaurant {
     required this.category,
     required this.description,
     required this.address,
+    required this.city,
     required this.phone,
     required this.email,
     required this.website,
@@ -22,6 +23,7 @@ class AttaRestaurant {
 
   final String id;
   final String name;
+  final String city;
   final String imageUrl;
   final List<AttaCategoryFilter> category;
   final String description;
@@ -29,7 +31,7 @@ class AttaRestaurant {
   final String phone;
   final String email;
   final String website;
-  final Map<AttaDay, List<AttaOpeningTime>> openingTimes;
+  final Map<AttaDay, List<AttaOpeningHoursSlots>> openingTimes;
   final List<AttaDish> dishes;
   final List<AttaMenu> menus;
 }
