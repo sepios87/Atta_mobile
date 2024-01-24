@@ -32,13 +32,18 @@ class AttaUser {
   final Set<int> favoritesRestaurantIds;
 
   Map<String, dynamic> toMap() {
+    final bdbMap = toMapForDb();
+    bdbMap['favoritesRestaurantIds'] = favoritesRestaurantIds.toList();
+    return bdbMap;
+  }
+
+  Map<String, dynamic> toMapForDb() {
     return {
       'id': id,
       'first_name': firstName,
       'last_name': lastName,
       'phone': phone,
       'image_url': imageUrl,
-      'favoritesRestaurantIds': favoritesRestaurantIds.toList(),
     };
   }
 

@@ -45,7 +45,7 @@ class DatabaseService {
 
   Future<void> updateUser(AttaUser user) async {
     try {
-      await supabase.from('users').update(user.toMap()).eq('id', user.id);
+      await supabase.from('users').update(user.toMapForDb()).eq('id', user.id);
     } catch (e) {
       debugPrint(e.toString());
     }
@@ -79,7 +79,7 @@ class DatabaseService {
 
     if (existantUserInDb == null) {
       final user = AttaUser(id: id);
-      await supabase.from('users').insert(user.toMap());
+      await supabase.from('users').insert(user.toMapForDb());
       return _getUserFromDb(id);
     }
 
@@ -107,10 +107,7 @@ class DatabaseService {
   Future<void> removeFavoriteRestaurant(int restaurantId) async {
     try {
       final user = supabase.auth.currentUser;
-      print('remove');
       if (user == null) throw Exception('User not found');
-      print('remove1');
-
       await supabase.from('favorite_restaurants').delete().eq('user_id', user.id).eq('restaurant_id', restaurantId);
     } catch (e) {
       debugPrint(e.toString());

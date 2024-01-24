@@ -51,7 +51,6 @@ class UserService {
       newUser?.favoritesRestaurantIds.add(restaurantId);
       await databaseService.addFavoriteRestaurant(restaurantId);
     }
-    print(newUser);
 
     _userStreamController.add(newUser);
   }
