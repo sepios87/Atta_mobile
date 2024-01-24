@@ -1,6 +1,5 @@
 import 'package:atta/extensions/border_radius_ext.dart';
 import 'package:atta/extensions/context_ext.dart';
-import 'package:atta/main.dart';
 import 'package:atta/screens/home/home_screen.dart';
 import 'package:atta/screens/login/cubit/auth_cubit.dart';
 import 'package:atta/theme/colors.dart';

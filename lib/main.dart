@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:atta/firebase_options.dart';
 import 'package:atta/screens/dish_detail/dish_detail.dart';
 import 'package:atta/screens/home/home_screen.dart';
 import 'package:atta/screens/login/login_screen.dart';
@@ -8,7 +7,7 @@ import 'package:atta/screens/preload/preload_screen.dart';
 import 'package:atta/screens/reservation/reservation_screen.dart';
 import 'package:atta/screens/restaurant_detail/restaurant_detail_screen.dart';
 import 'package:atta/screens/user/user_screen.dart';
-import 'package:atta/services/firebase_service.dart';
+import 'package:atta/services/database_service.dart';
 import 'package:atta/services/reservation_service.dart';
 import 'package:atta/services/restaurant_service.dart';
 import 'package:atta/services/user_service.dart';
@@ -16,13 +15,13 @@ import 'package:atta/theme/colors.dart';
 import 'package:atta/theme/radius.dart';
 import 'package:atta/theme/spacing.dart';
 import 'package:atta/theme/text_style.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:go_router/go_router.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'app/router.dart';
 part 'theme/theme.dart';
@@ -30,11 +29,12 @@ part 'theme/theme.dart';
 final userService = UserService();
 final restaurantService = RestaurantService();
 final reservationService = ReservationService();
-final firebaseService = FirebaseService();
+final databaseService = DatabaseService();
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
+  await Supabase.initialize(
+    url: 'https://brcimevctgakvwixtbag.supabase.co',
+    anonKey: const String.fromEnvironment('SUPABASE_KEY'),
   );
 
   usePathUrlStrategy();

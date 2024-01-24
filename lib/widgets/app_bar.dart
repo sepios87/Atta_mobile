@@ -43,6 +43,7 @@ class AttaAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
               )
             : Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   CircleAvatar(
                     radius: 18,
@@ -64,7 +65,7 @@ class AttaAppBar extends StatelessWidget implements PreferredSizeWidget {
                               )
                         : null,
                   ),
-                  const SizedBox(width: AttaSpacing.m),
+                  if (user?.firstName != null || user?.lastName != null) const SizedBox(width: AttaSpacing.m),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

@@ -3,7 +3,7 @@ import 'package:atta/extensions/map_ext.dart';
 
 class AttaUser {
   AttaUser({
-    required this.uid,
+    required this.id,
     this.firstName,
     this.lastName,
     this.phone,
@@ -13,9 +13,9 @@ class AttaUser {
     this.favoritesMenusId = const {},
   });
 
-  factory AttaUser.fromMap(String id, Map<String, dynamic> map) {
+  factory AttaUser.fromMap(Map<String, dynamic> map) {
     return AttaUser(
-      uid: id,
+      id: map.parse<String>('id'),
       firstName: map.parse<String?>('firstName'),
       lastName: map.parse<String?>('lastName'),
       phone: map.parse<String?>('phone'),
@@ -26,7 +26,7 @@ class AttaUser {
     );
   }
 
-  final String uid;
+  final String id;
   final String? firstName;
   final String? lastName;
   final String? phone;
@@ -37,17 +37,18 @@ class AttaUser {
 
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'firstName': firstName,
       'lastName': lastName,
       'phone': phone,
       'imageUrl': imageUrl,
       'favoritesRestaurantsId': favoritesRestaurantsId.toList(),
-      'favoritesDishesId': favoritesDishesId.toList(),
-      'favoritesMenusId': favoritesMenusId.toList(),
+      // 'favoritesDishesId': favoritesDishesId.toList(),
+      // 'favoritesMenusId': favoritesMenusId.toList(),
     };
   }
 
-  AttaUser copy() => AttaUser.fromMap(uid, toMap());
+  AttaUser copy() => AttaUser.fromMap(toMap());
 
   @override
   String toString() => jsonEncode(toMap());

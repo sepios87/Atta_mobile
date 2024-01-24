@@ -13,31 +13,31 @@ class UserService {
   bool get isLogged => user != null;
 
   Future<void> init() async {
-    final user = await firebaseService.alreadyConnectedUser();
+    final user = await databaseService.alreadyConnectedUser();
     _userStreamController.add(user);
   }
 
   Future<void> forgetPassword(String email) async {
-    await firebaseService.forgetPassword(email);
+    await databaseService.forgetPassword(email);
   }
 
   Future<void> logout() async {
-    await firebaseService.logout();
+    await databaseService.logout();
     _userStreamController.add(null);
   }
 
   Future<void> login(String email, String password) async {
-    final user = await firebaseService.login(email, _encryptPassword(password));
+    final user = await databaseService.login(email, _encryptPassword(password));
     _userStreamController.add(user);
   }
 
   Future<void> createAccount(String email, String password) async {
-    final user = await firebaseService.createAccount(email, _encryptPassword(password));
+    final user = await databaseService.createAccount(email, _encryptPassword(password));
     _userStreamController.add(user);
   }
 
   Future<void> signInWithGoogle() async {
-    final user = await firebaseService.signInWithGoogle();
+    final user = await databaseService.signInWithGoogle();
     _userStreamController.add(user);
   }
 
@@ -50,7 +50,7 @@ class UserService {
       newUser.favoritesRestaurantsId.add(restaurantId);
     }
 
-    await firebaseService.updateUser(newUser);
+    await databaseService.updateUser(newUser);
     _userStreamController.add(newUser);
   }
 
@@ -63,7 +63,7 @@ class UserService {
       newUser.favoritesDishesId.add(dishId);
     }
 
-    await firebaseService.updateUser(newUser);
+    await databaseService.updateUser(newUser);
     _userStreamController.add(newUser);
   }
 

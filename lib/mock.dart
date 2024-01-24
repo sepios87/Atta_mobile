@@ -20,7 +20,7 @@ List<AttaRestaurant> generateMockedData() {
     final randomImageSize = '${_random.nextInt(800) + 1000}x${_random.nextInt(800) + 1000}';
 
     final restaurant = AttaRestaurant(
-      id: '$i',
+      id: generateUuidFromNumber(i),
       name: faker.food.restaurant(),
       imageUrl: 'https://source.unsplash.com/random/$randomImageSize?restaurant',
       category: [AttaCategoryFilter.values[_random.nextInt(AttaCategoryFilter.values.length)]],
@@ -86,4 +86,12 @@ Map<AttaDay, List<AttaOpeningTime>> _generateOpeningTimes() {
   }
 
   return openingTimes;
+}
+
+String generateUuidFromNumber(int number) {
+  String hexString = number.toRadixString(16);
+  while (hexString.length < 32) {
+    hexString = '0$hexString';
+  }
+  return '${hexString.substring(0, 8)}-${hexString.substring(8, 12)}-${hexString.substring(12, 16)}-${hexString.substring(16, 20)}-${hexString.substring(20)}';
 }
