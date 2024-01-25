@@ -46,7 +46,8 @@ class _RestaurantDetail extends StatelessWidget {
                           if (user != null)
                             FavoriteButton(
                               isFavorite: user.favoritesRestaurantIds.contains(restaurant.id),
-                              onFavoriteChanged: () => context.read<HomeCubit>().onSetFavoriteRestaurant(restaurant.id),
+                              onFavoriteChanged: () =>
+                                  context.read<HomeCubit>().onToogleFavoriteRestaurant(restaurant.id),
                             ),
                         ],
                       );

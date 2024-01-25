@@ -13,7 +13,7 @@ import 'package:atta/theme/radius.dart';
 import 'package:atta/theme/spacing.dart';
 import 'package:atta/theme/text_style.dart';
 import 'package:atta/widgets/app_bar.dart';
-import 'package:atta/widgets/bottom_navigation_bar.dart';
+import 'package:atta/widgets/bottom_navigation/bottom_navigation_bar.dart';
 import 'package:atta/widgets/favorite_button.dart';
 import 'package:atta/widgets/formula_card.dart';
 import 'package:atta/widgets/search_bar.dart';

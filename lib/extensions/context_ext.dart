@@ -26,6 +26,29 @@ extension ContextExtension on BuildContext {
     }
   }
 
+  void adapativeReplacementNamed(
+    String name, {
+    Map<String, String> pathParameters = const <String, String>{},
+    Map<String, dynamic> queryParameters = const <String, dynamic>{},
+    Object? extra,
+  }) {
+    if (kIsWeb) {
+      goNamed(
+        name,
+        pathParameters: pathParameters,
+        queryParameters: queryParameters,
+        extra: extra,
+      );
+    } else {
+      replaceNamed(
+        name,
+        pathParameters: pathParameters,
+        queryParameters: queryParameters,
+        extra: extra,
+      );
+    }
+  }
+
   void adaptativePopNamed(
     String name, {
     Map<String, String> pathParameters = const <String, String>{},

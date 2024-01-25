@@ -23,9 +23,9 @@ class _AppBar extends StatelessWidget {
             icon: const Icon(Icons.arrow_back_ios_new),
           ),
           actions: [
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.favorite_border),
+            FavoriteButton(
+              isFavorite: state.isFavorite,
+              onFavoriteChanged: () => context.read<RestaurantDetailCubit>().onToogleFavoriteRestaurant(),
             ),
           ],
           flexibleSpace: FlexibleSpaceBar(

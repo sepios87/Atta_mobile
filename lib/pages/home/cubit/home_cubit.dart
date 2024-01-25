@@ -75,7 +75,7 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
-  Future<void> onSetFavoriteRestaurant(int restaurantId) async {
+  Future<void> onToogleFavoriteRestaurant(int restaurantId) async {
     await userService.toggleFavoriteRestaurant(restaurantId);
   }
 }

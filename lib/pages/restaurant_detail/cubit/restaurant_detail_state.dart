@@ -8,18 +8,21 @@ class RestaurantDetailState {
     required this.selectedOpeningTime,
     required this.selectedFormulaType,
     required this.searchValue,
+    required this.isFavorite,
   });
 
   const RestaurantDetailState.initial({
     required AttaRestaurant restaurant,
     required DateTime selectedDate,
     required TimeOfDay? selectedOpeningTime,
+    required bool isFavorite,
   }) : this._(
           restaurant: restaurant,
           selectedDate: selectedDate,
           selectedOpeningTime: selectedOpeningTime,
           selectedFormulaType: null,
           searchValue: '',
+          isFavorite: isFavorite,
         );
 
   final AttaRestaurant restaurant;
@@ -27,6 +30,7 @@ class RestaurantDetailState {
   final TimeOfDay? selectedOpeningTime;
   final AttaFormulaType? selectedFormulaType;
   final String searchValue;
+  final bool isFavorite;
 
   bool get isOnSearch => searchValue.isNotEmpty;
   List<AttaFormula> get filteredFormulas {
@@ -53,6 +57,7 @@ class RestaurantDetailState {
       selectedOpeningTime: selectedOpeningTime != null ? selectedOpeningTime.value : this.selectedOpeningTime,
       selectedFormulaType: selectedFormulaType != null ? selectedFormulaType.value : this.selectedFormulaType,
       searchValue: searchValue ?? this.searchValue,
+      isFavorite: isFavorite,
     );
   }
 }

@@ -27,6 +27,13 @@ final GoRouter _router = GoRouter(
       },
     ),
     GoRoute(
+      path: FavoritePage.path,
+      name: FavoritePage.routeName,
+      builder: (BuildContext context, GoRouterState state) {
+        return FavoritePage.getScreen();
+      },
+    ),
+    GoRoute(
       path: RestaurantDetailPage.path,
       name: RestaurantDetailPage.routeName,
       builder: (BuildContext context, GoRouterState state) {

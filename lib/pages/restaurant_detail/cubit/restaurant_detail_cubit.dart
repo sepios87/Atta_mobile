@@ -16,6 +16,7 @@ class RestaurantDetailCubit extends Cubit<RestaurantDetailState> {
             restaurant: restaurantService.getRestaurantById(restaurantId)!,
             selectedDate: reservationService.selectedDate ?? DateTime.now(),
             selectedOpeningTime: reservationService.selectedTime,
+            isFavorite: userService.user?.favoritesRestaurantIds.contains(restaurantId) ?? false,
           ),
         );
 
@@ -50,5 +51,9 @@ class RestaurantDetailCubit extends Cubit<RestaurantDetailState> {
 
   void onSearchTextChange(String value) {
     emit(state.copyWith(searchValue: value));
+  }
+
+  Future<void> onToogleFavoriteRestaurant() async {
+    await userService.toggleFavoriteRestaurant(state.restaurant.id);
   }
 }
