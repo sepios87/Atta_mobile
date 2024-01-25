@@ -2,7 +2,7 @@ import 'package:atta/entities/user.dart';
 import 'package:atta/extensions/context_ext.dart';
 import 'package:atta/extensions/user_ext.dart';
 import 'package:atta/main.dart';
-import 'package:atta/screens/login/login_screen.dart';
+import 'package:atta/pages/login/login_page.dart';
 import 'package:atta/theme/colors.dart';
 import 'package:atta/theme/radius.dart';
 import 'package:atta/theme/spacing.dart';

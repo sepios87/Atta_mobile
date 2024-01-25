@@ -1,12 +1,12 @@
 import 'dart:ui';
 
-import 'package:atta/screens/dish_detail/dish_detail.dart';
-import 'package:atta/screens/home/home_screen.dart';
-import 'package:atta/screens/login/login_screen.dart';
-import 'package:atta/screens/preload/preload_screen.dart';
-import 'package:atta/screens/reservation/reservation_screen.dart';
-import 'package:atta/screens/restaurant_detail/restaurant_detail_screen.dart';
-import 'package:atta/screens/user/user_screen.dart';
+import 'package:atta/pages/dish_detail/dish_detail_page.dart';
+import 'package:atta/pages/home/home_page.dart';
+import 'package:atta/pages/login/login_page.dart';
+import 'package:atta/pages/preload/preload_page.dart';
+import 'package:atta/pages/reservation/reservation_page.dart';
+import 'package:atta/pages/restaurant_detail/restaurant_detail_page.dart';
+import 'package:atta/pages/user/user_screen.dart';
 import 'package:atta/services/database_service.dart';
 import 'package:atta/services/reservation_service.dart';
 import 'package:atta/services/restaurant_service.dart';
