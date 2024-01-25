@@ -23,10 +23,11 @@ class _AppBar extends StatelessWidget {
             icon: const Icon(Icons.arrow_back_ios_new),
           ),
           actions: [
-            FavoriteButton(
-              isFavorite: state.isFavorite,
-              onFavoriteChanged: () => context.read<RestaurantDetailCubit>().onToogleFavoriteRestaurant(),
-            ),
+            if (userService.isLogged)
+              FavoriteButton(
+                isFavorite: state.isFavorite,
+                onFavoriteChanged: () => context.read<RestaurantDetailCubit>().onToogleFavoriteRestaurant(),
+              ),
           ],
           flexibleSpace: FlexibleSpaceBar(
             background: Stack(

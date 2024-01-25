@@ -5,6 +5,7 @@ import 'package:atta/entities/menu.dart';
 import 'package:atta/entities/restaurant.dart';
 import 'package:atta/extensions/border_radius_ext.dart';
 import 'package:atta/extensions/context_ext.dart';
+import 'package:atta/main.dart';
 import 'package:atta/pages/dish_detail/dish_detail_page.dart';
 import 'package:atta/pages/home/home_page.dart';
 import 'package:atta/pages/restaurant_detail/cubit/restaurant_detail_cubit.dart';

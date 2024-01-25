@@ -20,15 +20,6 @@ class _AppBar extends StatelessWidget implements PreferredSizeWidget {
           color: AttaColors.white,
         ),
       ),
-      actions: [
-        IconButton(
-          onPressed: () {},
-          icon: Icon(
-            Icons.favorite_border_rounded,
-            color: AttaColors.white,
-          ),
-        ),
-      ],
     );
   }
 
