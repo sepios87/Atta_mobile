@@ -27,21 +27,19 @@ class _SearchBar extends StatelessWidget {
           },
         ),
         const SizedBox(height: AttaSpacing.xs),
-        BlocSelector<RestaurantDetailCubit, RestaurantDetailState, AttaFormulaFilter?>(
-          selector: (state) => state.selectedFormulaFilter,
-          builder: (context, state) {
+        BlocSelector<RestaurantDetailCubit, RestaurantDetailState, AttaFormulaType?>(
+          selector: (state) => state.selectedFormulaType,
+          builder: (context, selectedFormulaType) {
             return Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: AttaFormulaFilter.values
+              children: AttaFormulaType.values
                   .map(
                     (e) => Padding(
                       padding: const EdgeInsets.symmetric(horizontal: AttaSpacing.xs),
                       child: FilterChip(
-                        selected: state == e,
+                        selected: selectedFormulaType == e,
                         label: Text(e.name),
-                        onSelected: (_) {
-                          context.read<RestaurantDetailCubit>().selectFormulaFilter(e);
-                        },
+                        onSelected: (_) => context.read<RestaurantDetailCubit>().selectFormulaFilter(e),
                       ),
                     ),
                   )

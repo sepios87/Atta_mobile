@@ -76,25 +76,10 @@ class _RestaurantDetailScreen extends StatelessWidget {
             decoration: const BoxDecoration(
               color: Colors.white,
             ),
-            sliver: BlocBuilder<RestaurantDetailCubit, RestaurantDetailState>(
-              builder: (context, state) {
-                final selectedFormulaFilter = state.selectedFormulaFilter;
-                final formulaList = <AttaFormula>[];
-
-                if (selectedFormulaFilter == null || selectedFormulaFilter == AttaFormulaFilter.dish) {
-                  formulaList.addAll(state.restaurant.dishs);
-                }
-                if (selectedFormulaFilter == null || selectedFormulaFilter == AttaFormulaFilter.menu) {
-                  formulaList.addAll(state.restaurant.menus);
-                }
-
-                if (state.isOnSearch) {
-                  formulaList.retainWhere(
-                    (f) => f.name.toLowerCase().contains(state.searchValue.toLowerCase()),
-                  );
-                }
-
-                return formulaList.isEmpty
+            sliver: BlocSelector<RestaurantDetailCubit, RestaurantDetailState, List<AttaFormula>>(
+              selector: (state) => state.filteredFormulas,
+              builder: (context, filteredFormulas) {
+                return filteredFormulas.isEmpty
                     ? const SliverFillRemaining(
                         hasScrollBody: false,
                         child: Center(
@@ -106,7 +91,7 @@ class _RestaurantDetailScreen extends StatelessWidget {
                       )
                     : SliverList(
                         delegate: SliverChildListDelegate(
-                          formulaList
+                          filteredFormulas
                               .map(
                                 (e) => FormulaCard(
                                   formula: e,

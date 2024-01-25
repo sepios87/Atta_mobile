@@ -28,12 +28,12 @@ class _Header extends StatelessWidget {
                 const SizedBox(height: AttaSpacing.xs),
                 Row(
                   children: [
-                    if (restaurant.category.isNotEmpty)
+                    if (restaurant.filters.isNotEmpty)
                       Row(
                         children: [
                           const Icon(Icons.food_bank_outlined),
                           const SizedBox(width: AttaSpacing.xxs),
-                          Text(restaurant.category.first.name),
+                          Text(restaurant.filters.first.name),
                         ],
                       ),
                     const SizedBox(width: AttaSpacing.xs),

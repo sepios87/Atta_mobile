@@ -6,7 +6,7 @@ class RestaurantDetailState {
     required this.restaurant,
     required this.selectedDate,
     required this.selectedOpeningTime,
-    required this.selectedFormulaFilter,
+    required this.selectedFormulaType,
     required this.searchValue,
   });
 
@@ -18,29 +18,40 @@ class RestaurantDetailState {
           restaurant: restaurant,
           selectedDate: selectedDate,
           selectedOpeningTime: selectedOpeningTime,
-          selectedFormulaFilter: null,
+          selectedFormulaType: null,
           searchValue: '',
         );
 
   final AttaRestaurant restaurant;
   final DateTime selectedDate;
   final TimeOfDay? selectedOpeningTime;
-  final AttaFormulaFilter? selectedFormulaFilter;
+  final AttaFormulaType? selectedFormulaType;
   final String searchValue;
 
   bool get isOnSearch => searchValue.isNotEmpty;
+  List<AttaFormula> get filteredFormulas {
+    final filteredFormulas =
+        restaurant.formulas.where((e) => selectedFormulaType?.isFormulaSameType(e) ?? true).toList();
+
+    if (isOnSearch) {
+      filteredFormulas.retainWhere(
+        (f) => f.name.toLowerCase().contains(searchValue.toLowerCase()),
+      );
+    }
+    return filteredFormulas;
+  }
 
   RestaurantDetailState copyWith({
     DateTime? selectedDate,
     Wrapped<TimeOfDay?>? selectedOpeningTime,
-    Wrapped<AttaFormulaFilter?>? selectedFormulaFilter,
+    Wrapped<AttaFormulaType?>? selectedFormulaType,
     String? searchValue,
   }) {
     return RestaurantDetailState._(
       restaurant: restaurant,
       selectedDate: selectedDate ?? this.selectedDate,
       selectedOpeningTime: selectedOpeningTime != null ? selectedOpeningTime.value : this.selectedOpeningTime,
-      selectedFormulaFilter: selectedFormulaFilter != null ? selectedFormulaFilter.value : this.selectedFormulaFilter,
+      selectedFormulaType: selectedFormulaType != null ? selectedFormulaType.value : this.selectedFormulaType,
       searchValue: searchValue ?? this.searchValue,
     );
   }

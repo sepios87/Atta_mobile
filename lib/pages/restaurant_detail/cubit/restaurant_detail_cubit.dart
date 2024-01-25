@@ -1,4 +1,5 @@
 import 'package:atta/entities/filter.dart';
+import 'package:atta/entities/formula.dart';
 import 'package:atta/entities/restaurant.dart';
 import 'package:atta/entities/wrapped.dart';
 import 'package:atta/main.dart';
@@ -39,11 +40,11 @@ class RestaurantDetailCubit extends Cubit<RestaurantDetailState> {
     );
   }
 
-  void selectFormulaFilter(AttaFormulaFilter filter) {
-    if (state.selectedFormulaFilter == filter) {
-      emit(state.copyWith(selectedFormulaFilter: const Wrapped.value(null)));
+  void selectFormulaFilter(AttaFormulaType type) {
+    if (state.selectedFormulaType == type) {
+      emit(state.copyWith(selectedFormulaType: const Wrapped.value(null)));
     } else {
-      emit(state.copyWith(selectedFormulaFilter: Wrapped.value(filter)));
+      emit(state.copyWith(selectedFormulaType: Wrapped.value(type)));
     }
   }
 

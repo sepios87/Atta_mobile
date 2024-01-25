@@ -1,6 +1,7 @@
 import 'package:atta/entities/day.dart';
 import 'package:atta/entities/dish.dart';
 import 'package:atta/entities/filter.dart';
+import 'package:atta/entities/formula.dart';
 import 'package:atta/entities/menu.dart';
 import 'package:atta/entities/opening_time.dart';
 import 'package:atta/extensions/map_ext.dart';
@@ -10,7 +11,7 @@ class AttaRestaurant {
     required this.id,
     required this.name,
     required this.imageUrl,
-    required this.category,
+    required this.filters,
     required this.description,
     required this.address,
     required this.city,
@@ -28,8 +29,7 @@ class AttaRestaurant {
       name: map.parse<String>('name', fallback: ''),
       city: map.parse<String>('city', fallback: ''),
       imageUrl: map.parse<String>('image_url', fallback: ''),
-      category: [],
-      // map.parse<List>('category', fallback: []).map((e) => AttaCategoryFilter.fromMap(e)).toList(),
+      filters: map.parse<List>('filters', fallback: []).map(AttaRestaurantFilter.fromValue).toList(),
       description: map.parse<String?>('description'),
       address: map.parse<String>('address', fallback: ''),
       phone: map.parse<String>('phone', fallback: ''),
@@ -46,7 +46,7 @@ class AttaRestaurant {
   final String address;
   final String city;
   final String imageUrl;
-  final List<AttaCategoryFilter> category;
+  final List<AttaRestaurantFilter> filters;
   final String? description;
   final String phone;
   final String email;
@@ -56,6 +56,7 @@ class AttaRestaurant {
   final List<AttaMenu> menus;
 
   String get fullAddress => '$address, $city';
+  List<AttaFormula> get formulas => [...dishs, ...menus];
 
   Map<String, dynamic> toMap() {
     return {
@@ -64,8 +65,7 @@ class AttaRestaurant {
       'address': address,
       'city': city,
       'image_url': imageUrl,
-      'category': [],
-      // category.map((e) => e.toMap()).toList(),
+      'filters': filters.map((e) => e.toString()).toList(),
       'description': description,
       'phone': phone,
       'email': email,

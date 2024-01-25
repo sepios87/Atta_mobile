@@ -25,7 +25,7 @@ final class HomeState {
 
   final List<AttaRestaurant> restaurants;
   final List<AttaRestaurant> searchRestaurants;
-  final List<AttaCategoryFilter> activeFilters;
+  final List<AttaRestaurantFilter> activeFilters;
 
   final AttaRestaurant? selectedRestaurant;
   final AttaUser? user;
@@ -38,13 +38,13 @@ final class HomeState {
   List<AttaRestaurant> filterRestaurants(List<AttaRestaurant> list) {
     if (activeFilters.isEmpty) return list;
 
-    return list.where((r) => r.category.any(activeFilters.contains)).toList();
+    return list.where((r) => r.filters.any(activeFilters.contains)).toList();
   }
 
   HomeState copyWith({
     List<AttaRestaurant>? restaurants,
     List<AttaRestaurant>? searchRestaurants,
-    List<AttaCategoryFilter>? activeFilters,
+    List<AttaRestaurantFilter>? activeFilters,
     bool? isOnSearch,
     Wrapped<AttaRestaurant?>? selectedRestaurant,
     Wrapped<AttaUser?>? user,

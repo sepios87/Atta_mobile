@@ -10,11 +10,11 @@ class _Filters extends StatelessWidget {
         horizontal: AttaSpacing.m,
       ),
       scrollDirection: Axis.horizontal,
-      child: BlocSelector<HomeCubit, HomeState, List<AttaCategoryFilter>>(
+      child: BlocSelector<HomeCubit, HomeState, List<AttaRestaurantFilter>>(
         selector: (state) => state.activeFilters,
         builder: (context, state) {
           return Row(
-            children: AttaCategoryFilter.values.map((filter) {
+            children: AttaRestaurantFilter.values.map((filter) {
               final isSelected = state.contains(filter);
 
               return Padding(

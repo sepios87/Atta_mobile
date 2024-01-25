@@ -37,7 +37,7 @@ class _RestaurantSearchCard extends StatelessWidget {
             restaurant.name,
           ),
           subtitle: Text(
-            restaurant.category.map((filter) => filter.name).join(', '),
+            restaurant.filters.map((filter) => filter.name).join(', '),
           ),
         ),
       ),

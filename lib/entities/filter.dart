@@ -1,29 +1,58 @@
-enum AttaCategoryFilter {
-  fastFood._('Fast Food'),
-  pizza._('Pizza'),
-  burger._('Burger'),
-  kebab._('Kebab'),
-  salad._('Salad'),
-  vegan._('Vegan'),
-  vegetarian._('Vegetarian'),
-  asian._('Asian'),
-  french._('French'),
-  italian._('Italian'),
-  mexican._('Mexican'),
-  indian._('Indian'),
-  thai._('Thai');
+import 'package:atta/entities/dish.dart';
+import 'package:atta/entities/formula.dart';
+import 'package:atta/entities/menu.dart';
 
-  const AttaCategoryFilter._(this.name);
+enum AttaRestaurantFilter {
+  fastFood,
+  pizza,
+  burger,
+  kebab,
+  salad,
+  vegan,
+  vegetarian,
+  asian,
+  french,
+  italian,
+  mexican,
+  indian,
+  thai;
 
-  final String name;
+  factory AttaRestaurantFilter.fromValue(dynamic value) {
+    return AttaRestaurantFilter.values.firstWhere(
+      (e) => e.toString() == value,
+      orElse: () => AttaRestaurantFilter.french,
+    );
+  }
+
+  String get translatedName {
+    return switch (this) {
+      fastFood => 'Fast Food',
+      pizza => 'Pizza',
+      burger => 'Burger',
+      kebab => 'Kebab',
+      salad => 'Salad',
+      vegan => 'Vegan',
+      vegetarian => 'Végétarien',
+      asian => 'Asiatique',
+      french => 'Francais',
+      italian => 'Italien',
+      mexican => 'Mexicain',
+      indian => 'Indien',
+      thai => 'Thai',
+    };
+  }
 }
 
-enum AttaFormulaFilter {
-  dish._('Plat'),
-  menu._('Menu'),
-  drink._('Boisson');
+enum AttaFormulaType<T extends AttaFormula> {
+  dish<AttaDish>(),
+  menu<AttaMenu>();
 
-  const AttaFormulaFilter._(this.name);
+  bool isFormulaSameType(AttaFormula formula) => formula is T;
 
-  final String name;
+  String get name {
+    return switch (this) {
+      dish => 'Plat',
+      menu => 'Menu',
+    };
+  }
 }

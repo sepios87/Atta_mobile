@@ -31,8 +31,8 @@ class HomeCubit extends Cubit<HomeState> {
     return super.close();
   }
 
-  void selectFilter(AttaCategoryFilter filter) {
-    final activeFilersCopy = List<AttaCategoryFilter>.from(state.activeFilters);
+  void selectFilter(AttaRestaurantFilter filter) {
+    final activeFilersCopy = List<AttaRestaurantFilter>.from(state.activeFilters);
 
     if (activeFilersCopy.contains(filter)) {
       emit(
