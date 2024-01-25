@@ -26,7 +26,7 @@ class _Filters extends StatelessWidget {
                   child: FilterChip(
                     key: ValueKey('${filter.name}-$isSelected'),
                     selected: isSelected,
-                    label: Text(filter.name),
+                    label: Text(filter.translatedName),
                     onSelected: (_) {
                       context.read<HomeCubit>().selectFilter(filter);
                     },

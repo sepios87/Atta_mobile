@@ -7,7 +7,7 @@ enum AttaDay {
   saturday,
   sunday;
 
-  static AttaDay fromDateTime(DateTime dateTime) {
+  factory AttaDay.fromDateTime(DateTime dateTime) {
     switch (dateTime.weekday) {
       case DateTime.monday:
         return AttaDay.monday;
@@ -27,4 +27,6 @@ enum AttaDay {
         throw Exception('Invalid DateTime');
     }
   }
+
+  factory AttaDay.fromValue(int value) => AttaDay.values[value];
 }

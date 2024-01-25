@@ -16,6 +16,7 @@ class RestaurantService {
 
   Future<void> fetchRestaurants() async {
     final restaurants = await databaseService.getAllRestaurants();
+    print('fetchRestaurants ${restaurants[1]}');
     _restaurantsStreamController.add(restaurants);
   }
 

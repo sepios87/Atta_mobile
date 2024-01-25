@@ -70,7 +70,7 @@ class _AppBar extends StatelessWidget {
                 borderRadius: BorderRadiusExt.top(AttaRadius.medium),
               ),
               child: SelectHourly(
-                openingTimes: state.restaurant.openingTimes,
+                openingTimes: state.restaurant.openingHoursSlots,
                 selectedDate: state.selectedDate,
                 selectedOpeningTime: state.selectedOpeningTime,
                 onDateChanged: (date) {

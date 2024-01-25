@@ -81,7 +81,7 @@ class _ReservationScreenState extends State<_ReservationScreen> {
                 BlocBuilder<ReservationCubit, ReservationState>(
                   builder: (context, state) {
                     return SelectHourly(
-                      openingTimes: state.restaurant.openingTimes,
+                      openingTimes: state.restaurant.openingHoursSlots,
                       selectedDate: state.selectedDate,
                       selectedOpeningTime: state.selectedOpeningTime,
                       onDateChanged: (date) {

@@ -1,5 +1,5 @@
 import 'package:atta/entities/day.dart';
-import 'package:atta/entities/opening_time.dart';
+import 'package:atta/entities/opening_hours_slots.dart';
 import 'package:atta/extensions/date_time_ext.dart';
 import 'package:atta/extensions/opening_time_ext.dart';
 import 'package:atta/theme/colors.dart';
@@ -44,9 +44,7 @@ class SelectHourly extends StatelessWidget {
                   firstDate: DateTime.now(),
                   lastDate: DateTime.now().add(const Duration(days: 30)),
                 );
-                if (date != null) {
-                  onDateChanged(date);
-                }
+                if (date != null) onDateChanged(date);
               },
               child: Row(
                 children: [
@@ -67,7 +65,7 @@ class SelectHourly extends StatelessWidget {
                   ),
                   child: Center(
                     child: Text(
-                      'Aucun horaire trouvé',
+                      'Aucun horaire trouvé pour ce jour',
                       style: AttaTextStyle.label.copyWith(
                         fontWeight: FontWeight.bold,
                       ),

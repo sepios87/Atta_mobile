@@ -3,7 +3,7 @@ import 'package:atta/entities/dish.dart';
 import 'package:atta/entities/filter.dart';
 import 'package:atta/entities/formula.dart';
 import 'package:atta/entities/menu.dart';
-import 'package:atta/entities/opening_time.dart';
+import 'package:atta/entities/opening_hours_slots.dart';
 import 'package:atta/extensions/map_ext.dart';
 
 class AttaRestaurant {
@@ -18,7 +18,7 @@ class AttaRestaurant {
     required this.phone,
     required this.email,
     required this.website,
-    required this.openingTimes,
+    required this.openingHoursSlots,
     required this.dishs,
     required this.menus,
   });
@@ -35,7 +35,12 @@ class AttaRestaurant {
       phone: map.parse<String>('phone', fallback: ''),
       email: map.parse<String>('email', fallback: ''),
       website: map.parse<String?>('website', fallback: ''),
-      openingTimes: {},
+      openingHoursSlots: map.parse<Map>('opening_hours_slots', fallback: {}).map((key, value) {
+        return MapEntry(
+          AttaDay.fromValue(int.tryParse(key.toString()) ?? 0),
+          (value as List).map((e) => AttaOpeningHoursSlots.fromMap(e as Map<String, dynamic>)).toList(),
+        );
+      }),
       dishs: map.parse<List>('dishs', fallback: []).map((e) => AttaDish.fromMap(e as Map<String, dynamic>)).toList(),
       menus: map.parse<List>('menus', fallback: []).map((e) => AttaMenu.fromMap(e as Map<String, dynamic>)).toList(),
     );
@@ -51,7 +56,7 @@ class AttaRestaurant {
   final String phone;
   final String email;
   final String? website;
-  final Map<AttaDay, List<AttaOpeningHoursSlots>> openingTimes;
+  final Map<AttaDay, List<AttaOpeningHoursSlots>> openingHoursSlots;
   final List<AttaDish> dishs;
   final List<AttaMenu> menus;
 
@@ -70,8 +75,7 @@ class AttaRestaurant {
       'phone': phone,
       'email': email,
       'website': website,
-      'openingTimes': [],
-      //  openingTimes.map((key, value) => MapEntry(key.toString(), value.map((e) => e.toMap()).toList())),
+      'openingTimes': openingHoursSlots.map((key, value) => MapEntry(key.index, value.map((e) => e.toMap()).toList())),
       'dishs': dishs.map((e) => e.toMap()).toList(),
       'menus': menus.map((e) => e.toMap()).toList(),
     };

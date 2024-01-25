@@ -39,7 +39,7 @@ enum _BottomNavigationItem {
       _BottomNavigationItem.favorites => FavoritePage.routeName,
       _BottomNavigationItem.home => HomePage.routeName,
       // TODO(florian): implement
-      _BottomNavigationItem.reservations => throw UnimplementedError(),
+      _BottomNavigationItem.reservations => HomePage.routeName,
     };
   }
 }
