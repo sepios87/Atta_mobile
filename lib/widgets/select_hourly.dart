@@ -35,7 +35,7 @@ class SelectHourly extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('Réserve ton morceau', style: AttaTextStyle.label),
+            Text('Réserve ta table', style: AttaTextStyle.label),
             TextButton(
               onPressed: () async {
                 final date = await showDatePicker(

@@ -9,6 +9,7 @@ import 'package:atta/extensions/map_ext.dart';
 class AttaRestaurant {
   const AttaRestaurant({
     required this.id,
+    required this.createdAt,
     required this.name,
     required this.imageUrl,
     required this.filters,
@@ -26,6 +27,7 @@ class AttaRestaurant {
   factory AttaRestaurant.fromMap(Map<String, dynamic> map) {
     return AttaRestaurant(
       id: map.parse<int>('id'),
+      createdAt: DateTime.parse(map.parse<String>('created_at')),
       name: map.parse<String>('name', fallback: ''),
       city: map.parse<String>('city', fallback: ''),
       imageUrl: map.parse<String>('image_url', fallback: ''),
@@ -52,6 +54,7 @@ class AttaRestaurant {
   }
 
   final int id;
+  final DateTime createdAt;
   final String name;
   final String address;
   final String city;
@@ -66,6 +69,7 @@ class AttaRestaurant {
   final List<AttaMenu> menus;
 
   String get fullAddress => '$address, $city';
+  num get averagePrice => dishs.fold<num>(0, (previous, e) => previous + e.price) / dishs.length;
   List<AttaFormula> get formulas => [...dishs, ...menus];
 
   Map<String, dynamic> toMap() {
