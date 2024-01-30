@@ -19,21 +19,21 @@ class _DefaultContent extends StatelessWidget {
                 if (restaurants.isNotEmpty)
                   _RestaurantList(
                     title: 'Les plus populaires',
-                    restaurants: restaurants.map((restaurant) => _RestaurantCard(restaurant: restaurant)).toList(),
+                    restaurants: restaurants,
                   ),
                 const SizedBox(height: AttaSpacing.l),
                 if (restaurants.isNotEmpty)
                   _RestaurantList(
                     title: 'Les plus populaires',
-                    restaurants: restaurants.map((restaurant) => _RestaurantCard(restaurant: restaurant)).toList(),
+                    restaurants: restaurants,
                   ),
                 const SizedBox(height: AttaSpacing.l),
                 if (restaurants.isNotEmpty)
                   Padding(
                     padding: const EdgeInsets.only(right: AttaSpacing.m),
-                    child: _RestaurantCard(
+                    child: RestaurantCard(
                       restaurant: restaurants.first,
-                      isFullWidth: true,
+                      onTap: () => context.read<HomeCubit>().onRestaurantSelected(restaurants.first),
                       positionedWidget: Positioned(
                         top: AttaSpacing.xs,
                         left: AttaSpacing.xs,
@@ -60,7 +60,7 @@ class _DefaultContent extends StatelessWidget {
                 if (restaurants.isNotEmpty)
                   _RestaurantList(
                     title: 'Les plus hots',
-                    restaurants: restaurants.map((restaurant) => _RestaurantCard(restaurant: restaurant)).toList(),
+                    restaurants: restaurants,
                   ),
                 const SizedBox(height: AttaSpacing.l),
               ],

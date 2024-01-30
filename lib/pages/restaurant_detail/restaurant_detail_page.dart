@@ -52,18 +52,12 @@ class RestaurantDetailPage {
         create: (context) => RestaurantDetailCubit(
           restaurantId: arg.restaurantId,
         ),
-        child: _RestaurantDetailScreen(
-          restaurantId: arg.restaurantId,
-        ),
+        child: const _RestaurantDetailScreen(),
       );
 }
 
 class _RestaurantDetailScreen extends StatelessWidget {
-  const _RestaurantDetailScreen({
-    required this.restaurantId,
-  });
-
-  final int restaurantId;
+  const _RestaurantDetailScreen();
 
   @override
   Widget build(BuildContext context) {
@@ -77,10 +71,10 @@ class _RestaurantDetailScreen extends StatelessWidget {
             decoration: const BoxDecoration(
               color: Colors.white,
             ),
-            sliver: BlocSelector<RestaurantDetailCubit, RestaurantDetailState, List<AttaFormula>>(
-              selector: (state) => state.filteredFormulas,
-              builder: (context, filteredFormulas) {
-                return filteredFormulas.isEmpty
+            sliver: BlocBuilder<RestaurantDetailCubit, RestaurantDetailState>(
+              buildWhen: (previous, current) => previous.filteredFormulas != current.filteredFormulas,
+              builder: (context, state) {
+                return state.filteredFormulas.isEmpty
                     ? const SliverFillRemaining(
                         hasScrollBody: false,
                         child: Center(
@@ -92,7 +86,7 @@ class _RestaurantDetailScreen extends StatelessWidget {
                       )
                     : SliverList(
                         delegate: SliverChildListDelegate(
-                          filteredFormulas
+                          state.filteredFormulas
                               .map(
                                 (e) => FormulaCard(
                                   formula: e,
@@ -103,7 +97,7 @@ class _RestaurantDetailScreen extends StatelessWidget {
                                       context.adapativePushNamed(
                                         DishDetailPage.routeName,
                                         pathParameters: DishDetailScreenArgument(
-                                          restaurantId: restaurantId,
+                                          restaurantId: state.restaurant.id,
                                           dishId: e.id,
                                         ).toPathParameters(),
                                       );

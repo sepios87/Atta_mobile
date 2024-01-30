@@ -29,20 +29,25 @@ class AttaRestaurant {
       name: map.parse<String>('name', fallback: ''),
       city: map.parse<String>('city', fallback: ''),
       imageUrl: map.parse<String>('image_url', fallback: ''),
-      filters: map.parse<List>('filters', fallback: []).map(AttaRestaurantFilter.fromValue).toList(),
+      filters: map.parse<List?>('filters', fallback: [])?.map(AttaRestaurantFilter.fromValue).toList() ?? [],
       description: map.parse<String?>('description'),
       address: map.parse<String>('address', fallback: ''),
       phone: map.parse<String>('phone', fallback: ''),
       email: map.parse<String>('email', fallback: ''),
       website: map.parse<String?>('website', fallback: ''),
-      openingHoursSlots: map.parse<Map>('opening_hours_slots', fallback: {}).map((key, value) {
-        return MapEntry(
-          AttaDay.fromValue(int.tryParse(key.toString()) ?? 0),
-          (value as List).map((e) => AttaOpeningHoursSlots.fromMap(e as Map<String, dynamic>)).toList(),
-        );
-      }),
-      dishs: map.parse<List>('dishs', fallback: []).map((e) => AttaDish.fromMap(e as Map<String, dynamic>)).toList(),
-      menus: map.parse<List>('menus', fallback: []).map((e) => AttaMenu.fromMap(e as Map<String, dynamic>)).toList(),
+      openingHoursSlots: map.parse<Map?>('opening_hours_slots', fallback: {})?.map((key, value) {
+            return MapEntry(
+              AttaDay.fromValue(int.tryParse(key.toString()) ?? 0),
+              (value as List).map((e) => AttaOpeningHoursSlots.fromMap(e as Map<String, dynamic>)).toList(),
+            );
+          }) ??
+          {},
+      dishs:
+          map.parse<List?>('dishs', fallback: [])?.map((e) => AttaDish.fromMap(e as Map<String, dynamic>)).toList() ??
+              [],
+      menus:
+          map.parse<List?>('menus', fallback: [])?.map((e) => AttaMenu.fromMap(e as Map<String, dynamic>)).toList() ??
+              [],
     );
   }
 

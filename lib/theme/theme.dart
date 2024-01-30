@@ -56,6 +56,14 @@ ThemeData get _attaThemeData {
         textStyle: AttaTextStyle.button,
       ),
     ),
+    bottomSheetTheme: const BottomSheetThemeData(
+      backgroundColor: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(AttaRadius.medium),
+        ),
+      ),
+    ),
     chipTheme: ChipThemeData(
       showCheckmark: false,
       side: const BorderSide(color: Colors.transparent),

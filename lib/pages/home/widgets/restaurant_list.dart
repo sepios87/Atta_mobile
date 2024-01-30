@@ -7,7 +7,7 @@ class _RestaurantList extends StatelessWidget {
   });
 
   final String title;
-  final List<_RestaurantCard> restaurants;
+  final List<AttaRestaurant> restaurants;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,13 @@ class _RestaurantList extends StatelessWidget {
             padding: const EdgeInsets.only(right: AttaSpacing.m),
             scrollDirection: Axis.horizontal,
             itemCount: restaurants.length,
-            itemBuilder: (context, index) => restaurants[index],
+            itemBuilder: (context, index) => SizedBox(
+              width: 128,
+              child: RestaurantCard(
+                restaurant: restaurants[index],
+                onTap: () => context.read<HomeCubit>().onRestaurantSelected(restaurants[index]),
+              ),
+            ),
             separatorBuilder: (context, index) => const SizedBox(width: AttaSpacing.l),
           ),
         ),

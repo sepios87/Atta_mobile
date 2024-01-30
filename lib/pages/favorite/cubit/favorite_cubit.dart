@@ -29,4 +29,8 @@ class FavoriteCubit extends Cubit<FavoriteState> {
     _userSubscription?.cancel();
     return super.close();
   }
+
+  Future<void> onUnlikedRestaurant(int restaurantId) async {
+    await userService.toggleFavoriteRestaurant(restaurantId);
+  }
 }

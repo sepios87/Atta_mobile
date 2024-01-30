@@ -16,6 +16,7 @@ import 'package:atta/widgets/app_bar.dart';
 import 'package:atta/widgets/bottom_navigation/bottom_navigation_bar.dart';
 import 'package:atta/widgets/favorite_button.dart';
 import 'package:atta/widgets/formula_card.dart';
+import 'package:atta/widgets/restaurant_card.dart';
 import 'package:atta/widgets/search_bar.dart';
 import 'package:atta/widgets/skeleton.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -23,7 +24,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-part 'widgets/restaurant_card.dart';
 part 'widgets/restaurant_list.dart';
 part 'widgets/filters.dart';
 part 'widgets/default_content.dart';
