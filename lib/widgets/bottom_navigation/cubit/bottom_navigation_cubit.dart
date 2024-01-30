@@ -12,16 +12,16 @@ class BottomNavigationCubit extends Cubit<BottomNavigationState> {
       : super(
           BottomNavigationState.initial(user: userService.user),
         ) {
-    _userStreamSubscription = userService.userStream.listen((user) {
+    _userSubscription = userService.userStream.listen((user) {
       emit(state.copyWith(user: user));
     });
   }
 
-  StreamSubscription<AttaUser?>? _userStreamSubscription;
+  StreamSubscription<AttaUser?>? _userSubscription;
 
   @override
   Future<void> close() {
-    _userStreamSubscription?.cancel();
+    _userSubscription?.cancel();
 
     return super.close();
   }

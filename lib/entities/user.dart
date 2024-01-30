@@ -6,16 +6,18 @@ class AttaUser {
     this.firstName,
     this.lastName,
     this.phone,
+    this.email,
     this.imageUrl,
     this.favoritesRestaurantIds = const {},
   });
 
-  factory AttaUser.fromMap(Map<String, dynamic> map) {
+  factory AttaUser.fromMap(Map<String, dynamic> map, String? email) {
     return AttaUser(
       id: map.parse<String>('id'),
       firstName: map.parse<String?>('first_name'),
       lastName: map.parse<String?>('last_name'),
       phone: map.parse<String?>('phone'),
+      email: email,
       imageUrl: map.parse<String?>('image_url'),
       favoritesRestaurantIds: map.parse<List>('favoritesRestaurantIds', fallback: []).map((e) {
         if (e is int) return e;
@@ -28,6 +30,7 @@ class AttaUser {
   final String? firstName;
   final String? lastName;
   final String? phone;
+  final String? email;
   final String? imageUrl;
   final Set<int> favoritesRestaurantIds;
 
@@ -47,7 +50,7 @@ class AttaUser {
     };
   }
 
-  AttaUser copy() => AttaUser.fromMap(toMap());
+  AttaUser copy() => AttaUser.fromMap(toMap(), email);
 
   @override
   String toString() => toMap().toString();

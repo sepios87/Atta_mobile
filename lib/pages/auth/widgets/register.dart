@@ -70,9 +70,8 @@ class _RegisterContent extends StatelessWidget {
                       }
                     },
                     child: status is AuthLoadingStatus
-                        ? const SizedBox(
-                            height: 20,
-                            width: 20,
+                        ? const SizedBox.square(
+                            dimension: 24,
                             child: CircularProgressIndicator(
                               color: Colors.white,
                               strokeWidth: 2,

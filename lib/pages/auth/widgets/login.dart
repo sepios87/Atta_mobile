@@ -69,9 +69,8 @@ class _LoginContent extends StatelessWidget {
                       });
                     },
                     child: status is AuthLoadingForgetPasswordStatus
-                        ? SizedBox(
-                            width: 20,
-                            height: 20,
+                        ? SizedBox.square(
+                            dimension: 24,
                             child: CircularProgressIndicator(
                               strokeWidth: 2,
                               color: AttaColors.black,
@@ -89,9 +88,8 @@ class _LoginContent extends StatelessWidget {
                       }
                     },
                     child: status is AuthLoadingStatus
-                        ? const SizedBox(
-                            width: 20,
-                            height: 20,
+                        ? const SizedBox.square(
+                            dimension: 24,
                             child: CircularProgressIndicator(
                               strokeWidth: 2,
                               color: Colors.white,

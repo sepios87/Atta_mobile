@@ -6,7 +6,7 @@ class AttaReservation {
     required this.restaurantId,
     required this.tableId,
     required this.numberOfPersons,
-    required this.formulaIds,
+    required this.dishIds,
     required this.comment,
   });
 
@@ -16,6 +16,6 @@ class AttaReservation {
   final String restaurantId;
   final String? tableId;
   final int numberOfPersons;
-  final List<String> formulaIds;
+  final List<String> dishIds;
   final String comment;
 }

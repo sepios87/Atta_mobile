@@ -1,6 +1,5 @@
 import 'package:atta/entities/dish.dart';
 import 'package:atta/entities/filter.dart';
-import 'package:atta/entities/formula.dart';
 import 'package:atta/entities/menu.dart';
 import 'package:atta/entities/restaurant.dart';
 import 'package:atta/extensions/border_radius_ext.dart';

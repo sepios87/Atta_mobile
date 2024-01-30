@@ -153,7 +153,7 @@ class _DishDetailScreen extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () {
                     context.read<DishDetailCubit>().addToCart();
-                    context.adaptativePopNamed(
+                    context.adapativePushReplacementNamed(
                       RestaurantDetailPage.routeName,
                       pathParameters: RestaurantDetailScreenArgument(restaurantId: restaurantId).toPathParameters(),
                     );

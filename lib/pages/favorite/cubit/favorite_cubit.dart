@@ -17,7 +17,7 @@ class FavoriteCubit extends Cubit<FavoriteState> {
             restaurants: restaurantService.restaurants,
           ),
         ) {
-    userService.userStream.listen((user) {
+    _userSubscription = userService.userStream.listen((user) {
       emit(state.copyWith(user: Wrapped.value(user)));
     });
   }
