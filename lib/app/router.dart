@@ -61,10 +61,10 @@ final GoRouter _router = GoRouter(
       },
     ),
     GoRoute(
-      path: LoginPage.path,
-      name: LoginPage.routeName,
+      path: AuthPage.path,
+      name: AuthPage.routeName,
       builder: (BuildContext context, GoRouterState state) {
-        return LoginPage.getScreen();
+        return AuthPage.getScreen();
       },
     ),
     GoRoute(

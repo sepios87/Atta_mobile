@@ -54,7 +54,11 @@ class _RestaurantCard extends StatelessWidget {
                 style: AttaTextStyle.subHeader,
               ),
             ),
-            if (restaurant.filters.isNotEmpty) Text(restaurant.filters.first.name, style: AttaTextStyle.content),
+            if (restaurant.filters.isNotEmpty)
+              Text(
+                restaurant.filters.first.translatedName,
+                style: AttaTextStyle.content,
+              ),
           ],
         ),
       ),

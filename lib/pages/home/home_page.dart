@@ -69,6 +69,7 @@ class _HomeScreen extends StatelessWidget {
             appBar: AttaAppBar(user: user),
             bottomNavigationBar: const AttaBottomNavigationBar(),
             body: Container(
+              constraints: const BoxConstraints.expand(),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadiusExt.top(AttaRadius.medium),

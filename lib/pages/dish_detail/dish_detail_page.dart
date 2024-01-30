@@ -7,7 +7,6 @@ import 'package:atta/theme/colors.dart';
 import 'package:atta/theme/radius.dart';
 import 'package:atta/theme/spacing.dart';
 import 'package:atta/theme/text_style.dart';
-import 'package:atta/widgets/bottom_navigation/bottom_navigation_bar.dart';
 import 'package:atta/widgets/number.dart';
 import 'package:atta/widgets/skeleton.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -70,7 +69,7 @@ class _DishDetailScreen extends StatelessWidget {
     return Scaffold(
       appBar: _AppBar(restaurantId: restaurantId),
       body: Container(
-        height: double.infinity,
+        constraints: const BoxConstraints.expand(),
         decoration: BoxDecoration(
           color: AttaColors.white,
           borderRadius: BorderRadiusExt.top(AttaRadius.medium),
@@ -107,7 +106,7 @@ class _DishDetailScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const SizedBox(height: AttaSpacing.xl),
+                  const SizedBox(height: AttaSpacing.xxl),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
                     child: Text(
@@ -149,7 +148,7 @@ class _DishDetailScreen extends StatelessWidget {
                 padding: const EdgeInsets.only(
                   left: AttaSpacing.m,
                   right: AttaSpacing.m,
-                  bottom: AttaSpacing.m,
+                  bottom: AttaSpacing.xl,
                 ),
                 child: ElevatedButton(
                   onPressed: () {
@@ -172,7 +171,6 @@ class _DishDetailScreen extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: const AttaBottomNavigationBar(),
     );
   }
 }

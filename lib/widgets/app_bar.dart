@@ -2,7 +2,7 @@ import 'package:atta/entities/user.dart';
 import 'package:atta/extensions/context_ext.dart';
 import 'package:atta/extensions/user_ext.dart';
 import 'package:atta/main.dart';
-import 'package:atta/pages/login/login_page.dart';
+import 'package:atta/pages/auth/auth_page.dart';
 import 'package:atta/theme/colors.dart';
 import 'package:atta/theme/radius.dart';
 import 'package:atta/theme/spacing.dart';
@@ -17,11 +17,12 @@ class AttaAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      automaticallyImplyLeading: false,
       title: InkWell(
         borderRadius: BorderRadius.circular(AttaRadius.full),
         onTap: () {
           if (user == null) {
-            context.adapativePushNamed(LoginPage.routeName);
+            context.adapativePushNamed(AuthPage.routeName);
           } else {
             // TODO(florian): add user page
             userService.logout();

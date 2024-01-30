@@ -1,9 +1,9 @@
 import 'dart:ui';
 
+import 'package:atta/pages/auth/auth_page.dart';
 import 'package:atta/pages/dish_detail/dish_detail_page.dart';
 import 'package:atta/pages/favorite/favorite_page.dart';
 import 'package:atta/pages/home/home_page.dart';
-import 'package:atta/pages/login/login_page.dart';
 import 'package:atta/pages/preload/preload_page.dart';
 import 'package:atta/pages/reservation/reservation_page.dart';
 import 'package:atta/pages/restaurant_detail/restaurant_detail_page.dart';

@@ -4,32 +4,41 @@ part of 'auth_cubit.dart';
 class AttaAuthState {
   const AttaAuthState._({
     required this.status,
+    required this.isLogin,
   });
 
   factory AttaAuthState.initial() {
     return AttaAuthState._(
-      status: AuthLoginStatus(),
+      status: AuthIdleStatus(),
+      isLogin: true,
     );
   }
 
   final AuthStatus status;
+  final bool isLogin;
 
   AttaAuthState copyWith({
     AuthStatus? status,
+    bool? isLoginForm,
   }) {
     return AttaAuthState._(
       status: status ?? this.status,
+      isLogin: isLoginForm ?? this.isLogin,
     );
   }
 }
 
-final class AuthStatus {
+abstract class AuthStatus {
   const AuthStatus();
 }
 
-final class AuthLoginStatus extends AuthStatus {}
+final class AuthIdleStatus extends AuthStatus {}
 
-final class AuthRegisterStatus extends AuthStatus {}
+final class AuthLoadingStatus extends AuthStatus {}
+
+final class AuthLoadingForgetPasswordStatus extends AuthStatus {}
+
+final class AuthLoadingGoogleStatus extends AuthStatus {}
 
 final class AuthErrorStatus extends AuthStatus {
   const AuthErrorStatus(this.message);

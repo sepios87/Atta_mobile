@@ -1,21 +1,22 @@
 import 'package:atta/extensions/border_radius_ext.dart';
 import 'package:atta/extensions/context_ext.dart';
+import 'package:atta/pages/auth/cubit/auth_cubit.dart';
 import 'package:atta/pages/home/home_page.dart';
-import 'package:atta/pages/login/cubit/auth_cubit.dart';
 import 'package:atta/theme/colors.dart';
 import 'package:atta/theme/radius.dart';
 import 'package:atta/theme/spacing.dart';
 import 'package:atta/theme/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'widgets/password_field.dart';
 part 'widgets/login.dart';
 part 'widgets/register.dart';
 
-class LoginPage {
-  static const path = '/login';
-  static const routeName = 'login';
+class AuthPage {
+  static const path = '/auth';
+  static const routeName = 'auth';
 
   static Widget getScreen() => BlocProvider(
         create: (context) => AuthCubit(),
@@ -57,12 +58,11 @@ class _AuthScreen extends StatelessWidget {
                 context.adaptativePopNamed(HomePage.routeName);
               }
             },
-            buildWhen: (previous, current) => previous.status != current.status && current.status is! AuthErrorStatus,
+            buildWhen: (previous, current) => previous.isLogin != current.isLogin,
             builder: (context, state) {
-              if (state.status is AuthRegisterStatus) {
-                return const _RegisterContent();
-              }
-              return const _LoginContent();
+              if (state.isLogin) return const _LoginContent();
+
+              return const _RegisterContent();
             },
           ),
         ),

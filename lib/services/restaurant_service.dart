@@ -4,6 +4,7 @@ import 'package:atta/entities/dish.dart';
 import 'package:atta/entities/restaurant.dart';
 import 'package:atta/main.dart';
 import 'package:collection/collection.dart';
+import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
 class RestaurantService {
@@ -15,9 +16,12 @@ class RestaurantService {
   bool get isLoaded => _restaurantsStreamController.hasValue;
 
   Future<void> fetchRestaurants() async {
-    final restaurants = await databaseService.getAllRestaurants();
-    print('fetchRestaurants ${restaurants[1]}');
-    _restaurantsStreamController.add(restaurants);
+    try {
+      final restaurants = await databaseService.getAllRestaurants();
+      _restaurantsStreamController.add(restaurants);
+    } catch (e) {
+      debugPrint(e.toString());
+    }
   }
 
   AttaRestaurant? getRestaurantById(int id) {

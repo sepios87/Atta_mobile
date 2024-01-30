@@ -1,7 +1,7 @@
-part of '../login_page.dart';
+part of '../auth_page.dart';
 
-class _LoginContent extends StatelessWidget {
-  const _LoginContent();
+class _RegisterContent extends StatelessWidget {
+  const _RegisterContent();
 
   @override
   Widget build(BuildContext context) {
@@ -11,8 +11,8 @@ class _LoginContent extends StatelessWidget {
 
     return Column(
       children: [
-        const SizedBox(height: AttaSpacing.l),
-        Text('Hello', style: AttaTextStyle.header.copyWith(fontSize: 36)),
+        const SizedBox(height: AttaSpacing.xl),
+        Text('Enregistre toi', style: AttaTextStyle.header.copyWith(fontSize: 36)),
         const SizedBox(height: AttaSpacing.xl),
         Text(
           '''
@@ -44,36 +44,43 @@ class _LoginContent extends StatelessWidget {
               _PasswordField(
                 hintText: 'Mot de passe',
                 onSaved: (value) => password = value,
+                // Use onChanged to update the password variable and use it in confirm password field
+                onChanged: (value) => password = value,
               ),
               const SizedBox(height: AttaSpacing.m),
-              TextButton(
-                onPressed: () {
-                  formKey.currentState?.save();
-                  if (email == null || email!.isEmpty) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Veuillez entrer votre email')),
-                    );
-                    return;
+              _PasswordField(
+                hintText: 'Confirmer le mot de passe',
+                validator: (value) {
+                  if (value != password) {
+                    return 'Les mots de passe ne correspondent pas';
                   }
-                  context.read<AuthCubit>().onSendForgetPassword(email ?? '').then((_) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('Un email vous a été envoyé sur $email pour réinitialiser votre mot de passe'),
-                      ),
-                    );
-                  });
+                  return null;
                 },
-                child: const Text('Mot de passe oublié ?'),
               ),
-              const SizedBox(height: AttaSpacing.l),
-              ElevatedButton(
-                onPressed: () {
-                  if (formKey.currentState!.validate()) {
-                    formKey.currentState?.save();
-                    context.read<AuthCubit>().onSendLogin(email ?? '', password ?? '');
-                  }
+              const SizedBox(height: AttaSpacing.xxl),
+              BlocSelector<AuthCubit, AttaAuthState, AuthStatus>(
+                selector: (state) => state.status,
+                builder: (context, status) {
+                  return ElevatedButton(
+                    onPressed: () {
+                      if (status is AuthLoadingStatus) return;
+                      if (formKey.currentState!.validate()) {
+                        formKey.currentState?.save();
+                        context.read<AuthCubit>().onCreateAccount(email ?? '', password ?? '');
+                      }
+                    },
+                    child: status is AuthLoadingStatus
+                        ? const SizedBox(
+                            height: 20,
+                            width: 20,
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                              strokeWidth: 2,
+                            ),
+                          )
+                        : const Text('Créer son compte'),
+                  );
                 },
-                child: const Text('Se connecter'),
               ),
             ],
           ),
@@ -104,20 +111,11 @@ class _LoginContent extends StatelessWidget {
           ],
         ),
         const SizedBox(height: AttaSpacing.xxl),
-        InkWell(
-          onTap: () => context.read<AuthCubit>().signInWithGoogle(),
-          child: Image.asset(
-            'assets/icons/google.png',
-            width: 38,
-            height: 38,
-          ),
-        ),
-        const SizedBox(height: AttaSpacing.l),
         SizedBox(
           width: double.infinity,
           child: TextButton(
-            onPressed: () => context.read<AuthCubit>().onRegister(),
-            child: Text('Créer un compte', style: AttaTextStyle.caption),
+            onPressed: () => context.read<AuthCubit>().onLogin(),
+            child: const Text('Se connecter'),
           ),
         ),
       ],
