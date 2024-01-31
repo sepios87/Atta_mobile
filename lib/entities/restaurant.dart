@@ -7,7 +7,7 @@ import 'package:atta/entities/opening_hours_slots.dart';
 import 'package:atta/extensions/map_ext.dart';
 
 class AttaRestaurant {
-  const AttaRestaurant({
+  const AttaRestaurant._({
     required this.id,
     required this.createdAt,
     required this.name,
@@ -26,9 +26,9 @@ class AttaRestaurant {
   });
 
   factory AttaRestaurant.fromMap(Map<String, dynamic> map) {
-    return AttaRestaurant(
+    return AttaRestaurant._(
       id: map.parse<int>('id'),
-      createdAt: DateTime.parse(map.parse<String>('created_at')),
+      createdAt: DateTime.tryParse(map.parse<String>('created_at')) ?? DateTime.now(),
       name: map.parse<String>('name', fallback: ''),
       city: map.parse<String>('city', fallback: ''),
       imageUrl: map.parse<String>('image_url', fallback: ''),

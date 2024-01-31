@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:atta/entities/user.dart';
 import 'package:atta/main.dart';
+import 'package:atta/services/database/db_service.dart';
 import 'package:crypto/crypto.dart';
 import 'package:rxdart/rxdart.dart';
 

@@ -2,7 +2,7 @@ import 'package:atta/entities/formula.dart';
 import 'package:atta/extensions/map_ext.dart';
 
 class AttaDish extends AttaFormula {
-  AttaDish({
+  AttaDish._({
     required super.id,
     required super.name,
     required super.imageUrl,
@@ -12,7 +12,7 @@ class AttaDish extends AttaFormula {
   });
 
   factory AttaDish.fromMap(Map<String, dynamic> map) {
-    return AttaDish(
+    return AttaDish._(
       id: map.parse<int>('id'),
       name: map.parse<String>('name', fallback: ''),
       imageUrl: map.parse<String>('image_url', fallback: ''),

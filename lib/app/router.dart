@@ -81,5 +81,12 @@ final GoRouter _router = GoRouter(
         return ProfilePage.getScreen();
       },
     ),
+    GoRoute(
+      path: UserReservationsPage.path,
+      name: UserReservationsPage.routeName,
+      builder: (BuildContext context, GoRouterState state) {
+        return UserReservationsPage.getScreen();
+      },
+    ),
   ],
 );

@@ -23,7 +23,7 @@ class AttaAuthState {
   }) {
     return AttaAuthState._(
       status: status ?? this.status,
-      isLogin: isLoginForm ?? this.isLogin,
+      isLogin: isLoginForm ?? isLogin,
     );
   }
 }

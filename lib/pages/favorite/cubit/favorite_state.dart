@@ -8,20 +8,20 @@ final class FavoriteState {
   }) : _restaurants = restaurants;
 
   factory FavoriteState.initial({
-    required AttaUser? user,
+    required AttaUser user,
     required List<AttaRestaurant> restaurants,
   }) =>
       FavoriteState._(user: user, restaurants: restaurants);
 
-  final AttaUser? user;
+  final AttaUser user;
   final List<AttaRestaurant> _restaurants;
 
   List<AttaRestaurant> get favoriteRestaurants =>
-      _restaurants.where((restaurant) => user?.favoritesRestaurantIds.contains(restaurant.id) ?? false).toList();
+      _restaurants.where((restaurant) => user.favoritesRestaurantIds.contains(restaurant.id)).toList();
 
-  FavoriteState copyWith({Wrapped<AttaUser?>? user}) {
+  FavoriteState copyWith({AttaUser? user}) {
     return FavoriteState._(
-      user: user != null ? user.value : this.user,
+      user: user ?? this.user,
       restaurants: _restaurants,
     );
   }

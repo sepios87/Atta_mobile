@@ -1,16 +1,9 @@
-import 'package:atta/entities/restaurant.dart';
-import 'package:atta/entities/user.dart';
-import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+part of '../db_service.dart';
 
-class DatabaseService {
-  final _supabase = Supabase.instance.client;
-
+extension DatabaseUserService on DatabaseService {
   Future<AttaUser?> alreadyConnectedUser() async {
     try {
-      final user = _supabase.auth.currentUser;
-      return user == null ? null : await _getUserFromDb(user);
+      return currentUser == null ? null : await _getUserFromDb(currentUser!);
     } catch (e) {
       debugPrint(e.toString());
     }
@@ -73,7 +66,7 @@ class DatabaseService {
     final userExistInDatabase = await _userExistInDatabase(auth.user!.id);
 
     if (!userExistInDatabase) {
-      final user = AttaUser(
+      final user = AttaUser.fromMinimalData(
         id: auth.user!.id,
         firstName: googleUser?.displayName,
         imageUrl: googleUser?.photoUrl,
@@ -84,49 +77,14 @@ class DatabaseService {
     return _getUserFromDb(auth.user!);
   }
 
-  Future<List<AttaRestaurant>> getAllRestaurants() async {
-    try {
-      // Not necessary to get dish into menu now
-      final data = await _supabase.from('restaurants').select('*, dishs(*), menus(*), reservations(restaurant_id)');
-      return data.map(AttaRestaurant.fromMap).toList();
-    } catch (e) {
-      debugPrint(e.toString());
-    }
-    return [];
-  }
-
-  Future<void> removeFavoriteRestaurant(int restaurantId) async {
-    try {
-      final user = _supabase.auth.currentUser;
-      if (user == null) throw Exception('User not found');
-      await _supabase.from('favorite_restaurants').delete().eq('user_id', user.id).eq('restaurant_id', restaurantId);
-    } catch (e) {
-      debugPrint(e.toString());
-    }
-  }
-
-  Future<void> addFavoriteRestaurant(int restaurantId) async {
-    final user = _supabase.auth.currentUser;
-    if (user == null) throw Exception('User not found');
-    await _supabase.from('favorite_restaurants').insert({'user_id': user.id, 'restaurant_id': restaurantId});
-  }
-
-  /// Get the user from the database, if it doesn't exist, create it
-  Future<AttaUser> _getUserFromDb(User user) async {
-    final existantUserInDb = await _getAttaUserFromId(user);
-
-    if (existantUserInDb == null) {
-      final newUser = AttaUser(id: user.id);
-      await _supabase.from('users').insert(newUser.toMapForDb());
-      return _getUserFromDb(user);
-    }
-
-    return existantUserInDb;
-  }
-
   Future<AttaUser?> _getAttaUserFromId(User user) async {
     // Create favoritesRestaurantIds alias to get the list of favorites restaurants
-    final data = await _supabase.from('users').select('*, favoritesRestaurantIds:restaurants(id)').eq('id', user.id);
+    final data = await _supabase
+        .from('users')
+        .select(
+          '*, favoritesRestaurantIds:restaurants(id), reservations(*)',
+        )
+        .eq('id', user.id);
     if (data.isEmpty) return null;
     return AttaUser.fromMap(data.first, user.email);
   }
@@ -134,5 +92,18 @@ class DatabaseService {
   Future<bool> _userExistInDatabase(String id) async {
     final data = await _supabase.from('users').select().eq('id', id);
     return data.isNotEmpty;
+  }
+
+  /// Get the user from the database, if it doesn't exist, create it
+  Future<AttaUser> _getUserFromDb(User user) async {
+    final existantUserInDb = await _getAttaUserFromId(user);
+
+    if (existantUserInDb == null) {
+      final newUser = AttaUser.fromMinimalData(id: user.id);
+      await _supabase.from('users').insert(newUser.toMapForDb());
+      return _getUserFromDb(user);
+    }
+
+    return existantUserInDb;
   }
 }

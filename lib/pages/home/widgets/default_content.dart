@@ -43,7 +43,9 @@ class _DefaultContent extends StatelessWidget {
           BlocSelector<HomeCubit, HomeState, List<AttaRestaurant>>(
             selector: (state) => state.restaurants,
             builder: (context, restaurants) {
-              final restaurantWithMostDishs = restaurants.withMostDishs(1).first;
+              final restaurantWithMostDishs = restaurants.withMostDishs(1).firstOrNull;
+
+              if (restaurantWithMostDishs == null) return const SizedBox.shrink();
 
               return Padding(
                 padding: const EdgeInsets.only(right: AttaSpacing.m, bottom: AttaSpacing.l),
@@ -100,7 +102,9 @@ class _DefaultContent extends StatelessWidget {
           BlocSelector<HomeCubit, HomeState, List<AttaRestaurant>>(
             selector: (state) => state.restaurants,
             builder: (context, restaurants) {
-              final restaurantWithMostDishs = restaurants.withCheaperMenu(1).first;
+              final restaurantWithMostDishs = restaurants.withCheaperMenu(1).firstOrNull;
+
+              if (restaurantWithMostDishs == null) return const SizedBox.shrink();
 
               return Padding(
                 padding: const EdgeInsets.only(right: AttaSpacing.m, bottom: AttaSpacing.l),

@@ -1,18 +1,39 @@
+import 'package:atta/entities/reservation.dart';
 import 'package:atta/extensions/map_ext.dart';
 
 class AttaUser {
-  AttaUser({
+  AttaUser._({
     required this.id,
-    this.firstName,
-    this.lastName,
-    this.phone,
-    this.email,
-    this.imageUrl,
-    this.favoritesRestaurantIds = const {},
+    required this.firstName,
+    required this.lastName,
+    required this.phone,
+    required this.email,
+    required this.imageUrl,
+    required this.favoritesRestaurantIds,
+    required this.reservations,
   });
 
+  factory AttaUser.fromMinimalData({
+    required String id,
+    String? email,
+    String? firstName,
+    String? lastName,
+    String? imageUrl,
+  }) {
+    return AttaUser._(
+      id: id,
+      firstName: firstName,
+      lastName: lastName,
+      phone: null,
+      email: email,
+      imageUrl: imageUrl,
+      favoritesRestaurantIds: {},
+      reservations: [],
+    );
+  }
+
   factory AttaUser.fromMap(Map<String, dynamic> map, String? email) {
-    return AttaUser(
+    return AttaUser._(
       id: map.parse<String>('id'),
       firstName: map.parse<String?>('first_name'),
       lastName: map.parse<String?>('last_name'),
@@ -23,6 +44,10 @@ class AttaUser {
         if (e is int) return e;
         return (e as Map<String, dynamic>).parse<int>('id');
       }).toSet(),
+      reservations: map
+          .parse<List>('reservations', fallback: [])
+          .map((e) => AttaReservation.fromMap(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
@@ -33,6 +58,7 @@ class AttaUser {
   final String? email;
   final String? imageUrl;
   final Set<int> favoritesRestaurantIds;
+  final List<AttaReservation> reservations;
 
   Map<String, dynamic> toMap() {
     final bdbMap = toMapForDb();

@@ -1,6 +1,7 @@
 import 'package:atta/extensions/context_ext.dart';
 import 'package:atta/pages/favorite/favorite_page.dart';
 import 'package:atta/pages/home/home_page.dart';
+import 'package:atta/pages/user_reservations/user_reservations_page.dart';
 import 'package:atta/theme/colors.dart';
 import 'package:atta/widgets/bottom_navigation/cubit/bottom_navigation_cubit.dart';
 import 'package:flutter/material.dart';
@@ -38,8 +39,7 @@ enum _BottomNavigationItem {
     return switch (this) {
       _BottomNavigationItem.favorites => FavoritePage.routeName,
       _BottomNavigationItem.home => HomePage.routeName,
-      // TODO(florian): implement
-      _BottomNavigationItem.reservations => HomePage.routeName,
+      _BottomNavigationItem.reservations => UserReservationsPage.routeName,
     };
   }
 }
@@ -59,6 +59,8 @@ class AttaBottomNavigationBar extends StatelessWidget {
         ),
         child: BlocBuilder<BottomNavigationCubit, BottomNavigationState>(
           builder: (context, state) {
+            if (state.user == null) return const SizedBox.shrink();
+
             return BottomNavigationBar(
               key: const Key('bottom_navigation_bar'),
               currentIndex: _BottomNavigationItem.getFromRouteName(routeName).index,
