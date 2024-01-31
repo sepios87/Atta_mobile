@@ -34,9 +34,7 @@ class _RestaurantSearchCard extends StatelessWidget {
               },
             ),
           ),
-          title: Text(
-            restaurant.name,
-          ),
+          title: Text(restaurant.name, style: AttaTextStyle.label),
           subtitle: Text(
             restaurant.filters.map((filter) => filter.name).join(', '),
           ),

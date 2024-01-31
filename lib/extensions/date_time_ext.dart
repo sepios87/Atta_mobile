@@ -16,8 +16,16 @@ extension DateTimeExtension on DateTime {
       return "Aujourd'hui";
     } else if (isTomorrow) {
       return 'Demain';
-    } else {
-      return DateFormat('dd/MM').format(this);
     }
+    return DateFormat('dd/MM').format(this);
+  }
+
+  String get accurateFormat {
+    if (isToday) {
+      return "Aujourd'hui à ${DateFormat('HH:mm').format(this)}";
+    } else if (isTomorrow) {
+      return 'Demain à ${DateFormat('HH:mm').format(this)}';
+    }
+    return 'Le ${DateFormat('EEEE dd/MM').format(this)}';
   }
 }
