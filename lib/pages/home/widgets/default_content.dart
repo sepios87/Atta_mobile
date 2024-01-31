@@ -41,19 +41,6 @@ class _DefaultContent extends StatelessWidget {
             },
           ),
           BlocSelector<HomeCubit, HomeState, List<AttaRestaurant>>(
-            selector: (state) => state.filterRestaurants(state.cheaperRestaurants),
-            builder: (context, restaurants) {
-              if (restaurants.isNotEmpty) {
-                return _RestaurantList(
-                  title: 'Les moins chers',
-                  restaurants: restaurants,
-                  margin: const EdgeInsets.only(bottom: AttaSpacing.l),
-                );
-              }
-              return const SizedBox.shrink();
-            },
-          ),
-          BlocSelector<HomeCubit, HomeState, List<AttaRestaurant>>(
             selector: (state) => state.restaurants,
             builder: (context, restaurants) {
               final restaurantWithMostDishs = restaurants.withMostDishs(1).first;
@@ -89,12 +76,56 @@ class _DefaultContent extends StatelessWidget {
             builder: (context, restaurants) {
               if (restaurants.isNotEmpty) {
                 return _RestaurantList(
+                  title: 'Les moins chers',
+                  restaurants: restaurants,
+                  margin: const EdgeInsets.only(bottom: AttaSpacing.l),
+                );
+              }
+              return const SizedBox.shrink();
+            },
+          ),
+          BlocSelector<HomeCubit, HomeState, List<AttaRestaurant>>(
+            selector: (state) => state.filterRestaurants(state.otherRestaurants),
+            builder: (context, restaurants) {
+              if (restaurants.isNotEmpty) {
+                return _RestaurantList(
                   title: 'Les toutes catégories',
                   restaurants: restaurants,
                   margin: const EdgeInsets.only(bottom: AttaSpacing.l),
                 );
               }
               return const SizedBox.shrink();
+            },
+          ),
+          BlocSelector<HomeCubit, HomeState, List<AttaRestaurant>>(
+            selector: (state) => state.restaurants,
+            builder: (context, restaurants) {
+              final restaurantWithMostDishs = restaurants.withCheaperMenu(1).first;
+
+              return Padding(
+                padding: const EdgeInsets.only(right: AttaSpacing.m, bottom: AttaSpacing.l),
+                child: RestaurantCard(
+                  restaurant: restaurantWithMostDishs,
+                  onTap: () => context.read<HomeCubit>().onRestaurantSelected(restaurantWithMostDishs),
+                  positionedWidget: Positioned(
+                    top: AttaSpacing.xxs,
+                    left: AttaSpacing.xs,
+                    child: Chip(
+                      padding: const EdgeInsets.symmetric(horizontal: AttaSpacing.s),
+                      labelPadding: EdgeInsets.zero,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AttaRadius.small)),
+                      color: MaterialStateProperty.all(AttaColors.primaryLight),
+                      visualDensity: VisualDensity.compact,
+                      label: Text(
+                        'Avec le menu le moins cher',
+                        style: AttaTextStyle.caption.copyWith(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              );
             },
           ),
         ],

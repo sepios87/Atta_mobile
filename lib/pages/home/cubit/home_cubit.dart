@@ -38,10 +38,10 @@ class HomeCubit extends Cubit<HomeState> {
     final mostRecentRestaurants = restaurantService.restaurants.getMostRecents(5);
     final cheaperRestaurants = restaurantService.restaurants.getCheapers(5);
     // other restaurant are restaurantService.restaurants not in mostPopularRestaurants, mostRecentRestaurants and cheaperRestaurants
-    final otherRestaurants = restaurantService.restaurants.where((restaurant) {
-      return !mostPopularRestaurants.contains(restaurant) &&
-          !mostRecentRestaurants.contains(restaurant) &&
-          !cheaperRestaurants.contains(restaurant);
+    final otherRestaurants = restaurantService.restaurants.where((r) {
+      return !mostPopularRestaurants.contains(r) &&
+          !mostRecentRestaurants.contains(r) &&
+          !cheaperRestaurants.contains(r);
     }).toList();
 
     emit(

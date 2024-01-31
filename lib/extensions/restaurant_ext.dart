@@ -28,4 +28,14 @@ extension AttaRestaurantListExt on List<AttaRestaurant> {
   List<AttaRestaurant> withMostDishs(int maxNumber) {
     return sorted((a, b) => b.dishs.length.compareTo(a.dishs.length)).take(maxNumber).toList();
   }
+
+  List<AttaRestaurant> withCheaperMenu(int maxNumber) {
+    return sorted((a, b) {
+      a.menus.sort((a, b) => a.price.compareTo(b.price));
+      b.menus.sort((a, b) => a.price.compareTo(b.price));
+      if (a.menus.isEmpty) return 1;
+      if (b.menus.isEmpty) return -1;
+      return a.menus.first.price.compareTo(b.menus.first.price);
+    }).take(maxNumber).toList();
+  }
 }
