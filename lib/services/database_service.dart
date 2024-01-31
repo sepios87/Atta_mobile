@@ -87,7 +87,7 @@ class DatabaseService {
   Future<List<AttaRestaurant>> getAllRestaurants() async {
     try {
       // Not necessary to get dish into menu now
-      final data = await _supabase.from('restaurants').select('*, dishs(*), menus(*)');
+      final data = await _supabase.from('restaurants').select('*, dishs(*), menus(*), reservations(restaurant_id)');
       return data.map(AttaRestaurant.fromMap).toList();
     } catch (e) {
       debugPrint(e.toString());
@@ -134,10 +134,5 @@ class DatabaseService {
   Future<bool> _userExistInDatabase(String id) async {
     final data = await _supabase.from('users').select().eq('id', id);
     return data.isNotEmpty;
-  }
-
-  Future<List<Map<String, dynamic>>> getAllRestaurantIdFromReservations() async {
-    final data = await _supabase.from('reservations').select('restaurant_id');
-    return data;
   }
 }

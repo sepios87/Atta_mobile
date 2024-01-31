@@ -65,6 +65,7 @@ class _ReservationScreenState extends State<_ReservationScreen> {
         ),
       ),
       body: Container(
+        constraints: const BoxConstraints.expand(),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadiusExt.top(AttaRadius.medium),
@@ -120,15 +121,7 @@ class _ReservationScreenState extends State<_ReservationScreen> {
                           selectedTableId: state.selectedTableId,
                           onTableSelected: (tableId) => context.read<ReservationCubit>().onTableSelected(tableId),
                           // TODO(florian): Replace with real data
-                          tables: const [
-                            AttaTable(id: '1', x: 1, y: 1, numberOfSeats: 2, width: 1, height: 1),
-                            AttaTable(id: '2', x: 3, y: 1, numberOfSeats: 5, width: 3, height: 1),
-                            AttaTable(id: '3', x: 1, y: 3, numberOfSeats: 2, width: 1, height: 1),
-                            AttaTable(id: '4', x: 3, y: 3, numberOfSeats: 6, width: 2, height: 5),
-                            AttaTable(id: '5', x: 6, y: 3, numberOfSeats: 2, width: 1, height: 1),
-                            AttaTable(id: '6', x: 8, y: 3, numberOfSeats: 2, width: 1, height: 1),
-                            AttaTable(id: '7', x: 1, y: 5, numberOfSeats: 2, width: 1, height: 5),
-                          ],
+                          tables: mockTables,
                         ),
                       );
                     },

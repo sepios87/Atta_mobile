@@ -9,6 +9,10 @@ final class HomeState {
     required this.isOnSearch,
     required this.selectedRestaurant,
     required this.user,
+    required this.mostPopularRestaurants,
+    required this.mostRecentRestaurants,
+    required this.cheaperRestaurants,
+    required this.otherRestaurants,
   });
 
   HomeState.initial({
@@ -21,19 +25,25 @@ final class HomeState {
           isOnSearch: false,
           selectedRestaurant: null,
           user: user,
+          mostPopularRestaurants: [],
+          mostRecentRestaurants: [],
+          cheaperRestaurants: [],
+          otherRestaurants: [],
         );
 
   final List<AttaRestaurant> restaurants;
   final List<AttaRestaurant> searchRestaurants;
   final List<AttaRestaurantFilter> activeFilters;
 
+  final List<AttaRestaurant> mostPopularRestaurants;
+  final List<AttaRestaurant> mostRecentRestaurants;
+  final List<AttaRestaurant> cheaperRestaurants;
+  final List<AttaRestaurant> otherRestaurants;
+
   final AttaRestaurant? selectedRestaurant;
   final AttaUser? user;
 
   final bool isOnSearch;
-
-  List<AttaRestaurant> get filteredRestaurants => filterRestaurants(restaurants);
-  List<AttaRestaurant> get filteredSearchRestaurants => filterRestaurants(searchRestaurants);
 
   List<AttaRestaurant> filterRestaurants(List<AttaRestaurant> list) {
     if (activeFilters.isEmpty) return list;
@@ -48,6 +58,10 @@ final class HomeState {
     bool? isOnSearch,
     Wrapped<AttaRestaurant?>? selectedRestaurant,
     Wrapped<AttaUser?>? user,
+    List<AttaRestaurant>? mostPopularRestaurants,
+    List<AttaRestaurant>? mostRecentRestaurants,
+    List<AttaRestaurant>? cheaperRestaurants,
+    List<AttaRestaurant>? otherRestaurants,
   }) {
     return HomeState._(
       restaurants: restaurants ?? this.restaurants,
@@ -56,6 +70,10 @@ final class HomeState {
       isOnSearch: isOnSearch ?? this.isOnSearch,
       selectedRestaurant: selectedRestaurant != null ? selectedRestaurant.value : this.selectedRestaurant,
       user: user != null ? user.value : this.user,
+      mostPopularRestaurants: mostPopularRestaurants ?? this.mostPopularRestaurants,
+      mostRecentRestaurants: mostRecentRestaurants ?? this.mostRecentRestaurants,
+      cheaperRestaurants: cheaperRestaurants ?? this.cheaperRestaurants,
+      otherRestaurants: otherRestaurants ?? this.otherRestaurants,
     );
   }
 }

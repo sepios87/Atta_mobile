@@ -34,9 +34,9 @@ class _Header extends StatelessWidget {
                           const Icon(Icons.food_bank_outlined),
                           const SizedBox(width: AttaSpacing.xxs),
                           Text(restaurant.filters.first.name),
+                          const SizedBox(width: AttaSpacing.xs),
                         ],
                       ),
-                    const SizedBox(width: AttaSpacing.xs),
                     Expanded(
                       child: TextButton.icon(
                         onPressed: () => launchUrlString(

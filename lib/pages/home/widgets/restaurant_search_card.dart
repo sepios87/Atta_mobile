@@ -27,6 +27,7 @@ class _RestaurantSearchCard extends StatelessWidget {
               imageUrl: restaurant.imageUrl,
               width: 68,
               height: double.infinity,
+              fadeInDuration: const Duration(milliseconds: 300),
               fit: BoxFit.cover,
               placeholder: (context, _) {
                 return const AttaSkeleton(size: Size(68, 68));

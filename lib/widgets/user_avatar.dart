@@ -19,11 +19,12 @@ class UserAvatar extends StatelessWidget {
   Widget build(BuildContext context) {
     return CircleAvatar(
       radius: radius,
-      backgroundColor: AttaColors.primary,
+      backgroundColor: user.imageUrl == null ? AttaColors.primary : Colors.transparent,
       child: user.imageUrl != null
           ? ClipOval(
               child: CachedNetworkImage(
                 imageUrl: user.imageUrl!,
+                fadeInDuration: const Duration(milliseconds: 300),
               ),
             )
           : user.anagram == null

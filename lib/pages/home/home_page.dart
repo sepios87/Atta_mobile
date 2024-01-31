@@ -3,6 +3,7 @@ import 'package:atta/entities/restaurant.dart';
 import 'package:atta/entities/user.dart';
 import 'package:atta/extensions/border_radius_ext.dart';
 import 'package:atta/extensions/context_ext.dart';
+import 'package:atta/extensions/restaurant_ext.dart';
 import 'package:atta/pages/dish_detail/dish_detail_page.dart';
 import 'package:atta/pages/home/cubit/home_cubit.dart';
 import 'package:atta/pages/reservation/reservation_page.dart';
@@ -105,6 +106,15 @@ class _HomeScreen extends StatelessWidget {
                                 ).animate(animation),
                                 child: child,
                               ),
+                            );
+                          },
+                          layoutBuilder: (currentChild, previousChildren) {
+                            return Stack(
+                              alignment: Alignment.topCenter,
+                              children: [
+                                ...previousChildren,
+                                if (currentChild != null) currentChild,
+                              ],
                             );
                           },
                           child: isOnSearch

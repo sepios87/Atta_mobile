@@ -6,7 +6,7 @@ class _SearchContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocSelector<HomeCubit, HomeState, List<AttaRestaurant>>(
-      selector: (state) => state.filteredSearchRestaurants,
+      selector: (state) => state.filterRestaurants(state.searchRestaurants),
       builder: (context, restaurants) {
         if (restaurants.isEmpty) {
           return const Center(

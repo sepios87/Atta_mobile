@@ -9,10 +9,12 @@ import 'package:rxdart/rxdart.dart';
 
 class RestaurantService {
   final _restaurantsStreamController = BehaviorSubject<List<AttaRestaurant>>();
+
+  // Preloaded list most popular restaurants
+  List<int> restaurantIdsInReservations = [];
+
   Stream get restaurantsStream => _restaurantsStreamController.stream;
-
   List<AttaRestaurant> get restaurants => _restaurantsStreamController.value;
-
   bool get isLoaded => _restaurantsStreamController.hasValue;
 
   Future<void> fetchRestaurants() async {

@@ -35,6 +35,7 @@ class _AppBar extends StatelessWidget {
                 Positioned.fill(
                   child: CachedNetworkImage(
                     imageUrl: state.restaurant.imageUrl,
+                    fadeInDuration: const Duration(milliseconds: 300),
                     fit: BoxFit.cover,
                   ),
                 ),

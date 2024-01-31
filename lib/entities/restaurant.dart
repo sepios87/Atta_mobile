@@ -22,6 +22,7 @@ class AttaRestaurant {
     required this.openingHoursSlots,
     required this.dishs,
     required this.menus,
+    required this.numberOfReservations,
   });
 
   factory AttaRestaurant.fromMap(Map<String, dynamic> map) {
@@ -50,6 +51,7 @@ class AttaRestaurant {
       menus:
           map.parse<List?>('menus', fallback: [])?.map((e) => AttaMenu.fromMap(e as Map<String, dynamic>)).toList() ??
               [],
+      numberOfReservations: (map.parse<List?>('reservations', fallback: []) ?? []).length,
     );
   }
 
@@ -67,6 +69,9 @@ class AttaRestaurant {
   final Map<AttaDay, List<AttaOpeningHoursSlots>> openingHoursSlots;
   final List<AttaDish> dishs;
   final List<AttaMenu> menus;
+
+  // Only on client side
+  final int numberOfReservations;
 
   String get fullAddress => '$address, $city';
   num get averagePrice => dishs.fold<num>(0, (previous, e) => previous + e.price) / dishs.length;

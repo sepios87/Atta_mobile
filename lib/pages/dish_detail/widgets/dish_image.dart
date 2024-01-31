@@ -57,6 +57,7 @@ class __DishImageState extends State<_DishImage> with SingleTickerProviderStateM
                   imageUrl: widget.imageUrl,
                   width: imageSize,
                   height: imageSize,
+                  fadeInDuration: const Duration(milliseconds: 300),
                   fit: BoxFit.cover,
                   placeholder: (context, _) {
                     return AttaSkeleton(size: Size(imageSize, imageSize));

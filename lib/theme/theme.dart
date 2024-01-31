@@ -68,9 +68,7 @@ ThemeData get _attaThemeData {
       showCheckmark: false,
       side: const BorderSide(color: Colors.transparent),
       shape: const StadiumBorder(),
-      labelPadding: const EdgeInsets.symmetric(
-        horizontal: AttaSpacing.xxs,
-      ),
+      labelPadding: const EdgeInsets.symmetric(horizontal: AttaSpacing.xxs),
       secondarySelectedColor: AttaColors.white,
       labelStyle: const TextStyle(color: ChipLabelColor()),
       color: MaterialStateProperty.resolveWith<Color>(

@@ -4,6 +4,7 @@ import 'package:atta/entities/filter.dart';
 import 'package:atta/entities/restaurant.dart';
 import 'package:atta/entities/user.dart';
 import 'package:atta/entities/wrapped.dart';
+import 'package:atta/extensions/restaurant_ext.dart';
 import 'package:atta/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,6 +22,7 @@ class HomeCubit extends Cubit<HomeState> {
     _userSubscription = userService.userStream.listen((user) {
       emit(state.copyWith(user: Wrapped.value(user)));
     });
+    _loadRestaurantsCategories();
   }
 
   StreamSubscription<AttaUser?>? _userSubscription;
@@ -29,6 +31,27 @@ class HomeCubit extends Cubit<HomeState> {
   Future<void> close() {
     _userSubscription?.cancel();
     return super.close();
+  }
+
+  void _loadRestaurantsCategories() {
+    final mostPopularRestaurants = restaurantService.restaurants.getMostPopulars(5);
+    final mostRecentRestaurants = restaurantService.restaurants.getMostRecents(5);
+    final cheaperRestaurants = restaurantService.restaurants.getCheapers(5);
+    // other restaurant are restaurantService.restaurants not in mostPopularRestaurants, mostRecentRestaurants and cheaperRestaurants
+    final otherRestaurants = restaurantService.restaurants.where((restaurant) {
+      return !mostPopularRestaurants.contains(restaurant) &&
+          !mostRecentRestaurants.contains(restaurant) &&
+          !cheaperRestaurants.contains(restaurant);
+    }).toList();
+
+    emit(
+      state.copyWith(
+        mostPopularRestaurants: mostPopularRestaurants,
+        mostRecentRestaurants: mostRecentRestaurants,
+        cheaperRestaurants: cheaperRestaurants,
+        otherRestaurants: otherRestaurants,
+      ),
+    );
   }
 
   void selectFilter(AttaRestaurantFilter filter) {

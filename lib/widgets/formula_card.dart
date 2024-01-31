@@ -46,6 +46,7 @@ class FormulaCard extends StatelessWidget {
                   child: CachedNetworkImage(
                     imageUrl: formula.imageUrl,
                     fit: BoxFit.cover,
+                    fadeInDuration: const Duration(milliseconds: 300),
                     placeholder: (context, _) {
                       return AttaSkeleton(
                         size: Size(68, imageHeight),

@@ -34,6 +34,7 @@ class RestaurantCard extends StatelessWidget {
                 width: double.infinity,
                 height: 98,
                 fit: BoxFit.cover,
+                fadeInDuration: const Duration(milliseconds: 300),
                 imageBuilder: (context, imageProvider) {
                   return Material(
                     child: Ink.image(
