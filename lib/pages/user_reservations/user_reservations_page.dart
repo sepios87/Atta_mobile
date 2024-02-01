@@ -2,6 +2,7 @@ import 'package:atta/entities/reservation.dart';
 import 'package:atta/extensions/border_radius_ext.dart';
 import 'package:atta/extensions/context_ext.dart';
 import 'package:atta/extensions/date_time_ext.dart';
+import 'package:atta/extensions/num_ext.dart';
 import 'package:atta/main.dart';
 import 'package:atta/pages/restaurant_detail/restaurant_detail_page.dart';
 import 'package:atta/pages/user_reservations/cubit/user_reservations_cubit.dart';
@@ -16,7 +17,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-part 'widgets/reservation_card.dart';
+part 'widgets/reservation_card_expansion.dart';
 
 class UserReservationsPage {
   static const path = '/user-reservations';

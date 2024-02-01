@@ -10,10 +10,11 @@ extension MapExt on Map<String, dynamic> {
 
       return this[key] as T;
     } catch (e) {
-      if (fallback == null) rethrow;
-
-      debugPrint('Use fallback: $e');
-      return fallback;
+      if (fallback is T) {
+        debugPrint('Use fallback: $e');
+        return fallback;
+      }
+      rethrow;
     }
   }
 }

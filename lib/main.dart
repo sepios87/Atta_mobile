@@ -24,6 +24,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
+import 'package:intl/intl_standalone.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'app/router.dart';
@@ -35,6 +37,9 @@ final reservationService = ReservationService();
 final databaseService = DatabaseService();
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  Intl.systemLocale = await findSystemLocale();
+
   await Supabase.initialize(
     url: 'https://brcimevctgakvwixtbag.supabase.co',
     anonKey: const String.fromEnvironment('SUPABASE_KEY'),

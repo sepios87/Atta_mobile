@@ -1,3 +1,4 @@
+import 'package:atta/entities/dish.dart';
 import 'package:atta/extensions/map_ext.dart';
 
 class AttaReservation {
@@ -8,7 +9,7 @@ class AttaReservation {
     required this.restaurantId,
     required this.tableId,
     required this.numberOfPersons,
-    required this.dishIds,
+    required this.dishs,
     required this.comment,
   });
 
@@ -21,7 +22,13 @@ class AttaReservation {
       tableId: 0,
       // map['table_id'] as String?,
       numberOfPersons: map.parse<int>('number_of_persons'),
-      dishIds: [],
+      dishs: [
+        AttaDish.fromMap({
+          'id': 1,
+          'name': 'dish',
+          'price': 1.0,
+        }),
+      ],
       // (map['dish_ids'] as List<dynamic>).map((e) => e as String).toList(),
       comment: map.parse<String?>('comment'),
     );
@@ -33,8 +40,10 @@ class AttaReservation {
   final int restaurantId;
   final int? tableId;
   final int numberOfPersons;
-  final List<int> dishIds;
+  final List<AttaDish> dishs;
   final String? comment;
+
+  bool get withMoreInformations => comment != null || dishs.isNotEmpty || tableId != null;
 
   Map<String, dynamic> toMap() {
     return {
@@ -44,7 +53,7 @@ class AttaReservation {
       'restaurant_id': restaurantId,
       'table_id': tableId,
       'number_of_persons': numberOfPersons,
-      'dish_ids': dishIds,
+      // 'dish': dishIds,
       'comment': comment,
     };
   }
