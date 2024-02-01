@@ -57,6 +57,11 @@ class __DishImageState extends State<_DishImage> with SingleTickerProviderStateM
                   imageUrl: widget.imageUrl,
                   width: imageSize,
                   height: imageSize,
+                  memCacheHeight: imageSize.toInt() * 2,
+                  memCacheWidth: imageSize.toInt() * 2,
+                  maxWidthDiskCache: 1000,
+                  maxHeightDiskCache: 1000,
+                  useOldImageOnUrlChange: true,
                   fadeInDuration: const Duration(milliseconds: 300),
                   fit: BoxFit.cover,
                   placeholder: (context, _) {

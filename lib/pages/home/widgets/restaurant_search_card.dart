@@ -8,6 +8,7 @@ class _RestaurantSearchCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
+      color: Colors.transparent,
       child: InkWell(
         onTap: () {
           context.adapativePushNamed(
@@ -26,7 +27,12 @@ class _RestaurantSearchCard extends StatelessWidget {
             child: CachedNetworkImage(
               imageUrl: restaurant.imageUrl,
               width: 68,
-              height: double.infinity,
+              height: 68,
+              memCacheHeight: 68 * 2,
+              memCacheWidth: 68 * 2,
+              maxWidthDiskCache: 1000,
+              maxHeightDiskCache: 1000,
+              useOldImageOnUrlChange: true,
               fadeInDuration: const Duration(milliseconds: 300),
               fit: BoxFit.cover,
               placeholder: (context, _) {

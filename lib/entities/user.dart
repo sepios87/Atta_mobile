@@ -63,6 +63,7 @@ class AttaUser {
   Map<String, dynamic> toMap() {
     final bdbMap = toMapForDb();
     bdbMap['favoritesRestaurantIds'] = favoritesRestaurantIds.toList();
+    bdbMap['reservations'] = reservations.map((e) => e.toMap()).toList();
     return bdbMap;
   }
 

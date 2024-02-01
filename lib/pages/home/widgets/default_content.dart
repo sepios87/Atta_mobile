@@ -41,7 +41,7 @@ class _DefaultContent extends StatelessWidget {
             },
           ),
           BlocSelector<HomeCubit, HomeState, List<AttaRestaurant>>(
-            selector: (state) => state.restaurants,
+            selector: (state) => state.filterRestaurants(state.restaurants),
             builder: (context, restaurants) {
               final restaurantWithMostDishs = restaurants.withMostDishs(1).firstOrNull;
 
@@ -87,11 +87,11 @@ class _DefaultContent extends StatelessWidget {
             },
           ),
           BlocSelector<HomeCubit, HomeState, List<AttaRestaurant>>(
-            selector: (state) => state.filterRestaurants(state.otherRestaurants),
+            selector: (state) => state.filterRestaurants(state.biggestNumberFormulaRestaurants),
             builder: (context, restaurants) {
               if (restaurants.isNotEmpty) {
                 return _RestaurantList(
-                  title: 'Les toutes catégories',
+                  title: 'Avec le plus de choix',
                   restaurants: restaurants,
                   margin: const EdgeInsets.only(bottom: AttaSpacing.l),
                 );
@@ -100,7 +100,7 @@ class _DefaultContent extends StatelessWidget {
             },
           ),
           BlocSelector<HomeCubit, HomeState, List<AttaRestaurant>>(
-            selector: (state) => state.restaurants,
+            selector: (state) => state.filterRestaurants(state.restaurants),
             builder: (context, restaurants) {
               final restaurantWithMostDishs = restaurants.withCheaperMenu(1).firstOrNull;
 
@@ -130,6 +130,19 @@ class _DefaultContent extends StatelessWidget {
                   ),
                 ),
               );
+            },
+          ),
+          BlocSelector<HomeCubit, HomeState, List<AttaRestaurant>>(
+            selector: (state) => state.filterRestaurants(state.otherRestaurants),
+            builder: (context, restaurants) {
+              if (restaurants.isNotEmpty) {
+                return _RestaurantList(
+                  title: 'Les hors catégories',
+                  restaurants: restaurants,
+                  margin: const EdgeInsets.only(bottom: AttaSpacing.l),
+                );
+              }
+              return const SizedBox.shrink();
             },
           ),
         ],

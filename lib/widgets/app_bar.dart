@@ -18,6 +18,7 @@ class AttaAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       automaticallyImplyLeading: false,
+      centerTitle: false,
       title: InkWell(
         borderRadius: BorderRadius.circular(AttaRadius.full),
         onTap: () {

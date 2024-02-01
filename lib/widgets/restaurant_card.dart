@@ -33,6 +33,10 @@ class RestaurantCard extends StatelessWidget {
                 imageUrl: restaurant.imageUrl,
                 width: double.infinity,
                 height: 98,
+                memCacheHeight: 98 * 2,
+                maxWidthDiskCache: 1000,
+                maxHeightDiskCache: 1000,
+                useOldImageOnUrlChange: true,
                 fit: BoxFit.cover,
                 fadeInDuration: const Duration(milliseconds: 300),
                 imageBuilder: (context, imageProvider) {

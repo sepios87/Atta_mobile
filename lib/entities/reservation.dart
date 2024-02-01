@@ -35,4 +35,17 @@ class AttaReservation {
   final int numberOfPersons;
   final List<int> dishIds;
   final String? comment;
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'created_at': createdAt.toIso8601String(),
+      'date_time': dateTime.toIso8601String(),
+      'restaurant_id': restaurantId,
+      'table_id': tableId,
+      'number_of_persons': numberOfPersons,
+      'dish_ids': dishIds,
+      'comment': comment,
+    };
+  }
 }

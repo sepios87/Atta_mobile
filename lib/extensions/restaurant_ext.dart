@@ -18,6 +18,14 @@ extension AttaRestaurantListExt on List<AttaRestaurant> {
     return sorted((a, b) => b.numberOfReservations.compareTo(a.numberOfReservations)).take(maxNumber).toList();
   }
 
+  List<AttaRestaurant> getBiggestNumberFormula(int maxNumber) {
+    return sorted((a, b) {
+      final aNumberOfFormula = a.menus.length + a.dishs.length;
+      final bNumberOfFormula = b.menus.length + b.dishs.length;
+      return bNumberOfFormula.compareTo(aNumberOfFormula);
+    }).take(maxNumber).toList();
+  }
+
   List<AttaRestaurant> mostRecentsAndPopulars(int maxNumber) {
     return where((e) => e.createdAt.isAfter(DateTime.now().subtract(const Duration(days: 7))))
         .sorted((a, b) => b.numberOfReservations.compareTo(a.numberOfReservations))

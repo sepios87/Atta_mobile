@@ -31,7 +31,7 @@ enum _BottomNavigationItem {
     return switch (this) {
       _BottomNavigationItem.favorites => Icons.favorite_rounded,
       _BottomNavigationItem.home => Icons.home_rounded,
-      _BottomNavigationItem.reservations => Icons.shopping_cart_rounded
+      _BottomNavigationItem.reservations => Icons.today_outlined,
     };
   }
 

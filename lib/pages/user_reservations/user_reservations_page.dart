@@ -3,7 +3,6 @@ import 'package:atta/extensions/border_radius_ext.dart';
 import 'package:atta/extensions/context_ext.dart';
 import 'package:atta/extensions/date_time_ext.dart';
 import 'package:atta/main.dart';
-import 'package:atta/pages/home/home_page.dart';
 import 'package:atta/pages/restaurant_detail/restaurant_detail_page.dart';
 import 'package:atta/pages/user_reservations/cubit/user_reservations_cubit.dart';
 import 'package:atta/theme/colors.dart';
@@ -55,20 +54,19 @@ class _UserReservations extends StatelessWidget {
                     child: Text('Vos réservations', style: AttaTextStyle.header),
                   ),
                   const SizedBox(height: AttaSpacing.l),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
-                    child: Text('Pour les prochains jours', style: AttaTextStyle.subHeader),
-                  ),
-                  const SizedBox(height: AttaSpacing.m),
                   if (state.user.reservations.isEmpty) ...[
-                    const Text("Vous n'avez pas encore de réservations"),
-                    const SizedBox(height: AttaSpacing.l),
-                    ElevatedButton(
-                      onPressed: () => context.adapativePushReplacementNamed(HomePage.routeName),
-                      child: const Text('Découvrir de nouveaux restaurants'),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: AttaSpacing.m),
+                      child: Text("Vous n'avez pas encore de réservations"),
                     ),
-                  ] else
-                    ...state.user.reservations.map(_ReservationCard.new),
+                  ] else ...[
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
+                      child: Text('Pour les prochains jours', style: AttaTextStyle.subHeader),
+                    ),
+                    const SizedBox(height: AttaSpacing.s),
+                    ...state.user.reservations.map(_ReservationCardExpansion.new),
+                  ],
                 ],
               ),
             ),

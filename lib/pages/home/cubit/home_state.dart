@@ -13,6 +13,7 @@ final class HomeState {
     required this.mostRecentRestaurants,
     required this.cheaperRestaurants,
     required this.otherRestaurants,
+    required this.biggestNumberFormulaRestaurants,
   });
 
   HomeState.initial({
@@ -29,6 +30,7 @@ final class HomeState {
           mostRecentRestaurants: [],
           cheaperRestaurants: [],
           otherRestaurants: [],
+          biggestNumberFormulaRestaurants: [],
         );
 
   final List<AttaRestaurant> restaurants;
@@ -38,6 +40,7 @@ final class HomeState {
   final List<AttaRestaurant> mostPopularRestaurants;
   final List<AttaRestaurant> mostRecentRestaurants;
   final List<AttaRestaurant> cheaperRestaurants;
+  final List<AttaRestaurant> biggestNumberFormulaRestaurants;
   final List<AttaRestaurant> otherRestaurants;
 
   final AttaRestaurant? selectedRestaurant;
@@ -61,6 +64,7 @@ final class HomeState {
     List<AttaRestaurant>? mostPopularRestaurants,
     List<AttaRestaurant>? mostRecentRestaurants,
     List<AttaRestaurant>? cheaperRestaurants,
+    List<AttaRestaurant>? biggestNumberFormulaRestaurants,
     List<AttaRestaurant>? otherRestaurants,
   }) {
     return HomeState._(
@@ -73,6 +77,7 @@ final class HomeState {
       mostPopularRestaurants: mostPopularRestaurants ?? this.mostPopularRestaurants,
       mostRecentRestaurants: mostRecentRestaurants ?? this.mostRecentRestaurants,
       cheaperRestaurants: cheaperRestaurants ?? this.cheaperRestaurants,
+      biggestNumberFormulaRestaurants: biggestNumberFormulaRestaurants ?? this.biggestNumberFormulaRestaurants,
       otherRestaurants: otherRestaurants ?? this.otherRestaurants,
     );
   }
