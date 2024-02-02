@@ -19,9 +19,7 @@ class AttaMenu extends AttaFormula {
       imageUrl: map.parse<String>('image_url', fallback: ''),
       description: map.parse<String?>('description'),
       price: map.parse<num>('price'),
-      dishs: (map.parse<List?>('dishs', fallback: []) ?? [])
-          .map((e) => AttaDish.fromMap(e as Map<String, dynamic>))
-          .toList(),
+      dishs: map.parse<List>('dishs', fallback: []).map((e) => AttaDish.fromMap(e as Map<String, dynamic>)).toList(),
     );
   }
 

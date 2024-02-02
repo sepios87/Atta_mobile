@@ -75,7 +75,7 @@ class _FavoriteScreen extends StatelessWidget {
                             ),
                             onTap: () => context.adapativePushNamed(
                               RestaurantDetailPage.routeName,
-                              pathParameters: RestaurantDetailScreenArgument(
+                              pathParameters: RestaurantDetailPageArgument(
                                 restaurantId: restaurant.id,
                               ).toPathParameters(),
                             ),

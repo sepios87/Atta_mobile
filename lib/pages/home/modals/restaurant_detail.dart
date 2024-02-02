@@ -66,7 +66,7 @@ class _RestaurantDetail extends StatelessWidget {
                         onTap: () {
                           context.adapativePushNamed(
                             DishDetailPage.routeName,
-                            pathParameters: DishDetailScreenArgument(
+                            pathParameters: DishDetailPageArgument(
                               restaurantId: restaurant.id,
                               dishId: restaurant.dishs[index].id,
                             ).toPathParameters(),
@@ -110,7 +110,7 @@ class _RestaurantDetail extends StatelessWidget {
                             ..pop()
                             ..adapativePushNamed(
                               RestaurantDetailPage.routeName,
-                              pathParameters: RestaurantDetailScreenArgument(
+                              pathParameters: RestaurantDetailPageArgument(
                                 restaurantId: restaurant.id,
                               ).toPathParameters(),
                             );
@@ -131,7 +131,7 @@ class _RestaurantDetail extends StatelessWidget {
                           ..pop()
                           ..adapativePushNamed(
                             ReservationPage.routeName,
-                            pathParameters: ReservationScreenArgument(
+                            pathParameters: ReservationPageArgument(
                               restaurantId: restaurant.id,
                             ).toPathParameters(),
                           ),

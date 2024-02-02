@@ -1,3 +1,7 @@
+import 'package:atta/entities/reservation.dart';
+import 'package:atta/entities/wrapped.dart';
+import 'package:atta/main.dart';
+import 'package:atta/services/database/db_service.dart';
 import 'package:flutter/material.dart';
 
 class ReservationService {
@@ -7,12 +11,12 @@ class ReservationService {
   TimeOfDay? get selectedTime => _selectedTime;
   DateTime? get selectedDate => _selectedDate;
 
-  void setReservationTime({
-    required TimeOfDay? time,
-    required DateTime date,
+  void setReservationDateTime({
+    Wrapped<TimeOfDay?>? time,
+    DateTime? date,
   }) {
-    _selectedTime = time;
-    _selectedDate = date;
+    if (time != null) _selectedTime = time.value;
+    if (date != null) _selectedDate = date;
   }
 
   void sendReservation(
@@ -24,5 +28,17 @@ class ReservationService {
   ) {
     // TODO(florian): implement
     print('Reservation sent at $_selectedTime on $_selectedDate');
+  }
+
+  void resetReservation() {
+    _selectedTime = null;
+    _selectedDate = null;
+  }
+
+  Future<AttaReservation> fetchReservationWithDishs(
+    AttaReservation reservation,
+  ) async {
+    final dishs = await databaseService.getReservationDishs(reservation.id);
+    return reservation.copyWith(dishs: dishs);
   }
 }

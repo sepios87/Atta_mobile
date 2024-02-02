@@ -20,22 +20,16 @@ class PreloadState {
 }
 
 @immutable
-class PreloadStatus {
-  const PreloadStatus();
-}
+abstract final class PreloadStatus {}
 
-@immutable
-class PreloadInitialStatus extends PreloadStatus {}
+final class PreloadInitialStatus extends PreloadStatus {}
 
-@immutable
-class PreloadLoadingStatus extends PreloadStatus {}
+final class PreloadLoadingStatus extends PreloadStatus {}
 
-@immutable
-class PreloadLoadedStatus extends PreloadStatus {}
+final class PreloadLoadedStatus extends PreloadStatus {}
 
-@immutable
-class PreloadErrorStatus extends PreloadStatus {
-  const PreloadErrorStatus(this.message);
+final class PreloadErrorStatus extends PreloadStatus {
+  PreloadErrorStatus(this.message);
 
   final String message;
 }

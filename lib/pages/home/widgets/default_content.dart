@@ -21,7 +21,7 @@ class _DefaultContent extends StatelessWidget {
                 return _RestaurantList(
                   title: 'Les plus récents',
                   restaurants: restaurants,
-                  margin: const EdgeInsets.only(bottom: AttaSpacing.l),
+                  margin: const EdgeInsets.only(bottom: AttaSpacing.m),
                 );
               }
               return const SizedBox.shrink();
@@ -34,7 +34,7 @@ class _DefaultContent extends StatelessWidget {
                 return _RestaurantList(
                   title: 'Les plus populaires',
                   restaurants: restaurants,
-                  margin: const EdgeInsets.only(bottom: AttaSpacing.l),
+                  margin: const EdgeInsets.only(bottom: AttaSpacing.m),
                 );
               }
               return const SizedBox.shrink();
@@ -80,7 +80,7 @@ class _DefaultContent extends StatelessWidget {
                 return _RestaurantList(
                   title: 'Les moins chers',
                   restaurants: restaurants,
-                  margin: const EdgeInsets.only(bottom: AttaSpacing.l),
+                  margin: const EdgeInsets.only(bottom: AttaSpacing.m),
                 );
               }
               return const SizedBox.shrink();
@@ -93,7 +93,7 @@ class _DefaultContent extends StatelessWidget {
                 return _RestaurantList(
                   title: 'Avec le plus de choix',
                   restaurants: restaurants,
-                  margin: const EdgeInsets.only(bottom: AttaSpacing.l),
+                  margin: const EdgeInsets.only(bottom: AttaSpacing.m),
                 );
               }
               return const SizedBox.shrink();
@@ -139,7 +139,7 @@ class _DefaultContent extends StatelessWidget {
                 return _RestaurantList(
                   title: 'Les hors catégories',
                   restaurants: restaurants,
-                  margin: const EdgeInsets.only(bottom: AttaSpacing.l),
+                  margin: const EdgeInsets.only(bottom: AttaSpacing.m),
                 );
               }
               return const SizedBox.shrink();

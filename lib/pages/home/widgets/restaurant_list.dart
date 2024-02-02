@@ -22,7 +22,11 @@ class _RestaurantList extends StatelessWidget {
           Text(title, style: AttaTextStyle.header),
           const SizedBox(height: AttaSpacing.m),
           SizedBox(
-            height: 98 + AttaSpacing.xxs + AttaTextStyle.header.fontSize!,
+            height: 98 +
+                AttaSpacing.xxs +
+                AttaTextStyle.header.fontSize! +
+                AttaSpacing.xxs +
+                AttaTextStyle.content.fontSize!,
             child: ListView.separated(
               padding: const EdgeInsets.only(right: AttaSpacing.m),
               scrollDirection: Axis.horizontal,

@@ -79,6 +79,21 @@ class AttaUser {
 
   AttaUser copy() => AttaUser.fromMap(toMap(), email);
 
+  AttaUser copyWith({
+    List<AttaReservation>? reservations,
+  }) {
+    return AttaUser._(
+      id: id,
+      firstName: firstName,
+      lastName: lastName,
+      phone: phone,
+      email: email,
+      imageUrl: imageUrl,
+      favoritesRestaurantIds: favoritesRestaurantIds,
+      reservations: reservations ?? this.reservations,
+    );
+  }
+
   @override
   String toString() => toMap().toString();
 }

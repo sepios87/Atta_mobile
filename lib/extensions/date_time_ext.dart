@@ -1,3 +1,4 @@
+import 'package:atta/extensions/string_ext.dart';
 import 'package:intl/intl.dart';
 
 extension DateTimeExtension on DateTime {
@@ -26,6 +27,6 @@ extension DateTimeExtension on DateTime {
     } else if (isTomorrow) {
       return 'Demain à ${DateFormat('HH:mm').format(this)}';
     }
-    return 'Le ${DateFormat('EEEE dd/MM').format(this)}';
+    return DateFormat('EEEE dd/MM à HH:mm').format(this).capitalize();
   }
 }

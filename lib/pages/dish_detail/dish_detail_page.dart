@@ -16,13 +16,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 part 'widgets/app_bar.dart';
 part 'widgets/dish_image.dart';
 
-class DishDetailScreenArgument {
-  const DishDetailScreenArgument({
+class DishDetailPageArgument {
+  const DishDetailPageArgument({
     required this.restaurantId,
     required this.dishId,
   });
 
-  DishDetailScreenArgument.fromPathParameters(Map<String, String> parameters)
+  DishDetailPageArgument.fromPathParameters(Map<String, String> parameters)
       : restaurantId = int.parse(parameters['restaurantId']!),
         dishId = int.parse(parameters['dishId']!);
 
@@ -38,10 +38,10 @@ class DishDetailScreenArgument {
 }
 
 class DishDetailPage {
-  static const path = '/dish_detail/${DishDetailScreenArgument.parametersPath}';
+  static const path = '/dish_detail/${DishDetailPageArgument.parametersPath}';
   static const routeName = 'dish_detail';
 
-  static Widget getScreen(DishDetailScreenArgument args) {
+  static Widget getScreen(DishDetailPageArgument args) {
     return BlocProvider(
       create: (context) => DishDetailCubit(
         restaurantId: args.restaurantId,
@@ -155,7 +155,7 @@ class _DishDetailScreen extends StatelessWidget {
                     context.read<DishDetailCubit>().addToCart();
                     context.adapativePushReplacementNamed(
                       RestaurantDetailPage.routeName,
-                      pathParameters: RestaurantDetailScreenArgument(restaurantId: restaurantId).toPathParameters(),
+                      pathParameters: RestaurantDetailPageArgument(restaurantId: restaurantId).toPathParameters(),
                     );
                   },
                   child: BlocBuilder<DishDetailCubit, DishDetailState>(

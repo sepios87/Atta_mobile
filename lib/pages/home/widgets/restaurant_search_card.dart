@@ -13,7 +13,7 @@ class _RestaurantSearchCard extends StatelessWidget {
         onTap: () {
           context.adapativePushNamed(
             RestaurantDetailPage.routeName,
-            pathParameters: RestaurantDetailScreenArgument(
+            pathParameters: RestaurantDetailPageArgument(
               restaurantId: restaurant.id,
             ).toPathParameters(),
           );
@@ -40,7 +40,7 @@ class _RestaurantSearchCard extends StatelessWidget {
           ),
           title: Text(restaurant.name, style: AttaTextStyle.label),
           subtitle: Text(
-            restaurant.filters.map((filter) => filter.name).join(', '),
+            restaurant.filters.map((filter) => filter.translatedName).join(', '),
           ),
         ),
       ),

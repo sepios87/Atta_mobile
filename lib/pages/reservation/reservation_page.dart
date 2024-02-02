@@ -1,3 +1,4 @@
+import 'package:atta/entities/restaurant.dart';
 import 'package:atta/entities/restaurant_plan.dart';
 import 'package:atta/extensions/border_radius_ext.dart';
 import 'package:atta/extensions/context_ext.dart';
@@ -15,10 +16,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'widgets/select_table.dart';
 
-class ReservationScreenArgument {
-  const ReservationScreenArgument({required this.restaurantId});
+class ReservationPageArgument {
+  const ReservationPageArgument({required this.restaurantId});
 
-  ReservationScreenArgument.fromPathParameters(Map<String, String> pathParameters)
+  ReservationPageArgument.fromPathParameters(Map<String, String> pathParameters)
       : restaurantId = int.parse(pathParameters['id']!);
 
   final int restaurantId;
@@ -31,10 +32,10 @@ class ReservationScreenArgument {
 }
 
 class ReservationPage {
-  static const path = '/reservation/${ReservationScreenArgument.parametersPath}';
+  static const path = '/reservation/${ReservationPageArgument.parametersPath}';
   static const routeName = 'reservation';
 
-  static Widget getScreen(ReservationScreenArgument args) => BlocProvider(
+  static Widget getScreen(ReservationPageArgument args) => BlocProvider(
         create: (context) => ReservationCubit(
           restaurantId: args.restaurantId,
         ),
@@ -56,12 +57,17 @@ class _ReservationScreenState extends State<_ReservationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          onPressed: () => context.adaptativePopNamed(
-            RestaurantDetailPage.routeName,
-            // pathParameters: RestaurantDetailScreenArgument(restaurantId: restaurantId).toPathParameters(),
-          ),
-          icon: const Icon(Icons.arrow_back_ios_new),
+        leading: BlocSelector<ReservationCubit, ReservationState, AttaRestaurant>(
+          selector: (state) => state.restaurant,
+          builder: (context, restaurant) {
+            return IconButton(
+              onPressed: () => context.adaptativePopNamed(
+                RestaurantDetailPage.routeName,
+                pathParameters: RestaurantDetailPageArgument(restaurantId: restaurant.id).toPathParameters(),
+              ),
+              icon: const Icon(Icons.arrow_back_ios_new),
+            );
+          },
         ),
       ),
       body: Container(
@@ -145,9 +151,14 @@ class _ReservationScreenState extends State<_ReservationScreen> {
                     ),
                   ),
                 ),
-                ElevatedButton(
-                  onPressed: () {},
-                  child: const Text('Réserver'),
+                BlocSelector<ReservationCubit, ReservationState, bool>(
+                  selector: (state) => state.selectedOpeningTime != null,
+                  builder: (context, isButtonEnabled) {
+                    return ElevatedButton(
+                      onPressed: isButtonEnabled ? () {} : null,
+                      child: const Text('Réserver'),
+                    );
+                  },
                 ),
                 const SizedBox(height: AttaSpacing.l),
               ],

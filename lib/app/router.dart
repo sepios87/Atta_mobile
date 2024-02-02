@@ -38,7 +38,7 @@ final GoRouter _router = GoRouter(
       name: RestaurantDetailPage.routeName,
       builder: (BuildContext context, GoRouterState state) {
         return RestaurantDetailPage.getScreen(
-          RestaurantDetailScreenArgument.fromPathParameters(state.pathParameters),
+          RestaurantDetailPageArgument.fromPathParameters(state.pathParameters),
         );
       },
     ),
@@ -47,7 +47,7 @@ final GoRouter _router = GoRouter(
       name: ReservationPage.routeName,
       builder: (BuildContext context, GoRouterState state) {
         return ReservationPage.getScreen(
-          ReservationScreenArgument.fromPathParameters(state.pathParameters),
+          ReservationPageArgument.fromPathParameters(state.pathParameters),
         );
       },
     ),
@@ -56,7 +56,7 @@ final GoRouter _router = GoRouter(
       name: DishDetailPage.routeName,
       builder: (BuildContext context, GoRouterState state) {
         return DishDetailPage.getScreen(
-          DishDetailScreenArgument.fromPathParameters(state.pathParameters),
+          DishDetailPageArgument.fromPathParameters(state.pathParameters),
         );
       },
     ),

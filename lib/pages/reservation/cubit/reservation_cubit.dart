@@ -43,18 +43,24 @@ class ReservationCubit extends Cubit<ReservationState> {
         selectedOpeningTime: const Wrapped.value(null),
       ),
     );
-    reservationService.setReservationTime(
-      time: state.selectedOpeningTime,
+    reservationService.setReservationDateTime(
       date: date,
+      time: const Wrapped.value(null),
     );
   }
 
   void selectOpeningTime(TimeOfDay time) {
-    emit(state.copyWith(selectedOpeningTime: Wrapped.value(time)));
-    reservationService.setReservationTime(
-      time: time,
-      date: state.selectedDate,
-    );
+    if (state.selectedOpeningTime == time) {
+      emit(state.copyWith(selectedOpeningTime: const Wrapped.value(null)));
+      reservationService.setReservationDateTime(
+        time: const Wrapped.value(null),
+      );
+    } else {
+      emit(state.copyWith(selectedOpeningTime: Wrapped.value(time)));
+      reservationService.setReservationDateTime(
+        time: Wrapped.value(time),
+      );
+    }
   }
 
   void onNumberOfPersonsChanged(int value) {

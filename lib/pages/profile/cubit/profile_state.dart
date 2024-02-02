@@ -22,16 +22,15 @@ final class ProfileState {
   }
 }
 
-abstract final class ProfileStatus {
-  const ProfileStatus();
-}
+@immutable
+abstract final class ProfileStatus {}
 
 final class ProfileIdleStatus extends ProfileStatus {}
 
 final class ProfileLoadingLogoutStatus extends ProfileStatus {}
 
 final class ProfileErrorStatus extends ProfileStatus {
-  const ProfileErrorStatus(this.error);
+  ProfileErrorStatus(this.error);
 
   final Object error;
 }

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:atta/entities/reservation.dart';
 import 'package:atta/entities/user.dart';
 import 'package:atta/main.dart';
 import 'package:flutter/material.dart';
@@ -21,5 +22,22 @@ class UserReservationsCubit extends Cubit<UserReservationsState> {
     _userSubscription?.cancel();
 
     return super.close();
+  }
+
+  Future<void> onExpandReservation(AttaReservation reservation) async {
+    if (reservation.dishs != null) return;
+
+    emit(state.copyWith(status: UserReservationsLoading(reservation.id)));
+    try {
+      final reservationWithDishs = await reservationService.fetchReservationWithDishs(reservation);
+      final reservationCopy = [...state.user.reservations];
+      final newReservationList = reservationCopy
+        ..remove(reservation)
+        ..add(reservationWithDishs);
+      emit(state.copyWith(user: state.user.copyWith(reservations: newReservationList)));
+    } catch (e) {
+      emit(state.copyWith(status: UserReservationsError(e.toString())));
+    }
+    emit(state.copyWith(status: UserReservationsIdle()));
   }
 }

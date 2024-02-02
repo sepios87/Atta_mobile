@@ -32,7 +32,7 @@ class AttaRestaurant {
       name: map.parse<String>('name', fallback: ''),
       city: map.parse<String>('city', fallback: ''),
       imageUrl: map.parse<String>('image_url', fallback: ''),
-      filters: map.parse<List?>('filters', fallback: [])?.map(AttaRestaurantFilter.fromValue).toList() ?? [],
+      filters: map.parse<List>('filters', fallback: []).map(AttaRestaurantFilter.fromValue).toList(),
       description: map.parse<String?>('description'),
       address: map.parse<String>('address', fallback: ''),
       phone: map.parse<String>('phone', fallback: ''),
@@ -51,7 +51,7 @@ class AttaRestaurant {
       menus:
           map.parse<List?>('menus', fallback: [])?.map((e) => AttaMenu.fromMap(e as Map<String, dynamic>)).toList() ??
               [],
-      numberOfReservations: (map.parse<List?>('reservations', fallback: []) ?? []).length,
+      numberOfReservations: map.parse<List>('reservations', fallback: []).length,
     );
   }
 

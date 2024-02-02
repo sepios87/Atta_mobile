@@ -17,10 +17,10 @@ final class HomeState {
   });
 
   HomeState.initial({
+    required List<AttaRestaurant> restaurants,
     AttaUser? user,
-    List<AttaRestaurant>? restaurants,
   }) : this._(
-          restaurants: restaurants ?? [],
+          restaurants: restaurants,
           searchRestaurants: [],
           activeFilters: [],
           isOnSearch: false,

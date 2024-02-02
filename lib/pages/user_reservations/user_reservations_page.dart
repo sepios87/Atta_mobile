@@ -1,4 +1,5 @@
 import 'package:atta/entities/reservation.dart';
+import 'package:atta/entities/restaurant.dart';
 import 'package:atta/extensions/border_radius_ext.dart';
 import 'package:atta/extensions/context_ext.dart';
 import 'package:atta/extensions/date_time_ext.dart';
@@ -14,6 +15,7 @@ import 'package:atta/widgets/app_bar.dart';
 import 'package:atta/widgets/bottom_navigation/bottom_navigation_bar.dart';
 import 'package:atta/widgets/skeleton.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maps_launcher/maps_launcher.dart';
@@ -67,7 +69,12 @@ class _UserReservations extends StatelessWidget {
                       child: Text('Pour les prochains jours', style: AttaTextStyle.subHeader),
                     ),
                     const SizedBox(height: AttaSpacing.s),
-                    ...state.user.reservations.map(_ReservationCardExpansion.new),
+                    ...state.user.reservations.sorted((a, b) => a.dateTime.compareTo(b.dateTime)).map(
+                          (r) => _ReservationCardExpansion(
+                            reservation: r,
+                            key: ValueKey(r.id),
+                          ),
+                        ),
                   ],
                 ],
               ),

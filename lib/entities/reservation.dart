@@ -19,24 +19,12 @@ class AttaReservation {
       createdAt: DateTime.tryParse(map.parse<String>('created_at')) ?? DateTime.now(),
       dateTime: DateTime.tryParse(map.parse<String>('date_time')) ?? DateTime.now(),
       restaurantId: map.parse<int>('restaurant_id'),
+      // TODO(florian): mettre de vrais valeurs
       tableId: map.parse<int>('id') == 2 ? null : 0,
       // map['table_id'] as String?,
       numberOfPersons: map.parse<int>('number_of_persons'),
-      dishs: map.parse<int>('id') == 1
-          ? [
-              AttaDish.fromMap({
-                'id': 1,
-                'name': 'Pateszycb ezucbze czeubce zcezcu  au fromage',
-                'price': 1.0,
-              }),
-              AttaDish.fromMap({
-                'id': 2,
-                'name': 'Rviolis',
-                'price': 12.0,
-              }),
-            ]
-          : [],
-      // (map['dish_ids'] as List<dynamic>).map((e) => e as String).toList(),
+      // Pour savoir d'ou viennent les plat, aller directement dans reservation.restaurant_id et choper les plats
+      dishs: null,
       comment: map.parse<String?>('comment'),
     );
   }
@@ -47,12 +35,19 @@ class AttaReservation {
   final int restaurantId;
   final int? tableId;
   final int numberOfPersons;
-  final List<AttaDish> dishs;
+  final List<AttaDish>? dishs;
   final String? comment;
 
-  bool get withMoreInformations => (comment != null && comment!.isNotEmpty) || dishs.isNotEmpty || tableId != null;
+  bool get withMoreInformations =>
+      (comment != null && comment!.isNotEmpty) || (dishs != null && dishs!.isNotEmpty) || tableId != null;
 
   Map<String, dynamic> toMap() {
+    final dbMap = toMapForDb();
+    dbMap['dishs'] = dishs?.map((e) => e.toMap()).toList();
+    return dbMap;
+  }
+
+  Map<String, dynamic> toMapForDb() {
     return {
       'id': id,
       'created_at': createdAt.toIso8601String(),
@@ -64,4 +59,22 @@ class AttaReservation {
       'comment': comment,
     };
   }
+
+  AttaReservation copyWith({
+    List<AttaDish>? dishs,
+  }) {
+    return AttaReservation._(
+      id: id,
+      createdAt: createdAt,
+      dateTime: dateTime,
+      restaurantId: restaurantId,
+      tableId: tableId,
+      numberOfPersons: numberOfPersons,
+      dishs: dishs ?? this.dishs,
+      comment: comment,
+    );
+  }
+
+  @override
+  String toString() => toMap().toString();
 }

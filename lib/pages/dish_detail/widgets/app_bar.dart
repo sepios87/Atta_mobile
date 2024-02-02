@@ -13,7 +13,7 @@ class _AppBar extends StatelessWidget implements PreferredSizeWidget {
       leading: IconButton(
         onPressed: () => context.adaptativePopNamed(
           RestaurantDetailPage.routeName,
-          pathParameters: RestaurantDetailScreenArgument(restaurantId: restaurantId).toPathParameters(),
+          pathParameters: RestaurantDetailPageArgument(restaurantId: restaurantId).toPathParameters(),
         ),
         icon: Icon(
           Icons.arrow_back_ios_new_rounded,

@@ -7,6 +7,7 @@ import 'package:atta/extensions/context_ext.dart';
 import 'package:atta/main.dart';
 import 'package:atta/pages/dish_detail/dish_detail_page.dart';
 import 'package:atta/pages/home/home_page.dart';
+import 'package:atta/pages/reservation/reservation_page.dart';
 import 'package:atta/pages/restaurant_detail/cubit/restaurant_detail_cubit.dart';
 import 'package:atta/theme/colors.dart';
 import 'package:atta/theme/radius.dart';
@@ -26,12 +27,12 @@ part 'widgets/app_bar.dart';
 part 'widgets/search_bar.dart';
 part 'widgets/header.dart';
 
-class RestaurantDetailScreenArgument {
-  const RestaurantDetailScreenArgument({
+class RestaurantDetailPageArgument {
+  const RestaurantDetailPageArgument({
     required this.restaurantId,
   });
 
-  RestaurantDetailScreenArgument.fromPathParameters(Map<String, String> parameters)
+  RestaurantDetailPageArgument.fromPathParameters(Map<String, String> parameters)
       : restaurantId = int.parse(parameters['id']!);
 
   final int restaurantId;
@@ -44,10 +45,10 @@ class RestaurantDetailScreenArgument {
 }
 
 class RestaurantDetailPage {
-  static const path = '/restaurant-detail/${RestaurantDetailScreenArgument.parametersPath}';
+  static const path = '/restaurant-detail/${RestaurantDetailPageArgument.parametersPath}';
   static const routeName = 'restaurant-detail';
 
-  static Widget getScreen(RestaurantDetailScreenArgument arg) => BlocProvider(
+  static Widget getScreen(RestaurantDetailPageArgument arg) => BlocProvider(
         create: (context) => RestaurantDetailCubit(
           restaurantId: arg.restaurantId,
         ),
@@ -62,53 +63,84 @@ class _RestaurantDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AttaColors.white,
-      body: CustomScrollView(
-        slivers: [
-          const _AppBar(),
-          const _Header(),
-          DecoratedSliver(
-            decoration: const BoxDecoration(
-              color: Colors.white,
-            ),
-            sliver: BlocBuilder<RestaurantDetailCubit, RestaurantDetailState>(
-              buildWhen: (previous, current) => previous.filteredFormulas != current.filteredFormulas,
-              builder: (context, state) {
-                return state.filteredFormulas.isEmpty
-                    ? const SliverFillRemaining(
-                        hasScrollBody: false,
-                        child: Center(
-                          child: Padding(
-                            padding: EdgeInsets.only(top: AttaSpacing.m, bottom: AttaSpacing.xl),
-                            child: Text('Aucun résultat'),
-                          ),
-                        ),
-                      )
-                    : SliverList(
-                        delegate: SliverChildListDelegate(
-                          state.filteredFormulas
-                              .map(
-                                (e) => FormulaCard(
-                                  formula: e,
-                                  onTap: () {
-                                    if (e is AttaMenu) {
-                                      // TODO(florian): a ajuster pour les menus
-                                    } else if (e is AttaDish) {
-                                      context.adapativePushNamed(
-                                        DishDetailPage.routeName,
-                                        pathParameters: DishDetailScreenArgument(
-                                          restaurantId: state.restaurant.id,
-                                          dishId: e.id,
-                                        ).toPathParameters(),
-                                      );
-                                    }
-                                  },
-                                ),
-                              )
-                              .toList(),
-                        ),
-                      );
-              },
-            ),
+      body: Stack(
+        children: [
+          CustomScrollView(
+            slivers: [
+              const _AppBar(),
+              const _Header(),
+              DecoratedSliver(
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                ),
+                sliver: BlocBuilder<RestaurantDetailCubit, RestaurantDetailState>(
+                  buildWhen: (previous, current) => previous.filteredFormulas != current.filteredFormulas,
+                  builder: (context, state) {
+                    return state.filteredFormulas.isEmpty
+                        ? const SliverFillRemaining(
+                            hasScrollBody: false,
+                            child: Center(
+                              child: Padding(
+                                padding: EdgeInsets.only(top: AttaSpacing.m, bottom: AttaSpacing.xl),
+                                child: Text('Aucun résultat'),
+                              ),
+                            ),
+                          )
+                        : SliverList(
+                            delegate: SliverChildListDelegate(
+                              state.filteredFormulas
+                                  .map(
+                                    (e) => FormulaCard(
+                                      formula: e,
+                                      onTap: () {
+                                        if (e is AttaMenu) {
+                                          // TODO(florian): a ajuster pour les menus
+                                        } else if (e is AttaDish) {
+                                          context.adapativePushNamed(
+                                            DishDetailPage.routeName,
+                                            pathParameters: DishDetailPageArgument(
+                                              restaurantId: state.restaurant.id,
+                                              dishId: e.id,
+                                            ).toPathParameters(),
+                                          );
+                                        }
+                                      },
+                                    ),
+                                  )
+                                  .toList(),
+                            ),
+                          );
+                  },
+                ),
+              ),
+              const SliverPadding(padding: EdgeInsets.only(bottom: AttaSpacing.m + 48)),
+            ],
+          ),
+          BlocBuilder<RestaurantDetailCubit, RestaurantDetailState>(
+            builder: (context, state) {
+              return Positioned(
+                bottom: AttaSpacing.m,
+                left: AttaSpacing.m,
+                right: AttaSpacing.m,
+                child: AnimatedCrossFade(
+                  firstChild: const SizedBox.shrink(),
+                  secondChild: ElevatedButton(
+                    onPressed: () => context.adapativePushNamed(
+                      ReservationPage.routeName,
+                      pathParameters: ReservationPageArgument(
+                        restaurantId: state.restaurant.id,
+                      ).toPathParameters(),
+                    ),
+                    child: const Text('Réserver sans commander'),
+                  ),
+                  crossFadeState:
+                      state.selectedOpeningTime == null ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+                  firstCurve: Curves.easeInCubic,
+                  secondCurve: Curves.easeInOutBack,
+                  duration: const Duration(milliseconds: 300),
+                ),
+              );
+            },
           ),
         ],
       ),

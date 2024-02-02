@@ -28,9 +28,8 @@ class AttaAuthState {
   }
 }
 
-abstract class AuthStatus {
-  const AuthStatus();
-}
+@immutable
+abstract final class AuthStatus {}
 
 final class AuthIdleStatus extends AuthStatus {}
 
@@ -41,7 +40,7 @@ final class AuthLoadingForgetPasswordStatus extends AuthStatus {}
 final class AuthLoadingGoogleStatus extends AuthStatus {}
 
 final class AuthErrorStatus extends AuthStatus {
-  const AuthErrorStatus(this.message);
+  AuthErrorStatus(this.message);
 
   final String message;
 }
