@@ -19,16 +19,23 @@ class AttaReservation {
       createdAt: DateTime.tryParse(map.parse<String>('created_at')) ?? DateTime.now(),
       dateTime: DateTime.tryParse(map.parse<String>('date_time')) ?? DateTime.now(),
       restaurantId: map.parse<int>('restaurant_id'),
-      tableId: 0,
+      tableId: map.parse<int>('id') == 2 ? null : 0,
       // map['table_id'] as String?,
       numberOfPersons: map.parse<int>('number_of_persons'),
-      dishs: [
-        AttaDish.fromMap({
-          'id': 1,
-          'name': 'dish',
-          'price': 1.0,
-        }),
-      ],
+      dishs: map.parse<int>('id') == 1
+          ? [
+              AttaDish.fromMap({
+                'id': 1,
+                'name': 'Pateszycb ezucbze czeubce zcezcu  au fromage',
+                'price': 1.0,
+              }),
+              AttaDish.fromMap({
+                'id': 2,
+                'name': 'Rviolis',
+                'price': 12.0,
+              }),
+            ]
+          : [],
       // (map['dish_ids'] as List<dynamic>).map((e) => e as String).toList(),
       comment: map.parse<String?>('comment'),
     );
@@ -43,7 +50,7 @@ class AttaReservation {
   final List<AttaDish> dishs;
   final String? comment;
 
-  bool get withMoreInformations => comment != null || dishs.isNotEmpty || tableId != null;
+  bool get withMoreInformations => (comment != null && comment!.isNotEmpty) || dishs.isNotEmpty || tableId != null;
 
   Map<String, dynamic> toMap() {
     return {

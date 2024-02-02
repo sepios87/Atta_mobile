@@ -16,6 +16,7 @@ import 'package:atta/widgets/skeleton.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 
 part 'widgets/reservation_card_expansion.dart';
 

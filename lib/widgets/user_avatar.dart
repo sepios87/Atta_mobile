@@ -24,8 +24,6 @@ class UserAvatar extends StatelessWidget {
           ? ClipOval(
               child: CachedNetworkImage(
                 imageUrl: user.imageUrl!,
-                memCacheHeight: radius.toInt() * 2,
-                memCacheWidth: radius.toInt() * 2,
                 maxWidthDiskCache: 1000,
                 maxHeightDiskCache: 1000,
                 useOldImageOnUrlChange: true,
