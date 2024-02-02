@@ -11,10 +11,19 @@ extension DatabaseReservationExt on DatabaseService {
     required int restaurantId,
   }) async {}
 
-  Future<List<AttaDish>> getReservationDishs(int reservationId) async {
+  Future<Map<AttaDish, int>> getReservationDishs(int reservationId) async {
     final data =
-        await _supabase.from('dish_reservation').select('reservation_id, dishs(*)').eq('reservation_id', reservationId);
-    final rawDishs = data.map((e) => e['dishs']).toList();
-    return rawDishs.map((e) => AttaDish.fromMap(e as Map<String, dynamic>)).toList();
+        await _supabase.from('dish_reservation').select('*, dish:dishs(*)').eq('reservation_id', reservationId);
+
+    final dishsWithQuantity = data
+        .map(
+          (e) => MapEntry(
+            AttaDish.fromMap(e['dish'] as Map<String, dynamic>),
+            int.tryParse(e['quantity'].toString()) ?? 0,
+          ),
+        )
+        .toList();
+
+    return Map.fromEntries(dishsWithQuantity);
   }
 }

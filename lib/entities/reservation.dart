@@ -13,6 +13,39 @@ class AttaReservation {
     required this.comment,
   });
 
+  factory AttaReservation.fromDateTime({
+    required int restaurantId,
+    required DateTime dateTime,
+    Map<AttaDish, int>? dishs,
+  }) {
+    return AttaReservation._(
+      id: null,
+      createdAt: DateTime.now(),
+      dateTime: dateTime,
+      restaurantId: restaurantId,
+      tableId: null,
+      numberOfPersons: 2,
+      dishs: dishs,
+      comment: null,
+    );
+  }
+
+  factory AttaReservation.fromDishs({
+    required int restaurantId,
+    Map<AttaDish, int>? dishs,
+  }) {
+    return AttaReservation._(
+      id: null,
+      createdAt: DateTime.now(),
+      dateTime: DateTime.now(),
+      restaurantId: restaurantId,
+      tableId: null,
+      numberOfPersons: 2,
+      dishs: dishs,
+      comment: null,
+    );
+  }
+
   factory AttaReservation.fromMap(Map<String, dynamic> map) {
     return AttaReservation._(
       id: map.parse<int>('id'),
@@ -29,21 +62,23 @@ class AttaReservation {
     );
   }
 
-  final int id;
+  final int? id;
   final DateTime createdAt;
   final DateTime dateTime;
   final int restaurantId;
   final int? tableId;
   final int numberOfPersons;
-  final List<AttaDish>? dishs;
+  final Map<AttaDish, int>? dishs;
   final String? comment;
 
   bool get withMoreInformations =>
       (comment != null && comment!.isNotEmpty) || (dishs != null && dishs!.isNotEmpty) || tableId != null;
 
+  num get totalAmount => dishs?.entries.fold(0, (p, e) => (p ?? 0) + e.key.price * e.value) ?? 0;
+
   Map<String, dynamic> toMap() {
     final dbMap = toMapForDb();
-    dbMap['dishs'] = dishs?.map((e) => e.toMap()).toList();
+    dbMap['dishs'] = dishs?.keys.map((e) => e.toMap()).toList();
     return dbMap;
   }
 
@@ -61,12 +96,13 @@ class AttaReservation {
   }
 
   AttaReservation copyWith({
-    List<AttaDish>? dishs,
+    Map<AttaDish, int>? dishs,
+    DateTime? dateTime,
   }) {
     return AttaReservation._(
       id: id,
       createdAt: createdAt,
-      dateTime: dateTime,
+      dateTime: dateTime ?? this.dateTime,
       restaurantId: restaurantId,
       tableId: tableId,
       numberOfPersons: numberOfPersons,

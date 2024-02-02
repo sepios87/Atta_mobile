@@ -13,11 +13,13 @@ class FormulaCard extends StatelessWidget {
   const FormulaCard({
     required this.formula,
     this.onTap,
+    this.quantity,
     super.key,
   });
 
   final AttaFormula formula;
   final void Function()? onTap;
+  final int? quantity;
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +62,7 @@ class FormulaCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(formula.name, style: AttaTextStyle.subHeader),
+                      Text('${formula.name} ${quantity != null ? 'x$quantity' : ''}', style: AttaTextStyle.subHeader),
                       if (formula.description != null) ...[
                         const SizedBox(height: AttaSpacing.xs),
                         Text(
@@ -74,7 +76,7 @@ class FormulaCard extends StatelessWidget {
                 ),
                 const SizedBox(width: AttaSpacing.m),
                 Text(
-                  formula.price.toEuro,
+                  (formula.price * (quantity ?? 1)).toEuro,
                   style: AttaTextStyle.caption.copyWith(
                     color: Colors.grey.shade700,
                   ),

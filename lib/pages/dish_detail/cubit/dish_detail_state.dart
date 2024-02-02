@@ -5,17 +5,31 @@ class DishDetailState {
   const DishDetailState._({
     required this.dish,
     required this.quantity,
+    required this.restaurantId,
+    this.reservation,
   });
 
-  factory DishDetailState.initial({required AttaDish dish}) {
+  factory DishDetailState.initial({
+    required AttaDish dish,
+    required int restaurantId,
+    AttaReservation? reservation,
+  }) {
+    final quantity = reservation?.dishs?[dish] ?? 1;
+
     return DishDetailState._(
       dish: dish,
-      quantity: 1,
+      quantity: quantity,
+      restaurantId: restaurantId,
+      reservation: reservation,
     );
   }
 
   final AttaDish dish;
   final int quantity;
+  final int restaurantId;
+  final AttaReservation? reservation;
+
+  bool get isDeletable => reservation?.dishs?.containsKey(dish) ?? false;
 
   DishDetailState copyWith({
     int? quantity,
@@ -23,6 +37,7 @@ class DishDetailState {
     return DishDetailState._(
       dish: dish,
       quantity: quantity ?? this.quantity,
+      restaurantId: restaurantId,
     );
   }
 }

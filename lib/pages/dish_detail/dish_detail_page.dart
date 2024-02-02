@@ -2,7 +2,7 @@ import 'package:atta/extensions/border_radius_ext.dart';
 import 'package:atta/extensions/context_ext.dart';
 import 'package:atta/extensions/num_ext.dart';
 import 'package:atta/pages/dish_detail/cubit/dish_detail_cubit.dart';
-import 'package:atta/pages/restaurant_detail/restaurant_detail_page.dart';
+import 'package:atta/pages/home/home_page.dart';
 import 'package:atta/theme/colors.dart';
 import 'package:atta/theme/radius.dart';
 import 'package:atta/theme/spacing.dart';
@@ -47,27 +47,22 @@ class DishDetailPage {
         restaurantId: args.restaurantId,
         dishId: args.dishId,
       ),
-      child: _DishDetailScreen(
-        restaurantId: args.restaurantId,
-      ),
+      child: const _DishDetailScreen(),
     );
   }
 }
 
 class _DishDetailScreen extends StatelessWidget {
-  const _DishDetailScreen({
-    required this.restaurantId,
-  });
-
-  final int restaurantId;
+  const _DishDetailScreen();
 
   @override
   Widget build(BuildContext context) {
     final imageSize = MediaQuery.sizeOf(context).height * 0.5;
     final dish = context.read<DishDetailCubit>().state.dish;
+    final isDeletable = context.read<DishDetailCubit>().state.isDeletable;
 
     return Scaffold(
-      appBar: _AppBar(restaurantId: restaurantId),
+      appBar: const _AppBar(),
       body: Container(
         constraints: const BoxConstraints.expand(),
         decoration: BoxDecoration(
@@ -142,30 +137,41 @@ class _DishDetailScreen extends StatelessWidget {
                 ],
               ),
             ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  left: AttaSpacing.m,
-                  right: AttaSpacing.m,
-                  bottom: AttaSpacing.xl,
-                ),
-                child: ElevatedButton(
-                  onPressed: () {
-                    context.read<DishDetailCubit>().addToCart();
-                    context.adapativePushReplacementNamed(
-                      RestaurantDetailPage.routeName,
-                      pathParameters: RestaurantDetailPageArgument(restaurantId: restaurantId).toPathParameters(),
-                    );
-                  },
-                  child: BlocBuilder<DishDetailCubit, DishDetailState>(
-                    builder: (context, state) {
-                      return Text(
-                        'Ajouter au panier (${state.quantity}) - ${(state.dish.price * state.quantity).toEuro}',
-                      );
-                    },
+            Positioned(
+              left: AttaSpacing.m,
+              right: AttaSpacing.m,
+              bottom: AttaSpacing.xl,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        context.read<DishDetailCubit>().addDishToReservation();
+                        // TODO(florian): si nous sommes sur la version web et qu'on est sur la page réservation ou detail d'un resto avant, il faudrait rediriger vers la page de réservation a nouveau
+                        context.adaptativePopNamed(HomePage.routeName, result: true);
+                      },
+                      child: BlocBuilder<DishDetailCubit, DishDetailState>(
+                        builder: (context, state) {
+                          return Text(
+                            '${isDeletable ? 'Modifier le panier' : 'Ajouter au panier'} (${state.quantity}) - ${(state.dish.price * state.quantity).toEuro}',
+                            textAlign: TextAlign.center,
+                          );
+                        },
+                      ),
+                    ),
                   ),
-                ),
+                  if (isDeletable) ...[
+                    const SizedBox(width: AttaSpacing.xxs),
+                    IconButton(
+                      onPressed: () {
+                        context.read<DishDetailCubit>().removeDishFromReservation();
+                        // TODO(florian): si nous sommes sur la version web et qu'on est sur la page réservation ou detail d'un resto avant, il faudrait rediriger vers la page de réservation a nouveau
+                        context.adaptativePopNamed(HomePage.routeName, result: true);
+                      },
+                      icon: Icon(Icons.delete, color: AttaColors.black),
+                    ),
+                  ],
+                ],
               ),
             ),
           ],

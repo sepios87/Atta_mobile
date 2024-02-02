@@ -1,20 +1,14 @@
 part of '../dish_detail_page.dart';
 
 class _AppBar extends StatelessWidget implements PreferredSizeWidget {
-  const _AppBar({
-    required this.restaurantId,
-  });
-
-  final int restaurantId;
+  const _AppBar();
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       leading: IconButton(
-        onPressed: () => context.adaptativePopNamed(
-          RestaurantDetailPage.routeName,
-          pathParameters: RestaurantDetailPageArgument(restaurantId: restaurantId).toPathParameters(),
-        ),
+        // TODO(florian): si nous sommes sur la version web et qu'on est sur la page réservation ou detail d'un resto avant, il faudrait rediriger vers la page de réservation a nouveau
+        onPressed: () => context.adaptativePopNamed(HomePage.routeName),
         icon: Icon(
           Icons.arrow_back_ios_new_rounded,
           color: AttaColors.white,

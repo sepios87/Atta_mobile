@@ -1,5 +1,6 @@
 import 'package:atta/entities/filter.dart';
 import 'package:atta/entities/formula.dart';
+import 'package:atta/entities/reservation.dart';
 import 'package:atta/entities/restaurant.dart';
 import 'package:atta/entities/wrapped.dart';
 import 'package:atta/main.dart';
@@ -17,6 +18,7 @@ class RestaurantDetailCubit extends Cubit<RestaurantDetailState> {
             selectedDate: reservationService.selectedDate ?? DateTime.now(),
             selectedOpeningTime: reservationService.selectedTime,
             isFavorite: userService.user?.favoritesRestaurantIds.contains(restaurantId) ?? false,
+            reservation: reservationService.getReservation(restaurantId),
           ),
         );
 
@@ -30,6 +32,7 @@ class RestaurantDetailCubit extends Cubit<RestaurantDetailState> {
   void selectDate(DateTime date) {
     emit(state.copyWith(selectedDate: date, selectedOpeningTime: const Wrapped.value(null)));
     reservationService.setReservationDateTime(
+      restaurantId: state.restaurant.id,
       time: const Wrapped.value(null),
       date: date,
     );
@@ -39,14 +42,14 @@ class RestaurantDetailCubit extends Cubit<RestaurantDetailState> {
     if (state.selectedOpeningTime == time) {
       emit(state.copyWith(selectedOpeningTime: const Wrapped.value(null)));
       reservationService.setReservationDateTime(
+        restaurantId: state.restaurant.id,
         time: const Wrapped.value(null),
-        date: state.selectedDate,
       );
     } else {
       emit(state.copyWith(selectedOpeningTime: Wrapped.value(time)));
       reservationService.setReservationDateTime(
+        restaurantId: state.restaurant.id,
         time: Wrapped.value(time),
-        date: state.selectedDate,
       );
     }
   }
@@ -65,5 +68,9 @@ class RestaurantDetailCubit extends Cubit<RestaurantDetailState> {
 
   Future<void> onToogleFavoriteRestaurant() async {
     await userService.toggleFavoriteRestaurant(state.restaurant.id);
+  }
+
+  void updateReservation() {
+    emit(state.copyWith(reservation: reservationService.getReservation(state.restaurant.id)));
   }
 }

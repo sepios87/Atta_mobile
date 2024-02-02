@@ -64,12 +64,23 @@ class _RestaurantDetail extends StatelessWidget {
                       return FormulaCard(
                         formula: restaurant.dishs[index],
                         onTap: () {
-                          context.adapativePushNamed(
+                          context
+                              .adapativePushNamed<bool>(
                             DishDetailPage.routeName,
                             pathParameters: DishDetailPageArgument(
                               restaurantId: restaurant.id,
                               dishId: restaurant.dishs[index].id,
                             ).toPathParameters(),
+                          )
+                              .then(
+                            (value) {
+                              context.adapativePushNamed(
+                                RestaurantDetailPage.routeName,
+                                pathParameters: RestaurantDetailPageArgument(
+                                  restaurantId: restaurant.id,
+                                ).toPathParameters(),
+                              );
+                            },
                           );
                         },
                       );

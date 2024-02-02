@@ -1,4 +1,5 @@
 import 'package:atta/entities/dish.dart';
+import 'package:atta/entities/reservation.dart';
 import 'package:atta/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,6 +13,8 @@ class DishDetailCubit extends Cubit<DishDetailState> {
   }) : super(
           DishDetailState.initial(
             dish: restaurantService.getDishById(restaurantId, dishId)!,
+            restaurantId: restaurantId,
+            reservation: reservationService.getReservation(restaurantId),
           ),
         );
 
@@ -19,7 +22,18 @@ class DishDetailCubit extends Cubit<DishDetailState> {
     emit(state.copyWith(quantity: quantity));
   }
 
-  void addToCart() {
-    // TODO(florian): implement addToCart
+  void addDishToReservation() {
+    reservationService.addDishToReservation(
+      restaurantId: state.restaurantId,
+      dish: state.dish,
+      quantity: state.quantity,
+    );
+  }
+
+  void removeDishFromReservation() {
+    reservationService.removeDishFromReservation(
+      restaurantId: state.restaurantId,
+      dish: state.dish,
+    );
   }
 }

@@ -8,12 +8,14 @@ final class ReservationState {
     required this.selectedOpeningTime,
     required this.selectedDate,
     required this.numberOfPersons,
+    required this.reservation,
   });
 
   factory ReservationState.initial({
     required AttaRestaurant restaurant,
     required TimeOfDay? selectedTime,
     required DateTime selectedDate,
+    AttaReservation? reservation,
   }) =>
       ReservationState._(
         selectedTableId: null,
@@ -21,6 +23,7 @@ final class ReservationState {
         selectedOpeningTime: selectedTime,
         selectedDate: selectedDate,
         numberOfPersons: 2,
+        reservation: reservation,
       );
 
   final String? selectedTableId;
@@ -28,6 +31,7 @@ final class ReservationState {
   final TimeOfDay? selectedOpeningTime;
   final DateTime selectedDate;
   final int numberOfPersons;
+  final AttaReservation? reservation;
 
   ReservationState copyWith({
     Wrapped<String?>? selectedTableId,
@@ -41,6 +45,7 @@ final class ReservationState {
       selectedDate: selectedDate ?? this.selectedDate,
       selectedTableId: selectedTableId == null ? this.selectedTableId : selectedTableId.value,
       numberOfPersons: numberOfPersons ?? this.numberOfPersons,
+      reservation: reservation,
     );
   }
 }

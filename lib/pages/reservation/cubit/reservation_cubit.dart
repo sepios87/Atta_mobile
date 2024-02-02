@@ -1,3 +1,4 @@
+import 'package:atta/entities/reservation.dart';
 import 'package:atta/entities/restaurant.dart';
 import 'package:atta/entities/restaurant_plan.dart';
 import 'package:atta/entities/wrapped.dart';
@@ -25,6 +26,7 @@ class ReservationCubit extends Cubit<ReservationState> {
             restaurant: restaurantService.getRestaurantById(restaurantId)!,
             selectedDate: reservationService.selectedDate ?? DateTime.now(),
             selectedTime: reservationService.selectedTime,
+            reservation: reservationService.getReservation(restaurantId),
           ),
         );
 
@@ -44,6 +46,7 @@ class ReservationCubit extends Cubit<ReservationState> {
       ),
     );
     reservationService.setReservationDateTime(
+      restaurantId: state.restaurant.id,
       date: date,
       time: const Wrapped.value(null),
     );
@@ -53,11 +56,13 @@ class ReservationCubit extends Cubit<ReservationState> {
     if (state.selectedOpeningTime == time) {
       emit(state.copyWith(selectedOpeningTime: const Wrapped.value(null)));
       reservationService.setReservationDateTime(
+        restaurantId: state.restaurant.id,
         time: const Wrapped.value(null),
       );
     } else {
       emit(state.copyWith(selectedOpeningTime: Wrapped.value(time)));
       reservationService.setReservationDateTime(
+        restaurantId: state.restaurant.id,
         time: Wrapped.value(time),
       );
     }

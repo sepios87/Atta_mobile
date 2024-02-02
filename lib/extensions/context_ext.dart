@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
 
 extension ContextExtension on BuildContext {
-  void adapativePushNamed(
+  Future<T?> adapativePushNamed<T extends Object?>(
     String name, {
     Map<String, String> pathParameters = const <String, String>{},
     Map<String, dynamic> queryParameters = const <String, dynamic>{},
@@ -15,13 +15,14 @@ extension ContextExtension on BuildContext {
       queryParameters: queryParameters,
       extra: extra,
     )) {
-      pushNamed(
+      return pushNamed<T>(
         name,
         pathParameters: pathParameters,
         queryParameters: queryParameters,
         extra: extra,
       );
     }
+    return Future<T>.value();
   }
 
   void adapativePushReplacementNamed(
@@ -71,6 +72,7 @@ extension ContextExtension on BuildContext {
     Map<String, String> pathParameters = const <String, String>{},
     Map<String, dynamic> queryParameters = const <String, dynamic>{},
     Object? extra,
+    Object? result,
   }) {
     if (!_goNamedWeb(
       name,
@@ -78,7 +80,7 @@ extension ContextExtension on BuildContext {
       queryParameters: queryParameters,
       extra: extra,
     )) {
-      pop();
+      pop(result);
     }
   }
 

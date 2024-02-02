@@ -5,13 +5,13 @@ class _SelectTable extends StatefulWidget {
     required this.tables,
     required this.selectedTableId,
     required this.onTableSelected,
-    required this.minNumberOfSeats,
+    required this.numberOfSeats,
   });
 
   final List<AttaTable> tables;
   final String? selectedTableId;
   final void Function(String? tableId) onTableSelected;
-  final int minNumberOfSeats;
+  final int numberOfSeats;
 
   @override
   State<_SelectTable> createState() => _SelectTableState();
@@ -24,6 +24,12 @@ class _SelectTableState extends State<_SelectTable> {
   void dispose() {
     _transformationController.dispose();
     super.dispose();
+  }
+
+  bool isSelectableTable(AttaTable table) {
+    final tableNumberOfSeats = table.numberOfSeats;
+    // Permet d'éviter de reserver une table avec plus de places que nécessaire (ou trop peu de place)
+    return widget.numberOfSeats >= tableNumberOfSeats - 1 && widget.numberOfSeats <= tableNumberOfSeats;
   }
 
   @override
@@ -62,7 +68,7 @@ class _SelectTableState extends State<_SelectTable> {
                       return tableRect.contains(position);
                     },
                   );
-                  if (table != null && table.numberOfSeats >= widget.minNumberOfSeats) {
+                  if (table != null && isSelectableTable(table)) {
                     widget.onTableSelected(table.id);
                   } else {
                     widget.onTableSelected(null);
@@ -81,14 +87,14 @@ class _SelectTableState extends State<_SelectTable> {
                     clipBehavior: Clip.none,
                     children: widget.tables
                         .map(
-                          (e) => _Table(
-                            table: e,
-                            x: (e.x * ctr.maxWidth) / maxTableXPosition,
-                            y: (e.y * ctr.maxHeight) / maxTableYPosition,
-                            width: (e.width * ctr.maxWidth) / maxTableXPosition,
-                            height: (e.height * ctr.maxHeight) / maxTableYPosition,
-                            isSelected: e.id == widget.selectedTableId,
-                            isEnable: e.numberOfSeats >= widget.minNumberOfSeats,
+                          (t) => _Table(
+                            table: t,
+                            x: (t.x * ctr.maxWidth) / maxTableXPosition,
+                            y: (t.y * ctr.maxHeight) / maxTableYPosition,
+                            width: (t.width * ctr.maxWidth) / maxTableXPosition,
+                            height: (t.height * ctr.maxHeight) / maxTableYPosition,
+                            isSelected: t.id == widget.selectedTableId,
+                            isEnable: isSelectableTable(t),
                           ),
                         )
                         .toList(),

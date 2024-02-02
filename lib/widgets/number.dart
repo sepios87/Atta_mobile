@@ -9,12 +9,14 @@ class AttaNumber extends StatefulWidget {
     required this.onChange,
     required this.initialValue,
     this.isVertical = false,
+    this.minValue = 1,
     super.key,
   });
 
   final void Function(int) onChange;
   final int initialValue;
   final bool isVertical;
+  final int minValue;
 
   @override
   State<AttaNumber> createState() => _AttaNumberState();
@@ -55,7 +57,7 @@ class _AttaNumberState extends State<AttaNumber> {
       child: IconButton(
         onPressed: () {
           final value = int.parse(_controller.text);
-          if (value > 1) {
+          if (value > widget.minValue) {
             _controller.text = (value - 1).toString();
             _onChange();
           }

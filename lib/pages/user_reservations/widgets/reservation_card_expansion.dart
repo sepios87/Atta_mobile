@@ -213,7 +213,7 @@ class _ChildReservationTileExpansion extends StatelessWidget {
           );
         }
 
-        final dishs = reservation.dishs ?? [];
+        final dishs = reservation.dishs?.keys ?? [];
 
         return Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -303,24 +303,26 @@ class _ChildReservationTileExpansion extends StatelessWidget {
                           style: AttaTextStyle.subHeader.copyWith(color: Colors.grey.shade800),
                         ),
                         const SizedBox(height: AttaSpacing.xxs),
-                        ...dishs.map(
-                          (dish) => Row(
+                        ...dishs.map((dish) {
+                          final quantity = reservation.dishs![dish]!;
+
+                          return Row(
                             children: [
                               Expanded(
                                 child: Text(
-                                  dish.name,
+                                  '${dish.name} x$quantity',
                                   overflow: TextOverflow.ellipsis,
                                   style: AttaTextStyle.content.copyWith(color: Colors.grey.shade700),
                                 ),
                               ),
                               const SizedBox(width: AttaSpacing.xxs),
                               Text(
-                                dish.price.toEuro,
+                                (dish.price * quantity).toEuro,
                                 style: AttaTextStyle.label.copyWith(color: Colors.grey.shade700),
                               ),
                             ],
-                          ),
-                        ),
+                          );
+                        }),
                         Divider(
                           color: Colors.grey.shade300,
                           thickness: 1,
@@ -333,7 +335,7 @@ class _ChildReservationTileExpansion extends StatelessWidget {
                               style: AttaTextStyle.subHeader.copyWith(color: Colors.grey.shade700),
                             ),
                             Text(
-                              dishs.fold<double>(0, (p, e) => p + e.price).toEuro,
+                              reservation.totalAmount.toEuro,
                               style: AttaTextStyle.label.copyWith(
                                 color: Colors.grey.shade700,
                               ),

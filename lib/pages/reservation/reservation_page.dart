@@ -8,6 +8,7 @@ import 'package:atta/theme/colors.dart';
 import 'package:atta/theme/radius.dart';
 import 'package:atta/theme/spacing.dart';
 import 'package:atta/theme/text_style.dart';
+import 'package:atta/widgets/formula_card.dart';
 import 'package:atta/widgets/number.dart';
 import 'package:atta/widgets/select_hourly.dart';
 import 'package:collection/collection.dart';
@@ -80,88 +81,98 @@ class _ReservationScreenState extends State<_ReservationScreen> {
           physics: _canScroll ? const ScrollPhysics() : const NeverScrollableScrollPhysics(),
           child: Padding(
             padding: const EdgeInsets.all(AttaSpacing.m),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const SizedBox(height: AttaSpacing.m),
-                Text('Reservation', style: AttaTextStyle.header),
-                BlocBuilder<ReservationCubit, ReservationState>(
-                  builder: (context, state) {
-                    return SelectHourly(
-                      openingTimes: state.restaurant.openingHoursSlots,
-                      selectedDate: state.selectedDate,
-                      selectedOpeningTime: state.selectedOpeningTime,
-                      onDateChanged: (date) {
-                        context.read<ReservationCubit>().selectDate(date);
+            child: BlocBuilder<ReservationCubit, ReservationState>(
+              builder: (context, state) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const SizedBox(height: AttaSpacing.m),
+                    Text('Reservation', style: AttaTextStyle.header),
+                    BlocBuilder<ReservationCubit, ReservationState>(
+                      builder: (context, state) {
+                        return SelectHourly(
+                          openingTimes: state.restaurant.openingHoursSlots,
+                          selectedDate: state.selectedDate,
+                          selectedOpeningTime: state.selectedOpeningTime,
+                          onDateChanged: (date) {
+                            context.read<ReservationCubit>().selectDate(date);
+                          },
+                          onOpeningTimeChanged: (openingTime) {
+                            context.read<ReservationCubit>().selectOpeningTime(openingTime);
+                          },
+                        );
                       },
-                      onOpeningTimeChanged: (openingTime) {
-                        context.read<ReservationCubit>().selectOpeningTime(openingTime);
-                      },
-                    );
-                  },
-                ),
-                const SizedBox(height: AttaSpacing.m),
-                Text('Pour combien de personnes ?', style: AttaTextStyle.content),
-                const SizedBox(height: AttaSpacing.s),
-                AttaNumber(
-                  onChange: (value) => context.read<ReservationCubit>().onNumberOfPersonsChanged(value),
-                  initialValue: context.read<ReservationCubit>().state.numberOfPersons,
-                ),
-                const SizedBox(height: AttaSpacing.l),
-                Text('Choisi ta place', style: AttaTextStyle.content),
-                const SizedBox(height: AttaSpacing.s),
-                SizedBox(
-                  width: double.infinity,
-                  height: 260,
-                  child: BlocBuilder<ReservationCubit, ReservationState>(
-                    builder: (context, state) {
-                      return Listener(
-                        onPointerUp: (_) {
-                          setState(() => _canScroll = true);
-                        },
-                        onPointerMove: (_) {
-                          setState(() => _canScroll = false);
-                        },
-                        child: _SelectTable(
-                          minNumberOfSeats: state.numberOfPersons,
-                          selectedTableId: state.selectedTableId,
-                          onTableSelected: (tableId) => context.read<ReservationCubit>().onTableSelected(tableId),
-                          // TODO(florian): Replace with real data
-                          tables: mockTables,
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                const SizedBox(height: AttaSpacing.l),
-                Text('Commentaire', style: AttaTextStyle.content),
-                const SizedBox(height: AttaSpacing.s),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
-                  child: TextField(
-                    maxLines: 3,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(AttaRadius.small),
-                        borderSide: BorderSide.none,
-                      ),
-                      filled: true,
-                      contentPadding: const EdgeInsets.all(AttaSpacing.s),
-                      hintText: 'Je suis allergique aux fruits à coque...',
                     ),
-                  ),
-                ),
-                BlocSelector<ReservationCubit, ReservationState, bool>(
-                  selector: (state) => state.selectedOpeningTime != null,
-                  builder: (context, isButtonEnabled) {
-                    return ElevatedButton(
-                      onPressed: isButtonEnabled ? () {} : null,
-                      child: const Text('Réserver'),
-                    );
-                  },
-                ),
-                const SizedBox(height: AttaSpacing.l),
-              ],
+                    const SizedBox(height: AttaSpacing.m),
+                    Text('Pour combien de personnes ?', style: AttaTextStyle.content),
+                    const SizedBox(height: AttaSpacing.s),
+                    AttaNumber(
+                      onChange: (value) => context.read<ReservationCubit>().onNumberOfPersonsChanged(value),
+                      initialValue: context.read<ReservationCubit>().state.numberOfPersons,
+                    ),
+                    const SizedBox(height: AttaSpacing.l),
+                    Text('Choisi ta place', style: AttaTextStyle.content),
+                    const SizedBox(height: AttaSpacing.s),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 260,
+                      child: BlocBuilder<ReservationCubit, ReservationState>(
+                        builder: (context, state) {
+                          return Listener(
+                            onPointerUp: (_) => setState(() => _canScroll = true),
+                            onPointerMove: (_) {
+                              setState(() => _canScroll = false);
+                            },
+                            child: _SelectTable(
+                              numberOfSeats: state.numberOfPersons,
+                              selectedTableId: state.selectedTableId,
+                              onTableSelected: (tableId) => context.read<ReservationCubit>().onTableSelected(tableId),
+                              // TODO(florian): Replace with real data
+                              tables: mockTables,
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                    const SizedBox(height: AttaSpacing.l),
+                    if (state.reservation != null) ...[
+                      Text('Plats commandés', style: AttaTextStyle.content),
+                      const SizedBox(height: AttaSpacing.s),
+                      ...(state.reservation!.dishs?.keys ?? []).map((dish) {
+                        final quantity = state.reservation!.dishs![dish] ?? 0;
+                        return FormulaCard(formula: dish, quantity: quantity);
+                        // return Text('${dish.name} x$quantity');
+                      }),
+                      const SizedBox(height: AttaSpacing.l),
+                    ],
+                    Text('Commentaire', style: AttaTextStyle.content),
+                    const SizedBox(height: AttaSpacing.s),
+                    TextField(
+                      maxLines: 3,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(AttaRadius.small),
+                          borderSide: BorderSide.none,
+                        ),
+                        filled: true,
+                        contentPadding: const EdgeInsets.all(AttaSpacing.s),
+                        hintText: 'Je suis allergique aux fruits à coque...',
+                      ),
+                    ),
+                    const SizedBox(height: AttaSpacing.l),
+                    BlocSelector<ReservationCubit, ReservationState, bool>(
+                      selector: (state) => state.selectedOpeningTime != null,
+                      builder: (context, isButtonEnabled) {
+                        return ElevatedButton(
+                          onPressed: isButtonEnabled ? () {} : null,
+                          child: const Text('Réserver'),
+                        );
+                      },
+                    ),
+                    const SizedBox(height: AttaSpacing.l),
+                  ],
+                );
+              },
             ),
           ),
         ),

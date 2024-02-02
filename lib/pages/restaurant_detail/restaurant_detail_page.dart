@@ -4,6 +4,7 @@ import 'package:atta/entities/menu.dart';
 import 'package:atta/entities/restaurant.dart';
 import 'package:atta/extensions/border_radius_ext.dart';
 import 'package:atta/extensions/context_ext.dart';
+import 'package:atta/extensions/num_ext.dart';
 import 'package:atta/main.dart';
 import 'package:atta/pages/dish_detail/dish_detail_page.dart';
 import 'package:atta/pages/home/home_page.dart';
@@ -96,13 +97,17 @@ class _RestaurantDetailScreen extends StatelessWidget {
                                         if (e is AttaMenu) {
                                           // TODO(florian): a ajuster pour les menus
                                         } else if (e is AttaDish) {
-                                          context.adapativePushNamed(
-                                            DishDetailPage.routeName,
-                                            pathParameters: DishDetailPageArgument(
-                                              restaurantId: state.restaurant.id,
-                                              dishId: e.id,
-                                            ).toPathParameters(),
-                                          );
+                                          context
+                                              .adapativePushNamed<bool>(
+                                                DishDetailPage.routeName,
+                                                pathParameters: DishDetailPageArgument(
+                                                  restaurantId: state.restaurant.id,
+                                                  dishId: e.id,
+                                                ).toPathParameters(),
+                                              )
+                                              .then(
+                                                (value) => context.read<RestaurantDetailCubit>().updateReservation(),
+                                              );
                                         }
                                       },
                                     ),
@@ -131,10 +136,16 @@ class _RestaurantDetailScreen extends StatelessWidget {
                         restaurantId: state.restaurant.id,
                       ).toPathParameters(),
                     ),
-                    child: const Text('Réserver sans commander'),
+                    child: Text(
+                      state.reservation?.dishs?.isEmpty ?? true
+                          ? 'Réserver sans commander'
+                          : 'Commander et réserver (${state.reservation!.totalAmount.toEuro})',
+                    ),
                   ),
-                  crossFadeState:
-                      state.selectedOpeningTime == null ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+                  crossFadeState: state.selectedOpeningTime != null ||
+                          (state.reservation != null && (state.reservation!.dishs?.isNotEmpty ?? false))
+                      ? CrossFadeState.showSecond
+                      : CrossFadeState.showFirst,
                   firstCurve: Curves.easeInCubic,
                   secondCurve: Curves.easeInOutBack,
                   duration: const Duration(milliseconds: 300),
