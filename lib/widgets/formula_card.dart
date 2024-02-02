@@ -14,12 +14,14 @@ class FormulaCard extends StatelessWidget {
     required this.formula,
     this.onTap,
     this.quantity,
+    this.badge,
     super.key,
   });
 
   final AttaFormula formula;
   final void Function()? onTap;
   final int? quantity;
+  final Widget? badge;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +38,7 @@ class FormulaCard extends StatelessWidget {
           ),
           child: IntrinsicHeight(
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
                   clipBehavior: Clip.antiAlias,
@@ -75,11 +77,20 @@ class FormulaCard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: AttaSpacing.m),
-                Text(
-                  (formula.price * (quantity ?? 1)).toEuro,
-                  style: AttaTextStyle.caption.copyWith(
-                    color: Colors.grey.shade700,
-                  ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    if (badge != null) ...[
+                      badge!,
+                      const Spacer(),
+                    ],
+                    Text(
+                      (formula.price * (quantity ?? 1)).toEuro,
+                      style: AttaTextStyle.caption.copyWith(
+                        color: Colors.grey.shade700,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),

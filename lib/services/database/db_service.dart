@@ -1,4 +1,5 @@
 import 'package:atta/entities/dish.dart';
+import 'package:atta/entities/reservation.dart';
 import 'package:atta/entities/restaurant.dart';
 import 'package:atta/entities/user.dart';
 import 'package:flutter/material.dart';

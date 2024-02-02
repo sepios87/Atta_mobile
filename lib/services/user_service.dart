@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:atta/entities/reservation.dart';
 import 'package:atta/entities/user.dart';
 import 'package:atta/main.dart';
 import 'package:atta/services/database/db_service.dart';
@@ -60,5 +61,11 @@ class UserService {
     final bytes = utf8.encode(password);
     final hash = sha256.convert(bytes);
     return hash.toString();
+  }
+
+  void addReservation(AttaReservation reservation) {
+    final newUser = user?.copy();
+    newUser?.reservations.add(reservation);
+    _userStreamController.add(newUser);
   }
 }

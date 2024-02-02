@@ -74,12 +74,14 @@ class _RestaurantDetail extends StatelessWidget {
                           )
                               .then(
                             (value) {
-                              context.adapativePushNamed(
-                                RestaurantDetailPage.routeName,
-                                pathParameters: RestaurantDetailPageArgument(
-                                  restaurantId: restaurant.id,
-                                ).toPathParameters(),
-                              );
+                              if (value != null && value) {
+                                context.adapativePushNamed(
+                                  RestaurantDetailPage.routeName,
+                                  pathParameters: RestaurantDetailPageArgument(
+                                    restaurantId: restaurant.id,
+                                  ).toPathParameters(),
+                                );
+                              }
                             },
                           );
                         },

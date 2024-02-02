@@ -46,7 +46,27 @@ class AttaReservation {
     );
   }
 
+  factory AttaReservation.fromDataForDb({
+    required int restaurantId,
+    required DateTime dateTime,
+    required int numberOfPersons,
+    Map<AttaDish, int>? dishs,
+    String? comment,
+  }) {
+    return AttaReservation._(
+      id: null,
+      createdAt: DateTime.now(),
+      dateTime: dateTime,
+      restaurantId: restaurantId,
+      tableId: null,
+      numberOfPersons: numberOfPersons,
+      dishs: dishs,
+      comment: comment,
+    );
+  }
+
   factory AttaReservation.fromMap(Map<String, dynamic> map) {
+    print('AttaReservation.fromMap: $map');
     return AttaReservation._(
       id: map.parse<int>('id'),
       createdAt: DateTime.tryParse(map.parse<String>('created_at')) ?? DateTime.now(),
@@ -78,19 +98,18 @@ class AttaReservation {
 
   Map<String, dynamic> toMap() {
     final dbMap = toMapForDb();
+    dbMap['id'] = id;
     dbMap['dishs'] = dishs?.keys.map((e) => e.toMap()).toList();
     return dbMap;
   }
 
   Map<String, dynamic> toMapForDb() {
     return {
-      'id': id,
       'created_at': createdAt.toIso8601String(),
       'date_time': dateTime.toIso8601String(),
       'restaurant_id': restaurantId,
-      'table_id': tableId,
+      // 'table_id': tableId, // TODO(florian): revenir dessus
       'number_of_persons': numberOfPersons,
-      // 'dish': dishIds,
       'comment': comment,
     };
   }

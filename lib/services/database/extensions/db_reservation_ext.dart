@@ -26,4 +26,20 @@ extension DatabaseReservationExt on DatabaseService {
 
     return Map.fromEntries(dishsWithQuantity);
   }
+
+  Future<Map<String, dynamic>> createReservation(AttaReservation reservation) async {
+    final reservationMap = reservation.toMapForDb();
+    reservationMap['user_id'] = currentUser?.id;
+    final data = await _supabase.from('reservations').upsert(reservationMap).select();
+
+    for (final dish in reservation.dishs?.keys.toList() ?? <AttaDish>[]) {
+      await _supabase.from('dish_reservation').insert({
+        'reservation_id': data.first['id'],
+        'dish_id': dish.id,
+        'quantity': reservation.dishs![dish],
+      });
+    }
+
+    return data.first;
+  }
 }

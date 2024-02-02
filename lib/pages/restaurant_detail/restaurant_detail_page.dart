@@ -89,30 +89,59 @@ class _RestaurantDetailScreen extends StatelessWidget {
                           )
                         : SliverList(
                             delegate: SliverChildListDelegate(
-                              state.filteredFormulas
-                                  .map(
-                                    (e) => FormulaCard(
-                                      formula: e,
-                                      onTap: () {
-                                        if (e is AttaMenu) {
-                                          // TODO(florian): a ajuster pour les menus
-                                        } else if (e is AttaDish) {
-                                          context
-                                              .adapativePushNamed<bool>(
-                                                DishDetailPage.routeName,
-                                                pathParameters: DishDetailPageArgument(
-                                                  restaurantId: state.restaurant.id,
-                                                  dishId: e.id,
-                                                ).toPathParameters(),
-                                              )
-                                              .then(
-                                                (value) => context.read<RestaurantDetailCubit>().updateReservation(),
-                                              );
-                                        }
-                                      },
-                                    ),
-                                  )
-                                  .toList(),
+                              state.filteredFormulas.map((e) {
+                                final dishsReservation = state.reservation?.dishs;
+
+                                return FormulaCard(
+                                  formula: e,
+                                  badge: dishsReservation?[e] == null
+                                      ? null
+                                      : Container(
+                                          decoration: BoxDecoration(
+                                            color: AttaColors.secondary,
+                                            borderRadius: BorderRadius.circular(AttaRadius.small),
+                                          ),
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: AttaSpacing.xs,
+                                            vertical: AttaSpacing.xxs,
+                                          ),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Icon(
+                                                Icons.shopping_basket_rounded,
+                                                size: 13,
+                                                color: AttaColors.white,
+                                              ),
+                                              const SizedBox(width: AttaSpacing.xxs),
+                                              Text(
+                                                dishsReservation?[e].toString() ?? '',
+                                                style: AttaTextStyle.caption.copyWith(
+                                                  color: AttaColors.white,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                  onTap: () {
+                                    if (e is AttaMenu) {
+                                      // TODO(florian): a ajuster pour les menus
+                                    } else if (e is AttaDish) {
+                                      context
+                                          .adapativePushNamed<bool>(
+                                            DishDetailPage.routeName,
+                                            pathParameters: DishDetailPageArgument(
+                                              restaurantId: state.restaurant.id,
+                                              dishId: e.id,
+                                            ).toPathParameters(),
+                                          )
+                                          .then(
+                                            (value) => context.read<RestaurantDetailCubit>().updateReservation(),
+                                          );
+                                    }
+                                  },
+                                );
+                              }).toList(),
                             ),
                           );
                   },

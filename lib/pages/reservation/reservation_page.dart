@@ -4,6 +4,7 @@ import 'package:atta/extensions/border_radius_ext.dart';
 import 'package:atta/extensions/context_ext.dart';
 import 'package:atta/pages/reservation/cubit/reservation_cubit.dart';
 import 'package:atta/pages/restaurant_detail/restaurant_detail_page.dart';
+import 'package:atta/pages/user_reservations/user_reservations_page.dart';
 import 'package:atta/theme/colors.dart';
 import 'package:atta/theme/radius.dart';
 import 'package:atta/theme/spacing.dart';
@@ -141,7 +142,6 @@ class _ReservationScreenState extends State<_ReservationScreen> {
                       ...(state.reservation!.dishs?.keys ?? []).map((dish) {
                         final quantity = state.reservation!.dishs![dish] ?? 0;
                         return FormulaCard(formula: dish, quantity: quantity);
-                        // return Text('${dish.name} x$quantity');
                       }),
                       const SizedBox(height: AttaSpacing.l),
                     ],
@@ -164,7 +164,13 @@ class _ReservationScreenState extends State<_ReservationScreen> {
                       selector: (state) => state.selectedOpeningTime != null,
                       builder: (context, isButtonEnabled) {
                         return ElevatedButton(
-                          onPressed: isButtonEnabled ? () {} : null,
+                          onPressed: isButtonEnabled
+                              ? () {
+                                  context.read<ReservationCubit>().onSendReservation().then((value) {
+                                    context.adapativeReplacementNamed(UserReservationsPage.routeName);
+                                  });
+                                }
+                              : null,
                           child: const Text('Réserver'),
                         );
                       },

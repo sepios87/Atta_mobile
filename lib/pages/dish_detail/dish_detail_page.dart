@@ -140,7 +140,7 @@ class _DishDetailScreen extends StatelessWidget {
             Positioned(
               left: AttaSpacing.m,
               right: AttaSpacing.m,
-              bottom: AttaSpacing.xl,
+              bottom: AttaSpacing.m,
               child: Row(
                 children: [
                   Expanded(

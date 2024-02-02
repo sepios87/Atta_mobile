@@ -22,22 +22,26 @@ class ReservationService {
   }) {
     if (date != null) _selectedDate = date;
     if (time != null) {
-      _selectedTime = time.value;
-      final newDateTime = DateTime(
-        _selectedDate.year,
-        _selectedDate.month,
-        _selectedDate.day,
-        _selectedTime!.hour,
-        _selectedTime!.minute,
-      );
-      final currentReservation = _reservations[restaurantId];
-      if (currentReservation != null) {
-        _reservations[restaurantId] = currentReservation.copyWith(dateTime: newDateTime);
+      if (time.value == null) {
+        _selectedTime = null;
       } else {
-        _reservations[restaurantId] = AttaReservation.fromDateTime(
-          restaurantId: restaurantId,
-          dateTime: newDateTime,
+        _selectedTime = time.value;
+        final newDateTime = DateTime(
+          _selectedDate.year,
+          _selectedDate.month,
+          _selectedDate.day,
+          _selectedTime!.hour,
+          _selectedTime!.minute,
         );
+        final currentReservation = _reservations[restaurantId];
+        if (currentReservation != null) {
+          _reservations[restaurantId] = currentReservation.copyWith(dateTime: newDateTime);
+        } else {
+          _reservations[restaurantId] = AttaReservation.fromDateTime(
+            restaurantId: restaurantId,
+            dateTime: newDateTime,
+          );
+        }
       }
     }
   }
@@ -72,15 +76,10 @@ class ReservationService {
     }
   }
 
-  void sendReservation(
-    String restaurantId,
-    String? tableId,
-    int numberOfPersons,
-    List<String> formulaIds,
-    String comment,
-  ) {
-    // TODO(florian): implement
-    print('Reservation sent at $_selectedTime on $_selectedDate');
+  Future<Map<String, dynamic>> sendReservation(AttaReservation reservation) async {
+    final data = await databaseService.createReservation(reservation);
+    userService.addReservation(AttaReservation.fromMap(data));
+    return data;
   }
 
   void resetReservation() {
