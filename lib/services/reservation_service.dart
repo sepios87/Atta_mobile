@@ -78,7 +78,9 @@ class ReservationService {
 
   Future<Map<String, dynamic>> sendReservation(AttaReservation reservation) async {
     final data = await databaseService.createReservation(reservation);
-    userService.addReservation(AttaReservation.fromMap(data));
+    final newReservation = AttaReservation.fromMap(data).copyWith(dishs: reservation.dishs);
+    userService.addOrUpdateReservation(newReservation);
+
     _reservations.remove(reservation.restaurantId);
     resetReservationDateTime();
     return data;
@@ -89,12 +91,17 @@ class ReservationService {
     _selectedDate = DateTime.now();
   }
 
-  Future<AttaReservation> fetchReservationWithDishs(
+  Future<void> removeReservation(int reservationId) async {
+    await databaseService.removeReservation(reservationId);
+    userService.removeReservation(reservationId);
+  }
+
+  Future<void> fetchReservationWithDishs(
     AttaReservation reservation,
   ) async {
-    if (reservation.id == null) return reservation;
+    if (reservation.id == null) return;
 
     final dishs = await databaseService.getReservationDishs(reservation.id!);
-    return reservation.copyWith(dishs: dishs);
+    userService.addOrUpdateReservation(reservation.copyWith(dishs: dishs));
   }
 }

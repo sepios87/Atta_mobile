@@ -15,7 +15,6 @@ import 'package:atta/widgets/app_bar.dart';
 import 'package:atta/widgets/bottom_navigation/bottom_navigation_bar.dart';
 import 'package:atta/widgets/skeleton.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maps_launcher/maps_launcher.dart';
@@ -39,6 +38,10 @@ class _UserReservations extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<UserReservationsCubit, UserReservationsState>(
       builder: (context, state) {
+        final beforeReservation = state.user.reservations.where((r) => r.dateTime.isBefore(DateTime.now())).toList();
+        final afterReservation =
+            state.user.reservations.where((r) => r.dateTime.isAfter(DateTime.now()) || r.dateTime.isToday).toList();
+
         return Scaffold(
           appBar: AttaAppBar(user: state.user),
           body: Container(
@@ -64,17 +67,33 @@ class _UserReservations extends StatelessWidget {
                       child: Text("Vous n'avez pas encore de réservations"),
                     ),
                   ] else ...[
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
-                      child: Text('Pour les prochains jours', style: AttaTextStyle.subHeader),
+                    if (afterReservation.isNotEmpty) ...[
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
+                        child: Text('Pour les prochains jours', style: AttaTextStyle.subHeader),
+                      ),
+                      const SizedBox(height: AttaSpacing.xs),
+                    ],
+                    ...afterReservation.map(
+                      (r) => _ReservationCardExpansion(
+                        reservation: r,
+                        key: ValueKey(r.id),
+                      ),
                     ),
-                    const SizedBox(height: AttaSpacing.s),
-                    ...state.user.reservations.sorted((a, b) => a.dateTime.compareTo(b.dateTime)).map(
-                          (r) => _ReservationCardExpansion(
-                            reservation: r,
-                            key: ValueKey(r.id),
-                          ),
-                        ),
+                    if (afterReservation.isNotEmpty) const SizedBox(height: AttaSpacing.l),
+                    if (beforeReservation.isNotEmpty) ...[
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
+                        child: Text('Déja passées', style: AttaTextStyle.subHeader),
+                      ),
+                      const SizedBox(height: AttaSpacing.xs),
+                    ],
+                    ...beforeReservation.map(
+                      (r) => _ReservationCardExpansion(
+                        reservation: r,
+                        key: ValueKey(r.id),
+                      ),
+                    ),
                   ],
                 ],
               ),

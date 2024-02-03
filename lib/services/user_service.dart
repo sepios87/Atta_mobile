@@ -44,7 +44,7 @@ class UserService {
   }
 
   Future<void> toggleFavoriteRestaurant(int restaurantId) async {
-    final newUser = user?.copy();
+    final newUser = user?.copyWith();
 
     if (newUser?.favoritesRestaurantIds.contains(restaurantId) ?? false) {
       newUser?.favoritesRestaurantIds.remove(restaurantId);
@@ -63,8 +63,15 @@ class UserService {
     return hash.toString();
   }
 
-  void addReservation(AttaReservation reservation) {
-    final newUser = user?.copy();
+  void removeReservation(int reservationId) {
+    final newUser = user?.copyWith();
+    newUser?.reservations.removeWhere((r) => r.id == reservationId);
+    _userStreamController.add(newUser);
+  }
+
+  void addOrUpdateReservation(AttaReservation reservation) {
+    final newUser = user?.copyWith();
+    newUser?.reservations.removeWhere((r) => r.id == reservation.id);
     newUser?.reservations.add(reservation);
     _userStreamController.add(newUser);
   }

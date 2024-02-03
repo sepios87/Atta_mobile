@@ -47,6 +47,16 @@ class _SelectTableState extends State<_SelectTable> {
           child: LayoutBuilder(
             builder: (context, ctr) {
               return GestureDetector(
+                onDoubleTapDown: (details) {
+                  if (_transformationController.value != Matrix4.identity()) {
+                    _transformationController.value = Matrix4.identity();
+                  } else {
+                    final localPosition = details.localPosition;
+                    _transformationController.value = Matrix4.identity()
+                      ..scale(1.5)
+                      ..translate(-localPosition.dx / 1.5, -localPosition.dy / 1.5);
+                  }
+                },
                 onTapUp: (details) {
                   final position = _transformationController.toScene(details.localPosition);
                   final table = widget.tables.firstWhereOrNull(
@@ -76,12 +86,7 @@ class _SelectTableState extends State<_SelectTable> {
                 },
                 child: InteractiveViewer(
                   transformationController: _transformationController,
-                  boundaryMargin: const EdgeInsets.only(
-                    right: 32,
-                    bottom: 32,
-                    top: 16,
-                    left: 16,
-                  ), // For padding number of seats widget
+                  boundaryMargin: const EdgeInsets.all(AttaSpacing.l),
                   maxScale: 3,
                   child: Stack(
                     clipBehavior: Clip.none,
@@ -149,6 +154,7 @@ class _Table extends StatelessWidget {
         children: [
           AnimatedContainer(
             duration: const Duration(milliseconds: 150),
+            curve: Curves.easeInOut,
             height: height,
             width: width,
             decoration: BoxDecoration(
@@ -218,7 +224,7 @@ double _calculateMaxTableXPosition(List<AttaTable> tables) {
       max = (table.x + table.width).toDouble();
     }
   }
-  return max;
+  return max + 1; // + 1 for right margin
 }
 
 double _calculateMaxTableYPosition(List<AttaTable> tables) {
@@ -228,5 +234,5 @@ double _calculateMaxTableYPosition(List<AttaTable> tables) {
       max = (table.y + table.height).toDouble();
     }
   }
-  return max;
+  return max + 1; // + 1 for bottom margin
 }

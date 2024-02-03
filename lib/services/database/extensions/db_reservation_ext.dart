@@ -42,4 +42,8 @@ extension DatabaseReservationExt on DatabaseService {
 
     return data.first;
   }
+
+  Future<void> removeReservation(int reservationId) async {
+    await _supabase.from('reservations').delete().eq('id', reservationId);
+  }
 }

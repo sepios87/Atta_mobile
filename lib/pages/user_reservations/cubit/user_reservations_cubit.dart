@@ -29,12 +29,16 @@ class UserReservationsCubit extends Cubit<UserReservationsState> {
 
     emit(state.copyWith(status: UserReservationsLoading(reservation.id)));
     try {
-      final reservationWithDishs = await reservationService.fetchReservationWithDishs(reservation);
-      final reservationCopy = [...state.user.reservations];
-      final newReservationList = reservationCopy
-        ..remove(reservation)
-        ..add(reservationWithDishs);
-      emit(state.copyWith(user: state.user.copyWith(reservations: newReservationList)));
+      await reservationService.fetchReservationWithDishs(reservation);
+    } catch (e) {
+      emit(state.copyWith(status: UserReservationsError(e.toString())));
+    }
+    emit(state.copyWith(status: UserReservationsIdle()));
+  }
+
+  Future<void> onRemoveReservation(AttaReservation reservation) async {
+    try {
+      await reservationService.removeReservation(reservation.id!);
     } catch (e) {
       emit(state.copyWith(status: UserReservationsError(e.toString())));
     }

@@ -28,7 +28,7 @@ class AttaUser {
       email: email,
       imageUrl: imageUrl,
       favoritesRestaurantIds: {},
-      reservations: [],
+      reservations: {},
     );
   }
 
@@ -47,7 +47,7 @@ class AttaUser {
       reservations: map
           .parse<List>('reservations', fallback: [])
           .map((e) => AttaReservation.fromMap(e as Map<String, dynamic>))
-          .toList(),
+          .toSet(),
     );
   }
 
@@ -58,7 +58,7 @@ class AttaUser {
   final String? email;
   final String? imageUrl;
   final Set<int> favoritesRestaurantIds;
-  final List<AttaReservation> reservations;
+  final Set<AttaReservation> reservations;
 
   Map<String, dynamic> toMap() {
     final bdbMap = toMapForDb();
@@ -77,10 +77,8 @@ class AttaUser {
     };
   }
 
-  AttaUser copy() => AttaUser.fromMap(toMap(), email);
-
   AttaUser copyWith({
-    List<AttaReservation>? reservations,
+    Set<AttaReservation>? reservations,
   }) {
     return AttaUser._(
       id: id,
