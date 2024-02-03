@@ -4,12 +4,12 @@ import 'package:atta/entities/menu.dart';
 
 enum AttaRestaurantFilter {
   fastFood,
+  vegetarian,
   pizza,
   burger,
   kebab,
   salad,
   vegan,
-  vegetarian,
   asian,
   french,
   italian,

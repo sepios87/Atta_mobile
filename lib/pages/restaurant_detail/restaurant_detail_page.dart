@@ -63,6 +63,7 @@ class _RestaurantDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: AttaColors.white,
       body: Stack(
         children: [
@@ -150,37 +151,34 @@ class _RestaurantDetailScreen extends StatelessWidget {
               const SliverPadding(padding: EdgeInsets.only(bottom: AttaSpacing.m + 48)),
             ],
           ),
-          BlocBuilder<RestaurantDetailCubit, RestaurantDetailState>(
-            builder: (context, state) {
-              return Positioned(
-                bottom: AttaSpacing.m,
-                left: AttaSpacing.m,
-                right: AttaSpacing.m,
-                child: AnimatedCrossFade(
-                  firstChild: const SizedBox.shrink(),
-                  secondChild: ElevatedButton(
-                    onPressed: () => context.adapativePushNamed(
-                      ReservationPage.routeName,
-                      pathParameters: ReservationPageArgument(
-                        restaurantId: state.restaurant.id,
-                      ).toPathParameters(),
-                    ),
-                    child: Text(
-                      state.reservation?.dishs?.isEmpty ?? true
-                          ? 'Réserver sans commander'
-                          : 'Commander et réserver (${state.reservation!.totalAmount.toEuro})',
-                    ),
-                  ),
-                  crossFadeState: state.selectedOpeningTime != null ||
+          Positioned(
+            bottom: AttaSpacing.m,
+            left: AttaSpacing.m,
+            right: AttaSpacing.m,
+            child: BlocBuilder<RestaurantDetailCubit, RestaurantDetailState>(
+              builder: (context, state) {
+                return AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 500),
+                  child: state.selectedOpeningTime != null ||
                           (state.reservation != null && (state.reservation!.dishs?.isNotEmpty ?? false))
-                      ? CrossFadeState.showSecond
-                      : CrossFadeState.showFirst,
-                  firstCurve: Curves.easeInCubic,
-                  secondCurve: Curves.easeInOutBack,
-                  duration: const Duration(milliseconds: 300),
-                ),
-              );
-            },
+                      ? ElevatedButton(
+                          key: const ValueKey('reservation_button'),
+                          onPressed: () => context.adapativePushNamed(
+                            ReservationPage.routeName,
+                            pathParameters: ReservationPageArgument(
+                              restaurantId: state.restaurant.id,
+                            ).toPathParameters(),
+                          ),
+                          child: Text(
+                            state.reservation?.dishs?.isEmpty ?? true
+                                ? 'Réserver sans commander'
+                                : 'Commander et réserver (${state.reservation!.totalAmount.toEuro})',
+                          ),
+                        )
+                      : const SizedBox.shrink(key: ValueKey('empty')),
+                );
+              },
+            ),
           ),
         ],
       ),

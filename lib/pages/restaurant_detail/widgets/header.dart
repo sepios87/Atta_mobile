@@ -33,7 +33,7 @@ class _Header extends StatelessWidget {
                         children: [
                           const Icon(Icons.food_bank_outlined),
                           const SizedBox(width: AttaSpacing.xxs),
-                          Text(restaurant.filters.first.name),
+                          Text(restaurant.filters.first.translatedName),
                           const SizedBox(width: AttaSpacing.xs),
                         ],
                       ),

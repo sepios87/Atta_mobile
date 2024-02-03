@@ -76,20 +76,27 @@ class ReservationCubit extends Cubit<ReservationState> {
     }
   }
 
-  Future<void> onSendReservation() async {
-    final reservation = AttaReservation.fromDataForDb(
-      restaurantId: state.restaurant.id,
-      dateTime: DateTime(
-        state.selectedDate.year,
-        state.selectedDate.month,
-        state.selectedDate.day,
-        state.selectedOpeningTime!.hour,
-        state.selectedOpeningTime!.minute,
-      ),
-      numberOfPersons: state.numberOfPersons,
-      dishs: state.reservation?.dishs,
-      comment: null, // TODO(florian): add comment
-    );
-    await reservationService.sendReservation(reservation);
+  Future<void> onSendReservation({required String comment}) async {
+    emit(state.copyWith(status: ReservationLoadingStatus()));
+    try {
+      final reservation = AttaReservation.fromDataForDb(
+        restaurantId: state.restaurant.id,
+        dateTime: DateTime(
+          state.selectedDate.year,
+          state.selectedDate.month,
+          state.selectedDate.day,
+          state.selectedOpeningTime!.hour,
+          state.selectedOpeningTime!.minute,
+        ),
+        numberOfPersons: state.numberOfPersons,
+        dishs: state.reservation?.dishs,
+        comment: comment.isEmpty ? null : comment,
+      );
+      await reservationService.sendReservation(reservation);
+      emit(state.copyWith(status: ReservationSuccessStatus()));
+    } catch (e) {
+      emit(state.copyWith(status: ReservationErrorStatus(e.toString())));
+      emit(state.copyWith(status: ReservationIdleStatus()));
+    }
   }
 }

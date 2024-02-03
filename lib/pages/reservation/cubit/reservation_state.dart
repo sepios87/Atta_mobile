@@ -9,6 +9,7 @@ final class ReservationState {
     required this.selectedDate,
     required this.numberOfPersons,
     required this.reservation,
+    required this.status,
   });
 
   factory ReservationState.initial({
@@ -24,6 +25,7 @@ final class ReservationState {
         selectedDate: selectedDate,
         numberOfPersons: 2,
         reservation: reservation,
+        status: ReservationIdleStatus(),
       );
 
   final String? selectedTableId;
@@ -32,12 +34,14 @@ final class ReservationState {
   final DateTime selectedDate;
   final int numberOfPersons;
   final AttaReservation? reservation;
+  final ReservationStatus status;
 
   ReservationState copyWith({
     Wrapped<String?>? selectedTableId,
     DateTime? selectedDate,
     Wrapped<TimeOfDay?>? selectedOpeningTime,
     int? numberOfPersons,
+    ReservationStatus? status,
   }) {
     return ReservationState._(
       restaurant: restaurant,
@@ -46,6 +50,22 @@ final class ReservationState {
       selectedTableId: selectedTableId == null ? this.selectedTableId : selectedTableId.value,
       numberOfPersons: numberOfPersons ?? this.numberOfPersons,
       reservation: reservation,
+      status: status ?? this.status,
     );
   }
+}
+
+@immutable
+abstract final class ReservationStatus {}
+
+final class ReservationIdleStatus extends ReservationStatus {}
+
+final class ReservationLoadingStatus extends ReservationStatus {}
+
+final class ReservationSuccessStatus extends ReservationStatus {}
+
+final class ReservationErrorStatus extends ReservationStatus {
+  ReservationErrorStatus(this.message);
+
+  final String message;
 }

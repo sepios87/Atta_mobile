@@ -45,15 +45,17 @@ class _AuthScreen extends StatelessWidget {
         child: SingleChildScrollView(
           child: BlocConsumer<AuthCubit, AttaAuthState>(
             listener: (context, state) {
-              if (state.status is AuthErrorStatus) {
+              final status = state.status;
+
+              if (status is AuthErrorStatus) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text((state.status as AuthErrorStatus).message),
+                    content: Text(status.message),
                     backgroundColor: Colors.red,
                   ),
                 );
               }
-              if (state.status is AuthSuccessStatus) {
+              if (status is AuthSuccessStatus) {
                 context.adaptativePopNamed(HomePage.routeName);
               }
             },

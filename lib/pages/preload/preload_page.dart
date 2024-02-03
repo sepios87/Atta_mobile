@@ -26,16 +26,15 @@ class _PreloadScreen extends StatelessWidget {
     return Scaffold(
       body: BlocConsumer<PreloadCubit, PreloadState>(
         listener: (context, state) {
-          if (state.status is PreloadErrorStatus) {
+          final status = state.status;
+
+          if (status is PreloadErrorStatus) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(
-                  (state.status as PreloadErrorStatus).message,
-                ),
-              ),
+              SnackBar(content: Text(status.message)),
             );
           }
-          if (state.status is PreloadLoadedStatus) {
+
+          if (status is PreloadLoadedStatus) {
             context.adapativeReplacementNamed(HomePage.routeName);
           }
         },

@@ -79,10 +79,12 @@ class ReservationService {
   Future<Map<String, dynamic>> sendReservation(AttaReservation reservation) async {
     final data = await databaseService.createReservation(reservation);
     userService.addReservation(AttaReservation.fromMap(data));
+    _reservations.remove(reservation.restaurantId);
+    resetReservationDateTime();
     return data;
   }
 
-  void resetReservation() {
+  void resetReservationDateTime() {
     _selectedTime = null;
     _selectedDate = DateTime.now();
   }

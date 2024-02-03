@@ -24,7 +24,7 @@ class RestaurantDetailCubit extends Cubit<RestaurantDetailState> {
 
   @override
   Future<void> close() {
-    reservationService.resetReservation();
+    reservationService.resetReservationDateTime();
 
     return super.close();
   }

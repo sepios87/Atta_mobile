@@ -160,10 +160,23 @@ class _Table extends StatelessWidget {
               borderRadius: BorderRadius.circular(AttaRadius.small),
             ),
             child: Center(
-              child: Text(
-                table.id,
-                textAlign: TextAlign.center,
-                style: AttaTextStyle.content.copyWith(color: AttaColors.white),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const SizedBox(width: AttaSpacing.xxs),
+                  Icon(
+                    Icons.person,
+                    size: 12,
+                    color: AttaColors.white,
+                  ),
+                  const SizedBox(width: AttaSpacing.xxs),
+                  Text(
+                    table.numberOfSeats.toString(),
+                    textAlign: TextAlign.center,
+                    style: AttaTextStyle.content.copyWith(color: AttaColors.white),
+                  ),
+                  const SizedBox(width: AttaSpacing.xxs),
+                ],
               ),
             ),
           ),
@@ -173,28 +186,21 @@ class _Table extends StatelessWidget {
             child: FractionalTranslation(
               translation: const Offset(0.5, 0.5),
               child: Container(
-                height: 20,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AttaSpacing.xxs,
+                  vertical: AttaSpacing.xxxs,
+                ),
                 decoration: BoxDecoration(
-                  color: AttaColors.primaryLight.withOpacity(0.95),
+                  color: AttaColors.primaryLight.withOpacity(0.9),
                   borderRadius: BorderRadius.circular(AttaRadius.small),
                 ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const SizedBox(width: AttaSpacing.xxs),
-                    Icon(
-                      Icons.person,
-                      size: 12,
-                      color: AttaColors.white,
-                    ),
-                    const SizedBox(width: AttaSpacing.xxs),
-                    Text(
-                      table.numberOfSeats.toString(),
-                      textAlign: TextAlign.center,
-                      style: AttaTextStyle.content.copyWith(color: AttaColors.white),
-                    ),
-                    const SizedBox(width: AttaSpacing.xxs),
-                  ],
+                child: Text(
+                  '#${table.id}',
+                  textAlign: TextAlign.center,
+                  style: AttaTextStyle.content.copyWith(
+                    color: AttaColors.white,
+                    fontSize: 12,
+                  ),
                 ),
               ),
             ),
