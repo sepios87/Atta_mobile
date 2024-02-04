@@ -8,6 +8,7 @@ import 'package:atta/theme/colors.dart';
 import 'package:atta/theme/radius.dart';
 import 'package:atta/theme/spacing.dart';
 import 'package:atta/theme/text_style.dart';
+import 'package:atta/widgets/favorite_button.dart';
 import 'package:atta/widgets/number.dart';
 import 'package:atta/widgets/skeleton.dart';
 import 'package:cached_network_image/cached_network_image.dart';

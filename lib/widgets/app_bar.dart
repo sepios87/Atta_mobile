@@ -4,7 +4,6 @@ import 'package:atta/extensions/widget_ext.dart';
 import 'package:atta/pages/auth/auth_page.dart';
 import 'package:atta/pages/profile/profile_page.dart';
 import 'package:atta/theme/colors.dart';
-import 'package:atta/theme/radius.dart';
 import 'package:atta/theme/spacing.dart';
 import 'package:atta/theme/text_style.dart';
 import 'package:atta/widgets/user_avatar.dart';
@@ -21,7 +20,7 @@ class AttaAppBar extends StatelessWidget implements PreferredSizeWidget {
       automaticallyImplyLeading: false,
       centerTitle: false,
       title: InkWell(
-        borderRadius: BorderRadius.circular(AttaRadius.full),
+        customBorder: const CircleBorder(),
         onTap: () {
           if (user == null) {
             context.adapativePushNamed(AuthPage.routeName);

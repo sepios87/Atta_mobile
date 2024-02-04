@@ -14,6 +14,7 @@ class DishDetailCubit extends Cubit<DishDetailState> {
           DishDetailState.initial(
             dish: restaurantService.getDishById(restaurantId, dishId)!,
             restaurantId: restaurantId,
+            isFavorite: userService.user?.favoriteDishesIds.contains((dishId, restaurantId)) ?? false,
             reservation: reservationService.getReservation(restaurantId),
           ),
         );
@@ -34,6 +35,13 @@ class DishDetailCubit extends Cubit<DishDetailState> {
     reservationService.removeDishFromReservation(
       restaurantId: state.restaurantId,
       dish: state.dish,
+    );
+  }
+
+  Future<void> toggleFavorite() async {
+    await userService.toggleFavoriteDish(
+      restaurantId: state.restaurantId,
+      dishId: state.dish.id,
     );
   }
 }

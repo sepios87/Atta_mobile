@@ -45,13 +45,31 @@ class UserService {
 
   Future<void> toggleFavoriteRestaurant(int restaurantId) async {
     final newUser = user?.copyWith();
+    final favoriteRestaurantIds = newUser?.favoritesRestaurantIds;
+    if (newUser == null || favoriteRestaurantIds == null) return;
 
-    if (newUser?.favoritesRestaurantIds.contains(restaurantId) ?? false) {
-      newUser?.favoritesRestaurantIds.remove(restaurantId);
+    if (favoriteRestaurantIds.contains(restaurantId)) {
+      newUser.favoritesRestaurantIds.remove(restaurantId);
       await databaseService.removeFavoriteRestaurant(restaurantId);
     } else {
-      newUser?.favoritesRestaurantIds.add(restaurantId);
+      newUser.favoritesRestaurantIds.add(restaurantId);
       await databaseService.addFavoriteRestaurant(restaurantId);
+    }
+
+    _userStreamController.add(newUser);
+  }
+
+  Future<void> toggleFavoriteDish({required int restaurantId, required int dishId}) async {
+    final newUser = user?.copyWith();
+    final favoriteDishesIds = newUser?.favoriteDishesIds;
+    if (newUser == null || favoriteDishesIds == null) return;
+
+    if (favoriteDishesIds.contains((dishId, restaurantId))) {
+      newUser.favoriteDishesIds.remove((dishId, restaurantId));
+      await databaseService.removeFavoriteDish(restaurantId, dishId);
+    } else {
+      newUser.favoriteDishesIds.add((dishId, restaurantId));
+      await databaseService.addFavoriteDish(restaurantId, dishId);
     }
 
     _userStreamController.add(newUser);

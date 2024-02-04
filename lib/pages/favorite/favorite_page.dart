@@ -1,9 +1,11 @@
 import 'package:atta/extensions/border_radius_ext.dart';
 import 'package:atta/extensions/context_ext.dart';
 import 'package:atta/extensions/widget_ext.dart';
+import 'package:atta/pages/dish_detail/dish_detail_page.dart';
 import 'package:atta/pages/favorite/cubit/favorite_cubit.dart';
 import 'package:atta/pages/home/home_page.dart';
 import 'package:atta/pages/restaurant_detail/restaurant_detail_page.dart';
+import 'package:atta/theme/colors.dart';
 import 'package:atta/theme/radius.dart';
 import 'package:atta/theme/spacing.dart';
 import 'package:atta/theme/text_style.dart';
@@ -33,6 +35,9 @@ class _FavoriteScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<FavoriteCubit, FavoriteState>(
       builder: (context, state) {
+        final favoriteRestaurants = state.favoriteRestaurants;
+        final favoriteDishs = state.favoriteDishs;
+
         return Scaffold(
           appBar: AttaAppBar(user: state.user),
           body: Container(
@@ -51,11 +56,7 @@ class _FavoriteScreen extends StatelessWidget {
                     const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
                   ),
                   const SizedBox(height: AttaSpacing.l),
-                  Text('Les restaurants', style: AttaTextStyle.subHeader).withPadding(
-                    const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
-                  ),
-                  const SizedBox(height: AttaSpacing.m),
-                  if (state.favoriteRestaurants.isEmpty) ...[
+                  if (favoriteRestaurants.isEmpty && favoriteDishs.isEmpty) ...[
                     const Text("Vous n'avez pas encore de favoris").withPadding(
                       const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
                     ),
@@ -66,8 +67,13 @@ class _FavoriteScreen extends StatelessWidget {
                     ).withPadding(
                       const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
                     ),
-                  ] else
-                    ...state.favoriteRestaurants.map((restaurant) {
+                  ],
+                  if (favoriteRestaurants.isNotEmpty) ...[
+                    Text('Les restaurants', style: AttaTextStyle.subHeader).withPadding(
+                      const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
+                    ),
+                    const SizedBox(height: AttaSpacing.m),
+                    ...favoriteRestaurants.map((restaurant) {
                       return Padding(
                         padding: const EdgeInsets.only(
                           bottom: AttaSpacing.m,
@@ -94,17 +100,45 @@ class _FavoriteScreen extends StatelessWidget {
                         ),
                       );
                     }),
-                  const SizedBox(height: AttaSpacing.m),
-                  Text('Les plats', style: AttaTextStyle.subHeader).withPadding(
-                    const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
-                  ),
-                  const SizedBox(height: AttaSpacing.xxs),
-                  ...state.favoriteDishs.map((dish) {
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: AttaSpacing.m),
-                      child: FormulaCard(formula: dish.$1),
-                    );
-                  }),
+                  ],
+                  if (favoriteDishs.isNotEmpty) ...[
+                    const SizedBox(height: AttaSpacing.m),
+                    Text('Les plats', style: AttaTextStyle.subHeader).withPadding(
+                      const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
+                    ),
+                    const SizedBox(height: AttaSpacing.xxs),
+                    ...state.favoriteDishs.map((dish) {
+                      return FormulaCard(
+                        key: ValueKey('${dish.$1.id}-${dish.$2}'),
+                        formula: dish.$1,
+                        badge: FavoriteButton(
+                          borderColor: AttaColors.black,
+                          isFavorite: true,
+                          onFavoriteChanged: () => context.read<FavoriteCubit>().onUnlikedDish(dish.$2, dish.$1.id),
+                        ),
+                        onTap: () {
+                          context
+                              .adapativePushNamed<bool>(
+                            DishDetailPage.routeName,
+                            pathParameters: DishDetailPageArgument(
+                              dishId: dish.$1.id,
+                              restaurantId: dish.$2,
+                            ).toPathParameters(),
+                          )
+                              .then((value) {
+                            if (value != null && value) {
+                              context.adapativePushNamed(
+                                RestaurantDetailPage.routeName,
+                                pathParameters: RestaurantDetailPageArgument(
+                                  restaurantId: dish.$2,
+                                ).toPathParameters(),
+                              );
+                            }
+                          });
+                        },
+                      );
+                    }),
+                  ],
                 ],
               ),
             ),

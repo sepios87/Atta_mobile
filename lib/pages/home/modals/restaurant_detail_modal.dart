@@ -48,6 +48,7 @@ class _RestaurantDetailModal extends StatelessWidget {
                           ),
                           if (user != null)
                             FavoriteButton(
+                              borderColor: AttaColors.black,
                               isFavorite: user.favoritesRestaurantIds.contains(restaurant.id),
                               onFavoriteChanged: () =>
                                   context.read<HomeCubit>().onToogleFavoriteRestaurant(restaurant.id),

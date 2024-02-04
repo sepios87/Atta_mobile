@@ -14,6 +14,13 @@ class _AppBar extends StatelessWidget implements PreferredSizeWidget {
           color: AttaColors.white,
         ),
       ),
+      actions: [
+        FavoriteButton(
+          isFavorite: context.read<DishDetailCubit>().state.isFavorite,
+          onFavoriteChanged: () => context.read<DishDetailCubit>().toggleFavorite(),
+        ),
+        const SizedBox(width: AttaSpacing.m),
+      ],
     );
   }
 

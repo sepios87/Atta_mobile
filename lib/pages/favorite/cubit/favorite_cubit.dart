@@ -33,4 +33,11 @@ class FavoriteCubit extends Cubit<FavoriteState> {
   Future<void> onUnlikedRestaurant(int restaurantId) async {
     await userService.toggleFavoriteRestaurant(restaurantId);
   }
+
+  Future<void> onUnlikedDish(int restaurantId, int dishId) async {
+    await userService.toggleFavoriteDish(
+      restaurantId: restaurantId,
+      dishId: dishId,
+    );
+  }
 }

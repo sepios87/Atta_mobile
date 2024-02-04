@@ -86,7 +86,7 @@ class _SelectTableState extends State<_SelectTable> {
                 },
                 child: InteractiveViewer(
                   transformationController: _transformationController,
-                  boundaryMargin: const EdgeInsets.all(AttaSpacing.l),
+                  boundaryMargin: const EdgeInsets.all(AttaSpacing.m),
                   maxScale: 3,
                   child: Stack(
                     clipBehavior: Clip.none,
