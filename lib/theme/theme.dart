@@ -45,6 +45,20 @@ ThemeData get _attaThemeData {
         ),
       ),
     ),
+    outlinedButtonTheme: OutlinedButtonThemeData(
+      style: OutlinedButton.styleFrom(
+        foregroundColor: AttaColors.black,
+        textStyle: AttaTextStyle.button,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AttaRadius.small),
+        ),
+        side: BorderSide(color: AttaColors.primaryLight),
+        padding: const EdgeInsets.symmetric(
+          vertical: AttaSpacing.xxs,
+          horizontal: AttaSpacing.xs,
+        ),
+      ),
+    ),
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
         foregroundColor: AttaColors.black,
@@ -54,6 +68,9 @@ ThemeData get _attaThemeData {
         ),
         alignment: Alignment.center,
         textStyle: AttaTextStyle.button,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AttaRadius.small),
+        ),
       ),
     ),
     bottomSheetTheme: const BottomSheetThemeData(

@@ -32,96 +32,139 @@ class _ProfileScreen extends StatelessWidget {
           icon: const Icon(Icons.arrow_back_ios_new),
         ),
       ),
-      body: Container(
-        height: double.infinity,
-        padding: const EdgeInsets.all(AttaSpacing.xl),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadiusExt.top(AttaRadius.medium),
-        ),
-        child: SingleChildScrollView(
-          child: BlocBuilder<ProfileCubit, ProfileState>(
-            builder: (context, state) {
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  UserAvatar(user: state.user, radius: 48),
-                  const SizedBox(height: AttaSpacing.xl),
-                  Text(
-                    state.user.email ?? '',
-                    textAlign: TextAlign.center,
-                    style: AttaTextStyle.header,
+      body: BlocBuilder<ProfileCubit, ProfileState>(
+        builder: (context, state) {
+          return Stack(
+            children: [
+              Positioned(
+                top: 42,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadiusExt.top(AttaRadius.medium),
                   ),
-                  const SizedBox(height: AttaSpacing.xl),
-                  Center(
-                    child: _StatData(
-                      number: state.user.favoritesRestaurantIds.length,
-                      label: 'Restaurants\nfavoris',
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    UserAvatar(user: state.user, radius: 42),
+                    const SizedBox(height: AttaSpacing.xl),
+                    Text(
+                      state.user.email ?? '',
+                      textAlign: TextAlign.center,
+                      style: AttaTextStyle.header,
                     ),
-                  ),
-                  const SizedBox(height: AttaSpacing.xl),
-                  ElevatedButton(
-                    onPressed: () {
-                      if (state.status is ProfileLoadingLogoutStatus) return;
-                      context.read<ProfileCubit>().onLogout().then(
-                            (_) => context.adapativeReplacementNamed(HomePage.routeName),
-                          );
-                    },
-                    child: state.status is ProfileLoadingLogoutStatus
-                        ? const SizedBox.square(
-                            dimension: 24,
-                            child: CircularProgressIndicator(
-                              color: Colors.white,
-                              strokeWidth: 2,
+                    const SizedBox(height: AttaSpacing.xl),
+                    IntrinsicHeight(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Column(
+                            children: [
+                              Text(
+                                state.user.favoritesRestaurantIds.length.toString(),
+                                style: AttaTextStyle.subHeader,
+                              ),
+                              Text(
+                                'Restaurants\nfavoris',
+                                textAlign: TextAlign.center,
+                                style: AttaTextStyle.caption,
+                              ),
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: AttaSpacing.xs),
+                            child: VerticalDivider(
+                              color: AttaColors.primaryLight,
+                              thickness: 1,
                             ),
-                          )
-                        : const Text('Se déconnecter'),
-                  ),
-                ],
-              );
-            },
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _StatData extends StatelessWidget {
-  const _StatData({
-    required this.number,
-    required this.label,
-  });
-
-  final int number;
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(AttaSpacing.xs),
-      decoration: BoxDecoration(
-        color: AttaColors.secondary,
-        borderRadius: BorderRadius.circular(AttaRadius.small),
-      ),
-      child: Column(
-        children: [
-          Text(
-            number.toString(),
-            style: AttaTextStyle.bigHeader.copyWith(
-              color: Colors.white,
-            ),
-          ),
-          const SizedBox(height: AttaSpacing.xs),
-          Text(
-            label,
-            textAlign: TextAlign.center,
-            style: AttaTextStyle.caption.copyWith(
-              color: Colors.white,
-            ),
-          ),
-        ],
+                          ),
+                          Column(
+                            children: [
+                              Text(
+                                state.user.reservations.length.toString(),
+                                style: AttaTextStyle.subHeader,
+                              ),
+                              Text(
+                                'Réservations\nréalisées',
+                                textAlign: TextAlign.center,
+                                style: AttaTextStyle.caption,
+                              ),
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: AttaSpacing.xs),
+                            child: VerticalDivider(
+                              color: AttaColors.primaryLight,
+                              thickness: 1,
+                            ),
+                          ),
+                          Column(
+                            children: [
+                              Text(
+                                state.user.favoriteDishesIds.length.toString(),
+                                style: AttaTextStyle.subHeader,
+                              ),
+                              Text(
+                                'Plats\nfavoris',
+                                textAlign: TextAlign.center,
+                                style: AttaTextStyle.caption,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: AttaSpacing.xxl),
+                    Material(
+                      color: Colors.transparent,
+                      child: ListTile(
+                        title: const Text('Modifier le profile'),
+                        subtitle: const Text('Pour mettre à jour vos informations'),
+                        trailing: const Icon(Icons.chevron_right_rounded),
+                        onTap: () {},
+                      ),
+                    ),
+                    const Spacer(),
+                    TextButton(
+                      onPressed: () {},
+                      child: Text(
+                        'Supprimer le compte',
+                        style: AttaTextStyle.caption.copyWith(color: Colors.grey.shade600),
+                      ),
+                    ),
+                    const SizedBox(height: AttaSpacing.xxs),
+                    ElevatedButton(
+                      onPressed: () {
+                        if (state.status is ProfileLoadingLogoutStatus) return;
+                        context.read<ProfileCubit>().onLogout().then(
+                              (_) => context.adapativeReplacementNamed(HomePage.routeName),
+                            );
+                      },
+                      style: ElevatedButton.styleFrom(backgroundColor: AttaColors.black),
+                      child: state.status is ProfileLoadingLogoutStatus
+                          ? const SizedBox.square(
+                              dimension: 24,
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                                strokeWidth: 2,
+                              ),
+                            )
+                          : const Text('Se déconnecter'),
+                    ),
+                    const SizedBox(height: AttaSpacing.m),
+                  ],
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
