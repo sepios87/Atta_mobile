@@ -9,7 +9,7 @@ class AttaMenu extends AttaFormula {
     required super.imageUrl,
     required super.description,
     required super.price,
-    required this.dishs,
+    required this.dishes,
   });
 
   factory AttaMenu.fromMap(Map<String, dynamic> map) {
@@ -19,11 +19,11 @@ class AttaMenu extends AttaFormula {
       imageUrl: map.parse<String>('image_url', fallback: ''),
       description: map.parse<String?>('description'),
       price: map.parse<num>('price'),
-      dishs: map.parse<List>('dishs', fallback: []).map((e) => AttaDish.fromMap(e as Map<String, dynamic>)).toList(),
+      dishes: map.parse<List>('dishes', fallback: []).map((e) => AttaDish.fromMap(e as Map<String, dynamic>)).toList(),
     );
   }
 
-  final List<AttaDish> dishs;
+  final List<AttaDish> dishes;
 
   Map<String, dynamic> toMap() {
     return {
@@ -32,7 +32,7 @@ class AttaMenu extends AttaFormula {
       'image_url': imageUrl,
       'description': description,
       'price': price,
-      'dishs': dishs.map((e) => e.toMap()).toList(),
+      'dishes': dishes.map((e) => e.toMap()).toList(),
     };
   }
 

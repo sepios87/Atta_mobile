@@ -1,7 +1,7 @@
 part of '../home_page.dart';
 
-class _RestaurantDetail extends StatelessWidget {
-  const _RestaurantDetail(this.restaurant);
+class _RestaurantDetailModal extends StatelessWidget {
+  const _RestaurantDetailModal(this.restaurant);
 
   final AttaRestaurant restaurant;
 
@@ -9,21 +9,23 @@ class _RestaurantDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     return DraggableScrollableSheet(
       expand: false,
-      initialChildSize: 0.6,
-      minChildSize: 0.5,
+      maxChildSize: 0.8,
       builder: (ctx, scollController) {
         return Stack(
           children: [
             Column(
               mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: AttaSpacing.xxs),
-                Container(
-                  height: 2,
-                  width: 48,
-                  decoration: BoxDecoration(
-                    color: AttaColors.black,
-                    borderRadius: BorderRadius.circular(AttaRadius.small),
+                Center(
+                  child: Container(
+                    height: 3,
+                    width: 48,
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade700,
+                      borderRadius: BorderRadius.circular(AttaRadius.small),
+                    ),
                   ),
                 ),
                 const SizedBox(height: AttaSpacing.m),
@@ -37,10 +39,11 @@ class _RestaurantDetail extends StatelessWidget {
                       return Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            'Apercu de la carte',
-                            style: AttaTextStyle.header.copyWith(
-                              fontSize: 24,
+                          Expanded(
+                            child: Text(
+                              restaurant.name,
+                              overflow: TextOverflow.ellipsis,
+                              style: AttaTextStyle.header.copyWith(fontSize: 22),
                             ),
                           ),
                           if (user != null)
@@ -55,21 +58,26 @@ class _RestaurantDetail extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: AttaSpacing.m),
+                Text(
+                  'Apercu de la carte',
+                  style: AttaTextStyle.subHeader,
+                ).withPadding(const EdgeInsets.symmetric(horizontal: AttaSpacing.m)),
+                const SizedBox(height: AttaSpacing.xs),
                 Expanded(
                   child: ListView.builder(
                     controller: scollController,
                     padding: const EdgeInsets.only(bottom: 82),
-                    itemCount: restaurant.dishs.length,
+                    itemCount: restaurant.dishes.length,
                     itemBuilder: (ctx, index) {
                       return FormulaCard(
-                        formula: restaurant.dishs[index],
+                        formula: restaurant.dishes[index],
                         onTap: () {
                           context
                               .adapativePushNamed<bool>(
                             DishDetailPage.routeName,
                             pathParameters: DishDetailPageArgument(
                               restaurantId: restaurant.id,
-                              dishId: restaurant.dishs[index].id,
+                              dishId: restaurant.dishes[index].id,
                             ).toPathParameters(),
                           )
                               .then(

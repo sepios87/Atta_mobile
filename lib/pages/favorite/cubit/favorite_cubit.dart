@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:atta/entities/dish.dart';
 import 'package:atta/entities/restaurant.dart';
 import 'package:atta/entities/user.dart';
 import 'package:atta/main.dart';

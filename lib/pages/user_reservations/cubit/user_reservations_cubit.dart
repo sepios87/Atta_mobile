@@ -25,11 +25,11 @@ class UserReservationsCubit extends Cubit<UserReservationsState> {
   }
 
   Future<void> onExpandReservation(AttaReservation reservation) async {
-    if (reservation.dishs != null) return;
+    if (reservation.dishes != null) return;
 
     emit(state.copyWith(status: UserReservationsLoading(reservation.id)));
     try {
-      await reservationService.fetchReservationWithDishs(reservation);
+      await reservationService.fetchReservationWithDishes(reservation);
     } catch (e) {
       emit(state.copyWith(status: UserReservationsError(e.toString())));
     }

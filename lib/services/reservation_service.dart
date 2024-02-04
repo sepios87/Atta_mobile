@@ -53,13 +53,13 @@ class ReservationService {
   }) {
     final currentReservation = _reservations[restaurantId];
     if (currentReservation != null) {
-      final newDishs = currentReservation.dishs ?? {};
-      newDishs[dish] = quantity;
-      _reservations[restaurantId] = currentReservation.copyWith(dishs: newDishs);
+      final newDishes = currentReservation.dishes ?? {};
+      newDishes[dish] = quantity;
+      _reservations[restaurantId] = currentReservation.copyWith(dishes: newDishes);
     } else {
-      _reservations[restaurantId] = AttaReservation.fromDishs(
+      _reservations[restaurantId] = AttaReservation.fromDishes(
         restaurantId: restaurantId,
-        dishs: {dish: quantity},
+        dishes: {dish: quantity},
       );
     }
   }
@@ -70,15 +70,15 @@ class ReservationService {
   }) {
     final currentReservation = _reservations[restaurantId];
     if (currentReservation != null) {
-      final newDishs = currentReservation.dishs ?? {}
+      final newDishes = currentReservation.dishes ?? {}
         ..remove(dish);
-      _reservations[restaurantId] = currentReservation.copyWith(dishs: newDishs);
+      _reservations[restaurantId] = currentReservation.copyWith(dishes: newDishes);
     }
   }
 
   Future<Map<String, dynamic>> sendReservation(AttaReservation reservation) async {
     final data = await databaseService.createReservation(reservation);
-    final newReservation = AttaReservation.fromMap(data).copyWith(dishs: reservation.dishs);
+    final newReservation = AttaReservation.fromMap(data).copyWith(dishes: reservation.dishes);
     userService.addOrUpdateReservation(newReservation);
 
     _reservations.remove(reservation.restaurantId);
@@ -96,12 +96,12 @@ class ReservationService {
     userService.removeReservation(reservationId);
   }
 
-  Future<void> fetchReservationWithDishs(
+  Future<void> fetchReservationWithDishes(
     AttaReservation reservation,
   ) async {
     if (reservation.id == null) return;
 
-    final dishs = await databaseService.getReservationDishs(reservation.id!);
-    userService.addOrUpdateReservation(reservation.copyWith(dishs: dishs));
+    final dishes = await databaseService.getReservationDishes(reservation.id!);
+    userService.addOrUpdateReservation(reservation.copyWith(dishes: dishes));
   }
 }

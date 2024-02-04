@@ -4,6 +4,7 @@ import 'package:atta/extensions/border_radius_ext.dart';
 import 'package:atta/extensions/context_ext.dart';
 import 'package:atta/extensions/date_time_ext.dart';
 import 'package:atta/extensions/num_ext.dart';
+import 'package:atta/extensions/widget_ext.dart';
 import 'package:atta/main.dart';
 import 'package:atta/pages/restaurant_detail/restaurant_detail_page.dart';
 import 'package:atta/pages/user_reservations/cubit/user_reservations_cubit.dart';
@@ -68,9 +69,8 @@ class _UserReservations extends StatelessWidget {
                     ),
                   ] else ...[
                     if (afterReservation.isNotEmpty) ...[
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
-                        child: Text('Pour les prochains jours', style: AttaTextStyle.subHeader),
+                      Text('Pour les prochains jours', style: AttaTextStyle.subHeader).withPadding(
+                        const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
                       ),
                       const SizedBox(height: AttaSpacing.xs),
                     ],
@@ -82,9 +82,8 @@ class _UserReservations extends StatelessWidget {
                     ),
                     if (afterReservation.isNotEmpty) const SizedBox(height: AttaSpacing.l),
                     if (beforeReservation.isNotEmpty) ...[
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
-                        child: Text('Déja passées', style: AttaTextStyle.subHeader),
+                      Text('Déja passées', style: AttaTextStyle.subHeader).withPadding(
+                        const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
                       ),
                       const SizedBox(height: AttaSpacing.xs),
                     ],

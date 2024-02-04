@@ -89,7 +89,7 @@ class ReservationCubit extends Cubit<ReservationState> {
           state.selectedOpeningTime!.minute,
         ),
         numberOfPersons: state.numberOfPersons,
-        dishs: state.reservation?.dishs,
+        dishes: state.reservation?.dishes,
         comment: comment.isEmpty ? null : comment,
       );
       await reservationService.sendReservation(reservation);

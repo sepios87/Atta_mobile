@@ -18,9 +18,7 @@ class _Filters extends StatelessWidget {
               final isSelected = state.contains(filter);
 
               return Padding(
-                padding: const EdgeInsets.only(
-                  right: AttaSpacing.xs,
-                ),
+                padding: const EdgeInsets.only(right: AttaSpacing.xs),
                 child: AnimatedSwitcher(
                   duration: AttaAnimation.fastAnimation,
                   child: FilterChip(

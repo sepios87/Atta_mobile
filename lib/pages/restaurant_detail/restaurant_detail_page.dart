@@ -5,6 +5,7 @@ import 'package:atta/entities/restaurant.dart';
 import 'package:atta/extensions/border_radius_ext.dart';
 import 'package:atta/extensions/context_ext.dart';
 import 'package:atta/extensions/num_ext.dart';
+import 'package:atta/extensions/widget_ext.dart';
 import 'package:atta/main.dart';
 import 'package:atta/pages/dish_detail/dish_detail_page.dart';
 import 'package:atta/pages/home/home_page.dart';
@@ -79,23 +80,22 @@ class _RestaurantDetailScreen extends StatelessWidget {
                   buildWhen: (previous, current) => previous.filteredFormulas != current.filteredFormulas,
                   builder: (context, state) {
                     return state.filteredFormulas.isEmpty
-                        ? const SliverFillRemaining(
+                        ? SliverFillRemaining(
                             hasScrollBody: false,
                             child: Center(
-                              child: Padding(
-                                padding: EdgeInsets.only(top: AttaSpacing.m, bottom: AttaSpacing.xl),
-                                child: Text('Aucun résultat'),
+                              child: const Text('Aucun résultat').withPadding(
+                                const EdgeInsets.only(top: AttaSpacing.m, bottom: AttaSpacing.xl),
                               ),
                             ),
                           )
                         : SliverList(
                             delegate: SliverChildListDelegate(
                               state.filteredFormulas.map((e) {
-                                final dishsReservation = state.reservation?.dishs;
+                                final dishesReservation = state.reservation?.dishes;
 
                                 return FormulaCard(
                                   formula: e,
-                                  badge: dishsReservation?[e] == null
+                                  badge: dishesReservation?[e] == null
                                       ? null
                                       : Container(
                                           decoration: BoxDecoration(
@@ -116,7 +116,7 @@ class _RestaurantDetailScreen extends StatelessWidget {
                                               ),
                                               const SizedBox(width: AttaSpacing.xxs),
                                               Text(
-                                                dishsReservation?[e].toString() ?? '',
+                                                dishesReservation?[e].toString() ?? '',
                                                 style: AttaTextStyle.caption.copyWith(
                                                   color: AttaColors.white,
                                                 ),
@@ -160,7 +160,7 @@ class _RestaurantDetailScreen extends StatelessWidget {
                 return AnimatedSwitcher(
                   duration: const Duration(milliseconds: 500),
                   child: state.selectedOpeningTime != null ||
-                          (state.reservation != null && (state.reservation!.dishs?.isNotEmpty ?? false))
+                          (state.reservation != null && (state.reservation!.dishes?.isNotEmpty ?? false))
                       ? ElevatedButton(
                           key: const ValueKey('reservation_button'),
                           onPressed: () => context.adapativePushNamed(
@@ -170,7 +170,7 @@ class _RestaurantDetailScreen extends StatelessWidget {
                             ).toPathParameters(),
                           ),
                           child: Text(
-                            state.reservation?.dishs?.isEmpty ?? true
+                            state.reservation?.dishes?.isEmpty ?? true
                                 ? 'Réserver sans commander'
                                 : 'Commander et réserver (${state.reservation!.totalAmount.toEuro})',
                           ),

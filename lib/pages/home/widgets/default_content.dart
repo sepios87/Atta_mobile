@@ -43,15 +43,15 @@ class _DefaultContent extends StatelessWidget {
           BlocSelector<HomeCubit, HomeState, List<AttaRestaurant>>(
             selector: (state) => state.filterRestaurants(state.restaurants),
             builder: (context, restaurants) {
-              final restaurantWithMostDishs = restaurants.withMostDishs(1).firstOrNull;
+              final restaurantWithMostDishes = restaurants.withMostDishes(1).firstOrNull;
 
-              if (restaurantWithMostDishs == null) return const SizedBox.shrink();
+              if (restaurantWithMostDishes == null) return const SizedBox.shrink();
 
               return Padding(
                 padding: const EdgeInsets.only(right: AttaSpacing.m, bottom: AttaSpacing.l),
                 child: RestaurantCard(
-                  restaurant: restaurantWithMostDishs,
-                  onTap: () => context.read<HomeCubit>().onRestaurantSelected(restaurantWithMostDishs),
+                  restaurant: restaurantWithMostDishes,
+                  onTap: () => context.read<HomeCubit>().onRestaurantSelected(restaurantWithMostDishes),
                   positionedWidget: Positioned(
                     top: AttaSpacing.xxs,
                     left: AttaSpacing.xs,
@@ -102,15 +102,15 @@ class _DefaultContent extends StatelessWidget {
           BlocSelector<HomeCubit, HomeState, List<AttaRestaurant>>(
             selector: (state) => state.filterRestaurants(state.restaurants),
             builder: (context, restaurants) {
-              final restaurantWithMostDishs = restaurants.withCheaperMenu(1).firstOrNull;
+              final restaurantWithMostDishes = restaurants.withCheaperMenu(1).firstOrNull;
 
-              if (restaurantWithMostDishs == null) return const SizedBox.shrink();
+              if (restaurantWithMostDishes == null) return const SizedBox.shrink();
 
               return Padding(
                 padding: const EdgeInsets.only(right: AttaSpacing.m, bottom: AttaSpacing.l),
                 child: RestaurantCard(
-                  restaurant: restaurantWithMostDishs,
-                  onTap: () => context.read<HomeCubit>().onRestaurantSelected(restaurantWithMostDishs),
+                  restaurant: restaurantWithMostDishes,
+                  onTap: () => context.read<HomeCubit>().onRestaurantSelected(restaurantWithMostDishes),
                   positionedWidget: Positioned(
                     top: AttaSpacing.xxs,
                     left: AttaSpacing.xs,

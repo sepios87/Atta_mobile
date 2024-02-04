@@ -82,7 +82,7 @@ extension DatabaseUserService on DatabaseService {
     final data = await _supabase
         .from('users')
         .select(
-          '*, favoritesRestaurantIds:restaurants(id), reservations(*)',
+          '*, favoritesRestaurantIds:restaurants(id), reservations(*), favoritesDishes:dish_restaurant(id, restaurant_id, dish_id)',
         )
         .eq('id', user.id);
     if (data.isEmpty) return null;

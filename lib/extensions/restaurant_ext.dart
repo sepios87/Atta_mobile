@@ -20,8 +20,8 @@ extension AttaRestaurantListExt on List<AttaRestaurant> {
 
   List<AttaRestaurant> getBiggestNumberFormula(int maxNumber) {
     return sorted((a, b) {
-      final aNumberOfFormula = a.menus.length + a.dishs.length;
-      final bNumberOfFormula = b.menus.length + b.dishs.length;
+      final aNumberOfFormula = a.menus.length + a.dishes.length;
+      final bNumberOfFormula = b.menus.length + b.dishes.length;
       return bNumberOfFormula.compareTo(aNumberOfFormula);
     }).take(maxNumber).toList();
   }
@@ -33,8 +33,8 @@ extension AttaRestaurantListExt on List<AttaRestaurant> {
         .toList();
   }
 
-  List<AttaRestaurant> withMostDishs(int maxNumber) {
-    return sorted((a, b) => b.dishs.length.compareTo(a.dishs.length)).take(maxNumber).toList();
+  List<AttaRestaurant> withMostDishes(int maxNumber) {
+    return sorted((a, b) => b.dishes.length.compareTo(a.dishes.length)).take(maxNumber).toList();
   }
 
   List<AttaRestaurant> withCheaperMenu(int maxNumber) {

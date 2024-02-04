@@ -14,7 +14,7 @@ class DishDetailState {
     required int restaurantId,
     AttaReservation? reservation,
   }) {
-    final quantity = reservation?.dishs?[dish] ?? 1;
+    final quantity = reservation?.dishes?[dish] ?? 1;
 
     return DishDetailState._(
       dish: dish,
@@ -29,7 +29,7 @@ class DishDetailState {
   final int restaurantId;
   final AttaReservation? reservation;
 
-  bool get isDeletable => reservation?.dishs?.containsKey(dish) ?? false;
+  bool get isDeletable => reservation?.dishes?.containsKey(dish) ?? false;
 
   DishDetailState copyWith({
     int? quantity,

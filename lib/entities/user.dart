@@ -10,6 +10,7 @@ class AttaUser {
     required this.email,
     required this.imageUrl,
     required this.favoritesRestaurantIds,
+    required this.favoriteDishesIds,
     required this.reservations,
   });
 
@@ -28,6 +29,7 @@ class AttaUser {
       email: email,
       imageUrl: imageUrl,
       favoritesRestaurantIds: {},
+      favoriteDishesIds: {},
       reservations: {},
     );
   }
@@ -44,6 +46,10 @@ class AttaUser {
         if (e is int) return e;
         return (e as Map<String, dynamic>).parse<int>('id');
       }).toSet(),
+      favoriteDishesIds: map.parse<List>('favoritesDishes', fallback: []).map((e) {
+        final map = e as Map<String, dynamic>;
+        return (map.parse<int>('dish_id'), map.parse<int>('restaurant_id'));
+      }).toSet(),
       reservations: map
           .parse<List>('reservations', fallback: [])
           .map((e) => AttaReservation.fromMap(e as Map<String, dynamic>))
@@ -58,6 +64,7 @@ class AttaUser {
   final String? email;
   final String? imageUrl;
   final Set<int> favoritesRestaurantIds;
+  final Set<(int dishId, int restaurantId)> favoriteDishesIds;
   final Set<AttaReservation> reservations;
 
   Map<String, dynamic> toMap() {
@@ -88,6 +95,7 @@ class AttaUser {
       email: email,
       imageUrl: imageUrl,
       favoritesRestaurantIds: favoritesRestaurantIds,
+      favoriteDishesIds: favoriteDishesIds,
       reservations: reservations ?? this.reservations,
     );
   }

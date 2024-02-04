@@ -80,8 +80,8 @@ class __ReservationBodyState extends State<_ReservationBody> {
               if (state.reservation != null) ...[
                 Text('Plats commandés', style: AttaTextStyle.content),
                 const SizedBox(height: AttaSpacing.s),
-                ...(state.reservation!.dishs?.keys ?? []).map((dish) {
-                  final quantity = state.reservation!.dishs![dish] ?? 0;
+                ...(state.reservation!.dishes?.keys ?? []).map((dish) {
+                  final quantity = state.reservation!.dishes![dish] ?? 0;
                   return FormulaCard(formula: dish, quantity: quantity);
                 }),
                 const SizedBox(height: AttaSpacing.l),

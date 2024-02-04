@@ -32,6 +32,6 @@ class RestaurantService {
     final restaurant = getRestaurantById(restaurantId);
     if (restaurant == null) return null;
 
-    return restaurant.dishs.firstWhereOrNull((d) => d.id == dishId);
+    return restaurant.dishes.firstWhereOrNull((d) => d.id == dishId);
   }
 }

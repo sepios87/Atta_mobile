@@ -60,7 +60,7 @@ ThemeData get _attaThemeData {
       backgroundColor: Colors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
-          top: Radius.circular(AttaRadius.medium),
+          top: Radius.circular(AttaRadius.large),
         ),
       ),
     ),

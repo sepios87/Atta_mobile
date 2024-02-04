@@ -1,5 +1,6 @@
 import 'package:atta/entities/user.dart';
 import 'package:atta/extensions/context_ext.dart';
+import 'package:atta/extensions/widget_ext.dart';
 import 'package:atta/pages/auth/auth_page.dart';
 import 'package:atta/pages/profile/profile_page.dart';
 import 'package:atta/theme/colors.dart';
@@ -29,16 +30,13 @@ class AttaAppBar extends StatelessWidget implements PreferredSizeWidget {
           }
         },
         child: user == null
-            ? Padding(
-                padding: const EdgeInsets.symmetric(
+            ? Text(
+                'Se connecter',
+                style: AttaTextStyle.subHeader.copyWith(color: AttaColors.white),
+              ).withPadding(
+                const EdgeInsets.symmetric(
                   vertical: AttaSpacing.s,
                   horizontal: AttaSpacing.m,
-                ),
-                child: Text(
-                  'Se connecter',
-                  style: AttaTextStyle.subHeader.copyWith(
-                    color: AttaColors.white,
-                  ),
                 ),
               )
             : Row(

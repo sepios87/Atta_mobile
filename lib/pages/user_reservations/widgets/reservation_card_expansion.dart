@@ -22,23 +22,21 @@ class _ReservationCardExpansionState extends State<_ReservationCardExpansion> {
 
     return Dismissible(
       key: ValueKey(reservation.id),
-      secondaryBackground: const ColoredBox(
+      secondaryBackground: ColoredBox(
         color: Colors.red,
         child: Align(
           alignment: Alignment.centerRight,
-          child: Padding(
-            padding: EdgeInsets.only(right: AttaSpacing.m),
-            child: Icon(Icons.delete, color: Colors.white),
+          child: const Icon(Icons.delete, color: Colors.white).withPadding(
+            const EdgeInsets.only(right: AttaSpacing.m),
           ),
         ),
       ),
       background: ColoredBox(
         color: AttaColors.black,
-        child: const Align(
+        child: Align(
           alignment: Alignment.centerLeft,
-          child: Padding(
-            padding: EdgeInsets.only(left: AttaSpacing.m),
-            child: Icon(Icons.edit, color: Colors.white),
+          child: const Icon(Icons.edit, color: Colors.white).withPadding(
+            const EdgeInsets.only(right: AttaSpacing.m),
           ),
         ),
       ),
@@ -270,7 +268,7 @@ class _ChildReservationTileExpansion extends StatelessWidget {
           );
         }
 
-        final dishs = reservation.dishs?.keys ?? [];
+        final dishes = reservation.dishes?.keys ?? [];
 
         return Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -329,7 +327,7 @@ class _ChildReservationTileExpansion extends StatelessWidget {
                 ],
               ),
             ),
-            if ((reservation.comment != null && reservation.comment!.isNotEmpty) || dishs.isNotEmpty)
+            if ((reservation.comment != null && reservation.comment!.isNotEmpty) || dishes.isNotEmpty)
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
@@ -354,14 +352,14 @@ class _ChildReservationTileExpansion extends StatelessWidget {
                         ),
                         const SizedBox(height: AttaSpacing.m),
                       ],
-                      if (dishs.isNotEmpty) ...[
+                      if (dishes.isNotEmpty) ...[
                         Text(
                           'Votre commande :',
                           style: AttaTextStyle.subHeader.copyWith(color: Colors.grey.shade800),
                         ),
                         const SizedBox(height: AttaSpacing.xxs),
-                        ...dishs.map((dish) {
-                          final quantity = reservation.dishs![dish]!;
+                        ...dishes.map((dish) {
+                          final quantity = reservation.dishes![dish]!;
 
                           return Row(
                             children: [

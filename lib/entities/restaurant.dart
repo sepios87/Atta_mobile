@@ -20,7 +20,7 @@ class AttaRestaurant {
     required this.email,
     required this.website,
     required this.openingHoursSlots,
-    required this.dishs,
+    required this.dishes,
     required this.menus,
     required this.numberOfReservations,
   });
@@ -45,8 +45,8 @@ class AttaRestaurant {
             );
           }) ??
           {},
-      dishs:
-          map.parse<List?>('dishs', fallback: [])?.map((e) => AttaDish.fromMap(e as Map<String, dynamic>)).toList() ??
+      dishes:
+          map.parse<List?>('dishes', fallback: [])?.map((e) => AttaDish.fromMap(e as Map<String, dynamic>)).toList() ??
               [],
       menus:
           map.parse<List?>('menus', fallback: [])?.map((e) => AttaMenu.fromMap(e as Map<String, dynamic>)).toList() ??
@@ -67,15 +67,15 @@ class AttaRestaurant {
   final String email;
   final String? website;
   final Map<AttaDay, List<AttaOpeningHoursSlots>> openingHoursSlots;
-  final List<AttaDish> dishs;
+  final List<AttaDish> dishes;
   final List<AttaMenu> menus;
 
   // Only on client side
   final int numberOfReservations;
 
   String get fullAddress => '$address, $city';
-  num get averagePrice => dishs.fold<num>(0, (previous, e) => previous + e.price) / dishs.length;
-  List<AttaFormula> get formulas => [...dishs, ...menus];
+  num get averagePrice => dishes.fold<num>(0, (previous, e) => previous + e.price) / dishes.length;
+  List<AttaFormula> get formulas => [...dishes, ...menus];
 
   Map<String, dynamic> toMap() {
     return {
@@ -90,7 +90,7 @@ class AttaRestaurant {
       'email': email,
       'website': website,
       'openingTimes': openingHoursSlots.map((key, value) => MapEntry(key.index, value.map((e) => e.toMap()).toList())),
-      'dishs': dishs.map((e) => e.toMap()).toList(),
+      'dishes': dishes.map((e) => e.toMap()).toList(),
       'menus': menus.map((e) => e.toMap()).toList(),
     };
   }

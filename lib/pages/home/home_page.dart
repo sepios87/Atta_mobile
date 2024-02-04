@@ -4,6 +4,7 @@ import 'package:atta/entities/user.dart';
 import 'package:atta/extensions/border_radius_ext.dart';
 import 'package:atta/extensions/context_ext.dart';
 import 'package:atta/extensions/restaurant_ext.dart';
+import 'package:atta/extensions/widget_ext.dart';
 import 'package:atta/pages/dish_detail/dish_detail_page.dart';
 import 'package:atta/pages/home/cubit/home_cubit.dart';
 import 'package:atta/pages/reservation/reservation_page.dart';
@@ -30,7 +31,7 @@ part 'widgets/filters.dart';
 part 'widgets/default_content.dart';
 part 'widgets/search_content.dart';
 part 'widgets/restaurant_search_card.dart';
-part 'modals/restaurant_detail.dart';
+part 'modals/restaurant_detail_modal.dart';
 
 class HomePage {
   static const path = '/home';
@@ -56,7 +57,7 @@ class _HomeScreen extends StatelessWidget {
             isScrollControlled: true,
             builder: (_) => BlocProvider.value(
               value: context.read<HomeCubit>(),
-              child: _RestaurantDetail(state.selectedRestaurant!),
+              child: _RestaurantDetailModal(state.selectedRestaurant!),
             ),
           ).whenComplete(() {
             context.read<HomeCubit>().onRestaurantUnselected();

@@ -1,6 +1,7 @@
 import 'package:atta/extensions/border_radius_ext.dart';
 import 'package:atta/extensions/context_ext.dart';
 import 'package:atta/extensions/num_ext.dart';
+import 'package:atta/extensions/widget_ext.dart';
 import 'package:atta/pages/dish_detail/cubit/dish_detail_cubit.dart';
 import 'package:atta/pages/home/home_page.dart';
 import 'package:atta/theme/colors.dart';
@@ -77,9 +78,8 @@ class _DishDetailScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   const SizedBox(height: AttaSpacing.l),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
-                    child: Text(dish.name, style: AttaTextStyle.bigHeader),
+                  Text(dish.name, style: AttaTextStyle.bigHeader).withPadding(
+                    const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
                   ),
                   const SizedBox(height: AttaSpacing.l),
                   SizedBox(
@@ -102,38 +102,26 @@ class _DishDetailScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: AttaSpacing.xxl),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
-                    child: Text(
-                      'Description',
-                      style: AttaTextStyle.header,
-                    ),
-                  ),
+                  Text(
+                    'Description',
+                    style: AttaTextStyle.header,
+                  ).withPadding(const EdgeInsets.symmetric(horizontal: AttaSpacing.m)),
                   const SizedBox(height: AttaSpacing.s),
                   if (dish.description != null)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
-                      child: Text(
-                        dish.description!,
-                        style: AttaTextStyle.content,
-                      ),
-                    ),
-                  const SizedBox(height: AttaSpacing.m),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
-                    child: Text(
-                      'Ingredients',
-                      style: AttaTextStyle.header,
-                    ),
-                  ),
-                  const SizedBox(height: AttaSpacing.s),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
-                    child: Text(
-                      dish.ingredients,
+                    Text(
+                      dish.description!,
                       style: AttaTextStyle.content,
-                    ),
-                  ),
+                    ).withPadding(const EdgeInsets.symmetric(horizontal: AttaSpacing.m)),
+                  const SizedBox(height: AttaSpacing.m),
+                  Text(
+                    'Ingredients',
+                    style: AttaTextStyle.header,
+                  ).withPadding(const EdgeInsets.symmetric(horizontal: AttaSpacing.m)),
+                  const SizedBox(height: AttaSpacing.s),
+                  Text(
+                    dish.ingredients,
+                    style: AttaTextStyle.content,
+                  ).withPadding(const EdgeInsets.symmetric(horizontal: AttaSpacing.m)),
                 ],
               ),
             ),

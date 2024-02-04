@@ -4,7 +4,7 @@ extension DatabaseRestaurantService on DatabaseService {
   Future<List<AttaRestaurant>> getAllRestaurants() async {
     try {
       // Not necessary to get dish into menu now
-      final data = await _supabase.from('restaurants').select('*, dishs(*), menus(*), reservations(restaurant_id)');
+      final data = await _supabase.from('restaurants').select('*, dishes(*), menus(*), reservations(restaurant_id)');
       return data.map(AttaRestaurant.fromMap).toList();
     } catch (e) {
       debugPrint(e.toString());
