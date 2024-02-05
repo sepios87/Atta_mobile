@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:atta/entities/reservation.dart';
 import 'package:atta/extensions/map_ext.dart';
 
@@ -11,8 +13,8 @@ class AttaUser {
     required this.imageUrl,
     required this.favoritesRestaurantIds,
     required this.favoriteDishesIds,
-    required this.reservations,
-  });
+    required Iterable<AttaReservation> reservations,
+  }) : reservations = SplayTreeSet.from(reservations, (a, b) => a.dateTime.compareTo(b.dateTime));
 
   factory AttaUser.fromMinimalData({
     required String id,
@@ -30,7 +32,7 @@ class AttaUser {
       imageUrl: imageUrl,
       favoritesRestaurantIds: {},
       favoriteDishesIds: {},
-      reservations: {},
+      reservations: SplayTreeSet(),
     );
   }
 
@@ -50,10 +52,9 @@ class AttaUser {
         final map = e as Map<String, dynamic>;
         return (map.parse<int>('dish_id'), map.parse<int>('restaurant_id'));
       }).toSet(),
-      reservations: map
-          .parse<List>('reservations', fallback: [])
-          .map((e) => AttaReservation.fromMap(e as Map<String, dynamic>))
-          .toSet(),
+      reservations: map.parse<List>('reservations', fallback: []).map(
+        (e) => AttaReservation.fromMap(e as Map<String, dynamic>),
+      ),
     );
   }
 
@@ -65,7 +66,7 @@ class AttaUser {
   final String? imageUrl;
   final Set<int> favoritesRestaurantIds;
   final Set<(int dishId, int restaurantId)> favoriteDishesIds;
-  final Set<AttaReservation> reservations;
+  final SplayTreeSet<AttaReservation> reservations;
 
   Map<String, dynamic> toMap() {
     final bdbMap = toMapForDb();

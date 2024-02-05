@@ -98,7 +98,7 @@ class _ReservationCardExpansionState extends State<_ReservationCardExpansion> {
                   Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: AttaSpacing.xs,
-                      vertical: AttaSpacing.xxs,
+                      vertical: AttaSpacing.xxxs,
                     ),
                     decoration: BoxDecoration(
                       color: AttaColors.black,

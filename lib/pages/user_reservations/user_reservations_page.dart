@@ -39,7 +39,8 @@ class _UserReservations extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<UserReservationsCubit, UserReservationsState>(
       builder: (context, state) {
-        final beforeReservation = state.user.reservations.where((r) => r.dateTime.isBefore(DateTime.now())).toList();
+        final beforeReservation =
+            state.user.reservations.where((r) => r.dateTime.isBefore(DateTime.now()) && !r.dateTime.isToday).toList();
         final afterReservation =
             state.user.reservations.where((r) => r.dateTime.isAfter(DateTime.now()) || r.dateTime.isToday).toList();
 
