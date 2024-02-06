@@ -36,7 +36,7 @@ class _FavoriteButtonState extends State<FavoriteButton> {
           firstChild: const Icon(
             Icons.favorite_rounded,
             color: Colors.red,
-            size: 30,
+            size: 28,
           ),
           secondChild: Icon(
             Icons.favorite_border_rounded,

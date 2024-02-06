@@ -16,6 +16,8 @@ final class FavoriteState {
   final AttaUser user;
   final List<AttaRestaurant> _restaurants;
 
+  AttaRestaurant getRestaurant(int id) => _restaurants.firstWhere((restaurant) => restaurant.id == id);
+
   List<AttaRestaurant> get favoriteRestaurants =>
       _restaurants.where((restaurant) => user.favoritesRestaurantIds.contains(restaurant.id)).toList();
 

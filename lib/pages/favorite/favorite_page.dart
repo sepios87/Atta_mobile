@@ -1,3 +1,5 @@
+import 'package:atta/entities/dish.dart';
+import 'package:atta/entities/restaurant.dart';
 import 'package:atta/extensions/border_radius_ext.dart';
 import 'package:atta/extensions/context_ext.dart';
 import 'package:atta/extensions/widget_ext.dart';
@@ -33,6 +35,9 @@ class _FavoriteScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final listRestaurantKey = GlobalKey<AnimatedListState>();
+    final listDishKey = GlobalKey<AnimatedListState>();
+
     return BlocBuilder<FavoriteCubit, FavoriteState>(
       builder: (context, state) {
         final favoriteRestaurants = state.favoriteRestaurants;
@@ -73,71 +78,65 @@ class _FavoriteScreen extends StatelessWidget {
                       const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
                     ),
                     const SizedBox(height: AttaSpacing.m),
-                    ...favoriteRestaurants.map((restaurant) {
-                      return Padding(
-                        padding: const EdgeInsets.only(
-                          bottom: AttaSpacing.m,
-                          left: AttaSpacing.m,
-                          right: AttaSpacing.m,
-                        ),
-                        child: RestaurantCard(
+                    AnimatedList(
+                      key: listRestaurantKey,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      initialItemCount: favoriteRestaurants.length,
+                      itemBuilder: (_, index, animation) {
+                        final restaurant = favoriteRestaurants[index];
+                        return _FavoriteRestaurant(
                           key: ValueKey(restaurant.id),
                           restaurant: restaurant,
-                          positionedWidget: Positioned(
-                            top: 0,
-                            right: 0,
-                            child: FavoriteButton(
-                              isFavorite: true,
-                              onFavoriteChanged: () => context.read<FavoriteCubit>().onUnlikedRestaurant(restaurant.id),
-                            ),
-                          ),
-                          onTap: () => context.adapativePushNamed(
-                            RestaurantDetailPage.routeName,
-                            pathParameters: RestaurantDetailPageArgument(
-                              restaurantId: restaurant.id,
-                            ).toPathParameters(),
-                          ),
-                        ),
-                      );
-                    }),
+                          animation: animation,
+                          onUnlikedDish: () async {
+                            await context.read<FavoriteCubit>().onUnlikedRestaurant(restaurant.id);
+                            listRestaurantKey.currentState?.removeItem(
+                              index,
+                              (context, animation) => _FavoriteRestaurant(
+                                restaurant: restaurant,
+                                animation: animation,
+                                onUnlikedDish: () {},
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
+                    const SizedBox(height: AttaSpacing.m),
                   ],
                   if (favoriteDishs.isNotEmpty) ...[
-                    const SizedBox(height: AttaSpacing.m),
                     Text('Les plats', style: AttaTextStyle.subHeader).withPadding(
                       const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
                     ),
                     const SizedBox(height: AttaSpacing.xxs),
-                    ...state.favoriteDishs.map((dish) {
-                      return FormulaCard(
-                        key: ValueKey('${dish.$1.id}-${dish.$2}'),
-                        formula: dish.$1,
-                        badge: FavoriteButton(
-                          borderColor: AttaColors.black,
-                          isFavorite: true,
-                          onFavoriteChanged: () => context.read<FavoriteCubit>().onUnlikedDish(dish.$2, dish.$1.id),
-                        ),
-                        onTap: () {
-                          context
-                              .adapativePushNamed<bool>(
-                            DishDetailPage.routeName,
-                            pathParameters: DishDetailPageArgument(
-                              dishId: dish.$1.id,
-                              restaurantId: dish.$2,
-                            ).toPathParameters(),
-                          )
-                              .then((value) {
-                            if (value != null && value) {
-                              context.adapativePushNamed(
-                                RestaurantDetailPage.routeName,
-                                pathParameters: RestaurantDetailPageArgument(
-                                  restaurantId: dish.$2,
-                                ).toPathParameters(),
-                              );
-                            }
-                          });
-                        },
-                      );
-                    }),
+                    AnimatedList(
+                      key: listDishKey,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      initialItemCount: state.favoriteDishs.length,
+                      itemBuilder: (_, index, animation) {
+                        final dish = state.favoriteDishs[index];
+                        return _FavoriteDishCard(
+                          key: ValueKey('${dish.$1.id}-${dish.$2}'),
+                          animation: animation,
+                          dish: dish.$1,
+                          restaurant: state.getRestaurant(dish.$2),
+                          onUnlikedDish: () async {
+                            await context.read<FavoriteCubit>().onUnlikedDish(dish.$2, dish.$1.id);
+                            listDishKey.currentState?.removeItem(
+                              index,
+                              (context, animation) => _FavoriteDishCard(
+                                animation: animation,
+                                dish: dish.$1,
+                                restaurant: state.getRestaurant(dish.$2),
+                                onUnlikedDish: () {},
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
                   ],
                 ],
               ),
@@ -146,6 +145,120 @@ class _FavoriteScreen extends StatelessWidget {
           bottomNavigationBar: const AttaBottomNavigationBar(),
         );
       },
+    );
+  }
+}
+
+class _FavoriteRestaurant extends StatelessWidget {
+  const _FavoriteRestaurant({
+    required this.restaurant,
+    required this.animation,
+    required this.onUnlikedDish,
+    super.key,
+  });
+
+  final AttaRestaurant restaurant;
+  final Animation<double> animation;
+  final void Function() onUnlikedDish;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizeTransition(
+      sizeFactor: Tween<double>(
+        begin: 0,
+        end: 1,
+      ).chain(CurveTween(curve: Curves.easeInOut)).animate(animation),
+      child: FadeTransition(
+        opacity: Tween<double>(
+          begin: 0,
+          end: 1,
+        ).chain(CurveTween(curve: Curves.easeInExpo)).animate(animation),
+        child: Padding(
+          padding: const EdgeInsets.only(
+            bottom: AttaSpacing.m,
+            left: AttaSpacing.m,
+            right: AttaSpacing.m,
+          ),
+          child: RestaurantCard(
+            key: ValueKey(restaurant.id),
+            restaurant: restaurant,
+            positionedWidget: Positioned(
+              top: 0,
+              right: 0,
+              child: FavoriteButton(
+                isFavorite: true,
+                onFavoriteChanged: onUnlikedDish,
+              ),
+            ),
+            onTap: () => context.adapativePushNamed(
+              RestaurantDetailPage.routeName,
+              pathParameters: RestaurantDetailPageArgument(
+                restaurantId: restaurant.id,
+              ).toPathParameters(),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _FavoriteDishCard extends StatelessWidget {
+  const _FavoriteDishCard({
+    required this.animation,
+    required this.dish,
+    required this.restaurant,
+    required this.onUnlikedDish,
+    super.key,
+  });
+
+  final Animation<double> animation;
+  final AttaDish dish;
+  final AttaRestaurant restaurant;
+  final void Function() onUnlikedDish;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizeTransition(
+      sizeFactor: Tween<double>(
+        begin: 0,
+        end: 1,
+      ).chain(CurveTween(curve: Curves.easeInOut)).animate(animation),
+      child: FadeTransition(
+        opacity: Tween<double>(
+          begin: 0,
+          end: 1,
+        ).chain(CurveTween(curve: Curves.easeInExpo)).animate(animation),
+        child: FormulaCard(
+          formula: dish,
+          suffixName: '(${restaurant.name})',
+          badge: FavoriteButton(
+            borderColor: AttaColors.black,
+            isFavorite: true,
+            onFavoriteChanged: onUnlikedDish,
+          ),
+          onTap: () {
+            context
+                .adapativePushNamed<bool>(
+              DishDetailPage.routeName,
+              pathParameters: DishDetailPageArgument(
+                dishId: dish.id,
+                restaurantId: restaurant.id,
+              ).toPathParameters(),
+            )
+                .then((value) {
+              if (value != null && value) {
+                context.adapativePushNamed(
+                  RestaurantDetailPage.routeName,
+                  pathParameters: RestaurantDetailPageArgument(
+                    restaurantId: restaurant.id,
+                  ).toPathParameters(),
+                );
+              }
+            });
+          },
+        ),
+      ),
     );
   }
 }
