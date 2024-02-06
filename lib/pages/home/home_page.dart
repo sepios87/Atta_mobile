@@ -84,6 +84,13 @@ class _HomeScreen extends StatelessWidget {
                     child: AttaSearchBar(
                       onFocus: (isOnFocus) => context.read<HomeCubit>().onSearchFocusChange(isOnFocus),
                       onSearch: (value) => context.read<HomeCubit>().onSearchTextChange(value),
+                      // TODO(florian): uncomment quand je commencerai la partie carte :)
+                      // inactiveTrailing: IconButton(
+                      //   padding: EdgeInsets.zero,
+                      //   splashRadius: AttaSpacing.s,
+                      //   onPressed: () {},
+                      //   icon: const Icon(Icons.map_rounded),
+                      // ),
                     ),
                   ),
                   const SizedBox(height: AttaSpacing.s),

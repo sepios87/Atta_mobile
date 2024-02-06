@@ -4,11 +4,13 @@ class AttaSearchBar extends StatefulWidget {
   const AttaSearchBar({
     required this.onFocus,
     required this.onSearch,
+    this.inactiveTrailing,
     super.key,
   });
 
   final void Function(bool) onFocus;
   final void Function(String) onSearch;
+  final Widget? inactiveTrailing;
 
   @override
   State<AttaSearchBar> createState() => _AttaSearchBarState();
@@ -65,27 +67,50 @@ class _AttaSearchBarState extends State<AttaSearchBar> {
             decoration: const InputDecoration(
               prefixIcon: Icon(Icons.search),
               hintText: 'Rechercher',
-              // isDense: true,
             ),
           ),
         ),
-        AnimatedSize(
+        AnimatedSwitcher(
           duration: const Duration(milliseconds: 150),
-          curve: Curves.easeInOut,
-          child: Container(
-            width: _isOnSearch ? 40 : 0,
-            height: _isOnSearch ? 40 : 0,
-            clipBehavior: Clip.antiAlias,
-            decoration: const BoxDecoration(),
-            child: IconButton(
-              onPressed: () {
-                _textEditingController.clear();
-                widget.onFocus(false);
-                setState(() => _isOnSearch = false);
-              },
-              icon: const Icon(Icons.close),
-            ),
-          ),
+          reverseDuration: const Duration(milliseconds: 300),
+          switchInCurve: Curves.easeInOutExpo,
+          switchOutCurve: Curves.ease,
+          transitionBuilder: (child, animation) {
+            if (widget.inactiveTrailing != null) {
+              return FadeTransition(
+                opacity: animation,
+                child: SlideTransition(
+                  position: Tween<Offset>(begin: const Offset(0.2, 0), end: Offset.zero).animate(animation),
+                  child: child,
+                ),
+              );
+            }
+            return FadeTransition(
+              opacity: animation,
+              child: SizeTransition(
+                sizeFactor: animation,
+                axis: Axis.horizontal,
+                axisAlignment: -1,
+                child: ScaleTransition(
+                  scale: animation,
+                  child: child,
+                ),
+              ),
+            );
+          },
+          child: _isOnSearch
+              ? IconButton(
+                  onPressed: () {
+                    _textEditingController.clear();
+                    widget.onFocus(false);
+                    setState(() => _isOnSearch = false);
+                  },
+                  icon: const Icon(Icons.close),
+                )
+              : SizedBox(
+                  key: const ValueKey('inactive'),
+                  child: widget.inactiveTrailing,
+                ),
         ),
       ],
     );
