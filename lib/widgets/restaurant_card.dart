@@ -1,4 +1,5 @@
 import 'package:atta/entities/restaurant.dart';
+import 'package:atta/theme/animation.dart';
 import 'package:atta/theme/colors.dart';
 import 'package:atta/theme/radius.dart';
 import 'package:atta/theme/spacing.dart';
@@ -37,7 +38,7 @@ class RestaurantCard extends StatelessWidget {
                 maxHeightDiskCache: 1000,
                 useOldImageOnUrlChange: true,
                 fit: BoxFit.cover,
-                fadeInDuration: const Duration(milliseconds: 300),
+                fadeInDuration: AttaAnimation.mediumAnimation,
                 imageBuilder: (context, imageProvider) {
                   return Material(
                     child: Ink.image(

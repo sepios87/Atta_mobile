@@ -2,6 +2,7 @@ import 'package:atta/entities/day.dart';
 import 'package:atta/entities/opening_hours_slots.dart';
 import 'package:atta/extensions/date_time_ext.dart';
 import 'package:atta/extensions/opening_time_ext.dart';
+import 'package:atta/theme/animation.dart';
 import 'package:atta/theme/colors.dart';
 import 'package:atta/theme/radius.dart';
 import 'package:atta/theme/spacing.dart';
@@ -105,7 +106,7 @@ class _TimeItem extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         child: AnimatedContainer(
-          duration: const Duration(milliseconds: 150),
+          duration: AttaAnimation.fastAnimation,
           curve: Curves.easeInOut,
           padding: const EdgeInsets.symmetric(
             horizontal: AttaSpacing.s,

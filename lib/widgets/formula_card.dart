@@ -1,6 +1,7 @@
 import 'package:atta/entities/formula.dart';
 import 'package:atta/entities/menu.dart';
 import 'package:atta/extensions/num_ext.dart';
+import 'package:atta/theme/animation.dart';
 import 'package:atta/theme/colors.dart';
 import 'package:atta/theme/spacing.dart';
 import 'package:atta/theme/text_style.dart';
@@ -53,7 +54,7 @@ class FormulaCard extends StatelessWidget {
                         maxWidthDiskCache: 1000,
                         maxHeightDiskCache: 1000,
                         useOldImageOnUrlChange: true,
-                        fadeInDuration: const Duration(milliseconds: 300),
+                        fadeInDuration: AttaAnimation.mediumAnimation,
                         placeholder: (context, _) => const AttaSkeleton(size: Size(68, 68)),
                       ),
                     ),

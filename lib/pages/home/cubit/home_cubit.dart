@@ -104,4 +104,8 @@ class HomeCubit extends Cubit<HomeState> {
   Future<void> onToogleFavoriteRestaurant(int restaurantId) async {
     await userService.toggleFavoriteRestaurant(restaurantId);
   }
+
+  void onToogleListView() {
+    emit(state.copyWith(isOnListView: !state.isOnListView));
+  }
 }

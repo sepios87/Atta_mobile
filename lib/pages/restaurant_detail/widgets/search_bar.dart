@@ -18,7 +18,7 @@ class _SearchBar extends StatelessWidget {
                 searchKey.currentContext ?? context,
                 curve: Curves.easeInOut,
                 alignment: 0.02,
-                duration: const Duration(milliseconds: 300),
+                duration: AttaAnimation.mediumAnimation,
               );
             }
           },

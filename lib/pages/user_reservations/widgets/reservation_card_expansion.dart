@@ -129,7 +129,7 @@ class _ReservationCardExpansionState extends State<_ReservationCardExpansion> {
                     child: AnimatedRotation(
                       turns: _isExpanded ? 0.5 : 0,
                       curve: Curves.easeOut,
-                      duration: const Duration(milliseconds: 300),
+                      duration: AttaAnimation.mediumAnimation,
                       child: Icon(
                         Icons.keyboard_arrow_down,
                         color: Colors.grey.shade700,
@@ -186,7 +186,7 @@ class _TitleReservationCardExpansion extends StatelessWidget {
               maxHeightDiskCache: 1000,
               useOldImageOnUrlChange: true,
               fit: BoxFit.cover,
-              fadeInDuration: const Duration(milliseconds: 300),
+              fadeInDuration: AttaAnimation.mediumAnimation,
               imageBuilder: (context, imageProvider) {
                 return Material(
                   child: Ink.image(

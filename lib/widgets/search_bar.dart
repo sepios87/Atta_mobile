@@ -1,3 +1,4 @@
+import 'package:atta/theme/animation.dart';
 import 'package:flutter/material.dart';
 
 class AttaSearchBar extends StatefulWidget {
@@ -71,8 +72,8 @@ class _AttaSearchBarState extends State<AttaSearchBar> {
           ),
         ),
         AnimatedSwitcher(
-          duration: const Duration(milliseconds: 150),
-          reverseDuration: const Duration(milliseconds: 300),
+          duration: AttaAnimation.fastAnimation,
+          reverseDuration: AttaAnimation.mediumAnimation,
           switchInCurve: Curves.easeInOutExpo,
           switchOutCurve: Curves.ease,
           transitionBuilder: (child, animation) {

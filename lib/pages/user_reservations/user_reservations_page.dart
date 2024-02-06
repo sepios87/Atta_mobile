@@ -8,6 +8,7 @@ import 'package:atta/extensions/widget_ext.dart';
 import 'package:atta/main.dart';
 import 'package:atta/pages/restaurant_detail/restaurant_detail_page.dart';
 import 'package:atta/pages/user_reservations/cubit/user_reservations_cubit.dart';
+import 'package:atta/theme/animation.dart';
 import 'package:atta/theme/colors.dart';
 import 'package:atta/theme/radius.dart';
 import 'package:atta/theme/spacing.dart';

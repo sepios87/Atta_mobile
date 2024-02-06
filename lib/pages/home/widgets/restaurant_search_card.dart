@@ -31,7 +31,7 @@ class _RestaurantSearchCard extends StatelessWidget {
               maxWidthDiskCache: 1000,
               maxHeightDiskCache: 1000,
               useOldImageOnUrlChange: true,
-              fadeInDuration: const Duration(milliseconds: 300),
+              fadeInDuration: AttaAnimation.mediumAnimation,
               fit: BoxFit.cover,
               placeholder: (context, _) {
                 return const AttaSkeleton(size: Size(68, 68));

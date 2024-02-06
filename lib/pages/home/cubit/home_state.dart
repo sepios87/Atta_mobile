@@ -14,6 +14,7 @@ final class HomeState {
     required this.cheaperRestaurants,
     required this.otherRestaurants,
     required this.biggestNumberFormulaRestaurants,
+    required this.isOnListView,
   });
 
   HomeState.initial({
@@ -31,6 +32,7 @@ final class HomeState {
           cheaperRestaurants: [],
           otherRestaurants: [],
           biggestNumberFormulaRestaurants: [],
+          isOnListView: true,
         );
 
   final List<AttaRestaurant> restaurants;
@@ -47,6 +49,7 @@ final class HomeState {
   final AttaUser? user;
 
   final bool isOnSearch;
+  final bool isOnListView;
 
   List<AttaRestaurant> filterRestaurants(List<AttaRestaurant> list) {
     if (activeFilters.isEmpty) return list;
@@ -66,6 +69,7 @@ final class HomeState {
     List<AttaRestaurant>? cheaperRestaurants,
     List<AttaRestaurant>? biggestNumberFormulaRestaurants,
     List<AttaRestaurant>? otherRestaurants,
+    bool? isOnListView,
   }) {
     return HomeState._(
       restaurants: restaurants ?? this.restaurants,
@@ -79,6 +83,7 @@ final class HomeState {
       cheaperRestaurants: cheaperRestaurants ?? this.cheaperRestaurants,
       biggestNumberFormulaRestaurants: biggestNumberFormulaRestaurants ?? this.biggestNumberFormulaRestaurants,
       otherRestaurants: otherRestaurants ?? this.otherRestaurants,
+      isOnListView: isOnListView ?? this.isOnListView,
     );
   }
 }

@@ -11,6 +11,7 @@ import 'package:atta/pages/dish_detail/dish_detail_page.dart';
 import 'package:atta/pages/home/home_page.dart';
 import 'package:atta/pages/reservation/reservation_page.dart';
 import 'package:atta/pages/restaurant_detail/cubit/restaurant_detail_cubit.dart';
+import 'package:atta/theme/animation.dart';
 import 'package:atta/theme/colors.dart';
 import 'package:atta/theme/radius.dart';
 import 'package:atta/theme/spacing.dart';
@@ -158,7 +159,7 @@ class _RestaurantDetailScreen extends StatelessWidget {
             child: BlocBuilder<RestaurantDetailCubit, RestaurantDetailState>(
               builder: (context, state) {
                 return AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 500),
+                  duration: AttaAnimation.slowAnimation,
                   child: state.selectedOpeningTime != null ||
                           (state.reservation != null && (state.reservation!.dishes?.isNotEmpty ?? false))
                       ? ElevatedButton(

@@ -153,7 +153,7 @@ class _Table extends StatelessWidget {
         clipBehavior: Clip.none,
         children: [
           AnimatedContainer(
-            duration: const Duration(milliseconds: 150),
+            duration: AttaAnimation.fastAnimation,
             curve: Curves.easeInOut,
             height: height,
             width: width,

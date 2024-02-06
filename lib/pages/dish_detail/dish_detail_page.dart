@@ -4,6 +4,7 @@ import 'package:atta/extensions/num_ext.dart';
 import 'package:atta/extensions/widget_ext.dart';
 import 'package:atta/pages/dish_detail/cubit/dish_detail_cubit.dart';
 import 'package:atta/pages/home/home_page.dart';
+import 'package:atta/theme/animation.dart';
 import 'package:atta/theme/colors.dart';
 import 'package:atta/theme/radius.dart';
 import 'package:atta/theme/spacing.dart';

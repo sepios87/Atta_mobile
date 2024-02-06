@@ -1,3 +1,4 @@
+import 'package:atta/theme/animation.dart';
 import 'package:atta/theme/spacing.dart';
 import 'package:flutter/material.dart';
 
@@ -32,7 +33,7 @@ class _FavoriteButtonState extends State<FavoriteButton> {
         padding: const EdgeInsets.all(AttaSpacing.xxs),
         child: AnimatedCrossFade(
           crossFadeState: isFavorite ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-          duration: const Duration(milliseconds: 300),
+          duration: AttaAnimation.mediumAnimation,
           firstChild: const Icon(
             Icons.favorite_rounded,
             color: Colors.red,

@@ -24,12 +24,15 @@ import 'package:atta/widgets/skeleton.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:go_router/go_router.dart';
+import 'package:latlong2/latlong.dart';
 
 part 'widgets/restaurant_list.dart';
 part 'widgets/filters.dart';
 part 'widgets/default_content.dart';
 part 'widgets/search_content.dart';
+part 'widgets/map_content.dart';
 part 'widgets/restaurant_search_card.dart';
 part 'modals/restaurant_detail_modal.dart';
 
@@ -84,26 +87,40 @@ class _HomeScreen extends StatelessWidget {
                     child: AttaSearchBar(
                       onFocus: (isOnFocus) => context.read<HomeCubit>().onSearchFocusChange(isOnFocus),
                       onSearch: (value) => context.read<HomeCubit>().onSearchTextChange(value),
-                      // TODO(florian): uncomment quand je commencerai la partie carte :)
-                      // inactiveTrailing: IconButton(
-                      //   padding: EdgeInsets.zero,
-                      //   splashRadius: AttaSpacing.s,
-                      //   onPressed: () {},
-                      //   icon: const Icon(Icons.map_rounded),
-                      // ),
+                      inactiveTrailing: BlocSelector<HomeCubit, HomeState, bool>(
+                        selector: (state) => state.isOnListView,
+                        builder: (context, isOnListView) {
+                          return IconButton(
+                            padding: EdgeInsets.zero,
+                            splashRadius: AttaSpacing.s,
+                            onPressed: () => context.read<HomeCubit>().onToogleListView(),
+                            icon: isOnListView ? const Icon(Icons.map_rounded) : const Icon(Icons.list_outlined),
+                          );
+                        },
+                      ),
                     ),
                   ),
                   const SizedBox(height: AttaSpacing.s),
                   const _Filters(),
                   const SizedBox(height: AttaSpacing.s),
                   Expanded(
-                    child: BlocSelector<HomeCubit, HomeState, bool>(
-                      selector: (state) => state.isOnSearch,
-                      builder: (context, isOnSearch) {
+                    child: BlocBuilder<HomeCubit, HomeState>(
+                      buildWhen: (previous, current) =>
+                          previous.isOnSearch != current.isOnSearch || previous.isOnListView != current.isOnListView,
+                      builder: (context, state) {
+                        Widget child = const _DefaultContent(key: ValueKey('default_content'));
+                        if (!state.isOnListView) {
+                          child = const _MapContent(key: ValueKey('map_content'));
+                        }
+                        if (state.isOnSearch) {
+                          child = const _SearchContent(key: ValueKey('search_content'));
+                        }
+
                         return AnimatedSwitcher(
                           duration: AttaAnimation.mediumAnimation,
+                          reverseDuration: AttaAnimation.mediumAnimation,
                           switchInCurve: Curves.easeInOut,
-                          switchOutCurve: Curves.easeInOut,
+                          switchOutCurve: Curves.easeIn,
                           transitionBuilder: (child, animation) {
                             return FadeTransition(
                               opacity: animation,
@@ -125,9 +142,7 @@ class _HomeScreen extends StatelessWidget {
                               ],
                             );
                           },
-                          child: isOnSearch
-                              ? const _SearchContent(key: ValueKey('search_content'))
-                              : const _DefaultContent(key: ValueKey('default_content')),
+                          child: child,
                         );
                       },
                     ),

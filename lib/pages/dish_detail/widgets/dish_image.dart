@@ -60,7 +60,7 @@ class __DishImageState extends State<_DishImage> with SingleTickerProviderStateM
                   maxWidthDiskCache: 1000,
                   maxHeightDiskCache: 1000,
                   useOldImageOnUrlChange: true,
-                  fadeInDuration: const Duration(milliseconds: 300),
+                  fadeInDuration: AttaAnimation.mediumAnimation,
                   fit: BoxFit.cover,
                   placeholder: (context, _) {
                     return AttaSkeleton(size: Size(imageSize, imageSize));

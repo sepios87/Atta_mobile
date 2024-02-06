@@ -1,5 +1,6 @@
 import 'package:atta/entities/user.dart';
 import 'package:atta/extensions/user_ext.dart';
+import 'package:atta/theme/animation.dart';
 import 'package:atta/theme/colors.dart';
 import 'package:atta/theme/text_style.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -27,7 +28,7 @@ class UserAvatar extends StatelessWidget {
                 maxWidthDiskCache: 1000,
                 maxHeightDiskCache: 1000,
                 useOldImageOnUrlChange: true,
-                fadeInDuration: const Duration(milliseconds: 300),
+                fadeInDuration: AttaAnimation.mediumAnimation,
               ),
             )
           : user.anagram == null
