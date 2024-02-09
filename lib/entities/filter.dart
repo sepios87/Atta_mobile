@@ -19,7 +19,7 @@ enum AttaRestaurantFilter {
 
   factory AttaRestaurantFilter.fromValue(dynamic value) {
     return AttaRestaurantFilter.values.firstWhere(
-      (e) => e.toString() == value,
+      (e) => e.name == value,
       orElse: () => AttaRestaurantFilter.french,
     );
   }

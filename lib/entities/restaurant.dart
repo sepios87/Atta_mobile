@@ -14,8 +14,9 @@ class AttaRestaurant {
     required this.imageUrl,
     required this.filters,
     required this.description,
+    required this.longitude,
+    required this.latitude,
     required this.address,
-    required this.city,
     required this.phone,
     required this.email,
     required this.website,
@@ -30,10 +31,11 @@ class AttaRestaurant {
       id: map.parse<int>('id'),
       createdAt: DateTime.tryParse(map.parse<String>('created_at')) ?? DateTime.now(),
       name: map.parse<String>('name', fallback: ''),
-      city: map.parse<String>('city', fallback: ''),
       imageUrl: map.parse<String>('image_url', fallback: ''),
       filters: map.parse<List>('filters', fallback: []).map(AttaRestaurantFilter.fromValue).toList(),
       description: map.parse<String?>('description'),
+      longitude: map.parse<double>('longitude', fallback: 0),
+      latitude: map.parse<double>('latitude', fallback: 0),
       address: map.parse<String>('address', fallback: ''),
       phone: map.parse<String>('phone', fallback: ''),
       email: map.parse<String>('email', fallback: ''),
@@ -59,9 +61,10 @@ class AttaRestaurant {
   final DateTime createdAt;
   final String name;
   final String address;
-  final String city;
   final String imageUrl;
   final List<AttaRestaurantFilter> filters;
+  final double longitude;
+  final double latitude;
   final String? description;
   final String phone;
   final String email;
@@ -73,7 +76,6 @@ class AttaRestaurant {
   // Only on client side
   final int numberOfReservations;
 
-  String get fullAddress => '$address, $city';
   num get averagePrice => dishes.fold<num>(0, (previous, e) => previous + e.price) / dishes.length;
   List<AttaFormula> get formulas => [...dishes, ...menus];
 
@@ -81,8 +83,9 @@ class AttaRestaurant {
     return {
       'id': id,
       'name': name,
+      'longitude': longitude,
+      'latitude': latitude,
       'address': address,
-      'city': city,
       'image_url': imageUrl,
       'filters': filters.map((e) => e.toString()).toList(),
       'description': description,

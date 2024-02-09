@@ -22,9 +22,12 @@ import 'package:atta/widgets/restaurant_card.dart';
 import 'package:atta/widgets/search_bar.dart';
 import 'package:atta/widgets/skeleton.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_map_animations/flutter_map_animations.dart';
+import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
 
@@ -83,7 +86,7 @@ class _HomeScreen extends StatelessWidget {
                 children: [
                   const SizedBox(height: AttaSpacing.l),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
+                    padding: const EdgeInsets.only(left: AttaSpacing.m, right: AttaSpacing.xs),
                     child: AttaSearchBar(
                       onFocus: (isOnFocus) => context.read<HomeCubit>().onSearchFocusChange(isOnFocus),
                       onSearch: (value) => context.read<HomeCubit>().onSearchTextChange(value),
@@ -94,7 +97,7 @@ class _HomeScreen extends StatelessWidget {
                             padding: EdgeInsets.zero,
                             splashRadius: AttaSpacing.s,
                             onPressed: () => context.read<HomeCubit>().onToogleListView(),
-                            icon: isOnListView ? const Icon(Icons.map_rounded) : const Icon(Icons.list_outlined),
+                            icon: isOnListView ? const Icon(Icons.map_rounded) : const Icon(Icons.grid_view_rounded),
                           );
                         },
                       ),

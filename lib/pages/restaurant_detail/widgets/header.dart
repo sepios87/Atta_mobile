@@ -40,11 +40,11 @@ class _Header extends StatelessWidget {
                     Expanded(
                       child: TextButton.icon(
                         onPressed: () => launchUrlString(
-                          'https://www.google.com/maps/search/?api=1&query=${restaurant.fullAddress}',
+                          'https://www.google.com/maps/search/?api=1&query=${restaurant.address}',
                         ),
                         icon: const Icon(Icons.location_on_outlined),
                         label: Text(
-                          restaurant.fullAddress,
+                          restaurant.address,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
