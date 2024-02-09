@@ -53,8 +53,6 @@ final class HomeState {
 
   List<AttaRestaurant> filterRestaurants(List<AttaRestaurant> list) {
     if (activeFilters.isEmpty) return list;
-    print('restaurants activeFilters: ${activeFilters.map((e) => e.name).toList()}');
-    print('restaurants activeFilters----***: ${list.map((e) => e.filters).toList()}');
 
     return list.where((r) => r.filters.any(activeFilters.contains)).toList();
   }
