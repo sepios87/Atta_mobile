@@ -29,13 +29,6 @@ class _MapContentState extends State<_MapContent> with TickerProviderStateMixin 
     return BlocSelector<HomeCubit, HomeState, List<AttaRestaurant>>(
       selector: (state) => state.filterRestaurants(state.restaurants),
       builder: (context, restaurants) {
-        if (restaurants.length == 1) {
-          _animatedMapController.animateTo(
-            dest: LatLng(restaurants.first.latitude, restaurants.first.longitude),
-            zoom: 17,
-          );
-        }
-
         final markers = restaurants.map((restaurant) {
           return Marker(
             width: 48,
@@ -92,7 +85,15 @@ class _MapContentState extends State<_MapContent> with TickerProviderStateMixin 
           children: [
             FlutterMap(
               mapController: _animatedMapController.mapController,
-              options: const MapOptions(
+              options: MapOptions(
+                onMapReady: () {
+                  if (restaurants.length == 1) {
+                    _animatedMapController.animateTo(
+                      dest: LatLng(restaurants.first.latitude, restaurants.first.longitude),
+                      zoom: 17,
+                    );
+                  }
+                },
                 // TODO(florian): set current location
                 initialCenter: LatLng(43.600000, 1.433333),
               ),
