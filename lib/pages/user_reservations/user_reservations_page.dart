@@ -21,7 +21,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 
-part 'widgets/reservation_card_expansion.dart';
+part 'widgets/reservation_expansion_card.dart';
+part 'widgets/title_card_expansion.dart';
+part 'widgets/child_card_expansion.dart';
 
 class UserReservationsPage {
   static const path = '/user-reservations';
@@ -61,7 +63,30 @@ class _UserReservations extends StatelessWidget {
                   const SizedBox(height: AttaSpacing.m),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
-                    child: Text('Vos réservations', style: AttaTextStyle.header),
+                    child: SizedBox(
+                      height: AttaTextStyle.header.fontSize,
+                      width: double.infinity,
+                      child: Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          Text('Vos réservations', style: AttaTextStyle.header),
+                          Positioned(
+                            right: 0,
+                            top: 0,
+                            child: FractionalTranslation(
+                              translation: const Offset(0, -0.25),
+                              child: state.selectedReservations.isNotEmpty
+                                  ? IconButton(
+                                      icon: const Icon(Icons.delete_outline_rounded),
+                                      onPressed: () =>
+                                          context.read<UserReservationsCubit>().onRemoveAllSelectReservations(),
+                                    )
+                                  : const SizedBox.shrink(),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                   const SizedBox(height: AttaSpacing.l),
                   if (state.user.reservations.isEmpty) ...[

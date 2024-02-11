@@ -44,4 +44,20 @@ class UserReservationsCubit extends Cubit<UserReservationsState> {
     }
     emit(state.copyWith(status: UserReservationsIdle()));
   }
+
+  Future<void> onSelectedReservation(AttaReservation reservation) async {
+    final copyList = [...state.selectedReservations];
+    if (state.selectedReservations.contains(reservation)) {
+      emit(state.copyWith(selectedReservations: copyList..remove(reservation)));
+    } else {
+      emit(state.copyWith(selectedReservations: copyList..add(reservation)));
+    }
+  }
+
+  Future<void> onRemoveAllSelectReservations() async {
+    for (final reservation in state.selectedReservations) {
+      await onRemoveReservation(reservation);
+    }
+    emit(state.copyWith(selectedReservations: []));
+  }
 }
