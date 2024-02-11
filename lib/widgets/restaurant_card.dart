@@ -13,12 +13,14 @@ class RestaurantCard extends StatelessWidget {
     required this.restaurant,
     this.positionedWidget,
     this.onTap,
+    this.showFilters = true,
     super.key,
   });
 
   final AttaRestaurant restaurant;
   final Positioned? positionedWidget;
   final void Function()? onTap;
+  final bool showFilters;
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +71,7 @@ class RestaurantCard extends StatelessWidget {
             style: AttaTextStyle.subHeader,
           ),
         ),
-        if (restaurant.filters.isNotEmpty)
+        if (restaurant.filters.isNotEmpty && showFilters)
           Text(
             restaurant.filters.first.translatedName,
             style: AttaTextStyle.content,

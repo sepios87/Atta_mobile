@@ -140,59 +140,53 @@ class _MapContentState extends State<_MapContent> with TickerProviderStateMixin 
                 bottom: AttaSpacing.s,
                 left: 0,
                 right: 0,
-                child: Center(
-                  child: SizedBox(
-                    height: 98 +
-                        AttaTextStyle.subHeader.fontSize! +
-                        AttaTextStyle.content.fontSize! +
-                        AttaSpacing.xs +
-                        AttaSpacing.xs * 2,
-                    child: PageView.builder(
-                      controller: _pageController,
-                      onPageChanged: (index) {
-                        final restaurant = context.read<HomeCubit>().state.restaurants[index];
-                        _animatedMapController.animateTo(
-                          dest: LatLng(restaurant.latitude, restaurant.longitude),
-                          zoom: 17,
-                          offset: const Offset(0, -98),
-                        );
-                      },
-                      physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-                      itemCount: restaurants.length,
-                      itemBuilder: (context, index) {
-                        final restaurant = restaurants[index];
+                child: SizedBox(
+                  height: 98 + AttaTextStyle.subHeader.fontSize! + AttaSpacing.xs + AttaSpacing.xs * 2,
+                  child: PageView.builder(
+                    controller: _pageController,
+                    onPageChanged: (index) {
+                      final restaurant = context.read<HomeCubit>().state.restaurants[index];
+                      _animatedMapController.animateTo(
+                        dest: LatLng(restaurant.latitude, restaurant.longitude),
+                        zoom: 17,
+                        offset: const Offset(0, -98),
+                      );
+                    },
+                    physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                    itemCount: restaurants.length,
+                    itemBuilder: (context, index) {
+                      final restaurant = restaurants[index];
 
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: AttaSpacing.s),
-                          child: InkWell(
-                            onTap: () => context.adapativePushNamed(
-                              RestaurantDetailPage.routeName,
-                              pathParameters: RestaurantDetailPageArgument(
-                                restaurantId: restaurant.id,
-                              ).toPathParameters(),
-                            ),
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: AttaSpacing.xs,
-                                horizontal: AttaSpacing.s,
-                              ),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(AttaRadius.small),
-                                color: Colors.white,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: AttaColors.black.withOpacity(0.1),
-                                    blurRadius: 6,
-                                    offset: const Offset(0, 4),
-                                  ),
-                                ],
-                              ),
-                              child: RestaurantCard(restaurant: restaurant),
-                            ),
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: AttaSpacing.s),
+                        child: InkWell(
+                          onTap: () => context.adapativePushNamed(
+                            RestaurantDetailPage.routeName,
+                            pathParameters: RestaurantDetailPageArgument(
+                              restaurantId: restaurant.id,
+                            ).toPathParameters(),
                           ),
-                        );
-                      },
-                    ),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: AttaSpacing.xs,
+                              horizontal: AttaSpacing.s,
+                            ),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(AttaRadius.small),
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: AttaColors.black.withOpacity(0.1),
+                                  blurRadius: 6,
+                                  offset: const Offset(0, 4),
+                                ),
+                              ],
+                            ),
+                            child: RestaurantCard(restaurant: restaurant, showFilters: false),
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 ),
               ),
