@@ -102,7 +102,7 @@ class _MapContentState extends State<_MapContent> with TickerProviderStateMixin 
               children: [
                 TileLayer(
                   urlTemplate:
-                      'https://tile.jawg.io/a89cf173-9914-47cc-a9d7-5ba3812680e7/{z}/{x}/{y}@2x.png?access-token=${const String.fromEnvironment('JAWG_API_KEY')}',
+                      'https://tile.jawg.io/a89cf173-9914-47cc-a9d7-5ba3812680e7/{z}/{x}/{y}.png?access-token=${const String.fromEnvironment('JAWG_API_KEY')}',
                   userAgentPackageName: 'com.atta.app',
                   minZoom: 10,
                   maxZoom: 19,

@@ -41,9 +41,10 @@ class SelectHourly extends StatelessWidget {
               onPressed: () async {
                 final date = await showDatePicker(
                   context: context,
-                  initialDate: selectedDate,
+                  initialDate: openingTimesOfDay.isNotEmpty ? selectedDate : null,
                   firstDate: DateTime.now(),
                   lastDate: DateTime.now().add(const Duration(days: 30)),
+                  selectableDayPredicate: (date) => openingTimes.containsKey(AttaDay.fromDateTime(date)),
                 );
                 if (date != null) onDateChanged(date);
               },
@@ -66,7 +67,7 @@ class SelectHourly extends StatelessWidget {
                   ),
                   child: Center(
                     child: Text(
-                      'Aucun horaire trouvé pour ce jour',
+                      'Le restaurant est fermé ${selectedDate.format.toLowerCase()}',
                       style: AttaTextStyle.label.copyWith(
                         fontWeight: FontWeight.bold,
                       ),

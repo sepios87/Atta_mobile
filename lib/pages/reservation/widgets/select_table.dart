@@ -1,7 +1,7 @@
 part of '../reservation_page.dart';
 
-class _SelectTable extends StatefulWidget {
-  const _SelectTable({
+class _ContainerSelectTable extends StatelessWidget {
+  const _ContainerSelectTable({
     required this.tables,
     required this.selectedTableId,
     required this.onTableSelected,
@@ -14,6 +14,63 @@ class _SelectTable extends StatefulWidget {
   final int numberOfSeats;
 
   @override
+  Widget build(BuildContext context) {
+    final maxTableXPosition = _calculateMaxTableXPosition(tables);
+    final maxTableYPosition = _calculateMaxTableYPosition(tables);
+
+    return Stack(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            color: AttaColors.white,
+            borderRadius: BorderRadius.circular(AttaRadius.small),
+          ),
+          child: LayoutBuilder(
+            builder: (context, constraints) => _SelectTable(
+              tables: tables,
+              selectedTableId: selectedTableId,
+              onTableSelected: onTableSelected,
+              numberOfSeats: numberOfSeats,
+              constraints: constraints,
+              maxTableXPosition: maxTableXPosition,
+              maxTableYPosition: maxTableYPosition,
+            ),
+          ),
+        ),
+        if (selectedTableId != null)
+          Positioned(
+            right: AttaSpacing.s,
+            bottom: AttaSpacing.xxs,
+            child: Text(
+              'Table $selectedTableId selectionnée',
+              style: AttaTextStyle.caption,
+            ),
+          ),
+      ],
+    );
+  }
+}
+
+class _SelectTable extends StatefulWidget {
+  const _SelectTable({
+    required this.tables,
+    required this.selectedTableId,
+    required this.onTableSelected,
+    required this.numberOfSeats,
+    required this.constraints,
+    required this.maxTableXPosition,
+    required this.maxTableYPosition,
+  });
+
+  final List<AttaTable> tables;
+  final String? selectedTableId;
+  final void Function(String? tableId) onTableSelected;
+  final int numberOfSeats;
+  final BoxConstraints constraints;
+  final double maxTableXPosition;
+  final double maxTableYPosition;
+
+  @override
   State<_SelectTable> createState() => _SelectTableState();
 }
 
@@ -23,6 +80,7 @@ class _SelectTableState extends State<_SelectTable> {
   @override
   void dispose() {
     _transformationController.dispose();
+
     super.dispose();
   }
 
@@ -34,91 +92,68 @@ class _SelectTableState extends State<_SelectTable> {
 
   @override
   Widget build(BuildContext context) {
-    final maxTableXPosition = _calculateMaxTableXPosition(widget.tables);
-    final maxTableYPosition = _calculateMaxTableYPosition(widget.tables);
+    final maxHeight = widget.constraints.maxHeight;
+    final maxWidth = widget.constraints.maxWidth;
 
-    return Stack(
-      children: [
-        Container(
-          decoration: BoxDecoration(
-            color: AttaColors.white,
-            borderRadius: BorderRadius.circular(AttaRadius.small),
-          ),
-          child: LayoutBuilder(
-            builder: (context, ctr) {
-              return GestureDetector(
-                onDoubleTapDown: (details) {
-                  if (_transformationController.value != Matrix4.identity()) {
-                    _transformationController.value = Matrix4.identity();
-                  } else {
-                    final localPosition = details.localPosition;
-                    _transformationController.value = Matrix4.identity()
-                      ..scale(1.5)
-                      ..translate(-localPosition.dx / 1.5, -localPosition.dy / 1.5);
-                  }
-                },
-                onTapUp: (details) {
-                  final position = _transformationController.toScene(details.localPosition);
-                  final table = widget.tables.firstWhereOrNull(
-                    (e) {
-                      final tablePosition = Offset(
-                        (e.x * ctr.maxWidth) / maxTableXPosition,
-                        (e.y * ctr.maxHeight) / maxTableYPosition,
-                      );
-                      final tableSize = Size(
-                        (e.width * ctr.maxWidth) / maxTableXPosition,
-                        (e.height * ctr.maxHeight) / maxTableYPosition,
-                      );
-                      final tableRect = Rect.fromLTWH(
-                        tablePosition.dx,
-                        tablePosition.dy,
-                        tableSize.width,
-                        tableSize.height,
-                      );
-                      return tableRect.contains(position);
-                    },
-                  );
-                  if (table != null && isSelectableTable(table)) {
-                    widget.onTableSelected(table.id);
-                  } else {
-                    widget.onTableSelected(null);
-                  }
-                },
-                child: InteractiveViewer(
-                  transformationController: _transformationController,
-                  boundaryMargin: const EdgeInsets.all(AttaSpacing.m),
-                  maxScale: 3,
-                  child: Stack(
-                    clipBehavior: Clip.none,
-                    children: widget.tables
-                        .map(
-                          (t) => _Table(
-                            table: t,
-                            x: (t.x * ctr.maxWidth) / maxTableXPosition,
-                            y: (t.y * ctr.maxHeight) / maxTableYPosition,
-                            width: (t.width * ctr.maxWidth) / maxTableXPosition,
-                            height: (t.height * ctr.maxHeight) / maxTableYPosition,
-                            isSelected: t.id == widget.selectedTableId,
-                            isEnable: isSelectableTable(t),
-                          ),
-                        )
-                        .toList(),
-                  ),
+    return GestureDetector(
+      onDoubleTapDown: (details) {
+        if (_transformationController.value != Matrix4.identity()) {
+          _transformationController.value = Matrix4.identity();
+        } else {
+          final localPosition = details.localPosition;
+          _transformationController.value = Matrix4.identity()
+            ..scale(1.5)
+            ..translate(-localPosition.dx / 1.5, -localPosition.dy / 1.5);
+        }
+      },
+      onTapUp: (details) {
+        final position = _transformationController.toScene(details.localPosition);
+        final table = widget.tables.firstWhereOrNull(
+          (e) {
+            final tablePosition = Offset(
+              (e.x * maxWidth) / widget.maxTableXPosition,
+              (e.y * maxHeight) / widget.maxTableYPosition,
+            );
+            final tableSize = Size(
+              (e.width * maxWidth) / widget.maxTableXPosition,
+              (e.height * maxHeight) / widget.maxTableYPosition,
+            );
+            final tableRect = Rect.fromLTWH(
+              tablePosition.dx,
+              tablePosition.dy,
+              tableSize.width,
+              tableSize.height,
+            );
+            return tableRect.contains(position);
+          },
+        );
+        if (table != null && isSelectableTable(table)) {
+          widget.onTableSelected(table.id);
+        } else {
+          widget.onTableSelected(null);
+        }
+      },
+      child: InteractiveViewer(
+        transformationController: _transformationController,
+        boundaryMargin: const EdgeInsets.all(AttaSpacing.m),
+        maxScale: 3,
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: widget.tables
+              .map(
+                (t) => _Table(
+                  table: t,
+                  x: (t.x * maxWidth) / widget.maxTableXPosition,
+                  y: (t.y * maxHeight) / widget.maxTableYPosition,
+                  width: (t.width * maxWidth) / widget.maxTableXPosition,
+                  height: (t.height * maxHeight) / widget.maxTableYPosition,
+                  isSelected: t.id == widget.selectedTableId,
+                  isEnable: isSelectableTable(t),
                 ),
-              );
-            },
-          ),
+              )
+              .toList(),
         ),
-        if (widget.selectedTableId != null)
-          Positioned(
-            right: AttaSpacing.s,
-            bottom: AttaSpacing.xxs,
-            child: Text(
-              'Table ${widget.selectedTableId!} selectionnée',
-              style: AttaTextStyle.caption,
-            ),
-          ),
-      ],
+      ),
     );
   }
 }

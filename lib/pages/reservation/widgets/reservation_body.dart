@@ -65,7 +65,7 @@ class __ReservationBodyState extends State<_ReservationBody> {
                       onPointerMove: (_) {
                         setState(() => _canScroll = false);
                       },
-                      child: _SelectTable(
+                      child: _ContainerSelectTable(
                         numberOfSeats: state.numberOfPersons,
                         selectedTableId: state.selectedTableId,
                         onTableSelected: (tableId) => context.read<ReservationCubit>().onTableSelected(tableId),
