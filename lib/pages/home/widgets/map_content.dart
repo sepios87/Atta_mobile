@@ -13,8 +13,24 @@ class _MapContentState extends State<_MapContent> with TickerProviderStateMixin 
     duration: AttaAnimation.mediumAnimation,
     curve: Curves.easeInOutExpo,
   );
+  final DraggableScrollableController _controller = DraggableScrollableController();
 
-  final _pageController = PageController(viewportFraction: 0.8);
+  PageController _pageController = PageController(viewportFraction: 0.8);
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller.addListener(() {
+      print(_controller.size);
+      if (_controller.size >= 0.8) {
+        setState(() {
+          _pageController = PageController(viewportFraction: 1);
+        });
+      }
+      // setState(() => margin = AttaSpacing.m - widget.controller.size * AttaSpacing.m);
+    });
+  }
 
   @override
   void dispose() {
@@ -26,6 +42,9 @@ class _MapContentState extends State<_MapContent> with TickerProviderStateMixin 
 
   @override
   Widget build(BuildContext context) {
+    final headerHeight =
+        98 + AttaTextStyle.subHeader.fontSize! + AttaTextStyle.content.fontSize! + AttaSpacing.xs * 2 + 12;
+
     return BlocSelector<HomeCubit, HomeState, List<AttaRestaurant>>(
       selector: (state) => state.filterRestaurants(state.restaurants),
       builder: (context, restaurants) {
@@ -102,7 +121,7 @@ class _MapContentState extends State<_MapContent> with TickerProviderStateMixin 
               children: [
                 TileLayer(
                   urlTemplate:
-                      'https://tile.jawg.io/a89cf173-9914-47cc-a9d7-5ba3812680e7/{z}/{x}/{y}@2x.png?access-token=${const String.fromEnvironment('JAWG_API_KEY')}',
+                      'https://tile.jawg.io/a89cf173-9914-47cc-a9d7-5ba3812680e7/{z}/{x}/{y}.png?access-token=${const String.fromEnvironment('JAWG_API_KEY')}',
                   userAgentPackageName: 'com.atta.app',
                   minZoom: 10,
                   maxZoom: 19,
@@ -137,68 +156,144 @@ class _MapContentState extends State<_MapContent> with TickerProviderStateMixin 
             ),
             if (restaurants.isNotEmpty)
               Positioned(
-                bottom: AttaSpacing.s,
+                bottom: AttaSpacing.xs,
                 left: 0,
                 right: 0,
-                child: Center(
-                  child: SizedBox(
-                    height: 98 +
-                        AttaTextStyle.subHeader.fontSize! +
-                        AttaTextStyle.content.fontSize! +
-                        AttaSpacing.xs +
-                        AttaSpacing.xs * 2,
-                    child: PageView.builder(
-                      controller: _pageController,
-                      onPageChanged: (index) {
-                        final restaurant = context.read<HomeCubit>().state.restaurants[index];
-                        _animatedMapController.animateTo(
-                          dest: LatLng(restaurant.latitude, restaurant.longitude),
-                          zoom: 17,
-                          offset: const Offset(0, -98),
-                        );
-                      },
-                      physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-                      itemCount: restaurants.length,
-                      itemBuilder: (context, index) {
-                        final restaurant = restaurants[index];
+                top: AttaSpacing.xs,
+                child: LayoutBuilder(
+                  builder: (context, ctrx) {
+                    final minChildSize = headerHeight / ctrx.maxHeight;
 
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: AttaSpacing.s),
-                          child: InkWell(
-                            onTap: () => context.adapativePushNamed(
-                              RestaurantDetailPage.routeName,
-                              pathParameters: RestaurantDetailPageArgument(
-                                restaurantId: restaurant.id,
-                              ).toPathParameters(),
-                            ),
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: AttaSpacing.xs,
-                                horizontal: AttaSpacing.s,
-                              ),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(AttaRadius.small),
-                                color: Colors.white,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: AttaColors.black.withOpacity(0.1),
-                                    blurRadius: 6,
-                                    offset: const Offset(0, 4),
-                                  ),
-                                ],
-                              ),
-                              child: RestaurantCard(restaurant: restaurant),
-                            ),
-                          ),
+                    return DraggableScrollableSheet(
+                      controller: _controller,
+                      maxChildSize: 0.8,
+                      initialChildSize: minChildSize,
+                      minChildSize: minChildSize,
+                      builder: (context, controller) {
+                        return PageView.builder(
+                          controller: _pageController,
+                          onPageChanged: (index) {
+                            final restaurant = context.read<HomeCubit>().state.restaurants[index];
+                            _animatedMapController.animateTo(
+                              dest: LatLng(restaurant.latitude, restaurant.longitude),
+                              zoom: 17,
+                              offset: const Offset(0, -98),
+                            );
+                          },
+                          physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                          itemCount: restaurants.length,
+                          itemBuilder: (context, index) {
+                            return _Test(
+                              restaurant: restaurants[index],
+                              scrollController: controller,
+                              controller: _controller,
+                            );
+                          },
                         );
                       },
-                    ),
-                  ),
+                    );
+                  },
                 ),
+
+                // Center(
+                //   child: PageView.builder(
+                //     controller: _pageController,
+
+                //     itemCount: restaurants.length,
+                //     itemBuilder: (context, index) {
+                //       final restaurant = restaurants[index];
+
+                //       final controller = DraggableScrollableController();
+
+                //       return LayoutBuilder(
+                //         builder: (context, ctrx) {
+                //           return DraggableScrollableSheet(
+                //             controller: controller,
+                //             initialChildSize: headerHeight / ctrx.maxHeight,
+                //             minChildSize: headerHeight / ctrx.maxHeight,
+                //             snapSizes: [headerHeight / ctrx.maxHeight, 1.0],
+                //             snap: true,
+                //             builder: (ctx, scollController) => _Test(
+                //               headerHeight: headerHeight,
+                //               restaurant: restaurant,
+                //               scrollController: scollController,
+                //               controller: controller,
+                //             ),
+                //           );
+                //         },
+                //       );
+                //     },
+                //   ),
+                // ),
               ),
           ],
         );
       },
+    );
+  }
+}
+
+class _Test extends StatefulWidget {
+  const _Test({
+    required this.restaurant,
+    required this.scrollController,
+    required this.controller,
+  });
+
+  final AttaRestaurant restaurant;
+  final ScrollController scrollController;
+  final DraggableScrollableController controller;
+
+  @override
+  State<_Test> createState() => _TestState();
+}
+
+class _TestState extends State<_Test> {
+  double margin = AttaSpacing.m;
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedContainer(
+      duration: AttaAnimation.fastAnimation,
+      curve: Curves.ease,
+      margin: EdgeInsets.symmetric(horizontal: margin),
+      padding: const EdgeInsets.symmetric(
+        vertical: AttaSpacing.xs,
+        horizontal: AttaSpacing.s,
+      ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(AttaRadius.small),
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: AttaColors.black.withOpacity(0.1),
+            blurRadius: 6,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: SingleChildScrollView(
+        controller: widget.scrollController,
+        child: InkWell(
+          onTap: () => context.adapativePushNamed(
+            RestaurantDetailPage.routeName,
+            pathParameters: RestaurantDetailPageArgument(
+              restaurantId: widget.restaurant.id,
+            ).toPathParameters(),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              RestaurantCard(restaurant: widget.restaurant),
+              if (widget.restaurant.description != null && widget.restaurant.description!.isNotEmpty)
+                Text(
+                  widget.restaurant.description!,
+                  style: AttaTextStyle.content,
+                ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
