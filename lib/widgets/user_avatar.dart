@@ -10,23 +10,28 @@ class UserAvatar extends StatelessWidget {
   const UserAvatar({
     required this.user,
     this.radius = 18,
+    this.withoutImage = false,
     super.key,
   });
 
   final AttaUser user;
   final double radius;
+  final bool withoutImage;
 
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(
       radius: radius,
-      backgroundColor: user.imageUrl == null ? AttaColors.primary : Colors.transparent,
-      child: user.imageUrl != null
+      backgroundColor: user.imageUrl == null || withoutImage ? AttaColors.primary : Colors.transparent,
+      child: user.imageUrl != null && !withoutImage
           ? ClipOval(
               child: CachedNetworkImage(
                 imageUrl: user.imageUrl!,
                 maxWidthDiskCache: 1000,
                 maxHeightDiskCache: 1000,
+                width: radius * 2,
+                height: radius * 2,
+                fit: BoxFit.cover,
                 useOldImageOnUrlChange: true,
                 fadeInDuration: AttaAnimation.mediumAnimation,
               ),
@@ -41,7 +46,7 @@ class UserAvatar extends StatelessWidget {
                   user.anagram!,
                   style: AttaTextStyle.caption.copyWith(
                     color: AttaColors.white,
-                    fontSize: 16,
+                    fontSize: radius - 4,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

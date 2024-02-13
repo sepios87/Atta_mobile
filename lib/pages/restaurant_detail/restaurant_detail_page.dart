@@ -149,7 +149,12 @@ class _RestaurantDetailScreen extends StatelessWidget {
                   },
                 ),
               ),
-              const SliverPadding(padding: EdgeInsets.only(bottom: AttaSpacing.m + 48)),
+              DecoratedSliver(
+                decoration: const BoxDecoration(color: Colors.white),
+                sliver: SliverPadding(
+                  padding: EdgeInsets.only(bottom: AttaSpacing.m + 48 + MediaQuery.viewInsetsOf(context).bottom),
+                ),
+              ),
             ],
           ),
           Positioned(
@@ -159,7 +164,7 @@ class _RestaurantDetailScreen extends StatelessWidget {
             child: BlocBuilder<RestaurantDetailCubit, RestaurantDetailState>(
               builder: (context, state) {
                 return AnimatedSwitcher(
-                  duration: AttaAnimation.slowAnimation,
+                  duration: AttaAnimation.mediumAnimation,
                   child: state.selectedOpeningTime != null ||
                           (state.reservation != null && (state.reservation!.dishes?.isNotEmpty ?? false))
                       ? ElevatedButton(

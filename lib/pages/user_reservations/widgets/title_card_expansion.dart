@@ -63,7 +63,7 @@ class _TitleReservationCardExpansion extends StatelessWidget {
                     style: AttaTextStyle.subHeader,
                   ),
                   Text(
-                    reservation.dateTime.accurateFormat,
+                    reservation.dateTime.accurateFormat(),
                     overflow: TextOverflow.ellipsis,
                     style: AttaTextStyle.label.copyWith(
                       color: Colors.grey.shade700,

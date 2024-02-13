@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:atta/entities/reservation.dart';
+import 'package:atta/entities/wrapped.dart';
 import 'package:atta/extensions/map_ext.dart';
 
 class AttaUser {
@@ -88,14 +89,18 @@ class AttaUser {
 
   AttaUser copyWith({
     Set<AttaReservation>? reservations,
+    Wrapped<String?>? firstName,
+    Wrapped<String?>? lastName,
+    Wrapped<String?>? phone,
+    Wrapped<String?>? imageUrl,
   }) {
     return AttaUser._(
       id: id,
-      firstName: firstName,
-      lastName: lastName,
-      phone: phone,
+      firstName: firstName == null ? this.firstName : firstName.value,
+      lastName: lastName == null ? this.lastName : lastName.value,
+      phone: phone == null ? this.phone : phone.value,
       email: email,
-      imageUrl: imageUrl,
+      imageUrl: imageUrl == null ? this.imageUrl : imageUrl.value,
       favoritesRestaurantIds: favoritesRestaurantIds,
       favoriteDishesIds: favoriteDishesIds,
       reservations: reservations ?? this.reservations,

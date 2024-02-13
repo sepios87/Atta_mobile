@@ -1,7 +1,7 @@
 import 'package:atta/extensions/border_radius_ext.dart';
 import 'package:atta/extensions/context_ext.dart';
 import 'package:atta/pages/home/home_page.dart';
-import 'package:atta/pages/profile/bottom_sheet/edit_profile.dart';
+import 'package:atta/bottom_sheet/edit_profile.dart';
 import 'package:atta/pages/profile/cubit/profile_cubit.dart';
 import 'package:atta/theme/colors.dart';
 import 'package:atta/theme/radius.dart';
@@ -67,6 +67,14 @@ class _ProfileScreen extends StatelessWidget {
                         textAlign: TextAlign.center,
                         style: AttaTextStyle.header,
                       ),
+                      if (state.user.firstName != null || state.user.lastName != null) ...[
+                        const SizedBox(height: AttaSpacing.s),
+                        Text(
+                          '${state.user.firstName ?? ''} ${state.user.lastName ?? ''}',
+                          textAlign: TextAlign.center,
+                          style: AttaTextStyle.subHeader,
+                        ),
+                      ],
                       const SizedBox(height: AttaSpacing.xl),
                       IntrinsicHeight(
                         child: Row(
@@ -135,7 +143,7 @@ class _ProfileScreen extends StatelessWidget {
                           title: const Text('Modifier le profile'),
                           subtitle: const Text('Pour mettre à jour vos informations'),
                           trailing: const Icon(Icons.chevron_right_rounded),
-                          onTap: () => showEditProfile(context, state.user),
+                          onTap: () => showEditProfileBottomSheet(context, state.user),
                         ),
                       ),
                       const Spacer(),

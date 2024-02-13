@@ -12,7 +12,7 @@ extension DateTimeExtension on DateTime {
     return day == tomorrow.day && month == tomorrow.month && year == tomorrow.year;
   }
 
-  String get format {
+  String format() {
     if (isToday) {
       return "Aujourd'hui";
     } else if (isTomorrow) {
@@ -21,12 +21,12 @@ extension DateTimeExtension on DateTime {
     return DateFormat('dd/MM').format(this);
   }
 
-  String get accurateFormat {
+  String accurateFormat({bool withPronoun = false}) {
     if (isToday) {
       return "Aujourd'hui à ${DateFormat('HH:mm').format(this)}";
     } else if (isTomorrow) {
       return 'Demain à ${DateFormat('HH:mm').format(this)}';
     }
-    return DateFormat('EEEE dd/MM à HH:mm').format(this).capitalize();
+    return '${withPronoun ? 'Le' : ''} ${DateFormat('EEEE dd/MM à HH:mm').format(this).capitalize()}';
   }
 }

@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:atta/entities/reservation.dart';
 import 'package:atta/entities/user.dart';
+import 'package:atta/entities/wrapped.dart';
 import 'package:atta/main.dart';
 import 'package:atta/services/database/db_service.dart';
 import 'package:crypto/crypto.dart';
@@ -92,5 +94,26 @@ class UserService {
     newUser?.reservations.removeWhere((r) => r.id == reservation.id);
     newUser?.reservations.add(reservation);
     _userStreamController.add(newUser);
+  }
+
+  Future<String> uploadAvatarImage(File imageFile) async {
+    final bucketPathDestination = '${user?.id}/${DateTime.now().millisecondsSinceEpoch}';
+    return databaseService.uploadUserAvatar(bucketPathDestination, imageFile);
+  }
+
+  Future<void> updateProfile({
+    required Wrapped<String?> firstName,
+    required Wrapped<String?> lastName,
+    required Wrapped<String?> phone,
+    Wrapped<String?>? imageUrl,
+  }) async {
+    final newUser = user?.copyWith(
+      firstName: firstName,
+      lastName: lastName,
+      phone: phone,
+      imageUrl: imageUrl,
+    );
+    _userStreamController.add(newUser);
+    await databaseService.updateUser(newUser!);
   }
 }

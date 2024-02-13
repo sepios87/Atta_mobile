@@ -22,6 +22,7 @@ import 'package:atta/widgets/restaurant_card.dart';
 import 'package:atta/widgets/search_bar.dart';
 import 'package:atta/widgets/skeleton.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -58,8 +59,11 @@ class _HomeScreen extends StatelessWidget {
       listener: (context, state) {
         if (state.selectedRestaurant != null) {
           showModalBottomSheet<void>(
-            constraints: BoxConstraints(minHeight: MediaQuery.of(context).size.height * 0.2),
+            constraints: BoxConstraints(
+              minHeight: MediaQuery.of(context).size.height * 0.2,
+            ),
             context: context,
+            isScrollControlled: true,
             builder: (_) => BlocProvider.value(
               value: context.read<HomeCubit>(),
               child: _RestaurantDetailModal(state.selectedRestaurant!),
@@ -96,7 +100,9 @@ class _HomeScreen extends StatelessWidget {
                             padding: EdgeInsets.zero,
                             splashRadius: AttaSpacing.s,
                             onPressed: () => context.read<HomeCubit>().onToogleListView(),
-                            icon: isOnListView ? const Icon(Icons.map_rounded) : const Icon(Icons.grid_view_rounded),
+                            icon: isOnListView
+                                ? const Icon(CupertinoIcons.map)
+                                : const Icon(CupertinoIcons.square_grid_2x2),
                           );
                         },
                       ),

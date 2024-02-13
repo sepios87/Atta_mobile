@@ -16,7 +16,7 @@ ThemeData get _attaThemeData {
     ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
-      labelStyle: AttaTextStyle.label.copyWith(color: AttaColors.black),
+      labelStyle: AttaTextStyle.label.copyWith(color: Colors.grey),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(AttaRadius.full),
         borderSide: BorderSide.none,

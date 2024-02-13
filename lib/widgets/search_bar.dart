@@ -39,6 +39,7 @@ class _AttaSearchBarState extends State<AttaSearchBar> {
     _textEditingController
       ..removeListener(_listenerController)
       ..dispose();
+
     super.dispose();
   }
 
@@ -64,7 +65,6 @@ class _AttaSearchBarState extends State<AttaSearchBar> {
           child: TextField(
             focusNode: _focusNode,
             controller: _textEditingController,
-            onTapOutside: (_) => _focusNode.unfocus(),
             decoration: const InputDecoration(
               prefixIcon: Icon(Icons.search),
               hintText: 'Rechercher',
@@ -103,6 +103,7 @@ class _AttaSearchBarState extends State<AttaSearchBar> {
               ? IconButton(
                   onPressed: () {
                     _textEditingController.clear();
+                    _focusNode.unfocus();
                     widget.onFocus(false);
                     setState(() => _isOnSearch = false);
                   },

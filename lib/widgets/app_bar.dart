@@ -43,23 +43,23 @@ class AttaAppBar extends StatelessWidget implements PreferredSizeWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   UserAvatar(user: user!),
-                  if (user?.firstName != null || user?.lastName != null) const SizedBox(width: AttaSpacing.m),
+                  if (user?.firstName != null || user?.lastName != null) const SizedBox(width: AttaSpacing.s),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       if (user!.lastName != null)
                         Text(
-                          user!.firstName != null ? user!.lastName![0].toUpperCase() : user!.lastName!,
+                          user!.firstName != null ? user!.lastName! : user!.lastName!,
                           style: AttaTextStyle.caption.copyWith(
                             color: AttaColors.white,
                           ),
                         ),
                       if (user!.firstName != null)
                         Text(
-                          user!.lastName != null ? user!.firstName![0].toUpperCase() : user!.firstName!,
+                          user!.lastName != null ? user!.firstName! : user!.firstName!,
                           style: AttaTextStyle.caption.copyWith(
                             color: AttaColors.white,
-                            fontSize: 16,
+                            fontSize: 15,
                             fontWeight: FontWeight.bold,
                           ),
                         ),

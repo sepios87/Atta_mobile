@@ -3,7 +3,7 @@ import 'package:atta/entities/formula.dart';
 import 'package:atta/entities/menu.dart';
 
 enum AttaRestaurantFilter {
-  fastFood,
+  crepe,
   vegetarian,
   pizza,
   burger,
@@ -26,7 +26,7 @@ enum AttaRestaurantFilter {
 
   String get translatedName {
     return switch (this) {
-      fastFood => 'Fast Food',
+      crepe => 'Crêpe',
       pizza => 'Pizza',
       burger => 'Burger',
       kebab => 'Kebab',

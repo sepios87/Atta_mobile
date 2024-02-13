@@ -41,7 +41,6 @@ class _ChildReservationTileExpansion extends StatelessWidget {
                 children: [
                   if (reservation.tableId != null)
                     Container(
-                      margin: const EdgeInsets.only(bottom: AttaSpacing.xs),
                       padding: const EdgeInsets.symmetric(
                         horizontal: AttaSpacing.xs,
                         vertical: AttaSpacing.xxs,
@@ -69,6 +68,7 @@ class _ChildReservationTileExpansion extends StatelessWidget {
                         ],
                       ),
                     ),
+                  const SizedBox(height: AttaSpacing.xxs),
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
@@ -84,6 +84,18 @@ class _ChildReservationTileExpansion extends StatelessWidget {
                           size: 20,
                         ),
                       ),
+                    ),
+                  ),
+                  const SizedBox(height: AttaSpacing.xxs),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () => Share.share(reservation.shareText(restaurant)),
+                      style: Theme.of(context).elevatedButtonTheme.style?.copyWith(
+                            minimumSize: MaterialStateProperty.all(Size.zero),
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap, // Remove margin around the button
+                          ),
+                      child: const Icon(Icons.share, size: 20),
                     ),
                   ),
                 ],
@@ -163,7 +175,16 @@ class _ChildReservationTileExpansion extends StatelessWidget {
                     ],
                   ),
                 ),
+              )
+            else ...[
+              const SizedBox(width: AttaSpacing.m),
+              Expanded(
+                child: Text(
+                  'Aucun commentaire ou commande',
+                  style: AttaTextStyle.content.copyWith(color: Colors.grey.shade700),
+                ),
               ),
+            ],
           ],
         );
       },

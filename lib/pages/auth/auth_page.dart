@@ -1,5 +1,7 @@
+import 'package:atta/bottom_sheet/edit_profile.dart';
 import 'package:atta/extensions/border_radius_ext.dart';
 import 'package:atta/extensions/context_ext.dart';
+import 'package:atta/main.dart';
 import 'package:atta/pages/auth/cubit/auth_cubit.dart';
 import 'package:atta/pages/home/home_page.dart';
 import 'package:atta/theme/colors.dart';
@@ -44,7 +46,7 @@ class _AuthScreen extends StatelessWidget {
         ),
         child: SingleChildScrollView(
           child: BlocConsumer<AuthCubit, AttaAuthState>(
-            listener: (context, state) {
+            listener: (context, state) async {
               final status = state.status;
 
               if (status is AuthErrorStatus) {
@@ -55,7 +57,13 @@ class _AuthScreen extends StatelessWidget {
                   ),
                 );
               }
+
               if (status is AuthSuccessStatus) {
+                final user = userService.user;
+                if (!state.isLogin && user != null) {
+                  await showEditProfileBottomSheet(context, user);
+                }
+                // ignore: use_build_context_synchronously
                 context.adaptativePopNamed(HomePage.routeName);
               }
             },

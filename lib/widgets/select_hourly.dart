@@ -50,7 +50,7 @@ class SelectHourly extends StatelessWidget {
               },
               child: Row(
                 children: [
-                  Text(selectedDate.format, style: AttaTextStyle.label),
+                  Text(selectedDate.format(), style: AttaTextStyle.label),
                   const Icon(Icons.keyboard_arrow_down),
                 ],
               ),
@@ -67,7 +67,7 @@ class SelectHourly extends StatelessWidget {
                   ),
                   child: Center(
                     child: Text(
-                      'Le restaurant est fermé ${selectedDate.format.toLowerCase()}',
+                      'Le restaurant est fermé ${selectedDate.format().toLowerCase()}',
                       style: AttaTextStyle.label.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
