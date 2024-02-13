@@ -45,6 +45,8 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Replace with your permission description.</string>
 	<key>CFBundleURLTypes</key>
   	<array>
     <dict>

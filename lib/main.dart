@@ -8,7 +8,6 @@ import 'package:atta/pages/preload/preload_page.dart';
 import 'package:atta/pages/profile/profile_page.dart';
 import 'package:atta/pages/reservation/reservation_page.dart';
 import 'package:atta/pages/restaurant_detail/restaurant_detail_page.dart';
-import 'package:atta/pages/user/user_screen.dart';
 import 'package:atta/pages/user_reservations/user_reservations_page.dart';
 import 'package:atta/services/database/db_service.dart';
 import 'package:atta/services/reservation_service.dart';

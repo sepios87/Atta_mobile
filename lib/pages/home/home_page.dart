@@ -58,8 +58,8 @@ class _HomeScreen extends StatelessWidget {
       listener: (context, state) {
         if (state.selectedRestaurant != null) {
           showModalBottomSheet<void>(
+            constraints: BoxConstraints(minHeight: MediaQuery.of(context).size.height * 0.2),
             context: context,
-            isScrollControlled: true,
             builder: (_) => BlocProvider.value(
               value: context.read<HomeCubit>(),
               child: _RestaurantDetailModal(state.selectedRestaurant!),

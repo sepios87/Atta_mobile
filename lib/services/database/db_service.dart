@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:atta/entities/dish.dart';
 import 'package:atta/entities/reservation.dart';
 import 'package:atta/entities/restaurant.dart';
@@ -9,6 +11,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 part 'extensions/db_user_ext.dart';
 part 'extensions/db_restaurant_ext.dart';
 part 'extensions/db_reservation_ext.dart';
+part 'extensions/db_storage_ext.dart';
 
 class DatabaseService {
   final _supabase = Supabase.instance.client;

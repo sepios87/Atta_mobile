@@ -1,6 +1,7 @@
 import 'package:atta/extensions/border_radius_ext.dart';
 import 'package:atta/extensions/context_ext.dart';
 import 'package:atta/pages/home/home_page.dart';
+import 'package:atta/pages/profile/bottom_sheet/edit_profile.dart';
 import 'package:atta/pages/profile/cubit/profile_cubit.dart';
 import 'package:atta/theme/colors.dart';
 import 'package:atta/theme/radius.dart';
@@ -20,151 +21,158 @@ class ProfilePage {
       );
 }
 
+const _kAvatarSize = 42.0;
+
 class _ProfileScreen extends StatelessWidget {
   const _ProfileScreen();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
         leading: IconButton(
           onPressed: () => context.adaptativePopNamed(HomePage.routeName),
           icon: const Icon(Icons.arrow_back_ios_new),
         ),
       ),
-      body: BlocBuilder<ProfileCubit, ProfileState>(
-        builder: (context, state) {
-          return Stack(
-            children: [
-              Positioned(
-                top: 42,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadiusExt.top(AttaRadius.medium),
+      body: Padding(
+        padding: EdgeInsets.only(top: kToolbarHeight + MediaQuery.paddingOf(context).top - _kAvatarSize),
+        child: BlocBuilder<ProfileCubit, ProfileState>(
+          builder: (context, state) {
+            return Stack(
+              children: [
+                Positioned(
+                  top: _kAvatarSize,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadiusExt.top(AttaRadius.medium),
+                    ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    UserAvatar(user: state.user, radius: 42),
-                    const SizedBox(height: AttaSpacing.xl),
-                    Text(
-                      state.user.email ?? '',
-                      textAlign: TextAlign.center,
-                      style: AttaTextStyle.header,
-                    ),
-                    const SizedBox(height: AttaSpacing.xl),
-                    IntrinsicHeight(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Column(
-                            children: [
-                              Text(
-                                state.user.favoritesRestaurantIds.length.toString(),
-                                style: AttaTextStyle.subHeader,
-                              ),
-                              Text(
-                                'Restaurants\nfavoris',
-                                textAlign: TextAlign.center,
-                                style: AttaTextStyle.caption,
-                              ),
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: AttaSpacing.xs),
-                            child: VerticalDivider(
-                              color: AttaColors.primaryLight,
-                              thickness: 1,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      UserAvatar(user: state.user, radius: _kAvatarSize),
+                      const SizedBox(height: AttaSpacing.xl),
+                      Text(
+                        state.user.email ?? '',
+                        textAlign: TextAlign.center,
+                        style: AttaTextStyle.header,
+                      ),
+                      const SizedBox(height: AttaSpacing.xl),
+                      IntrinsicHeight(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Column(
+                              children: [
+                                Text(
+                                  state.user.favoritesRestaurantIds.length.toString(),
+                                  style: AttaTextStyle.subHeader,
+                                ),
+                                Text(
+                                  'Restaurants\nfavoris',
+                                  textAlign: TextAlign.center,
+                                  style: AttaTextStyle.caption,
+                                ),
+                              ],
                             ),
-                          ),
-                          Column(
-                            children: [
-                              Text(
-                                state.user.reservations.length.toString(),
-                                style: AttaTextStyle.subHeader,
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: AttaSpacing.xs),
+                              child: VerticalDivider(
+                                color: AttaColors.primaryLight,
+                                thickness: 1,
                               ),
-                              Text(
-                                'Réservations\nréalisées',
-                                textAlign: TextAlign.center,
-                                style: AttaTextStyle.caption,
-                              ),
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: AttaSpacing.xs),
-                            child: VerticalDivider(
-                              color: AttaColors.primaryLight,
-                              thickness: 1,
                             ),
-                          ),
-                          Column(
-                            children: [
-                              Text(
-                                state.user.favoriteDishesIds.length.toString(),
-                                style: AttaTextStyle.subHeader,
+                            Column(
+                              children: [
+                                Text(
+                                  state.user.reservations.length.toString(),
+                                  style: AttaTextStyle.subHeader,
+                                ),
+                                Text(
+                                  'Réservations\nréalisées',
+                                  textAlign: TextAlign.center,
+                                  style: AttaTextStyle.caption,
+                                ),
+                              ],
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: AttaSpacing.xs),
+                              child: VerticalDivider(
+                                color: AttaColors.primaryLight,
+                                thickness: 1,
                               ),
-                              Text(
-                                'Plats\nfavoris',
-                                textAlign: TextAlign.center,
-                                style: AttaTextStyle.caption,
-                              ),
-                            ],
-                          ),
-                        ],
+                            ),
+                            Column(
+                              children: [
+                                Text(
+                                  state.user.favoriteDishesIds.length.toString(),
+                                  style: AttaTextStyle.subHeader,
+                                ),
+                                Text(
+                                  'Plats\nfavoris',
+                                  textAlign: TextAlign.center,
+                                  style: AttaTextStyle.caption,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: AttaSpacing.xxl),
-                    Material(
-                      color: Colors.transparent,
-                      child: ListTile(
-                        title: const Text('Modifier le profile'),
-                        subtitle: const Text('Pour mettre à jour vos informations'),
-                        trailing: const Icon(Icons.chevron_right_rounded),
-                        onTap: () {},
+                      const SizedBox(height: AttaSpacing.xxl),
+                      Material(
+                        color: Colors.transparent,
+                        child: ListTile(
+                          title: const Text('Modifier le profile'),
+                          subtitle: const Text('Pour mettre à jour vos informations'),
+                          trailing: const Icon(Icons.chevron_right_rounded),
+                          onTap: () => showEditProfile(context, state.user),
+                        ),
                       ),
-                    ),
-                    const Spacer(),
-                    TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        'Supprimer le compte',
-                        style: AttaTextStyle.caption.copyWith(color: Colors.grey.shade600),
+                      const Spacer(),
+                      TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          'Supprimer le compte',
+                          style: AttaTextStyle.caption.copyWith(color: Colors.grey.shade600),
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: AttaSpacing.xxs),
-                    ElevatedButton(
-                      onPressed: () {
-                        if (state.status is ProfileLoadingLogoutStatus) return;
-                        context.read<ProfileCubit>().onLogout().then(
-                              (_) => context.adapativeReplacementNamed(HomePage.routeName),
-                            );
-                      },
-                      style: ElevatedButton.styleFrom(backgroundColor: AttaColors.black),
-                      child: state.status is ProfileLoadingLogoutStatus
-                          ? const SizedBox.square(
-                              dimension: 24,
-                              child: CircularProgressIndicator(
-                                color: Colors.white,
-                                strokeWidth: 2,
-                              ),
-                            )
-                          : const Text('Se déconnecter'),
-                    ),
-                    const SizedBox(height: AttaSpacing.m),
-                  ],
+                      const SizedBox(height: AttaSpacing.xxs),
+                      ElevatedButton(
+                        onPressed: () {
+                          if (state.status is ProfileLoadingLogoutStatus) return;
+                          context.read<ProfileCubit>().onLogout().then(
+                                (_) => context.adapativeReplacementNamed(HomePage.routeName),
+                              );
+                        },
+                        style: ElevatedButton.styleFrom(backgroundColor: AttaColors.black),
+                        child: state.status is ProfileLoadingLogoutStatus
+                            ? const SizedBox.square(
+                                dimension: 24,
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                  strokeWidth: 2,
+                                ),
+                              )
+                            : const Text('Se déconnecter'),
+                      ),
+                      const SizedBox(height: AttaSpacing.m),
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          );
-        },
+              ],
+            );
+          },
+        ),
       ),
     );
   }

@@ -16,6 +16,7 @@ ThemeData get _attaThemeData {
     ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
+      labelStyle: AttaTextStyle.label.copyWith(color: AttaColors.black),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(AttaRadius.full),
         borderSide: BorderSide.none,
@@ -77,7 +78,7 @@ ThemeData get _attaThemeData {
       backgroundColor: Colors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
-          top: Radius.circular(AttaRadius.large),
+          top: Radius.circular(AttaRadius.medium),
         ),
       ),
     ),
