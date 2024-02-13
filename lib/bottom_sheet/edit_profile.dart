@@ -174,7 +174,11 @@ class _EditProfileContentState extends State<_EditProfileContent> {
                     firstName: _firstName.isEmpty ? const Wrapped.value(null) : Wrapped.value(_firstName),
                     lastName: _lastName.isEmpty ? const Wrapped.value(null) : Wrapped.value(_lastName),
                     phone: _phone.isEmpty ? const Wrapped.value(null) : Wrapped.value(_phone),
-                    imageUrl: _deleteImage ? const Wrapped.value(null) : Wrapped.value(imageUrl),
+                    imageUrl: _deleteImage
+                        ? const Wrapped.value(null)
+                        : imageUrl == null
+                            ? null
+                            : Wrapped.value(imageUrl),
                   );
 
                   // ignore: use_build_context_synchronously

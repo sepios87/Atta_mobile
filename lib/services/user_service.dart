@@ -97,7 +97,7 @@ class UserService {
   }
 
   Future<String> uploadAvatarImage(File imageFile) async {
-    final bucketPathDestination = '${user?.id}/${DateTime.now().millisecondsSinceEpoch}';
+    final bucketPathDestination = '${user?.id}/avatars/${DateTime.now().millisecondsSinceEpoch}';
     return databaseService.uploadUserAvatar(bucketPathDestination, imageFile);
   }
 
