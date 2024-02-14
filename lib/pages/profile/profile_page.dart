@@ -1,7 +1,8 @@
+import 'package:atta/bottom_sheet/edit_profile.dart';
 import 'package:atta/extensions/border_radius_ext.dart';
 import 'package:atta/extensions/context_ext.dart';
+import 'package:atta/extensions/widget_ext.dart';
 import 'package:atta/pages/home/home_page.dart';
-import 'package:atta/bottom_sheet/edit_profile.dart';
 import 'package:atta/pages/profile/cubit/profile_cubit.dart';
 import 'package:atta/theme/colors.dart';
 import 'package:atta/theme/radius.dart';
@@ -93,46 +94,10 @@ class _ProfileScreen extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: AttaSpacing.xs),
-                              child: VerticalDivider(
-                                color: AttaColors.primaryLight,
-                                thickness: 1,
-                              ),
-                            ),
-                            Column(
-                              children: [
-                                Text(
-                                  state.user.reservations.length.toString(),
-                                  style: AttaTextStyle.subHeader,
-                                ),
-                                Text(
-                                  'Réservations\nréalisées',
-                                  textAlign: TextAlign.center,
-                                  style: AttaTextStyle.caption,
-                                ),
-                              ],
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: AttaSpacing.xs),
-                              child: VerticalDivider(
-                                color: AttaColors.primaryLight,
-                                thickness: 1,
-                              ),
-                            ),
-                            Column(
-                              children: [
-                                Text(
-                                  state.user.favoriteDishesIds.length.toString(),
-                                  style: AttaTextStyle.subHeader,
-                                ),
-                                Text(
-                                  'Plats\nfavoris',
-                                  textAlign: TextAlign.center,
-                                  style: AttaTextStyle.caption,
-                                ),
-                              ],
-                            ),
+                            VerticalDivider(
+                              color: AttaColors.primary,
+                              thickness: 1,
+                            ).withPadding(const EdgeInsets.symmetric(vertical: AttaSpacing.xs)),
                           ],
                         ),
                       ),

@@ -7,8 +7,10 @@ import 'package:atta/extensions/context_ext.dart';
 import 'package:atta/extensions/num_ext.dart';
 import 'package:atta/extensions/widget_ext.dart';
 import 'package:atta/main.dart';
+import 'package:atta/pages/auth/auth_page.dart';
 import 'package:atta/pages/dish_detail/dish_detail_page.dart';
 import 'package:atta/pages/home/home_page.dart';
+import 'package:atta/pages/menu_detail/menu_detail_page.dart';
 import 'package:atta/pages/reservation/reservation_page.dart';
 import 'package:atta/pages/restaurant_detail/cubit/restaurant_detail_cubit.dart';
 import 'package:atta/theme/animation.dart';
@@ -127,7 +129,13 @@ class _RestaurantDetailScreen extends StatelessWidget {
                                         ),
                                   onTap: () {
                                     if (e is AttaMenu) {
-                                      // TODO(florian): a ajuster pour les menus
+                                      context.adapativePushNamed(
+                                        MenuDetailPage.routeName,
+                                        pathParameters: MenuDetailPageArgument(
+                                          restaurantId: state.restaurant.id,
+                                          menuId: e.id,
+                                        ).toPathParameters(),
+                                      );
                                     } else if (e is AttaDish) {
                                       context
                                           .adapativePushNamed<bool>(
@@ -169,12 +177,28 @@ class _RestaurantDetailScreen extends StatelessWidget {
                           (state.reservation != null && (state.reservation!.dishes?.isNotEmpty ?? false))
                       ? ElevatedButton(
                           key: const ValueKey('reservation_button'),
-                          onPressed: () => context.adapativePushNamed(
-                            ReservationPage.routeName,
-                            pathParameters: ReservationPageArgument(
-                              restaurantId: state.restaurant.id,
-                            ).toPathParameters(),
-                          ),
+                          onPressed: () {
+                            if (userService.isLogged) {
+                              context.adapativePushNamed(
+                                ReservationPage.routeName,
+                                pathParameters: ReservationPageArgument(
+                                  restaurantId: state.restaurant.id,
+                                ).toPathParameters(),
+                              );
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  backgroundColor: AttaColors.black,
+                                  content: const Text('Vous devez être connecté pour réserver'),
+                                  action: SnackBarAction(
+                                    textColor: AttaColors.white,
+                                    label: 'Se connecter',
+                                    onPressed: () => context.adapativePushNamed(AuthPage.routeName),
+                                  ),
+                                ),
+                              );
+                            }
+                          },
                           child: Text(
                             state.reservation?.dishes?.isEmpty ?? true
                                 ? 'Réserver sans commander'

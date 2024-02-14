@@ -61,6 +61,15 @@ final GoRouter _router = GoRouter(
       },
     ),
     GoRoute(
+      path: MenuDetailPage.path,
+      name: MenuDetailPage.routeName,
+      builder: (BuildContext context, GoRouterState state) {
+        return MenuDetailPage.getScreen(
+          MenuDetailPageArgument.fromPathParameters(state.pathParameters),
+        );
+      },
+    ),
+    GoRoute(
       path: AuthPage.path,
       name: AuthPage.routeName,
       builder: (BuildContext context, GoRouterState state) {

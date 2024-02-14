@@ -5,6 +5,7 @@ import 'package:atta/entities/wrapped.dart';
 import 'package:atta/extensions/context_ext.dart';
 import 'package:atta/main.dart';
 import 'package:atta/pages/profile/profile_page.dart';
+import 'package:atta/theme/radius.dart';
 import 'package:atta/theme/spacing.dart';
 import 'package:atta/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
@@ -54,7 +55,6 @@ class _EditProfileContentState extends State<_EditProfileContent> {
     return SingleChildScrollView(
       padding: EdgeInsets.only(
         bottom: MediaQuery.of(context).viewInsets.bottom + AttaSpacing.m,
-        top: AttaSpacing.m,
         left: AttaSpacing.m,
         right: AttaSpacing.m,
       ),
@@ -63,6 +63,18 @@ class _EditProfileContentState extends State<_EditProfileContent> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            const SizedBox(height: AttaSpacing.xxs),
+            Center(
+              child: Container(
+                height: 3,
+                width: 48,
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade700,
+                  borderRadius: BorderRadius.circular(AttaRadius.small),
+                ),
+              ),
+            ),
+            const SizedBox(height: AttaSpacing.m),
             GestureDetector(
               onTap: () async {
                 final picker = ImagePicker();

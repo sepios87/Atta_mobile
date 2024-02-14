@@ -26,9 +26,7 @@ class _RestaurantDetailModal extends StatelessWidget {
         ),
         const SizedBox(height: AttaSpacing.m),
         Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: AttaSpacing.m,
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
           child: BlocSelector<HomeCubit, HomeState, AttaUser?>(
             selector: (state) => state.user,
             builder: (context, user) {
@@ -112,23 +110,25 @@ class _RestaurantDetailModal extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(width: AttaSpacing.s),
-              Expanded(
-                child: ElevatedButton(
-                  onPressed: () => context
-                    ..pop()
-                    ..adapativePushNamed(
-                      ReservationPage.routeName,
-                      pathParameters: ReservationPageArgument(
-                        restaurantId: restaurant.id,
-                      ).toPathParameters(),
+              if (userService.isLogged) ...[
+                const SizedBox(width: AttaSpacing.s),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () => context
+                      ..pop()
+                      ..adapativePushNamed(
+                        ReservationPage.routeName,
+                        pathParameters: ReservationPageArgument(
+                          restaurantId: restaurant.id,
+                        ).toPathParameters(),
+                      ),
+                    child: const Text(
+                      'Réserver directement',
+                      textAlign: TextAlign.center,
                     ),
-                  child: const Text(
-                    'Réserver directement',
-                    textAlign: TextAlign.center,
                   ),
                 ),
-              ),
+              ],
             ],
           ),
         ),

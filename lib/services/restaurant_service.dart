@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:atta/entities/dish.dart';
+import 'package:atta/entities/menu.dart';
 import 'package:atta/entities/restaurant.dart';
 import 'package:atta/main.dart';
 import 'package:atta/services/database/db_service.dart';
@@ -33,5 +34,12 @@ class RestaurantService {
     if (restaurant == null) return null;
 
     return restaurant.dishes.firstWhereOrNull((d) => d.id == dishId);
+  }
+
+  AttaMenu? getMenuById(int restaurantId, int menuId) {
+    final restaurant = getRestaurantById(restaurantId);
+    if (restaurant == null) return null;
+
+    return restaurant.menus.firstWhereOrNull((m) => m.id == menuId);
   }
 }

@@ -16,6 +16,7 @@ class FormulaCard extends StatelessWidget {
     this.quantity,
     this.badge,
     this.suffixName,
+    this.leading,
     super.key,
   });
 
@@ -24,6 +25,7 @@ class FormulaCard extends StatelessWidget {
   final int? quantity;
   final Widget? badge;
   final String? suffixName;
+  final Widget? leading;
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +34,11 @@ class FormulaCard extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: AttaSpacing.m,
-            vertical: AttaSpacing.s,
+          padding: EdgeInsets.only(
+            right: AttaSpacing.m,
+            left: leading == null ? AttaSpacing.s : 0,
+            top: AttaSpacing.s,
+            bottom: AttaSpacing.s,
           ),
           child: ConstrainedBox(
             constraints: const BoxConstraints(minHeight: 68),
@@ -42,6 +46,7 @@ class FormulaCard extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  if (leading != null) leading!,
                   Container(
                     constraints: const BoxConstraints(minHeight: 68),
                     width: 68,

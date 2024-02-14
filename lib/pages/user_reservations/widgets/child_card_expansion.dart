@@ -22,7 +22,7 @@ class _ChildReservationTileExpansion extends StatelessWidget {
               SizedBox.square(
                 dimension: 20,
                 child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation(AttaColors.primary),
+                  valueColor: AlwaysStoppedAnimation(AttaColors.accent),
                   strokeWidth: 2,
                 ),
               ),

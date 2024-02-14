@@ -30,11 +30,21 @@ ThemeData get _attaThemeData {
         color: Colors.grey,
       ),
     ),
+    radioTheme: RadioThemeData(
+      fillColor: MaterialStateProperty.resolveWith<Color>(
+        (Set<MaterialState> states) {
+          if (states.contains(MaterialState.selected)) {
+            return AttaColors.primary;
+          }
+          return AttaColors.black;
+        },
+      ),
+    ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         textStyle: AttaTextStyle.button,
         minimumSize: const Size(double.infinity, 48),
-        backgroundColor: AttaColors.primaryLight,
+        backgroundColor: AttaColors.primary,
         foregroundColor: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AttaRadius.small),
@@ -53,7 +63,7 @@ ThemeData get _attaThemeData {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AttaRadius.small),
         ),
-        side: BorderSide(color: AttaColors.primaryLight),
+        side: BorderSide(color: AttaColors.primary),
         padding: const EdgeInsets.symmetric(
           vertical: AttaSpacing.xxs,
           horizontal: AttaSpacing.xs,

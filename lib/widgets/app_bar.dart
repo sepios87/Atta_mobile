@@ -69,14 +69,6 @@ class AttaAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ],
               ),
       ),
-      actions: [
-        if (user != null)
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.notifications),
-          ),
-        const SizedBox(width: AttaSpacing.m),
-      ],
     );
   }
 

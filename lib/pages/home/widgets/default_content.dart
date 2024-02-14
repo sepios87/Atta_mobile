@@ -59,7 +59,7 @@ class _DefaultContent extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: AttaSpacing.s),
                       labelPadding: EdgeInsets.zero,
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AttaRadius.small)),
-                      color: MaterialStateProperty.all(AttaColors.primaryLight),
+                      color: MaterialStateProperty.all(AttaColors.primary),
                       visualDensity: VisualDensity.compact,
                       label: Text(
                         'Avec le plus de plats',
@@ -118,7 +118,7 @@ class _DefaultContent extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: AttaSpacing.s),
                       labelPadding: EdgeInsets.zero,
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AttaRadius.small)),
-                      color: MaterialStateProperty.all(AttaColors.primaryLight),
+                      color: MaterialStateProperty.all(AttaColors.primary),
                       visualDensity: VisualDensity.compact,
                       label: Text(
                         'Avec le menu le moins cher',

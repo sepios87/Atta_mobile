@@ -27,6 +27,6 @@ extension DateTimeExtension on DateTime {
     } else if (isTomorrow) {
       return 'Demain à ${DateFormat('HH:mm').format(this)}';
     }
-    return '${withPronoun ? 'Le' : ''} ${DateFormat('EEEE dd/MM à HH:mm').format(this).capitalize()}';
+    return '${withPronoun ? 'Le ' : ''}${DateFormat('EEEE dd/MM à HH:mm').format(this).capitalize()}';
   }
 }

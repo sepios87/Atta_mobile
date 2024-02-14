@@ -195,7 +195,7 @@ class _Table extends StatelessWidget {
             decoration: BoxDecoration(
               color: isEnable
                   ? isSelected
-                      ? AttaColors.primary
+                      ? AttaColors.accent
                       : AttaColors.black
                   : AttaColors.black.withOpacity(0.5),
               borderRadius: BorderRadius.circular(AttaRadius.small),
@@ -232,7 +232,7 @@ class _Table extends StatelessWidget {
                   vertical: AttaSpacing.xxxs,
                 ),
                 decoration: BoxDecoration(
-                  color: AttaColors.primaryLight.withOpacity(0.9),
+                  color: AttaColors.primary.withOpacity(0.9),
                   borderRadius: BorderRadius.circular(AttaRadius.small),
                 ),
                 child: Text(

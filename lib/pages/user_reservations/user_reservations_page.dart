@@ -90,37 +90,36 @@ class _UserReservations extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: AttaSpacing.l),
-                  if (state.user.reservations.isEmpty) ...[
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: AttaSpacing.m),
-                      child: Text("Vous n'avez pas encore de réservations"),
-                    ),
-                  ] else ...[
+                  if (state.withoutReservations)
+                    const Text("Vous n'avez pas encore de réservations").withPadding(
+                      const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
+                    )
+                  else ...[
                     if (afterReservation.isNotEmpty) ...[
                       Text('Pour les prochains jours', style: AttaTextStyle.subHeader).withPadding(
                         const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
                       ),
                       const SizedBox(height: AttaSpacing.xs),
-                    ],
-                    ...afterReservation.map(
-                      (r) => _ReservationCardExpansion(
-                        reservation: r,
-                        key: ValueKey(r.id),
+                      ...afterReservation.map(
+                        (r) => _ReservationCardExpansion(
+                          reservation: r,
+                          key: ValueKey(r.id),
+                        ),
                       ),
-                    ),
-                    if (afterReservation.isNotEmpty) const SizedBox(height: AttaSpacing.l),
+                      const SizedBox(height: AttaSpacing.l),
+                    ],
                     if (beforeReservation.isNotEmpty) ...[
                       Text('Déja passées', style: AttaTextStyle.subHeader).withPadding(
                         const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
                       ),
                       const SizedBox(height: AttaSpacing.xs),
-                    ],
-                    ...beforeReservation.map(
-                      (r) => _ReservationCardExpansion(
-                        reservation: r,
-                        key: ValueKey(r.id),
+                      ...beforeReservation.map(
+                        (r) => _ReservationCardExpansion(
+                          reservation: r,
+                          key: ValueKey(r.id),
+                        ),
                       ),
-                    ),
+                    ],
                   ],
                 ],
               ),

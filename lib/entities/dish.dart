@@ -1,6 +1,31 @@
 import 'package:atta/entities/formula.dart';
 import 'package:atta/extensions/map_ext.dart';
 
+enum DishType {
+  entrance,
+  main,
+  accompaniment,
+  dessert,
+  drink;
+
+  factory DishType.fromValue(dynamic value) {
+    return DishType.values.firstWhere(
+      (e) => e.name == value,
+      orElse: () => DishType.main,
+    );
+  }
+
+  String get translatedName {
+    return switch (this) {
+      DishType.entrance => 'Entrée',
+      DishType.main => 'Plat principal',
+      DishType.accompaniment => 'Accompagnement',
+      DishType.dessert => 'Dessert',
+      DishType.drink => 'Boisson',
+    };
+  }
+}
+
 class AttaDish extends AttaFormula {
   AttaDish._({
     required super.id,
@@ -9,6 +34,7 @@ class AttaDish extends AttaFormula {
     required super.description,
     required super.price,
     required this.ingredients,
+    required this.type,
   });
 
   factory AttaDish.fromMap(Map<String, dynamic> map) {
@@ -19,10 +45,12 @@ class AttaDish extends AttaFormula {
       description: map.parse<String?>('description'),
       price: map.parse<num>('price'),
       ingredients: map.parse<String>('ingredients', fallback: ''),
+      type: DishType.fromValue(map['type']),
     );
   }
 
   final String ingredients;
+  final DishType type;
 
   Map<String, dynamic> toMap() {
     return {

@@ -39,12 +39,12 @@ class _AuthScreen extends StatelessWidget {
       ),
       body: Container(
         height: double.infinity,
-        padding: const EdgeInsets.all(AttaSpacing.xl),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadiusExt.top(AttaRadius.medium),
         ),
         child: SingleChildScrollView(
+          padding: const EdgeInsets.all(AttaSpacing.xl),
           child: BlocConsumer<AuthCubit, AttaAuthState>(
             listener: (context, state) async {
               final status = state.status;

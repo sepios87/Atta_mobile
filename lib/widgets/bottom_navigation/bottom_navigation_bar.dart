@@ -70,7 +70,7 @@ class AttaBottomNavigationBar extends StatelessWidget {
               backgroundColor: AttaColors.black,
               showUnselectedLabels: false,
               showSelectedLabels: false,
-              selectedItemColor: AttaColors.primaryLight,
+              selectedItemColor: AttaColors.primary,
               unselectedItemColor: AttaColors.white.withOpacity(0.8),
               items: _BottomNavigationItem.values.map((item) {
                 return BottomNavigationBarItem(

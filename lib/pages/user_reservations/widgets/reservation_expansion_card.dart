@@ -114,9 +114,8 @@ class _ReservationCardExpansionState extends State<_ReservationCardExpansion> {
                       },
                       tilePadding: const EdgeInsets.only(right: AttaSpacing.m),
                       leading: isSelected
-                          ? Padding(
-                              padding: const EdgeInsets.only(left: AttaSpacing.m),
-                              child: Icon(Icons.check_rounded, color: AttaColors.black),
+                          ? Icon(Icons.check_rounded, color: AttaColors.black).withPadding(
+                              const EdgeInsets.only(left: AttaSpacing.m),
                             )
                           : null,
                       trailing: Column(

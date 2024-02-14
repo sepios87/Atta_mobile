@@ -1,4 +1,3 @@
-import 'package:atta/entities/dish.dart';
 import 'package:atta/entities/formula.dart';
 import 'package:atta/extensions/map_ext.dart';
 
@@ -9,7 +8,7 @@ class AttaMenu extends AttaFormula {
     required super.imageUrl,
     required super.description,
     required super.price,
-    required this.dishes,
+    required this.disheIds,
   });
 
   factory AttaMenu.fromMap(Map<String, dynamic> map) {
@@ -19,11 +18,11 @@ class AttaMenu extends AttaFormula {
       imageUrl: map.parse<String>('image_url', fallback: ''),
       description: map.parse<String?>('description'),
       price: map.parse<num>('price'),
-      dishes: map.parse<List>('dishes', fallback: []).map((e) => AttaDish.fromMap(e as Map<String, dynamic>)).toList(),
+      disheIds: map.parse<List>('disheIds', fallback: []).map((e) => int.parse((e as Map)['id'].toString())).toList(),
     );
   }
 
-  final List<AttaDish> dishes;
+  final List<int> disheIds;
 
   Map<String, dynamic> toMap() {
     return {
@@ -32,7 +31,7 @@ class AttaMenu extends AttaFormula {
       'image_url': imageUrl,
       'description': description,
       'price': price,
-      'dishes': dishes.map((e) => e.toMap()).toList(),
+      'disheIds': disheIds,
     };
   }
 

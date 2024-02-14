@@ -62,7 +62,7 @@ class AttaUser {
   final String id;
   final String? firstName;
   final String? lastName;
-  // TODO(florian): phone est dispo dans le user par defaut de supabase, le supp de l'attribut phone dans la table user de la bdd
+  // TODO(florian): phone est dispo dans le user par defaut de supabase, le supp de l'attribut phone dans la table user de la bdd ?
   final String? phone;
   final String? email;
   final String? imageUrl;

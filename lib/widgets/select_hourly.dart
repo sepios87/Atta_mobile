@@ -115,7 +115,7 @@ class _TimeItem extends StatelessWidget {
           ),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(AttaRadius.small),
-            color: isSelected ? AttaColors.primaryLight : AttaColors.secondary,
+            color: isSelected ? AttaColors.primary : AttaColors.secondary,
           ),
           child: Center(
             child: Text(

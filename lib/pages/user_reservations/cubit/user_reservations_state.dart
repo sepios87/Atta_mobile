@@ -20,6 +20,8 @@ final class UserReservationsState {
   final UserReservationsStatus status;
   final List<AttaReservation> selectedReservations;
 
+  bool get withoutReservations => user.reservations.isEmpty;
+
   UserReservationsState copyWith({
     AttaUser? user,
     UserReservationsStatus? status,

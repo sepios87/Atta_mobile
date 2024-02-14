@@ -22,7 +22,7 @@ class UserAvatar extends StatelessWidget {
   Widget build(BuildContext context) {
     return CircleAvatar(
       radius: radius,
-      backgroundColor: user.imageUrl == null || withoutImage ? AttaColors.primary : Colors.transparent,
+      backgroundColor: user.imageUrl == null || withoutImage ? AttaColors.accent : Colors.transparent,
       child: user.imageUrl != null && !withoutImage
           ? ClipOval(
               child: CachedNetworkImage(

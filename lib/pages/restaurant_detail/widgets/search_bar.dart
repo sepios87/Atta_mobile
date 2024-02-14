@@ -34,14 +34,11 @@ class _SearchBar extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: AttaFormulaType.values
                   .map(
-                    (e) => Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: AttaSpacing.xs),
-                      child: FilterChip(
-                        selected: selectedFormulaType == e,
-                        label: Text(e.name),
-                        onSelected: (_) => context.read<RestaurantDetailCubit>().selectFormulaFilter(e),
-                      ),
-                    ),
+                    (e) => FilterChip(
+                      selected: selectedFormulaType == e,
+                      label: Text(e.name),
+                      onSelected: (_) => context.read<RestaurantDetailCubit>().selectFormulaFilter(e),
+                    ).withPadding(const EdgeInsets.symmetric(horizontal: AttaSpacing.xs)),
                   )
                   .toList(),
             );
