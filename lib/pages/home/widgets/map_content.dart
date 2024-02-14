@@ -16,6 +16,22 @@ class _MapContentState extends State<_MapContent> with TickerProviderStateMixin 
 
   final _pageController = PageController(viewportFraction: 0.8);
 
+  void _onCenterMap() {
+    locationService.determinePosition().then((position) {
+      _animatedMapController.animateTo(
+        dest: LatLng(position.latitude, position.longitude),
+        zoom: 17,
+      );
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _onCenterMap();
+  }
+
   @override
   void dispose() {
     _animatedMapController.dispose();
@@ -96,8 +112,7 @@ class _MapContentState extends State<_MapContent> with TickerProviderStateMixin 
                     );
                   }
                 },
-                // TODO(florian): set current location
-                initialCenter: LatLng(43.600000, 1.433333),
+                initialCenter: const LatLng(43.60, 1.43),
               ),
               children: [
                 TileLayer(
@@ -134,6 +149,34 @@ class _MapContentState extends State<_MapContent> with TickerProviderStateMixin 
                   ),
                 ),
               ],
+            ),
+            Positioned(
+              top: AttaSpacing.xs,
+              right: AttaSpacing.xs,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: AttaColors.black.withOpacity(0.1),
+                      blurRadius: 6,
+                      offset: const Offset(2, 4),
+                    ),
+                  ],
+                ),
+                child: IconButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(AttaColors.black),
+                    shape: MaterialStateProperty.all(const CircleBorder()),
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  ),
+                  onPressed: _onCenterMap,
+                  icon: const Icon(
+                    Icons.location_searching_rounded,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
             ),
             if (restaurants.isNotEmpty)
               Positioned(

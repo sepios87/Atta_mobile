@@ -11,6 +11,7 @@ import 'package:atta/pages/reservation/reservation_page.dart';
 import 'package:atta/pages/restaurant_detail/restaurant_detail_page.dart';
 import 'package:atta/pages/user_reservations/user_reservations_page.dart';
 import 'package:atta/services/database/db_service.dart';
+import 'package:atta/services/location_service.dart';
 import 'package:atta/services/reservation_service.dart';
 import 'package:atta/services/restaurant_service.dart';
 import 'package:atta/services/user_service.dart';
@@ -35,6 +36,8 @@ final userService = UserService();
 final restaurantService = RestaurantService();
 final reservationService = ReservationService();
 final databaseService = DatabaseService();
+final locationService = LocationService();
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
