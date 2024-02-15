@@ -81,23 +81,59 @@ class _ProfileScreen extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Column(
-                              children: [
-                                Text(
-                                  state.user.favoritesRestaurantIds.length.toString(),
-                                  style: AttaTextStyle.subHeader,
-                                ),
-                                Text(
-                                  'Restaurants\nfavoris',
-                                  textAlign: TextAlign.center,
-                                  style: AttaTextStyle.caption,
-                                ),
-                              ],
+                            Expanded(
+                              child: Column(
+                                children: [
+                                  Text(
+                                    state.user.favoritesRestaurantIds.length.toString(),
+                                    style: AttaTextStyle.subHeader,
+                                  ),
+                                  Text(
+                                    'Restaurants\nfavoris',
+                                    textAlign: TextAlign.center,
+                                    style: AttaTextStyle.caption,
+                                  ),
+                                ],
+                              ),
                             ),
                             VerticalDivider(
                               color: AttaColors.primary,
                               thickness: 1,
                             ).withPadding(const EdgeInsets.symmetric(vertical: AttaSpacing.xs)),
+                            Expanded(
+                              child: Column(
+                                children: [
+                                  Text(
+                                    state.user.favoriteDishesIds.length.toString(),
+                                    style: AttaTextStyle.subHeader,
+                                  ),
+                                  Text(
+                                    'Plats\nfavoris',
+                                    textAlign: TextAlign.center,
+                                    style: AttaTextStyle.caption,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            VerticalDivider(
+                              color: AttaColors.primary,
+                              thickness: 1,
+                            ).withPadding(const EdgeInsets.symmetric(vertical: AttaSpacing.xs)),
+                            Expanded(
+                              child: Column(
+                                children: [
+                                  Text(
+                                    state.user.reservations.length.toString(),
+                                    style: AttaTextStyle.subHeader,
+                                  ),
+                                  Text(
+                                    'Réservations\npassées',
+                                    textAlign: TextAlign.center,
+                                    style: AttaTextStyle.caption,
+                                  ),
+                                ],
+                              ),
+                            ),
                           ],
                         ),
                       ),
