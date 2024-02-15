@@ -44,7 +44,7 @@ Future<void> main() async {
   Intl.systemLocale = await findSystemLocale();
 
   await Supabase.initialize(
-    url: 'https://brcimevctgakvwixtbag.supabase.co',
+    url: const String.fromEnvironment('SUPABASE_URL'),
     anonKey: const String.fromEnvironment('SUPABASE_KEY'),
   );
 
