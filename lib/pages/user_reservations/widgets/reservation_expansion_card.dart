@@ -105,6 +105,7 @@ class _ReservationCardExpansionState extends State<_ReservationCardExpansion> {
                     child: ExpansionTile(
                       backgroundColor: backgroundColor,
                       collapsedBackgroundColor: backgroundColor,
+                      onExpansionChanged: (isExpanded) => setState(() => _isExpanded = isExpanded),
                       childrenPadding: const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
                       tilePadding: const EdgeInsets.only(right: AttaSpacing.m),
                       leading: isSelected

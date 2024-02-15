@@ -27,14 +27,15 @@ extension DatabaseReservationExt on DatabaseService {
     return Map.fromEntries(dishesWithQuantity);
   }
 
-  Future<Map<String, dynamic>> createReservation(AttaReservation reservation) async {
+  Future<int> createReservation(AttaReservation reservation) async {
     final reservationMap = reservation.toMapForDb();
     reservationMap['user_id'] = currentUser?.id;
-    final data = await _supabase.from('reservations').upsert(reservationMap).select();
+    final data = await _supabase.from('reservations').upsert(reservationMap).select('id');
+    final reservationId = int.parse(data.first['id'].toString());
 
     for (final dishId in reservation.dishIds.keys) {
       await _supabase.from('dish_reservation').insert({
-        'reservation_id': data.first['id'],
+        'reservation_id': reservationId,
         'dish_id': dishId,
         'quantity': reservation.dishIds[dishId],
       });
@@ -42,12 +43,20 @@ extension DatabaseReservationExt on DatabaseService {
 
     for (final menu in reservation.menus) {
       await _supabase.from('menu_reservation').insert({
-        'reservation_id': data.first['id'],
+        'reservation_id': reservationId,
         'menu_id': menu.menuId,
         'selected_dishes_ids_list': menu.selectedDishIds.toList(),
       });
     }
 
+    return reservationId;
+  }
+
+  Future<Map<String, dynamic>> getReservation(int reservationId) async {
+    final data = await _supabase
+        .from('reservations')
+        .select('*, dish_reservation(*), menu_reservation(*)')
+        .eq('id', reservationId);
     return data.first;
   }
 

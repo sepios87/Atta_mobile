@@ -23,8 +23,8 @@ class DishDetailCubit extends Cubit<DishDetailState> {
     emit(state.copyWith(quantity: quantity));
   }
 
-  void addDishToReservation() {
-    reservationService.addDishToReservation(
+  void addOrUpdateDishToReservation() {
+    reservationService.addOrUpdateDishToReservation(
       restaurantId: state.restaurantId,
       dishId: state.dish.id,
       quantity: state.quantity,

@@ -1,10 +1,10 @@
 part of '../restaurant_detail_page.dart';
 
-Future<Wrapped<int?>?> _showMenuBottomSheet(
+Future<Wrapped<AttaMenuReservation?>?> _showMenuBottomSheet(
   BuildContext context, {
   required List<AttaMenuReservation> menusReservation,
 }) async {
-  return showModalBottomSheet<Wrapped<int?>?>(
+  return showModalBottomSheet<Wrapped<AttaMenuReservation?>?>(
     context: context,
     builder: (_) => BlocProvider.value(
       value: context.read<RestaurantDetailCubit>(),
@@ -29,12 +29,21 @@ class _MenuBottomSheetContent extends StatelessWidget {
     return Stack(
       children: [
         SingleChildScrollView(
-          padding: const EdgeInsets.only(
-            top: AttaSpacing.m,
-            bottom: 48 + AttaSpacing.m,
-          ),
+          padding: const EdgeInsets.only(bottom: 48 + AttaSpacing.m),
           child: Column(
             children: [
+              const SizedBox(height: AttaSpacing.xxs),
+              Center(
+                child: Container(
+                  height: 3,
+                  width: 48,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade700,
+                    borderRadius: BorderRadius.circular(AttaRadius.small),
+                  ),
+                ),
+              ),
+              const SizedBox(height: AttaSpacing.m),
               ...menusReservation.map((menuReservation) {
                 final dishes = restaurantService.getDishesFromIds(
                   restaurantId,
@@ -46,7 +55,7 @@ class _MenuBottomSheetContent extends StatelessWidget {
                 return Column(
                   children: [
                     InkWell(
-                      onTap: () => Navigator.of(context).pop(menuReservation.id),
+                      onTap: () => Navigator.of(context).pop(Wrapped.value(menuReservation)),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: AttaSpacing.m, vertical: AttaSpacing.s),
                         child: Column(

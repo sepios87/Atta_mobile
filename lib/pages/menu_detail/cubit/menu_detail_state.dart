@@ -6,21 +6,29 @@ class MenuDetailState {
     required this.restaurant,
     required this.menu,
     required this.selectedDishIds,
+    required this.reservationMenu,
   });
 
-  factory MenuDetailState.initial({required AttaRestaurant restaurant, required AttaMenu menu}) {
+  factory MenuDetailState.initial({
+    required AttaRestaurant restaurant,
+    required AttaMenu menu,
+    AttaMenuReservation? reservationMenu,
+  }) {
     return MenuDetailState._(
       restaurant: restaurant,
       menu: menu,
       selectedDishIds: const {},
+      reservationMenu: reservationMenu,
     );
   }
 
   final AttaRestaurant restaurant;
   final AttaMenu menu;
+  final AttaMenuReservation? reservationMenu;
 
   final Map<DishType, int> selectedDishIds;
 
+  bool get isEditable => reservationMenu != null;
   List<AttaDish> get dishes => restaurant.dishes.where((dish) => menu.disheIds.contains(dish.id)).toList();
 
   MenuDetailState copyWith({
@@ -30,6 +38,7 @@ class MenuDetailState {
       selectedDishIds: selectedDishIds ?? this.selectedDishIds,
       restaurant: restaurant,
       menu: menu,
+      reservationMenu: reservationMenu,
     );
   }
 }

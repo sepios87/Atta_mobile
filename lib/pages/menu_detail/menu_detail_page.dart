@@ -1,4 +1,5 @@
 import 'package:atta/entities/dish.dart';
+import 'package:atta/entities/reservation.dart';
 import 'package:atta/extensions/border_radius_ext.dart';
 import 'package:atta/extensions/context_ext.dart';
 import 'package:atta/extensions/widget_ext.dart';
@@ -12,25 +13,44 @@ import 'package:atta/widgets/formula_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+part 'widgets/dish_type_list.dart';
+
 class MenuDetailPageArgument {
   const MenuDetailPageArgument({
     required this.restaurantId,
     required this.menuId,
+    this.reservationMenu,
   });
 
-  MenuDetailPageArgument.fromPathParameters(Map<String, String> parameters)
-      : restaurantId = int.parse(parameters['restaurantId']!),
-        menuId = int.parse(parameters['menuId']!);
+  MenuDetailPageArgument.fromParameters({required Map<String, String> pathParameters, Object? extra})
+      : restaurantId = int.parse(pathParameters['restaurantId']!),
+        menuId = int.parse(pathParameters['menuId']!),
+        reservationMenu = extra as AttaMenuReservation?;
 
   Map<String, String> toPathParameters() => {
         'restaurantId': restaurantId.toString(),
         'menuId': menuId.toString(),
       };
 
+  Object? toExtra() => reservationMenu;
+
   static const String parametersPath = ':restaurantId/:menuId';
 
   final int restaurantId;
   final int menuId;
+  final AttaMenuReservation? reservationMenu;
+
+  MenuDetailPageArgument copyWith({
+    int? restaurantId,
+    int? menuId,
+    AttaMenuReservation? reservationMenu,
+  }) {
+    return MenuDetailPageArgument(
+      restaurantId: restaurantId ?? this.restaurantId,
+      menuId: menuId ?? this.menuId,
+      reservationMenu: reservationMenu ?? this.reservationMenu,
+    );
+  }
 }
 
 class MenuDetailPage {
@@ -42,6 +62,7 @@ class MenuDetailPage {
       create: (context) => MenuDetailCubit(
         restaurantId: args.restaurantId,
         menuId: args.menuId,
+        reservationMenu: args.reservationMenu,
       ),
       child: const _MenuDetailScreen(),
     );
@@ -55,6 +76,7 @@ class _MenuDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final menu = context.read<MenuDetailCubit>().state.menu;
     final dishes = context.read<MenuDetailCubit>().state.dishes;
+    final isEditable = context.read<MenuDetailCubit>().state.isEditable;
 
     return Scaffold(
       appBar: AppBar(
@@ -101,65 +123,46 @@ class _MenuDetailScreen extends StatelessWidget {
               bottom: AttaSpacing.m,
               left: AttaSpacing.m,
               right: AttaSpacing.m,
-              child: ElevatedButton(
-                onPressed: () {
-                  context.read<MenuDetailCubit>().addMenuToReservation();
-                  context.adaptativePopNamed(
-                    RestaurantDetailPage.routeName,
-                    pathParameters: RestaurantDetailPageArgument(
-                      restaurantId: context.read<MenuDetailCubit>().state.restaurant.id,
-                    ).toPathParameters(),
-                  );
-                },
-                child: Text('Ajouter au panier', style: AttaTextStyle.button),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        context.read<MenuDetailCubit>().addMenuToReservation();
+                        context.adaptativePopNamed(
+                          RestaurantDetailPage.routeName,
+                          pathParameters: RestaurantDetailPageArgument(
+                            restaurantId: context.read<MenuDetailCubit>().state.restaurant.id,
+                          ).toPathParameters(),
+                        );
+                      },
+                      child: Text(
+                        context.read<MenuDetailCubit>().state.isEditable ? 'Modifier le panier' : 'Ajouter au panier',
+                        style: AttaTextStyle.button,
+                      ),
+                    ),
+                  ),
+                  if (isEditable) ...[
+                    const SizedBox(width: AttaSpacing.xxs),
+                    IconButton(
+                      onPressed: () {
+                        context.read<MenuDetailCubit>().removeMenuFromReservation();
+                        context.adaptativePopNamed(
+                          RestaurantDetailPage.routeName,
+                          pathParameters: RestaurantDetailPageArgument(
+                            restaurantId: context.read<MenuDetailCubit>().state.restaurant.id,
+                          ).toPathParameters(),
+                        );
+                      },
+                      icon: Icon(Icons.delete, color: AttaColors.black),
+                    ),
+                  ],
+                ],
               ),
             ),
           ],
         ),
       ),
-    );
-  }
-}
-
-class _DishTypeList extends StatelessWidget {
-  const _DishTypeList({
-    required this.type,
-    required this.dishes,
-  });
-
-  final DishType type;
-  final List<AttaDish> dishes;
-
-  @override
-  Widget build(BuildContext context) {
-    if (dishes.isEmpty) return const SizedBox.shrink();
-
-    return BlocSelector<MenuDetailCubit, MenuDetailState, int>(
-      selector: (state) => state.selectedDishIds[type] ?? 0,
-      builder: (context, selectedDishId) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(type.translatedName, style: AttaTextStyle.header).withPadding(
-              const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
-            ),
-            const SizedBox(height: AttaSpacing.xxxs),
-            ...dishes.map(
-              (dish) => FormulaCard(
-                formula: dish,
-                leading: Radio<int>(
-                  value: dish.id,
-                  groupValue: selectedDishId,
-                  onChanged: (_) {},
-                  visualDensity: VisualDensity.compact,
-                ),
-                onTap: () => context.read<MenuDetailCubit>().selectDish(dish),
-              ),
-            ),
-            const SizedBox(height: AttaSpacing.m),
-          ],
-        );
-      },
     );
   }
 }

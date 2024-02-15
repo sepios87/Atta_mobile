@@ -1,5 +1,6 @@
 import 'package:atta/entities/dish.dart';
 import 'package:atta/entities/menu.dart';
+import 'package:atta/entities/reservation.dart';
 import 'package:atta/entities/restaurant.dart';
 import 'package:atta/main.dart';
 import 'package:collection/collection.dart';
@@ -12,16 +13,29 @@ class MenuDetailCubit extends Cubit<MenuDetailState> {
   MenuDetailCubit({
     required int restaurantId,
     required int menuId,
+    required AttaMenuReservation? reservationMenu,
   }) : super(
           MenuDetailState.initial(
             restaurant: restaurantService.getRestaurantById(restaurantId)!,
             menu: restaurantService.getMenuById(restaurantId, menuId)!,
+            reservationMenu: reservationMenu,
           ),
         ) {
-    // Select firsts dishes by default
-    for (final type in DishType.values) {
-      final dish = state.dishes.firstWhereOrNull((dish) => dish.type == type);
-      if (dish != null) selectDish(dish);
+    _init();
+  }
+
+  void _init() {
+    if (state.reservationMenu == null) {
+      // Select firsts dishes by default
+      for (final type in DishType.values) {
+        final dish = state.dishes.firstWhereOrNull((dish) => dish.type == type);
+        if (dish != null) selectDish(dish);
+      }
+    } else {
+      for (final dishId in state.reservationMenu!.selectedDishIds) {
+        final dish = state.dishes.firstWhereOrNull((dish) => dish.id == dishId);
+        if (dish != null) selectDish(dish);
+      }
     }
   }
 
@@ -32,11 +46,20 @@ class MenuDetailCubit extends Cubit<MenuDetailState> {
   }
 
   void addMenuToReservation() {
-    reservationService.addMenuToReservation(
+    reservationService.addOrUpdateMenuToReservation(
       restaurantId: state.restaurant.id,
       menuId: state.menu.id,
-      quantity: 1,
       selectedDishIds: state.selectedDishIds.values.toSet(),
+      menuReservation: state.reservationMenu,
     );
+  }
+
+  void removeMenuFromReservation() {
+    if (state.reservationMenu != null) {
+      reservationService.removeMenuFromReservation(
+        restaurantId: state.restaurant.id,
+        menu: state.reservationMenu!,
+      );
+    }
   }
 }

@@ -62,7 +62,7 @@ class _DishDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final imageSize = MediaQuery.sizeOf(context).height * 0.5;
     final dish = context.read<DishDetailCubit>().state.dish;
-    final isDeletable = context.read<DishDetailCubit>().state.isDeletable;
+    final isEditable = context.read<DishDetailCubit>().state.isDeletable;
 
     return Scaffold(
       appBar: const _AppBar(),
@@ -136,21 +136,21 @@ class _DishDetailScreen extends StatelessWidget {
                   Expanded(
                     child: ElevatedButton(
                       onPressed: () {
-                        context.read<DishDetailCubit>().addDishToReservation();
+                        context.read<DishDetailCubit>().addOrUpdateDishToReservation();
                         // TODO(florian): si nous sommes sur la version web et qu'on est sur la page réservation ou detail d'un resto avant, il faudrait rediriger vers la page de réservation a nouveau
                         context.adaptativePopNamed(HomePage.routeName, result: true);
                       },
                       child: BlocBuilder<DishDetailCubit, DishDetailState>(
                         builder: (context, state) {
                           return Text(
-                            '${isDeletable ? 'Modifier le panier' : 'Ajouter au panier'} (${state.quantity}) - ${(state.dish.price * state.quantity).toEuro}',
+                            '${isEditable ? 'Modifier le panier' : 'Ajouter au panier'} (${state.quantity}) - ${(state.dish.price * state.quantity).toEuro}',
                             textAlign: TextAlign.center,
                           );
                         },
                       ),
                     ),
                   ),
-                  if (isDeletable) ...[
+                  if (isEditable) ...[
                     const SizedBox(width: AttaSpacing.xxs),
                     IconButton(
                       onPressed: () {

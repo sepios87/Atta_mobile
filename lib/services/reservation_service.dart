@@ -40,7 +40,7 @@ class ReservationService {
     }
   }
 
-  void addDishToReservation({
+  void addOrUpdateDishToReservation({
     required int restaurantId,
     required int dishId,
     required int quantity,
@@ -53,21 +53,25 @@ class ReservationService {
     _reservations[restaurantId] = currentReservation.copyWith(dishIds: newDishes);
   }
 
-  void addMenuToReservation({
+  void addOrUpdateMenuToReservation({
     required int restaurantId,
     required int menuId,
-    required int quantity,
     required Set<int> selectedDishIds,
+    AttaMenuReservation? menuReservation,
   }) {
     final currentReservation =
         _reservations[restaurantId] ?? AttaReservation.fromRestaurantId(restaurantId: restaurantId);
-    final newMenus = Set.of(currentReservation.menus)
-      ..add(
-        AttaMenuReservation.fromValues(
-          menuId: menuId,
-          selectedDishIds: selectedDishIds,
-        ),
-      );
+    final newMenus = Set.of(currentReservation.menus);
+    if (menuReservation != null && newMenus.contains(menuReservation)) {
+      newMenus.remove(menuReservation);
+    }
+
+    newMenus.add(
+      AttaMenuReservation.fromValues(
+        menuId: menuId,
+        selectedDishIds: selectedDishIds,
+      ),
+    );
     _reservations[restaurantId] = currentReservation.copyWith(menus: newMenus);
   }
 
@@ -82,15 +86,25 @@ class ReservationService {
     }
   }
 
-  Future<Map<String, dynamic>> sendReservation(AttaReservation reservation) async {
-    final data = await databaseService.createReservation(reservation);
-    userService.addOrUpdateReservation(AttaReservation.fromMap(data));
+  void removeMenuFromReservation({
+    required int restaurantId,
+    required AttaMenuReservation menu,
+  }) {
+    final currentReservation = _reservations[restaurantId];
+    if (currentReservation != null) {
+      final newMenus = Set.of(currentReservation.menus)..remove(menu);
+      _reservations[restaurantId] = currentReservation.copyWith(menus: newMenus);
+    }
+  }
+
+  Future<void> sendReservation(AttaReservation reservation) async {
+    final reservationId = await databaseService.createReservation(reservation);
+    final reservationData = await databaseService.getReservation(reservationId);
+    userService.addOrUpdateReservation(AttaReservation.fromMap(reservationData));
 
     // Remove local reservation in progress after sending it to the server
     _reservations.remove(reservation.restaurantId);
     resetReservationDateTime();
-
-    return data;
   }
 
   void resetReservationDateTime() {

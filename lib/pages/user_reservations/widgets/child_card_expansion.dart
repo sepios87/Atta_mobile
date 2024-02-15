@@ -187,7 +187,8 @@ class _ChildReservationTileExpansion extends StatelessWidget {
                                           color: Colors.grey.shade700,
                                         ),
                                       ).withPadding(
-                                          const EdgeInsets.only(left: AttaSpacing.m, bottom: AttaSpacing.xxs)),
+                                        const EdgeInsets.only(left: AttaSpacing.m, bottom: AttaSpacing.xxs),
+                                      ),
                                     ),
                                   ],
                                 ),

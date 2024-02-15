@@ -1,7 +1,7 @@
 part of '../home_page.dart';
 
-class _RestaurantDetailModal extends StatelessWidget {
-  const _RestaurantDetailModal(this.restaurant);
+class _RestaurantDetailBottomSheet extends StatelessWidget {
+  const _RestaurantDetailBottomSheet(this.restaurant);
 
   final AttaRestaurant restaurant;
 
@@ -84,7 +84,7 @@ class _RestaurantDetailModal extends StatelessWidget {
             },
           ),
         ),
-        const SizedBox(height: AttaSpacing.xl),
+        const SizedBox(height: AttaSpacing.l),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
           child: Row(

@@ -2,9 +2,11 @@ import 'package:atta/entities/restaurant.dart';
 import 'package:atta/entities/wrapped.dart';
 import 'package:atta/extensions/date_time_ext.dart';
 import 'package:atta/extensions/map_ext.dart';
+import 'package:flutter/material.dart';
 
+@immutable
 class AttaMenuReservation {
-  AttaMenuReservation._({
+  const AttaMenuReservation._({
     required this.id,
     required this.menuId,
     required this.selectedDishIds,
@@ -43,6 +45,18 @@ class AttaMenuReservation {
 
   @override
   String toString() => toMap().toString();
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    final sameId = other is AttaMenuReservation && other.id == id;
+    final sameMenuId = other is AttaMenuReservation && other.menuId == menuId;
+    final sameSelectedDishIds = other is AttaMenuReservation && other.selectedDishIds == selectedDishIds;
+    return sameId && sameMenuId && sameSelectedDishIds;
+  }
+
+  @override
+  int get hashCode => menuId.hashCode;
 }
 
 class AttaReservation {
@@ -75,6 +89,7 @@ class AttaReservation {
   }
 
   factory AttaReservation.fromMap(Map<String, dynamic> map) {
+    print(map);
     return AttaReservation._(
       id: map.parse<int>('id'),
       createdAt: DateTime.tryParse(map.parse<String>('created_at')) ?? DateTime.now(),

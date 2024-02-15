@@ -101,8 +101,8 @@ class _RestaurantDetailScreen extends StatelessWidget {
                                 int? quantity;
 
                                 if (e is AttaMenu) {
-                                  quantity =
-                                      state.reservation?.menus.fold<int>(0, (p, m) => e.id == m.menuId ? ++p : p);
+                                  quantity = state.reservation?.menus
+                                      .fold<int?>(null, (p, m) => e.id == m.menuId ? p = (p ?? 0) + 1 : p);
                                 } else if (e is AttaDish) {
                                   quantity = state.reservation?.dishIds[e.id];
                                 }
@@ -140,33 +140,26 @@ class _RestaurantDetailScreen extends StatelessWidget {
                                         ),
                                   onTap: () async {
                                     if (e is AttaMenu) {
+                                      MenuDetailPageArgument args = MenuDetailPageArgument(
+                                        restaurantId: state.restaurant.id,
+                                        menuId: e.id,
+                                      );
                                       if (quantity != null && quantity > 0) {
-                                        final reservationMenuId = await _showMenuBottomSheet(
+                                        final reservationMenu = await _showMenuBottomSheet(
                                           context,
                                           menusReservation: state.reservation!.menus.toList(),
                                         );
-                                        if (reservationMenuId == null) return;
-                                        if (reservationMenuId.value == null) {
-                                          // ignore: use_build_context_synchronously
-                                          await context.adapativePushNamed(
-                                            MenuDetailPage.routeName,
-                                            pathParameters: MenuDetailPageArgument(
-                                              restaurantId: state.restaurant.id,
-                                              menuId: e.id,
-                                            ).toPathParameters(),
-                                          );
-                                        } else {
-                                          // Changer la route menu pour faire passer le menuReservationId si besoin
+                                        if (reservationMenu == null) return;
+                                        if (reservationMenu.value != null) {
+                                          args = args.copyWith(reservationMenu: reservationMenu.value);
                                         }
-                                      } else {
-                                        await context.adapativePushNamed(
-                                          MenuDetailPage.routeName,
-                                          pathParameters: MenuDetailPageArgument(
-                                            restaurantId: state.restaurant.id,
-                                            menuId: e.id,
-                                          ).toPathParameters(),
-                                        );
                                       }
+                                      // ignore: use_build_context_synchronously
+                                      await context.adapativePushNamed(
+                                        MenuDetailPage.routeName,
+                                        pathParameters: args.toPathParameters(),
+                                        extra: args.toExtra(),
+                                      );
                                     } else if (e is AttaDish) {
                                       await context.adapativePushNamed<bool>(
                                         DishDetailPage.routeName,
