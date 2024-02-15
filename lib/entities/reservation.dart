@@ -89,7 +89,6 @@ class AttaReservation {
   }
 
   factory AttaReservation.fromMap(Map<String, dynamic> map) {
-    print(map);
     return AttaReservation._(
       id: map.parse<int>('id'),
       createdAt: DateTime.tryParse(map.parse<String>('created_at')) ?? DateTime.now(),
