@@ -15,7 +15,13 @@ class AttaUser {
     required this.favoritesRestaurantIds,
     required this.favoriteDishesIds,
     required Iterable<AttaReservation> reservations,
-  }) : reservations = SplayTreeSet.from(reservations, (a, b) => a.dateTime.compareTo(b.dateTime));
+  }) : reservations = SplayTreeSet.from(reservations, (a, b) {
+          final compare = a.dateTime.compareTo(b.dateTime);
+          // Si les dates sont égales, ca supprime la réservation car considérée comme doublon
+          // TODO(florian): a voir si un SplayTreeSet est toujours necessaire
+          if (compare != 0) return compare;
+          return (a.id ?? 0).compareTo(b.id ?? 1);
+        });
 
   factory AttaUser.fromMinimalData({
     required String id,
