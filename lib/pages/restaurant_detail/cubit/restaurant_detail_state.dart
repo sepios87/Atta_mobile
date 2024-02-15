@@ -49,6 +49,11 @@ class RestaurantDetailState {
     return filteredFormulas;
   }
 
+  double get totalAmount {
+    if (reservation == null) return 0;
+    return reservationService.calculateTotalAmount(reservation!);
+  }
+
   RestaurantDetailState copyWith({
     DateTime? selectedDate,
     Wrapped<TimeOfDay?>? selectedOpeningTime,

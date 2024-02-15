@@ -106,12 +106,6 @@ class _ReservationCardExpansionState extends State<_ReservationCardExpansion> {
                       backgroundColor: backgroundColor,
                       collapsedBackgroundColor: backgroundColor,
                       childrenPadding: const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
-                      onExpansionChanged: (isExpanded) {
-                        if (isExpanded) {
-                          context.read<UserReservationsCubit>().onExpandReservation(reservation);
-                        }
-                        setState(() => _isExpanded = isExpanded);
-                      },
                       tilePadding: const EdgeInsets.only(right: AttaSpacing.m),
                       leading: isSelected
                           ? Icon(Icons.check_rounded, color: AttaColors.black).withPadding(

@@ -9,8 +9,8 @@ class _ContainerSelectTable extends StatelessWidget {
   });
 
   final List<AttaTable> tables;
-  final String? selectedTableId;
-  final void Function(String? tableId) onTableSelected;
+  final int? selectedTableId;
+  final void Function(int? tableId) onTableSelected;
   final int numberOfSeats;
 
   @override
@@ -63,8 +63,8 @@ class _SelectTable extends StatefulWidget {
   });
 
   final List<AttaTable> tables;
-  final String? selectedTableId;
-  final void Function(String? tableId) onTableSelected;
+  final int? selectedTableId;
+  final void Function(int? tableId) onTableSelected;
   final int numberOfSeats;
   final BoxConstraints constraints;
   final double maxTableXPosition;
@@ -84,16 +84,14 @@ class _SelectTableState extends State<_SelectTable> {
     super.dispose();
   }
 
-  bool isSelectableTable(AttaTable table) {
-    final tableNumberOfSeats = table.numberOfSeats;
-    // Permet d'éviter de reserver une table avec plus de places que nécessaire (ou trop peu de place)
-    return widget.numberOfSeats >= tableNumberOfSeats - 1 && widget.numberOfSeats <= tableNumberOfSeats;
-  }
-
   @override
   Widget build(BuildContext context) {
     final maxHeight = widget.constraints.maxHeight;
     final maxWidth = widget.constraints.maxWidth;
+
+    bool isSelectableTable(AttaTable table) {
+      return context.read<ReservationCubit>().state.isSelectableTable(table, widget.numberOfSeats);
+    }
 
     return GestureDetector(
       onDoubleTapDown: (details) {

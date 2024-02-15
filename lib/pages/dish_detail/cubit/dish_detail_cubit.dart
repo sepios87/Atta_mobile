@@ -26,7 +26,7 @@ class DishDetailCubit extends Cubit<DishDetailState> {
   void addDishToReservation() {
     reservationService.addDishToReservation(
       restaurantId: state.restaurantId,
-      dish: state.dish,
+      dishId: state.dish.id,
       quantity: state.quantity,
     );
   }
@@ -34,7 +34,7 @@ class DishDetailCubit extends Cubit<DishDetailState> {
   void removeDishFromReservation() {
     reservationService.removeDishFromReservation(
       restaurantId: state.restaurantId,
-      dish: state.dish,
+      dishId: state.dish.id,
     );
   }
 

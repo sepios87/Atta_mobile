@@ -22,14 +22,16 @@ class __ReservationBodyState extends State<_ReservationBody> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       physics: _canScroll ? const ScrollPhysics() : const NeverScrollableScrollPhysics(),
-      padding: const EdgeInsets.all(AttaSpacing.m),
+      padding: const EdgeInsets.symmetric(vertical: AttaSpacing.m),
       child: BlocBuilder<ReservationCubit, ReservationState>(
         builder: (context, state) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const SizedBox(height: AttaSpacing.m),
-              Text('Reservation', style: AttaTextStyle.header),
+              Text('Reservation', style: AttaTextStyle.header).withPadding(
+                const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
+              ),
               BlocBuilder<ReservationCubit, ReservationState>(
                 builder: (context, state) {
                   return SelectHourly(
@@ -44,16 +46,24 @@ class __ReservationBodyState extends State<_ReservationBody> {
                     },
                   );
                 },
+              ).withPadding(
+                const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
               ),
               const SizedBox(height: AttaSpacing.m),
-              Text('Pour combien de personnes ?', style: AttaTextStyle.content),
+              Text('Pour combien de personnes ?', style: AttaTextStyle.content).withPadding(
+                const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
+              ),
               const SizedBox(height: AttaSpacing.s),
               AttaNumber(
                 onChange: (value) => context.read<ReservationCubit>().onNumberOfPersonsChanged(value),
-                initialValue: context.read<ReservationCubit>().state.numberOfPersons,
+                initialValue: context.read<ReservationCubit>().state.reservation.numberOfPersons,
+              ).withPadding(
+                const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
               ),
               const SizedBox(height: AttaSpacing.l),
-              Text('Choisi ta place', style: AttaTextStyle.content),
+              Text('Choisi ta place', style: AttaTextStyle.content).withPadding(
+                const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
+              ),
               const SizedBox(height: AttaSpacing.s),
               SizedBox(
                 width: double.infinity,
@@ -62,12 +72,10 @@ class __ReservationBodyState extends State<_ReservationBody> {
                   builder: (context, state) {
                     return Listener(
                       onPointerUp: (_) => setState(() => _canScroll = true),
-                      onPointerMove: (_) {
-                        setState(() => _canScroll = false);
-                      },
+                      onPointerMove: (_) => setState(() => _canScroll = false),
                       child: _ContainerSelectTable(
-                        numberOfSeats: state.numberOfPersons,
-                        selectedTableId: state.selectedTableId,
+                        numberOfSeats: state.reservation.numberOfPersons,
+                        selectedTableId: state.reservation.tableId,
                         onTableSelected: (tableId) => context.read<ReservationCubit>().onTableSelected(tableId),
                         // TODO(florian): Replace with real data
                         tables: mockTables,
@@ -75,18 +83,60 @@ class __ReservationBodyState extends State<_ReservationBody> {
                     );
                   },
                 ),
+              ).withPadding(
+                const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
               ),
               const SizedBox(height: AttaSpacing.l),
-              if (state.reservation != null) ...[
-                Text('Plats commandés', style: AttaTextStyle.content),
+              if (state.reservation.dishIds.isNotEmpty) ...[
+                Text('Plats commandés', style: AttaTextStyle.content).withPadding(
+                  const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
+                ),
                 const SizedBox(height: AttaSpacing.s),
-                ...(state.reservation!.dishes?.keys ?? []).map((dish) {
-                  final quantity = state.reservation!.dishes![dish] ?? 0;
+                ...state.reservation.dishIds.keys.map((dishId) {
+                  final quantity = state.reservation.dishIds[dishId] ?? 0;
+                  final dish = restaurantService.getDishById(state.restaurant.id, dishId);
+                  if (dish == null) return const SizedBox.shrink();
+
                   return FormulaCard(formula: dish, quantity: quantity);
                 }),
                 const SizedBox(height: AttaSpacing.l),
               ],
-              Text('Commentaire', style: AttaTextStyle.content),
+              if (state.reservation.menus.isNotEmpty) ...[
+                Text('Menus commandés', style: AttaTextStyle.content).withPadding(
+                  const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
+                ),
+                const SizedBox(height: AttaSpacing.s),
+                ...state.reservation.menus.map((e) {
+                  final menu = restaurantService.getMenuById(state.restaurant.id, e.menuId);
+                  if (menu == null) return const SizedBox.shrink();
+
+                  return FormulaCard(
+                    formula: menu,
+                    customContent: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ...e.selectedDishIds.map((dishId) {
+                          final dish = restaurantService.getDishById(state.restaurant.id, dishId);
+                          if (dish == null) return const SizedBox.shrink();
+
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: AttaSpacing.xxxs),
+                            child: Text(
+                              dish.name,
+                              overflow: TextOverflow.ellipsis,
+                              style: AttaTextStyle.content,
+                            ),
+                          );
+                        }),
+                      ],
+                    ),
+                  );
+                }),
+                const SizedBox(height: AttaSpacing.l),
+              ],
+              Text('Commentaire', style: AttaTextStyle.content).withPadding(
+                const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
+              ),
               const SizedBox(height: AttaSpacing.s),
               TextField(
                 controller: _commentController,
@@ -100,6 +150,8 @@ class __ReservationBodyState extends State<_ReservationBody> {
                   contentPadding: const EdgeInsets.all(AttaSpacing.s),
                   hintText: 'Je suis allergique aux fruits à coque...',
                 ),
+              ).withPadding(
+                const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
               ),
               const SizedBox(height: AttaSpacing.l),
               BlocBuilder<ReservationCubit, ReservationState>(
@@ -122,7 +174,7 @@ class __ReservationBodyState extends State<_ReservationBody> {
                             ),
                           )
                         : const Text('Réserver'),
-                  );
+                  ).withPadding(const EdgeInsets.symmetric(horizontal: AttaSpacing.m));
                 },
               ),
             ],

@@ -102,12 +102,15 @@ class _MenuDetailScreen extends StatelessWidget {
               left: AttaSpacing.m,
               right: AttaSpacing.m,
               child: ElevatedButton(
-                onPressed: () => context.adaptativePopNamed(
-                  RestaurantDetailPage.routeName,
-                  pathParameters: RestaurantDetailPageArgument(
-                    restaurantId: context.read<MenuDetailCubit>().state.restaurant.id,
-                  ).toPathParameters(),
-                ),
+                onPressed: () {
+                  context.read<MenuDetailCubit>().addMenuToReservation();
+                  context.adaptativePopNamed(
+                    RestaurantDetailPage.routeName,
+                    pathParameters: RestaurantDetailPageArgument(
+                      restaurantId: context.read<MenuDetailCubit>().state.restaurant.id,
+                    ).toPathParameters(),
+                  );
+                },
                 child: Text('Ajouter au panier', style: AttaTextStyle.button),
               ),
             ),

@@ -3,11 +3,9 @@ part of 'reservation_cubit.dart';
 @immutable
 final class ReservationState {
   const ReservationState._({
-    required this.selectedTableId,
     required this.restaurant,
     required this.selectedOpeningTime,
     required this.selectedDate,
-    required this.numberOfPersons,
     required this.reservation,
     required this.status,
   });
@@ -16,40 +14,39 @@ final class ReservationState {
     required AttaRestaurant restaurant,
     required TimeOfDay? selectedTime,
     required DateTime selectedDate,
-    AttaReservation? reservation,
+    required AttaReservation reservation,
   }) =>
       ReservationState._(
-        selectedTableId: null,
         restaurant: restaurant,
         selectedOpeningTime: selectedTime,
         selectedDate: selectedDate,
-        numberOfPersons: 2,
         reservation: reservation,
         status: ReservationIdleStatus(),
       );
 
-  final String? selectedTableId;
   final AttaRestaurant restaurant;
   final TimeOfDay? selectedOpeningTime;
   final DateTime selectedDate;
-  final int numberOfPersons;
-  final AttaReservation? reservation;
+  final AttaReservation reservation;
   final ReservationStatus status;
 
+  bool isSelectableTable(AttaTable table, int numberOfSeats) {
+    final tableNumberOfSeats = table.numberOfSeats;
+    // Permet d'éviter de reserver une table avec plus de places que nécessaire (ou trop peu de place)
+    return numberOfSeats >= tableNumberOfSeats - 1 && numberOfSeats <= tableNumberOfSeats;
+  }
+
   ReservationState copyWith({
-    Wrapped<String?>? selectedTableId,
     DateTime? selectedDate,
     Wrapped<TimeOfDay?>? selectedOpeningTime,
-    int? numberOfPersons,
     ReservationStatus? status,
+    AttaReservation? reservation,
   }) {
     return ReservationState._(
       restaurant: restaurant,
       selectedOpeningTime: selectedOpeningTime == null ? this.selectedOpeningTime : selectedOpeningTime.value,
       selectedDate: selectedDate ?? this.selectedDate,
-      selectedTableId: selectedTableId == null ? this.selectedTableId : selectedTableId.value,
-      numberOfPersons: numberOfPersons ?? this.numberOfPersons,
-      reservation: reservation,
+      reservation: reservation ?? this.reservation,
       status: status ?? this.status,
     );
   }

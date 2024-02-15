@@ -16,11 +16,9 @@ class DishDetailState {
     required bool isFavorite,
     AttaReservation? reservation,
   }) {
-    final quantity = reservation?.dishes?[dish] ?? 1;
-
     return DishDetailState._(
       dish: dish,
-      quantity: quantity,
+      quantity: reservation?.dishIds[dish.id] ?? 1,
       restaurantId: restaurantId,
       isFavorite: isFavorite,
       reservation: reservation,
@@ -33,7 +31,7 @@ class DishDetailState {
   final AttaReservation? reservation;
   final bool isFavorite;
 
-  bool get isDeletable => reservation?.dishes?.containsKey(dish) ?? false;
+  bool get isDeletable => reservation?.dishIds.containsKey(dish.id) ?? false;
 
   DishDetailState copyWith({
     int? quantity,

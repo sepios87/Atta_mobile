@@ -17,6 +17,7 @@ class FormulaCard extends StatelessWidget {
     this.badge,
     this.suffixName,
     this.leading,
+    this.customContent,
     super.key,
   });
 
@@ -26,6 +27,7 @@ class FormulaCard extends StatelessWidget {
   final Widget? badge;
   final String? suffixName;
   final Widget? leading;
+  final Widget? customContent;
 
   @override
   Widget build(BuildContext context) {
@@ -76,13 +78,17 @@ class FormulaCard extends StatelessWidget {
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
-                        if (formula.description != null) ...[
+                        if (formula.description != null && customContent == null) ...[
                           const SizedBox(height: AttaSpacing.xs),
                           Text(
                             formula.description!,
                             maxLines: 3,
                             overflow: TextOverflow.ellipsis,
                           ),
+                        ],
+                        if (customContent != null) ...[
+                          const SizedBox(height: AttaSpacing.xs),
+                          customContent!,
                         ],
                       ],
                     ),

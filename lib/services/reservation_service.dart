@@ -1,4 +1,3 @@
-import 'package:atta/entities/dish.dart';
 import 'package:atta/entities/reservation.dart';
 import 'package:atta/entities/wrapped.dart';
 import 'package:atta/main.dart';
@@ -33,56 +32,64 @@ class ReservationService {
           _selectedTime!.hour,
           _selectedTime!.minute,
         );
-        final currentReservation = _reservations[restaurantId];
-        if (currentReservation != null) {
-          _reservations[restaurantId] = currentReservation.copyWith(dateTime: newDateTime);
-        } else {
-          _reservations[restaurantId] = AttaReservation.fromDateTime(
-            restaurantId: restaurantId,
-            dateTime: newDateTime,
-          );
-        }
+        final currentReservation =
+            _reservations[restaurantId] ?? AttaReservation.fromRestaurantId(restaurantId: restaurantId);
+
+        _reservations[restaurantId] = currentReservation.copyWith(dateTime: newDateTime);
       }
     }
   }
 
   void addDishToReservation({
     required int restaurantId,
-    required AttaDish dish,
+    required int dishId,
     required int quantity,
   }) {
-    final currentReservation = _reservations[restaurantId];
-    if (currentReservation != null) {
-      final newDishes = currentReservation.dishes ?? {};
-      newDishes[dish] = quantity;
-      _reservations[restaurantId] = currentReservation.copyWith(dishes: newDishes);
-    } else {
-      _reservations[restaurantId] = AttaReservation.fromDishes(
-        restaurantId: restaurantId,
-        dishes: {dish: quantity},
+    final currentReservation =
+        _reservations[restaurantId] ?? AttaReservation.fromRestaurantId(restaurantId: restaurantId);
+
+    final newDishes = Map.of(currentReservation.dishIds);
+    newDishes[dishId] = quantity;
+    _reservations[restaurantId] = currentReservation.copyWith(dishIds: newDishes);
+  }
+
+  void addMenuToReservation({
+    required int restaurantId,
+    required int menuId,
+    required int quantity,
+    required Set<int> selectedDishIds,
+  }) {
+    final currentReservation =
+        _reservations[restaurantId] ?? AttaReservation.fromRestaurantId(restaurantId: restaurantId);
+    final newMenus = Set.of(currentReservation.menus)
+      ..add(
+        AttaMenuReservation.fromValues(
+          menuId: menuId,
+          selectedDishIds: selectedDishIds,
+        ),
       );
-    }
+    _reservations[restaurantId] = currentReservation.copyWith(menus: newMenus);
   }
 
   void removeDishFromReservation({
     required int restaurantId,
-    required AttaDish dish,
+    required int dishId,
   }) {
     final currentReservation = _reservations[restaurantId];
     if (currentReservation != null) {
-      final newDishes = currentReservation.dishes ?? {}
-        ..remove(dish);
-      _reservations[restaurantId] = currentReservation.copyWith(dishes: newDishes);
+      final newDishIds = Map.of(currentReservation.dishIds)..remove(dishId);
+      _reservations[restaurantId] = currentReservation.copyWith(dishIds: newDishIds);
     }
   }
 
   Future<Map<String, dynamic>> sendReservation(AttaReservation reservation) async {
     final data = await databaseService.createReservation(reservation);
-    final newReservation = AttaReservation.fromMap(data).copyWith(dishes: reservation.dishes);
-    userService.addOrUpdateReservation(newReservation);
+    userService.addOrUpdateReservation(AttaReservation.fromMap(data));
 
+    // Remove local reservation in progress after sending it to the server
     _reservations.remove(reservation.restaurantId);
     resetReservationDateTime();
+
     return data;
   }
 
@@ -96,12 +103,16 @@ class ReservationService {
     userService.removeReservation(reservationId);
   }
 
-  Future<void> fetchReservationWithDishes(
-    AttaReservation reservation,
-  ) async {
-    if (reservation.id == null) return;
+  double calculateTotalAmount(AttaReservation reservation) {
+    final dishes = restaurantService.getDishesFromIds(reservation.restaurantId, reservation.dishIds.keys.toList());
+    final dishesPrice = dishes.fold<double>(0, (p, d) => p + d.price * reservation.dishIds[d.id]!);
 
-    final dishes = await databaseService.getReservationDishes(reservation.id!);
-    userService.addOrUpdateReservation(reservation.copyWith(dishes: dishes));
+    final menus =
+        restaurantService.getMenusFromIds(reservation.restaurantId, reservation.menus.map((e) => e.menuId).toList());
+
+    final menusPrice =
+        reservation.menus.fold<double>(0, (p, menu) => p + menus.firstWhere((m) => m.id == menu.menuId).price);
+
+    return dishesPrice + menusPrice;
   }
 }

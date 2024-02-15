@@ -1,7 +1,9 @@
 import 'package:atta/entities/dish.dart';
 import 'package:atta/entities/filter.dart';
 import 'package:atta/entities/menu.dart';
+import 'package:atta/entities/reservation.dart';
 import 'package:atta/entities/restaurant.dart';
+import 'package:atta/entities/wrapped.dart';
 import 'package:atta/extensions/border_radius_ext.dart';
 import 'package:atta/extensions/context_ext.dart';
 import 'package:atta/extensions/num_ext.dart';
@@ -31,6 +33,8 @@ import 'package:url_launcher/url_launcher_string.dart';
 part 'widgets/app_bar.dart';
 part 'widgets/search_bar.dart';
 part 'widgets/header.dart';
+
+part 'bottom_sheet/menu_bottom_sheet.dart';
 
 class RestaurantDetailPageArgument {
   const RestaurantDetailPageArgument({
@@ -94,11 +98,18 @@ class _RestaurantDetailScreen extends StatelessWidget {
                         : SliverList(
                             delegate: SliverChildListDelegate(
                               state.filteredFormulas.map((e) {
-                                final dishesReservation = state.reservation?.dishes;
+                                int? quantity;
+
+                                if (e is AttaMenu) {
+                                  quantity =
+                                      state.reservation?.menus.fold<int>(0, (p, m) => e.id == m.menuId ? ++p : p);
+                                } else if (e is AttaDish) {
+                                  quantity = state.reservation?.dishIds[e.id];
+                                }
 
                                 return FormulaCard(
                                   formula: e,
-                                  badge: dishesReservation?[e] == null
+                                  badge: quantity == null
                                       ? null
                                       : Container(
                                           decoration: BoxDecoration(
@@ -119,7 +130,7 @@ class _RestaurantDetailScreen extends StatelessWidget {
                                               ),
                                               const SizedBox(width: AttaSpacing.xxs),
                                               Text(
-                                                dishesReservation?[e].toString() ?? '',
+                                                quantity.toString(),
                                                 style: AttaTextStyle.caption.copyWith(
                                                   color: AttaColors.white,
                                                 ),
@@ -127,28 +138,46 @@ class _RestaurantDetailScreen extends StatelessWidget {
                                             ],
                                           ),
                                         ),
-                                  onTap: () {
+                                  onTap: () async {
                                     if (e is AttaMenu) {
-                                      context.adapativePushNamed(
-                                        MenuDetailPage.routeName,
-                                        pathParameters: MenuDetailPageArgument(
+                                      if (quantity != null && quantity > 0) {
+                                        final reservationMenuId = await _showMenuBottomSheet(
+                                          context,
+                                          menusReservation: state.reservation!.menus.toList(),
+                                        );
+                                        if (reservationMenuId == null) return;
+                                        if (reservationMenuId.value == null) {
+                                          // ignore: use_build_context_synchronously
+                                          await context.adapativePushNamed(
+                                            MenuDetailPage.routeName,
+                                            pathParameters: MenuDetailPageArgument(
+                                              restaurantId: state.restaurant.id,
+                                              menuId: e.id,
+                                            ).toPathParameters(),
+                                          );
+                                        } else {
+                                          // Changer la route menu pour faire passer le menuReservationId si besoin
+                                        }
+                                      } else {
+                                        await context.adapativePushNamed(
+                                          MenuDetailPage.routeName,
+                                          pathParameters: MenuDetailPageArgument(
+                                            restaurantId: state.restaurant.id,
+                                            menuId: e.id,
+                                          ).toPathParameters(),
+                                        );
+                                      }
+                                    } else if (e is AttaDish) {
+                                      await context.adapativePushNamed<bool>(
+                                        DishDetailPage.routeName,
+                                        pathParameters: DishDetailPageArgument(
                                           restaurantId: state.restaurant.id,
-                                          menuId: e.id,
+                                          dishId: e.id,
                                         ).toPathParameters(),
                                       );
-                                    } else if (e is AttaDish) {
-                                      context
-                                          .adapativePushNamed<bool>(
-                                            DishDetailPage.routeName,
-                                            pathParameters: DishDetailPageArgument(
-                                              restaurantId: state.restaurant.id,
-                                              dishId: e.id,
-                                            ).toPathParameters(),
-                                          )
-                                          .then(
-                                            (value) => context.read<RestaurantDetailCubit>().updateReservation(),
-                                          );
                                     }
+                                    // ignore: use_build_context_synchronously
+                                    context.read<RestaurantDetailCubit>().updateReservation();
                                   },
                                 );
                               }).toList(),
@@ -174,7 +203,7 @@ class _RestaurantDetailScreen extends StatelessWidget {
                 return AnimatedSwitcher(
                   duration: AttaAnimation.mediumAnimation,
                   child: state.selectedOpeningTime != null ||
-                          (state.reservation != null && (state.reservation!.dishes?.isNotEmpty ?? false))
+                          (state.reservation != null && state.reservation!.withFormulas)
                       ? ElevatedButton(
                           key: const ValueKey('reservation_button'),
                           onPressed: () {
@@ -200,9 +229,9 @@ class _RestaurantDetailScreen extends StatelessWidget {
                             }
                           },
                           child: Text(
-                            state.reservation?.dishes?.isEmpty ?? true
-                                ? 'Réserver sans commander'
-                                : 'Commander et réserver (${state.reservation!.totalAmount.toEuro})',
+                            state.reservation?.withFormulas ?? false
+                                ? 'Commander et réserver (${state.totalAmount.toEuro})'
+                                : 'Réserver sans commander',
                           ),
                         )
                       : const SizedBox.shrink(key: ValueKey('empty')),

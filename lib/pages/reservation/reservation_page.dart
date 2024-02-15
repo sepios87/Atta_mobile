@@ -2,6 +2,8 @@ import 'package:atta/entities/restaurant.dart';
 import 'package:atta/entities/restaurant_plan.dart';
 import 'package:atta/extensions/border_radius_ext.dart';
 import 'package:atta/extensions/context_ext.dart';
+import 'package:atta/extensions/widget_ext.dart';
+import 'package:atta/main.dart';
 import 'package:atta/pages/reservation/cubit/reservation_cubit.dart';
 import 'package:atta/pages/restaurant_detail/restaurant_detail_page.dart';
 import 'package:atta/pages/user_reservations/user_reservations_page.dart';

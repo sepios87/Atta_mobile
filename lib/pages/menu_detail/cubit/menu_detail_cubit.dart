@@ -30,4 +30,13 @@ class MenuDetailCubit extends Cubit<MenuDetailState> {
     selectedDishIds[dish.type] = dish.id;
     emit(state.copyWith(selectedDishIds: selectedDishIds));
   }
+
+  void addMenuToReservation() {
+    reservationService.addMenuToReservation(
+      restaurantId: state.restaurant.id,
+      menuId: state.menu.id,
+      quantity: 1,
+      selectedDishIds: state.selectedDishIds.values.toSet(),
+    );
+  }
 }

@@ -30,7 +30,8 @@ class _ChildReservationTileExpansion extends StatelessWidget {
           );
         }
 
-        final dishes = reservation.dishes?.keys ?? [];
+        final dishIds = reservation.dishIds.keys;
+        final menus = reservation.menus;
 
         return Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -101,7 +102,7 @@ class _ChildReservationTileExpansion extends StatelessWidget {
                 ],
               ),
             ),
-            if ((reservation.comment != null && reservation.comment!.isNotEmpty) || dishes.isNotEmpty)
+            if ((reservation.comment?.isNotEmpty ?? false) || reservation.withFormulas)
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
@@ -126,14 +127,17 @@ class _ChildReservationTileExpansion extends StatelessWidget {
                         ),
                         const SizedBox(height: AttaSpacing.m),
                       ],
-                      if (dishes.isNotEmpty) ...[
+                      if (dishIds.isNotEmpty || menus.isNotEmpty) ...[
                         Text(
                           'Votre commande :',
                           style: AttaTextStyle.subHeader.copyWith(color: Colors.grey.shade800),
                         ),
                         const SizedBox(height: AttaSpacing.xxs),
-                        ...dishes.map((dish) {
-                          final quantity = reservation.dishes![dish]!;
+                        ...dishIds.map((dishId) {
+                          final quantity = reservation.dishIds[dishId]!;
+                          final dish = restaurantService.getDishById(reservation.restaurantId, dishId);
+
+                          if (dish == null) return const SizedBox.shrink();
 
                           return Row(
                             children: [
@@ -152,6 +156,50 @@ class _ChildReservationTileExpansion extends StatelessWidget {
                             ],
                           );
                         }),
+                        ...menus.map((m) {
+                          final dishes = restaurantService.getDishesFromIds(
+                            reservation.restaurantId,
+                            m.selectedDishIds.toList(),
+                          );
+                          final menu = restaurantService.getMenuById(reservation.restaurantId, m.menuId);
+
+                          if (dishes.isEmpty) return const SizedBox.shrink();
+
+                          return Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                                  children: [
+                                    const SizedBox(height: AttaSpacing.xxs),
+                                    Text(
+                                      menu?.name ?? '',
+                                      overflow: TextOverflow.ellipsis,
+                                      style: AttaTextStyle.content.copyWith(color: Colors.grey.shade700),
+                                    ),
+                                    const SizedBox(height: AttaSpacing.xxs),
+                                    ...dishes.map(
+                                      (dish) => Text(
+                                        dish.name,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: AttaTextStyle.content.copyWith(
+                                          color: Colors.grey.shade700,
+                                        ),
+                                      ).withPadding(
+                                          const EdgeInsets.only(left: AttaSpacing.m, bottom: AttaSpacing.xxs)),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(width: AttaSpacing.xs),
+                              Text(
+                                (menu?.price ?? 0).toEuro,
+                                style: AttaTextStyle.label.copyWith(color: Colors.grey.shade700),
+                              ),
+                            ],
+                          );
+                        }),
                         Divider(
                           color: Colors.grey.shade300,
                           thickness: 1,
@@ -164,7 +212,7 @@ class _ChildReservationTileExpansion extends StatelessWidget {
                               style: AttaTextStyle.subHeader.copyWith(color: Colors.grey.shade700),
                             ),
                             Text(
-                              reservation.totalAmount.toEuro,
+                              reservationService.calculateTotalAmount(reservation).toEuro,
                               style: AttaTextStyle.label.copyWith(
                                 color: Colors.grey.shade700,
                               ),

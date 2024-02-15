@@ -32,11 +32,19 @@ extension DatabaseReservationExt on DatabaseService {
     reservationMap['user_id'] = currentUser?.id;
     final data = await _supabase.from('reservations').upsert(reservationMap).select();
 
-    for (final dish in reservation.dishes?.keys.toList() ?? <AttaDish>[]) {
+    for (final dishId in reservation.dishIds.keys) {
       await _supabase.from('dish_reservation').insert({
         'reservation_id': data.first['id'],
-        'dish_id': dish.id,
-        'quantity': reservation.dishes![dish],
+        'dish_id': dishId,
+        'quantity': reservation.dishIds[dishId],
+      });
+    }
+
+    for (final menu in reservation.menus) {
+      await _supabase.from('menu_reservation').insert({
+        'reservation_id': data.first['id'],
+        'menu_id': menu.menuId,
+        'selected_dishes_ids_list': menu.selectedDishIds.toList(),
       });
     }
 

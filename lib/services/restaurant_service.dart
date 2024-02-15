@@ -42,4 +42,18 @@ class RestaurantService {
 
     return restaurant.menus.firstWhereOrNull((m) => m.id == menuId);
   }
+
+  List<AttaDish> getDishesFromIds(int restaurantId, List<int> dishIds) {
+    final restaurant = getRestaurantById(restaurantId);
+    if (restaurant == null) return [];
+
+    return restaurant.dishes.where((d) => dishIds.contains(d.id)).toList();
+  }
+
+  List<AttaMenu> getMenusFromIds(int restaurantId, List<int> menuIds) {
+    final restaurant = getRestaurantById(restaurantId);
+    if (restaurant == null) return [];
+
+    return restaurant.menus.where((m) => menuIds.contains(m.id)).toList();
+  }
 }

@@ -1,7 +1,49 @@
-import 'package:atta/entities/dish.dart';
 import 'package:atta/entities/restaurant.dart';
+import 'package:atta/entities/wrapped.dart';
 import 'package:atta/extensions/date_time_ext.dart';
 import 'package:atta/extensions/map_ext.dart';
+
+class AttaMenuReservation {
+  AttaMenuReservation._({
+    required this.id,
+    required this.menuId,
+    required this.selectedDishIds,
+  });
+
+  factory AttaMenuReservation.fromMap(Map<String, dynamic> map) {
+    return AttaMenuReservation._(
+      id: map.parse<int?>('id'),
+      menuId: map.parse<int>('menu_id'),
+      selectedDishIds: map.parse<List>('selected_dishes_ids_list').map((e) => int.parse(e.toString())).toSet(),
+    );
+  }
+
+  factory AttaMenuReservation.fromValues({
+    required int menuId,
+    required Set<int> selectedDishIds,
+  }) {
+    return AttaMenuReservation._(
+      id: null,
+      menuId: menuId,
+      selectedDishIds: selectedDishIds,
+    );
+  }
+
+  final int? id;
+  final int menuId;
+  final Set<int> selectedDishIds;
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'menu_id': menuId,
+      'selected_dishes_ids_list': selectedDishIds,
+    };
+  }
+
+  @override
+  String toString() => toMap().toString();
+}
 
 class AttaReservation {
   AttaReservation._({
@@ -11,30 +53,13 @@ class AttaReservation {
     required this.restaurantId,
     required this.tableId,
     required this.numberOfPersons,
-    required this.dishes,
+    required this.dishIds,
+    required this.menus,
     required this.comment,
   });
 
-  factory AttaReservation.fromDateTime({
+  factory AttaReservation.fromRestaurantId({
     required int restaurantId,
-    required DateTime dateTime,
-    Map<AttaDish, int>? dishes,
-  }) {
-    return AttaReservation._(
-      id: null,
-      createdAt: DateTime.now(),
-      dateTime: dateTime,
-      restaurantId: restaurantId,
-      tableId: null,
-      numberOfPersons: 2,
-      dishes: dishes,
-      comment: null,
-    );
-  }
-
-  factory AttaReservation.fromDishes({
-    required int restaurantId,
-    Map<AttaDish, int>? dishes,
   }) {
     return AttaReservation._(
       id: null,
@@ -43,27 +68,9 @@ class AttaReservation {
       restaurantId: restaurantId,
       tableId: null,
       numberOfPersons: 2,
-      dishes: dishes,
+      dishIds: {},
+      menus: {},
       comment: null,
-    );
-  }
-
-  factory AttaReservation.fromDataForDb({
-    required int restaurantId,
-    required DateTime dateTime,
-    required int numberOfPersons,
-    Map<AttaDish, int>? dishes,
-    String? comment,
-  }) {
-    return AttaReservation._(
-      id: null,
-      createdAt: DateTime.now(),
-      dateTime: dateTime,
-      restaurantId: restaurantId,
-      tableId: null,
-      numberOfPersons: numberOfPersons,
-      dishes: dishes,
-      comment: comment,
     );
   }
 
@@ -77,8 +84,18 @@ class AttaReservation {
       tableId: map.parse<int>('id') == 2 ? null : 0,
       // map['table_id'] as String?,
       numberOfPersons: map.parse<int>('number_of_persons'),
-      // Pour savoir d'ou viennent les plat, aller directement dans reservation.restaurant_id et choper les plats
-      dishes: null,
+      dishIds: Map.fromEntries(
+        map.parse<List>('dish_reservation', fallback: []).map((d) {
+          final dishReservationMap = d as Map<String, dynamic>;
+          final dishId = dishReservationMap['dish_id'] as int;
+          final quantity = dishReservationMap['quantity'] as int;
+          return MapEntry(dishId, quantity);
+        }),
+      ),
+      menus: map
+          .parse<List>('menu_reservation', fallback: [])
+          .map((m) => AttaMenuReservation.fromMap(m as Map<String, dynamic>))
+          .toSet(),
       comment: map.parse<String?>('comment'),
     );
   }
@@ -89,18 +106,19 @@ class AttaReservation {
   final int restaurantId;
   final int? tableId;
   final int numberOfPersons;
-  final Map<AttaDish, int>? dishes;
+  final Map<int, int> dishIds;
+  final Set<AttaMenuReservation> menus;
   final String? comment;
 
-  bool get withMoreInformations =>
-      (comment != null && comment!.isNotEmpty) || (dishes != null && dishes!.isNotEmpty) || tableId != null;
+  bool get withFormulas => menus.isNotEmpty || dishIds.isNotEmpty;
 
-  num get totalAmount => dishes?.entries.fold(0, (p, e) => (p ?? 0) + e.key.price * e.value) ?? 0;
+  bool get withMoreInformations => (comment != null && comment!.isNotEmpty) || dishIds.isNotEmpty || tableId != null;
 
   Map<String, dynamic> toMap() {
     final dbMap = toMapForDb();
     dbMap['id'] = id;
-    dbMap['dishes'] = dishes?.keys.map((e) => e.toMap()).toList();
+    dbMap['dish_reservation'] = dishIds.entries.map((e) => {'dish_id': e.key, 'quantity': e.value});
+    dbMap['menu_reservation'] = menus.map((m) => m.toMap());
     return dbMap;
   }
 
@@ -116,17 +134,23 @@ class AttaReservation {
   }
 
   AttaReservation copyWith({
-    Map<AttaDish, int>? dishes,
+    int? restaurantId,
+    Map<int, int>? dishIds,
+    Set<AttaMenuReservation>? menus,
     DateTime? dateTime,
+    int? numberOfPersons,
+    Wrapped<int?>? tableId,
+    String? comment,
   }) {
     return AttaReservation._(
       id: id,
       createdAt: createdAt,
       dateTime: dateTime ?? this.dateTime,
-      restaurantId: restaurantId,
-      tableId: tableId,
-      numberOfPersons: numberOfPersons,
-      dishes: dishes ?? this.dishes,
+      restaurantId: restaurantId ?? this.restaurantId,
+      tableId: tableId == null ? this.tableId : tableId.value,
+      numberOfPersons: numberOfPersons ?? this.numberOfPersons,
+      dishIds: dishIds ?? this.dishIds,
+      menus: menus ?? this.menus,
       comment: comment,
     );
   }
