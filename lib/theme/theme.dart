@@ -16,6 +16,7 @@ ThemeData get _attaThemeData {
     ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
+      labelStyle: AttaTextStyle.label.copyWith(color: Colors.grey),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(AttaRadius.full),
         borderSide: BorderSide.none,
@@ -29,16 +30,40 @@ ThemeData get _attaThemeData {
         color: Colors.grey,
       ),
     ),
+    radioTheme: RadioThemeData(
+      fillColor: MaterialStateProperty.resolveWith<Color>(
+        (Set<MaterialState> states) {
+          if (states.contains(MaterialState.selected)) {
+            return AttaColors.primary;
+          }
+          return AttaColors.black;
+        },
+      ),
+    ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         textStyle: AttaTextStyle.button,
         minimumSize: const Size(double.infinity, 48),
-        backgroundColor: AttaColors.primaryLight,
+        backgroundColor: AttaColors.primary,
         foregroundColor: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AttaRadius.small),
         ),
         elevation: 0,
+        padding: const EdgeInsets.symmetric(
+          vertical: AttaSpacing.xxs,
+          horizontal: AttaSpacing.xs,
+        ),
+      ),
+    ),
+    outlinedButtonTheme: OutlinedButtonThemeData(
+      style: OutlinedButton.styleFrom(
+        foregroundColor: AttaColors.black,
+        textStyle: AttaTextStyle.button,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AttaRadius.small),
+        ),
+        side: BorderSide(color: AttaColors.primary),
         padding: const EdgeInsets.symmetric(
           vertical: AttaSpacing.xxs,
           horizontal: AttaSpacing.xs,
@@ -54,15 +79,24 @@ ThemeData get _attaThemeData {
         ),
         alignment: Alignment.center,
         textStyle: AttaTextStyle.button,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AttaRadius.small),
+        ),
+      ),
+    ),
+    bottomSheetTheme: const BottomSheetThemeData(
+      backgroundColor: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(AttaRadius.medium),
+        ),
       ),
     ),
     chipTheme: ChipThemeData(
       showCheckmark: false,
       side: const BorderSide(color: Colors.transparent),
       shape: const StadiumBorder(),
-      labelPadding: const EdgeInsets.symmetric(
-        horizontal: AttaSpacing.xxs,
-      ),
+      labelPadding: const EdgeInsets.symmetric(horizontal: AttaSpacing.xxs),
       secondarySelectedColor: AttaColors.white,
       labelStyle: const TextStyle(color: ChipLabelColor()),
       color: MaterialStateProperty.resolveWith<Color>(

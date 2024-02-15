@@ -1,3 +1,4 @@
+import 'package:atta/extensions/string_ext.dart';
 import 'package:intl/intl.dart';
 
 extension DateTimeExtension on DateTime {
@@ -11,13 +12,21 @@ extension DateTimeExtension on DateTime {
     return day == tomorrow.day && month == tomorrow.month && year == tomorrow.year;
   }
 
-  String get format {
+  String format() {
     if (isToday) {
       return "Aujourd'hui";
     } else if (isTomorrow) {
       return 'Demain';
-    } else {
-      return DateFormat('dd/MM').format(this);
     }
+    return DateFormat('dd/MM').format(this);
+  }
+
+  String accurateFormat({bool withPronoun = false}) {
+    if (isToday) {
+      return "Aujourd'hui à ${DateFormat('HH:mm').format(this)}";
+    } else if (isTomorrow) {
+      return 'Demain à ${DateFormat('HH:mm').format(this)}';
+    }
+    return '${withPronoun ? 'Le ' : ''}${DateFormat('EEEE dd/MM à HH:mm').format(this).capitalize()}';
   }
 }

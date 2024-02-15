@@ -18,7 +18,7 @@ class AttaTable {
     required this.height,
   });
 
-  final String id;
+  final int id;
   final int x;
   final int y;
   final int numberOfSeats;

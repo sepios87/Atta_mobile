@@ -27,11 +27,18 @@ final GoRouter _router = GoRouter(
       },
     ),
     GoRoute(
+      path: FavoritePage.path,
+      name: FavoritePage.routeName,
+      builder: (BuildContext context, GoRouterState state) {
+        return FavoritePage.getScreen();
+      },
+    ),
+    GoRoute(
       path: RestaurantDetailPage.path,
       name: RestaurantDetailPage.routeName,
       builder: (BuildContext context, GoRouterState state) {
         return RestaurantDetailPage.getScreen(
-          RestaurantDetailScreenArgument.fromPathParameters(state.pathParameters),
+          RestaurantDetailPageArgument.fromPathParameters(state.pathParameters),
         );
       },
     ),
@@ -40,7 +47,7 @@ final GoRouter _router = GoRouter(
       name: ReservationPage.routeName,
       builder: (BuildContext context, GoRouterState state) {
         return ReservationPage.getScreen(
-          ReservationScreenArgument.fromPathParameters(state.pathParameters),
+          ReservationPageArgument.fromPathParameters(state.pathParameters),
         );
       },
     ),
@@ -49,22 +56,41 @@ final GoRouter _router = GoRouter(
       name: DishDetailPage.routeName,
       builder: (BuildContext context, GoRouterState state) {
         return DishDetailPage.getScreen(
-          DishDetailScreenArgument.fromPathParameters(state.pathParameters),
+          DishDetailPageArgument.fromPathParameters(state.pathParameters),
         );
       },
     ),
     GoRoute(
-      path: LoginPage.path,
-      name: LoginPage.routeName,
+      path: MenuDetailPage.path,
+      name: MenuDetailPage.routeName,
       builder: (BuildContext context, GoRouterState state) {
-        return LoginPage.getScreen();
+        return MenuDetailPage.getScreen(
+          MenuDetailPageArgument.fromParameters(
+            pathParameters: state.pathParameters,
+            extra: state.extra,
+          ),
+        );
       },
     ),
     GoRoute(
-      path: UserPage.path,
-      name: UserPage.routeName,
+      path: AuthPage.path,
+      name: AuthPage.routeName,
       builder: (BuildContext context, GoRouterState state) {
-        return UserPage.getScreen();
+        return AuthPage.getScreen();
+      },
+    ),
+    GoRoute(
+      path: ProfilePage.path,
+      name: ProfilePage.routeName,
+      builder: (BuildContext context, GoRouterState state) {
+        return ProfilePage.getScreen();
+      },
+    ),
+    GoRoute(
+      path: UserReservationsPage.path,
+      name: UserReservationsPage.routeName,
+      builder: (BuildContext context, GoRouterState state) {
+        return UserReservationsPage.getScreen();
       },
     ),
   ],

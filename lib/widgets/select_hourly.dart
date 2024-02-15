@@ -1,7 +1,8 @@
 import 'package:atta/entities/day.dart';
-import 'package:atta/entities/opening_time.dart';
+import 'package:atta/entities/opening_hours_slots.dart';
 import 'package:atta/extensions/date_time_ext.dart';
 import 'package:atta/extensions/opening_time_ext.dart';
+import 'package:atta/theme/animation.dart';
 import 'package:atta/theme/colors.dart';
 import 'package:atta/theme/radius.dart';
 import 'package:atta/theme/spacing.dart';
@@ -18,7 +19,7 @@ class SelectHourly extends StatelessWidget {
     super.key,
   });
 
-  final Map<AttaDay, List<AttaOpeningTime>> openingTimes;
+  final Map<AttaDay, List<AttaOpeningHoursSlots>> openingTimes;
   final TimeOfDay? selectedOpeningTime;
   final void Function(TimeOfDay) onOpeningTimeChanged;
 
@@ -35,22 +36,21 @@ class SelectHourly extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('Réserve ton morceau', style: AttaTextStyle.label),
+            Text('Réserve ton horaire', style: AttaTextStyle.label),
             TextButton(
               onPressed: () async {
                 final date = await showDatePicker(
                   context: context,
-                  initialDate: selectedDate,
+                  initialDate: openingTimesOfDay.isNotEmpty ? selectedDate : null,
                   firstDate: DateTime.now(),
                   lastDate: DateTime.now().add(const Duration(days: 30)),
+                  selectableDayPredicate: (date) => openingTimes.containsKey(AttaDay.fromDateTime(date)),
                 );
-                if (date != null) {
-                  onDateChanged(date);
-                }
+                if (date != null) onDateChanged(date);
               },
               child: Row(
                 children: [
-                  Text(selectedDate.format, style: AttaTextStyle.label),
+                  Text(selectedDate.format(), style: AttaTextStyle.label),
                   const Icon(Icons.keyboard_arrow_down),
                 ],
               ),
@@ -67,7 +67,7 @@ class SelectHourly extends StatelessWidget {
                   ),
                   child: Center(
                     child: Text(
-                      'Aucun horaire trouvé',
+                      'Le restaurant est fermé ${selectedDate.format().toLowerCase()}',
                       style: AttaTextStyle.label.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
@@ -107,7 +107,7 @@ class _TimeItem extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         child: AnimatedContainer(
-          duration: const Duration(milliseconds: 150),
+          duration: AttaAnimation.fastAnimation,
           curve: Curves.easeInOut,
           padding: const EdgeInsets.symmetric(
             horizontal: AttaSpacing.s,
@@ -115,7 +115,7 @@ class _TimeItem extends StatelessWidget {
           ),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(AttaRadius.small),
-            color: isSelected ? AttaColors.primaryLight : AttaColors.secondary,
+            color: isSelected ? AttaColors.primary : AttaColors.secondary,
           ),
           child: Center(
             child: Text(

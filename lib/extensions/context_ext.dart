@@ -3,21 +3,62 @@ import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
 
 extension ContextExtension on BuildContext {
-  void adapativePushNamed(
+  Future<T?> adapativePushNamed<T extends Object?>(
     String name, {
     Map<String, String> pathParameters = const <String, String>{},
     Map<String, dynamic> queryParameters = const <String, dynamic>{},
     Object? extra,
   }) {
-    if (kIsWeb) {
-      goNamed(
+    if (!_goNamedWeb(
+      name,
+      pathParameters: pathParameters,
+      queryParameters: queryParameters,
+      extra: extra,
+    )) {
+      return pushNamed<T>(
         name,
         pathParameters: pathParameters,
         queryParameters: queryParameters,
         extra: extra,
       );
-    } else {
-      pushNamed(
+    }
+    return Future<T>.value();
+  }
+
+  void adapativePushReplacementNamed(
+    String name, {
+    Map<String, String> pathParameters = const <String, String>{},
+    Map<String, dynamic> queryParameters = const <String, dynamic>{},
+    Object? extra,
+  }) {
+    if (!_goNamedWeb(
+      name,
+      pathParameters: pathParameters,
+      queryParameters: queryParameters,
+      extra: extra,
+    )) {
+      pushReplacementNamed(
+        name,
+        pathParameters: pathParameters,
+        queryParameters: queryParameters,
+        extra: extra,
+      );
+    }
+  }
+
+  void adapativeReplacementNamed(
+    String name, {
+    Map<String, String> pathParameters = const <String, String>{},
+    Map<String, dynamic> queryParameters = const <String, dynamic>{},
+    Object? extra,
+  }) {
+    if (!_goNamedWeb(
+      name,
+      pathParameters: pathParameters,
+      queryParameters: queryParameters,
+      extra: extra,
+    )) {
+      replaceNamed(
         name,
         pathParameters: pathParameters,
         queryParameters: queryParameters,
@@ -31,6 +72,23 @@ extension ContextExtension on BuildContext {
     Map<String, String> pathParameters = const <String, String>{},
     Map<String, dynamic> queryParameters = const <String, dynamic>{},
     Object? extra,
+    Object? result,
+  }) {
+    if (!_goNamedWeb(
+      name,
+      pathParameters: pathParameters,
+      queryParameters: queryParameters,
+      extra: extra,
+    )) {
+      pop(result);
+    }
+  }
+
+  bool _goNamedWeb(
+    String name, {
+    Map<String, String> pathParameters = const <String, String>{},
+    Map<String, dynamic> queryParameters = const <String, dynamic>{},
+    Object? extra,
   }) {
     if (kIsWeb) {
       goNamed(
@@ -39,8 +97,8 @@ extension ContextExtension on BuildContext {
         queryParameters: queryParameters,
         extra: extra,
       );
-    } else {
-      pop();
+      return true;
     }
+    return false;
   }
 }
