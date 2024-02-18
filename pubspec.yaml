@@ -42,17 +42,18 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-flutter_launcher_icons:
+flutter_launcher_icons: 
   android: true
   ios: true
-  image_path: "assets/logo/text_colored.png"
+  image_path: "assets/logo/text_colored_white_background.png"
   min_sdk_android: 21
-  adaptive_icon_background: "#FFFFFF"
+  adaptive_icon_background: "#ffffff"
+  background_color: "#ffffff"
   web:
     generate: true
-    image_path: "assets/logo/text_colored.png"
-    background_color: "#FFFFFF"
-    theme_color: "#FFFFFF"
+    image_path: "assets/logo/text_colored_white_background.png"
+    background_color: "#ffffff"
+    theme_color: "#ffffff"
 
 flutter:
   uses-material-design: true
