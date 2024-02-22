@@ -53,11 +53,7 @@ class RestaurantCard extends StatelessWidget {
                     ),
                   );
                 },
-                placeholder: (context, _) {
-                  return const AttaSkeleton(
-                    size: Size(double.infinity, 98),
-                  );
-                },
+                placeholder: (context, _) => const AttaSkeleton(size: Size(double.infinity, 98)),
               ),
               if (positionedWidget != null) positionedWidget!,
             ],

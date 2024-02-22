@@ -1,5 +1,6 @@
 import 'package:atta/entities/user.dart';
 import 'package:atta/extensions/context_ext.dart';
+import 'package:atta/extensions/string_ext.dart';
 import 'package:atta/extensions/widget_ext.dart';
 import 'package:atta/pages/auth/auth_page.dart';
 import 'package:atta/pages/profile/profile_page.dart';
@@ -49,14 +50,14 @@ class AttaAppBar extends StatelessWidget implements PreferredSizeWidget {
                     children: [
                       if (user!.lastName != null)
                         Text(
-                          user!.firstName != null ? user!.lastName! : user!.lastName!,
+                          user!.lastName!.toUpperCase(),
                           style: AttaTextStyle.caption.copyWith(
                             color: AttaColors.white,
                           ),
                         ),
                       if (user!.firstName != null)
                         Text(
-                          user!.lastName != null ? user!.firstName! : user!.firstName!,
+                          user!.firstName!.capitalize(),
                           style: AttaTextStyle.caption.copyWith(
                             color: AttaColors.white,
                             fontSize: 15,

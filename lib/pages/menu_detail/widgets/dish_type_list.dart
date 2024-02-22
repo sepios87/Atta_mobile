@@ -26,13 +26,13 @@ class _DishTypeList extends StatelessWidget {
             ...dishes.map(
               (dish) => FormulaCard(
                 formula: dish,
+                onTap: () => context.read<MenuDetailCubit>().selectDish(dish),
                 leading: Radio<int>(
                   value: dish.id,
                   groupValue: selectedDishId,
-                  onChanged: (_) {},
+                  onChanged: null,
                   visualDensity: VisualDensity.compact,
                 ),
-                onTap: () => context.read<MenuDetailCubit>().selectDish(dish),
               ),
             ),
             const SizedBox(height: AttaSpacing.m),

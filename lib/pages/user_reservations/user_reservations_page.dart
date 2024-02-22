@@ -25,6 +25,8 @@ import 'package:share_plus/share_plus.dart';
 part 'widgets/reservation_expansion_card.dart';
 part 'widgets/title_card_expansion.dart';
 part 'widgets/child_card_expansion.dart';
+part 'widgets/reservation_formula_detail.dart';
+part 'widgets/to_finish_reservation.dart';
 
 class UserReservationsPage {
   static const path = '/user-reservations';
@@ -47,6 +49,8 @@ class _UserReservations extends StatelessWidget {
             state.user.reservations.where((r) => r.dateTime.isBefore(DateTime.now()) && !r.dateTime.isToday).toList();
         final afterReservation =
             state.user.reservations.where((r) => r.dateTime.isAfter(DateTime.now()) || r.dateTime.isToday).toList();
+
+        final todoList = reservationService.reservations;
 
         return Scaffold(
           appBar: AttaAppBar(user: state.user),
@@ -90,6 +94,15 @@ class _UserReservations extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: AttaSpacing.l),
+
+                  Text('A terminer', style: AttaTextStyle.subHeader).withPadding(
+                    const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
+                  ),
+                  const SizedBox(height: AttaSpacing.xs),
+                  // TODO(florian): faire passer cette liste dans le cubit et quand on clique pout terminer une réservation et qu'on quitte la page pour revenir ici, ca doit actualiser
+                  ...todoList.map((reservation) => _ToFinishReservation(reservation: reservation)),
+                  const SizedBox(height: AttaSpacing.l),
+
                   if (state.withoutReservations)
                     const Text("Vous n'avez pas encore de réservations").withPadding(
                       const EdgeInsets.symmetric(horizontal: AttaSpacing.m),

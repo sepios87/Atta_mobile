@@ -76,6 +76,9 @@ class AttaUser {
   final Set<(int dishId, int restaurantId)> favoriteDishesIds;
   final SplayTreeSet<AttaReservation> reservations;
 
+  String get fullName =>
+      '${lastName?.toUpperCase().replaceAll(' ', ' ') ?? ''} ${firstName?.replaceAll(' ', '') ?? ''}'.trim();
+
   Map<String, dynamic> toMap() {
     final bdbMap = toMapForDb();
     bdbMap['favoritesRestaurantIds'] = favoritesRestaurantIds.toList();

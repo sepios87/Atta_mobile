@@ -47,9 +47,7 @@ class _TitleReservationCardExpansion extends StatelessWidget {
                     ),
                   );
                 },
-                placeholder: (context, _) {
-                  return const AttaSkeleton(size: Size(68, 68));
-                },
+                placeholder: (context, _) => const AttaSkeleton(size: Size(68, 68)),
               ),
             ),
             const SizedBox(width: AttaSpacing.m),

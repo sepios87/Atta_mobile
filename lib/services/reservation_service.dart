@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 class ReservationService {
   final _reservations = <int, AttaReservation>{};
+  List<AttaReservation> get reservations => _reservations.values.toList();
 
   TimeOfDay? _selectedTime;
   DateTime _selectedDate = DateTime.now();
