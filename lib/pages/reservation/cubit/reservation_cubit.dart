@@ -103,4 +103,13 @@ class ReservationCubit extends Cubit<ReservationState> {
       emit(state.copyWith(status: ReservationIdleStatus()));
     }
   }
+
+  void refreshReservation() {
+    emit(
+      state.copyWith(
+        reservation: reservationService.getReservation(state.restaurant.id) ??
+            AttaReservation.fromRestaurantId(restaurantId: state.restaurant.id),
+      ),
+    );
+  }
 }

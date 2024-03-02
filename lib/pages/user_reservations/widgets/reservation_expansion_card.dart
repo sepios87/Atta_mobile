@@ -22,20 +22,12 @@ class _ReservationCardExpansionState extends State<_ReservationCardExpansion> {
 
     return Dismissible(
       key: ValueKey(reservation.id),
-      secondaryBackground: ColoredBox(
+      direction: DismissDirection.endToStart,
+      background: ColoredBox(
         color: Colors.red,
         child: Align(
           alignment: Alignment.centerRight,
           child: const Icon(Icons.delete, color: Colors.white).withPadding(
-            const EdgeInsets.only(right: AttaSpacing.m),
-          ),
-        ),
-      ),
-      background: ColoredBox(
-        color: AttaColors.black,
-        child: Align(
-          alignment: Alignment.centerLeft,
-          child: const Icon(Icons.edit, color: Colors.white).withPadding(
             const EdgeInsets.only(right: AttaSpacing.m),
           ),
         ),

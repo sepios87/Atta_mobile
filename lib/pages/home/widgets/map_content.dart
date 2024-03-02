@@ -1,5 +1,7 @@
 part of '../home_page.dart';
 
+const _kDefaultCenterZoom = 16.0;
+
 class _MapContent extends StatefulWidget {
   const _MapContent({super.key});
 
@@ -20,7 +22,7 @@ class _MapContentState extends State<_MapContent> with TickerProviderStateMixin 
     locationService.determinePosition().then((position) {
       _animatedMapController.animateTo(
         dest: LatLng(position.latitude, position.longitude),
-        zoom: 17,
+        zoom: _kDefaultCenterZoom,
       );
     });
   }
@@ -58,21 +60,11 @@ class _MapContentState extends State<_MapContent> with TickerProviderStateMixin 
               imageBuilder: (context, imageProvider) {
                 return GestureDetector(
                   onTap: () {
-                    final restaurantIndex = restaurants.indexOf(restaurant);
-                    if (_pageController.page != restaurantIndex) {
-                      _pageController.animateToPage(
-                        restaurants.indexOf(restaurant),
-                        duration: AttaAnimation.fastAnimation,
-                        curve: Curves.easeInOut,
-                      );
-                    } else {
-                      _animatedMapController.animateTo(
-                        dest: LatLng(restaurant.latitude, restaurant.longitude),
-                        zoom: 17,
-                        offset: const Offset(0, -98),
-                        curve: Curves.easeInOutCubic,
-                      );
-                    }
+                    _pageController.animateToPage(
+                      restaurants.indexOf(restaurant),
+                      duration: AttaAnimation.fastAnimation,
+                      curve: Curves.easeInOut,
+                    );
                   },
                   child: Container(
                     decoration: BoxDecoration(
@@ -108,7 +100,7 @@ class _MapContentState extends State<_MapContent> with TickerProviderStateMixin 
                   if (restaurants.length == 1) {
                     _animatedMapController.animateTo(
                       dest: LatLng(restaurants.first.latitude, restaurants.first.longitude),
-                      zoom: 17,
+                      zoom: _kDefaultCenterZoom,
                     );
                   }
                 },
@@ -191,7 +183,7 @@ class _MapContentState extends State<_MapContent> with TickerProviderStateMixin 
                       final restaurant = context.read<HomeCubit>().state.restaurants[index];
                       _animatedMapController.animateTo(
                         dest: LatLng(restaurant.latitude, restaurant.longitude),
-                        zoom: 17,
+                        zoom: _kDefaultCenterZoom,
                         offset: const Offset(0, -98),
                       );
                     },

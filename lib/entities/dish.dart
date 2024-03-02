@@ -24,6 +24,10 @@ enum DishType {
       DishType.drink => 'Boisson',
     };
   }
+
+  int compareTo(DishType other) {
+    return index.compareTo(other.index);
+  }
 }
 
 class AttaDish extends AttaFormula {

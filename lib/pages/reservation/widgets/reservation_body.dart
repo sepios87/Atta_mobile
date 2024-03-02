@@ -97,7 +97,21 @@ class __ReservationBodyState extends State<_ReservationBody> {
                   final dish = restaurantService.getDishById(state.restaurant.id, dishId);
                   if (dish == null) return const SizedBox.shrink();
 
-                  return FormulaCard(formula: dish, quantity: quantity);
+                  return FormulaCard(
+                    formula: dish,
+                    quantity: quantity,
+                    onTap: () async {
+                      await context.adapativePushNamed(
+                        DishDetailPage.routeName,
+                        pathParameters: DishDetailPageArgument(
+                          restaurantId: state.restaurant.id,
+                          dishId: dish.id,
+                        ).toPathParameters(),
+                      );
+                      // ignore: use_build_context_synchronously
+                      context.read<ReservationCubit>().refreshReservation();
+                    },
+                  );
                 }),
                 const SizedBox(height: AttaSpacing.l),
               ],
@@ -112,6 +126,21 @@ class __ReservationBodyState extends State<_ReservationBody> {
 
                   return FormulaCard(
                     formula: menu,
+                    onTap: () async {
+                      final args = MenuDetailPageArgument(
+                        restaurantId: state.restaurant.id,
+                        menuId: menu.id,
+                        reservationMenu: e,
+                      );
+                      // ignore: use_build_context_synchronously
+                      await context.adapativePushNamed(
+                        MenuDetailPage.routeName,
+                        pathParameters: args.toPathParameters(),
+                        extra: args.toExtra(),
+                      );
+                      // ignore: use_build_context_synchronously
+                      context.read<ReservationCubit>().refreshReservation();
+                    },
                     customContent: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

@@ -33,7 +33,6 @@ import 'package:url_launcher/url_launcher_string.dart';
 part 'widgets/app_bar.dart';
 part 'widgets/search_bar.dart';
 part 'widgets/header.dart';
-
 part 'bottom_sheet/menu_bottom_sheet.dart';
 
 class RestaurantDetailPageArgument {
@@ -147,7 +146,9 @@ class _RestaurantDetailScreen extends StatelessWidget {
                                       if (quantity != null && quantity > 0) {
                                         final reservationMenu = await _showMenuBottomSheet(
                                           context,
-                                          menusReservation: state.reservation!.menus.toList(),
+                                          menusReservation:
+                                              state.reservation!.menus.where((m) => m.menuId == e.id).toList(),
+                                          restaurantId: state.restaurant.id,
                                         );
                                         if (reservationMenu == null) return;
                                         if (reservationMenu.value != null) {
