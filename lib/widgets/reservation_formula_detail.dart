@@ -1,7 +1,17 @@
-part of '../user_reservations_page.dart';
+import 'package:atta/entities/reservation.dart';
+import 'package:atta/extensions/num_ext.dart';
+import 'package:atta/extensions/widget_ext.dart';
+import 'package:atta/main.dart';
+import 'package:atta/theme/spacing.dart';
+import 'package:atta/theme/text_style.dart';
+import 'package:flutter/material.dart';
 
-class _ReservationFormulaDetail extends StatelessWidget {
-  const _ReservationFormulaDetail(this.reservation, {this.withMenuDetail = true});
+class ReservationFormulaDetail extends StatelessWidget {
+  const ReservationFormulaDetail(
+    this.reservation, {
+    this.withMenuDetail = true,
+    super.key,
+  });
 
   final AttaReservation reservation;
   final bool withMenuDetail;

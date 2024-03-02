@@ -103,7 +103,7 @@ class _ChildReservationTileExpansion extends StatelessWidget {
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
-                  child: _ReservationFormulaDetail(reservation),
+                  child: ReservationFormulaDetail(reservation),
                 ),
               )
             else ...[

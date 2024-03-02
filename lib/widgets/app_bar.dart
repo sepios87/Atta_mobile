@@ -3,6 +3,7 @@ import 'package:atta/extensions/context_ext.dart';
 import 'package:atta/extensions/string_ext.dart';
 import 'package:atta/extensions/widget_ext.dart';
 import 'package:atta/pages/auth/auth_page.dart';
+import 'package:atta/pages/cart/cart_page.dart';
 import 'package:atta/pages/profile/profile_page.dart';
 import 'package:atta/theme/colors.dart';
 import 'package:atta/theme/radius.dart';
@@ -70,6 +71,13 @@ class AttaAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ],
               ),
       ),
+      actions: [
+        IconButton(
+          onPressed: () => context.adapativePushNamed(CartPage.routeName),
+          icon: const Icon(Icons.shopping_cart_rounded),
+        ),
+        const SizedBox(width: AttaSpacing.xs),
+      ],
     );
   }
 

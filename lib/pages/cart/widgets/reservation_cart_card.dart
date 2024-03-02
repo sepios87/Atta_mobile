@@ -1,7 +1,7 @@
-part of '../user_reservations_page.dart';
+part of '../cart_page.dart';
 
-class _ToFinishReservation extends StatelessWidget {
-  const _ToFinishReservation({required this.reservation});
+class _ReservationCartCard extends StatelessWidget {
+  const _ReservationCartCard(this.reservation);
 
   final AttaReservation reservation;
 
@@ -11,12 +11,16 @@ class _ToFinishReservation extends StatelessWidget {
 
     return Material(
       child: InkWell(
-        onTap: () => context.adapativePushNamed(
-          RestaurantDetailPage.routeName,
-          pathParameters: RestaurantDetailPageArgument(
-            restaurantId: restaurant.id,
-          ).toPathParameters(),
-        ),
+        onTap: () async {
+          await context.adapativePushNamed(
+            RestaurantDetailPage.routeName,
+            pathParameters: RestaurantDetailPageArgument(
+              restaurantId: restaurant.id,
+            ).toPathParameters(),
+          );
+          // ignore: use_build_context_synchronously
+          context.read<CartCubit>().refresh();
+        },
         child: Padding(
           padding: const EdgeInsets.symmetric(
             vertical: AttaSpacing.s,
@@ -53,7 +57,7 @@ class _ToFinishReservation extends StatelessWidget {
                         style: AttaTextStyle.subHeader,
                       ),
                       const SizedBox(height: AttaSpacing.xs),
-                      _ReservationFormulaDetail(reservation, withMenuDetail: false),
+                      ReservationFormulaDetail(reservation, withMenuDetail: false),
                       const SizedBox(height: AttaSpacing.xxs),
                     ],
                   ),

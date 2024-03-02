@@ -3,7 +3,6 @@ import 'package:atta/entities/restaurant.dart';
 import 'package:atta/extensions/border_radius_ext.dart';
 import 'package:atta/extensions/context_ext.dart';
 import 'package:atta/extensions/date_time_ext.dart';
-import 'package:atta/extensions/num_ext.dart';
 import 'package:atta/extensions/widget_ext.dart';
 import 'package:atta/main.dart';
 import 'package:atta/pages/restaurant_detail/restaurant_detail_page.dart';
@@ -15,6 +14,7 @@ import 'package:atta/theme/spacing.dart';
 import 'package:atta/theme/text_style.dart';
 import 'package:atta/widgets/app_bar.dart';
 import 'package:atta/widgets/bottom_navigation/bottom_navigation_bar.dart';
+import 'package:atta/widgets/reservation_formula_detail.dart';
 import 'package:atta/widgets/skeleton.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -25,8 +25,6 @@ import 'package:share_plus/share_plus.dart';
 part 'widgets/reservation_expansion_card.dart';
 part 'widgets/title_card_expansion.dart';
 part 'widgets/child_card_expansion.dart';
-part 'widgets/reservation_formula_detail.dart';
-part 'widgets/to_finish_reservation.dart';
 
 class UserReservationsPage {
   static const path = '/user-reservations';
@@ -49,8 +47,6 @@ class _UserReservations extends StatelessWidget {
             state.user.reservations.where((r) => r.dateTime.isBefore(DateTime.now()) && !r.dateTime.isToday).toList();
         final afterReservation =
             state.user.reservations.where((r) => r.dateTime.isAfter(DateTime.now()) || r.dateTime.isToday).toList();
-
-        final todoList = reservationService.reservations;
 
         return Scaffold(
           appBar: AttaAppBar(user: state.user),
@@ -94,17 +90,8 @@ class _UserReservations extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: AttaSpacing.l),
-
-                  Text('A terminer', style: AttaTextStyle.subHeader).withPadding(
-                    const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
-                  ),
-                  const SizedBox(height: AttaSpacing.xs),
-                  // TODO(florian): faire passer cette liste dans le cubit et quand on clique pout terminer une réservation et qu'on quitte la page pour revenir ici, ca doit actualiser
-                  ...todoList.map((reservation) => _ToFinishReservation(reservation: reservation)),
-                  const SizedBox(height: AttaSpacing.l),
-
                   if (state.withoutReservations)
-                    const Text("Vous n'avez pas encore de réservations").withPadding(
+                    Text("Vous n'avez pas encore de réservations", style: AttaTextStyle.content).withPadding(
                       const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
                     )
                   else ...[

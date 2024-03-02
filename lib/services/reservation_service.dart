@@ -84,6 +84,9 @@ class ReservationService {
     if (currentReservation != null) {
       final newDishIds = Map.of(currentReservation.dishIds)..remove(dishId);
       _reservations[restaurantId] = currentReservation.copyWith(dishIds: newDishIds);
+      if (_reservations[restaurantId]!.dishIds.isEmpty && _reservations[restaurantId]!.menus.isEmpty) {
+        _reservations.remove(restaurantId);
+      }
     }
   }
 
@@ -95,6 +98,9 @@ class ReservationService {
     if (currentReservation != null) {
       final newMenus = Set.of(currentReservation.menus)..remove(menu);
       _reservations[restaurantId] = currentReservation.copyWith(menus: newMenus);
+      if (_reservations[restaurantId]!.dishIds.isEmpty && _reservations[restaurantId]!.menus.isEmpty) {
+        _reservations.remove(restaurantId);
+      }
     }
   }
 

@@ -93,5 +93,12 @@ final GoRouter _router = GoRouter(
         return UserReservationsPage.getScreen();
       },
     ),
+    GoRoute(
+      path: CartPage.path,
+      name: CartPage.routeName,
+      builder: (BuildContext context, GoRouterState state) {
+        return CartPage.getScreen();
+      },
+    ),
   ],
 );

@@ -9,10 +9,7 @@ class _AppBar extends StatelessWidget implements PreferredSizeWidget {
       leading: IconButton(
         // TODO(florian): si nous sommes sur la version web et qu'on est sur la page réservation ou detail d'un resto avant, il faudrait rediriger vers la page de réservation a nouveau
         onPressed: () => context.adaptativePopNamed(HomePage.routeName),
-        icon: Icon(
-          Icons.arrow_back_ios_new_rounded,
-          color: AttaColors.white,
-        ),
+        icon: const Icon(Icons.arrow_back_ios_new_rounded),
       ),
       actions: [
         FavoriteButton(

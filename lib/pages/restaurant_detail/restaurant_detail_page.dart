@@ -193,41 +193,35 @@ class _RestaurantDetailScreen extends StatelessWidget {
             right: AttaSpacing.m,
             child: BlocBuilder<RestaurantDetailCubit, RestaurantDetailState>(
               builder: (context, state) {
-                return AnimatedSwitcher(
-                  duration: AttaAnimation.mediumAnimation,
-                  child: state.selectedOpeningTime != null ||
-                          (state.reservation != null && state.reservation!.withFormulas)
-                      ? ElevatedButton(
-                          key: const ValueKey('reservation_button'),
-                          onPressed: () {
-                            if (userService.isLogged) {
-                              context.adapativePushNamed(
-                                ReservationPage.routeName,
-                                pathParameters: ReservationPageArgument(
-                                  restaurantId: state.restaurant.id,
-                                ).toPathParameters(),
-                              );
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  backgroundColor: AttaColors.black,
-                                  content: const Text('Vous devez être connecté pour réserver'),
-                                  action: SnackBarAction(
-                                    textColor: AttaColors.white,
-                                    label: 'Se connecter',
-                                    onPressed: () => context.adapativePushNamed(AuthPage.routeName),
-                                  ),
-                                ),
-                              );
-                            }
-                          },
-                          child: Text(
-                            state.reservation?.withFormulas ?? false
-                                ? 'Commander et réserver (${state.totalAmount.toEuro})'
-                                : 'Réserver sans commander',
+                return ElevatedButton(
+                  key: const ValueKey('reservation_button'),
+                  onPressed: () {
+                    if (userService.isLogged) {
+                      context.adapativePushNamed(
+                        ReservationPage.routeName,
+                        pathParameters: ReservationPageArgument(
+                          restaurantId: state.restaurant.id,
+                        ).toPathParameters(),
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          backgroundColor: AttaColors.black,
+                          content: const Text('Vous devez être connecté pour réserver'),
+                          action: SnackBarAction(
+                            textColor: AttaColors.white,
+                            label: 'Se connecter',
+                            onPressed: () => context.adapativePushNamed(AuthPage.routeName),
                           ),
-                        )
-                      : const SizedBox.shrink(key: ValueKey('empty')),
+                        ),
+                      );
+                    }
+                  },
+                  child: Text(
+                    state.reservation?.withFormulas ?? false
+                        ? 'Commander et réserver (${state.totalAmount.toEuro})'
+                        : 'Réserver sans commander',
+                  ),
                 );
               },
             ),
