@@ -1,10 +1,15 @@
 part of '../restaurant_detail_page.dart';
 
 class _AppBar extends StatelessWidget {
-  const _AppBar({required this.pageControler, required this.isTopScroll});
+  const _AppBar({
+    required this.pageControler,
+    required this.isTopScroll,
+    required this.pageViewHeight,
+  });
 
   final PageController pageControler;
   final bool isTopScroll;
+  final double pageViewHeight;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +24,7 @@ class _AppBar extends StatelessWidget {
               color: Colors.transparent,
             ),
           ),
-          expandedHeight: MediaQuery.sizeOf(context).height,
+          expandedHeight: pageViewHeight,
           automaticallyImplyLeading: false,
           pinned: true,
           leading: IconButton(

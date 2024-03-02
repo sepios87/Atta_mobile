@@ -72,9 +72,11 @@ class _RestaurantDetailScreen extends StatefulWidget {
 }
 
 class _RestaurantDetailScreenState extends State<_RestaurantDetailScreen> {
-  late final _scrollController = ScrollController(initialScrollOffset: MediaQuery.sizeOf(context).height - 280);
   final _pageController = PageController();
-  bool isTopScroll = false;
+  late final _pageViewHeight = MediaQuery.sizeOf(context).height * 0.7;
+  late final _scrollController = ScrollController(initialScrollOffset: _pageViewHeight - 280);
+
+  bool _isTopScroll = false;
 
   @override
   void initState() {
@@ -82,10 +84,10 @@ class _RestaurantDetailScreenState extends State<_RestaurantDetailScreen> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _scrollController.addListener(() {
-        if (_scrollController.offset < 100 && !isTopScroll) {
-          setState(() => isTopScroll = true);
-        } else if (_scrollController.offset > 100 && isTopScroll) {
-          setState(() => isTopScroll = false);
+        if (_scrollController.offset < 20 && !_isTopScroll) {
+          setState(() => _isTopScroll = true);
+        } else if (_scrollController.offset > 20 && _isTopScroll) {
+          setState(() => _isTopScroll = false);
         }
       });
     });
@@ -123,12 +125,14 @@ class _RestaurantDetailScreenState extends State<_RestaurantDetailScreen> {
             child: CustomScrollView(
               controller: _scrollController,
               slivers: [
-                _AppBar(pageControler: _pageController, isTopScroll: isTopScroll),
+                _AppBar(
+                  pageControler: _pageController,
+                  isTopScroll: _isTopScroll,
+                  pageViewHeight: _pageViewHeight,
+                ),
                 const _Header(),
                 DecoratedSliver(
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                  ),
+                  decoration: const BoxDecoration(color: Colors.white),
                   sliver: BlocBuilder<RestaurantDetailCubit, RestaurantDetailState>(
                     buildWhen: (previous, current) => previous.filteredFormulas != current.filteredFormulas,
                     builder: (context, state) {
