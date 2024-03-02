@@ -1,7 +1,7 @@
 part of '../home_page.dart';
 
-class _RestaurantDetailBottomSheet extends StatelessWidget {
-  const _RestaurantDetailBottomSheet(this.restaurant);
+class _RestaurantPreviewBottomSheet extends StatelessWidget {
+  const _RestaurantPreviewBottomSheet(this.restaurant);
 
   final AttaRestaurant restaurant;
 

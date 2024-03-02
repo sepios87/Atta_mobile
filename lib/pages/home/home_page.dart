@@ -38,7 +38,7 @@ part 'widgets/default_content.dart';
 part 'widgets/search_content.dart';
 part 'widgets/map_content.dart';
 part 'widgets/restaurant_search_card.dart';
-part 'bottom_sheets/restaurant_detail_modal.dart';
+part 'bottom_sheets/restaurant_preview.dart';
 
 class HomePage {
   static const path = '/home';
@@ -67,7 +67,7 @@ class _HomeScreen extends StatelessWidget {
             isScrollControlled: true,
             builder: (_) => BlocProvider.value(
               value: context.read<HomeCubit>(),
-              child: _RestaurantDetailBottomSheet(state.selectedRestaurant!),
+              child: _RestaurantPreviewBottomSheet(state.selectedRestaurant!),
             ),
           ).whenComplete(() {
             context.read<HomeCubit>().onRestaurantUnselected();

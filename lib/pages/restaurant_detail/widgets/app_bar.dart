@@ -1,7 +1,10 @@
 part of '../restaurant_detail_page.dart';
 
 class _AppBar extends StatelessWidget {
-  const _AppBar();
+  const _AppBar({required this.pageControler, required this.isTopScroll});
+
+  final PageController pageControler;
+  final bool isTopScroll;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +19,8 @@ class _AppBar extends StatelessWidget {
               color: Colors.transparent,
             ),
           ),
-          expandedHeight: 280,
+          expandedHeight: MediaQuery.sizeOf(context).height,
+          automaticallyImplyLeading: false,
           pinned: true,
           leading: IconButton(
             onPressed: () => context.adaptativePopNamed(HomePage.routeName),
@@ -33,13 +37,31 @@ class _AppBar extends StatelessWidget {
             background: Stack(
               children: [
                 Positioned.fill(
-                  child: CachedNetworkImage(
-                    imageUrl: state.restaurant.imageUrl,
-                    maxWidthDiskCache: 1000,
-                    maxHeightDiskCache: 1000,
-                    useOldImageOnUrlChange: true,
-                    fadeInDuration: AttaAnimation.mediumAnimation,
-                    fit: BoxFit.cover,
+                  child: AnimatedSwitcher(
+                    duration: Duration(milliseconds: 300),
+                    child: PageView(
+                      key: ValueKey('test-$isTopScroll'), // Add key to avoid 'Multiple widgets used the same GlobalKey
+                      controller: pageControler,
+                      children: [
+                        CachedNetworkImage(
+                          key: ValueKey('${state.restaurant.imageUrl}top'),
+                          imageUrl: state.restaurant.imageUrl,
+                          maxWidthDiskCache: 1000,
+                          maxHeightDiskCache: 1000,
+                          // useOldImageOnUrlChange: true,
+                          fadeInDuration: AttaAnimation.mediumAnimation,
+                          fit: isTopScroll ? BoxFit.contain : BoxFit.cover,
+                        ),
+                        CachedNetworkImage(
+                          imageUrl: state.restaurant.imageUrl,
+                          maxWidthDiskCache: 1000,
+                          maxHeightDiskCache: 1000,
+                          useOldImageOnUrlChange: true,
+                          fadeInDuration: AttaAnimation.mediumAnimation,
+                          fit: isTopScroll ? BoxFit.contain : BoxFit.cover,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 Positioned.fill(

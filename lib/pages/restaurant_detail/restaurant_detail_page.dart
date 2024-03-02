@@ -64,8 +64,40 @@ class RestaurantDetailPage {
       );
 }
 
-class _RestaurantDetailScreen extends StatelessWidget {
+class _RestaurantDetailScreen extends StatefulWidget {
   const _RestaurantDetailScreen();
+
+  @override
+  State<_RestaurantDetailScreen> createState() => _RestaurantDetailScreenState();
+}
+
+class _RestaurantDetailScreenState extends State<_RestaurantDetailScreen> {
+  late final _scrollController = ScrollController(initialScrollOffset: MediaQuery.sizeOf(context).height - 280);
+  final _pageController = PageController();
+  bool isTopScroll = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _scrollController.addListener(() {
+        if (_scrollController.offset < 100 && !isTopScroll) {
+          setState(() => isTopScroll = true);
+        } else if (_scrollController.offset > 100 && isTopScroll) {
+          setState(() => isTopScroll = false);
+        }
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    _pageController.dispose();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,119 +106,135 @@ class _RestaurantDetailScreen extends StatelessWidget {
       backgroundColor: AttaColors.white,
       body: Stack(
         children: [
-          CustomScrollView(
-            slivers: [
-              const _AppBar(),
-              const _Header(),
-              DecoratedSliver(
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                ),
-                sliver: BlocBuilder<RestaurantDetailCubit, RestaurantDetailState>(
-                  buildWhen: (previous, current) => previous.filteredFormulas != current.filteredFormulas,
-                  builder: (context, state) {
-                    return state.filteredFormulas.isEmpty
-                        ? SliverFillRemaining(
-                            hasScrollBody: false,
-                            child: Center(
-                              child: const Text('Aucun résultat').withPadding(
-                                const EdgeInsets.only(top: AttaSpacing.m, bottom: AttaSpacing.xl),
+          GestureDetector(
+            onHorizontalDragEnd: (details) {
+              if (details.primaryVelocity! > 0) {
+                _pageController.previousPage(
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeInOut,
+                );
+              } else {
+                _pageController.nextPage(
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeInOut,
+                );
+              }
+            },
+            child: CustomScrollView(
+              controller: _scrollController,
+              slivers: [
+                _AppBar(pageControler: _pageController, isTopScroll: isTopScroll),
+                const _Header(),
+                DecoratedSliver(
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                  ),
+                  sliver: BlocBuilder<RestaurantDetailCubit, RestaurantDetailState>(
+                    buildWhen: (previous, current) => previous.filteredFormulas != current.filteredFormulas,
+                    builder: (context, state) {
+                      return state.filteredFormulas.isEmpty
+                          ? SliverFillRemaining(
+                              hasScrollBody: false,
+                              child: Center(
+                                child: const Text('Aucun résultat').withPadding(
+                                  const EdgeInsets.only(top: AttaSpacing.m, bottom: AttaSpacing.xl),
+                                ),
                               ),
-                            ),
-                          )
-                        : SliverList(
-                            delegate: SliverChildListDelegate(
-                              state.filteredFormulas.map((e) {
-                                int? quantity;
+                            )
+                          : SliverList(
+                              delegate: SliverChildListDelegate(
+                                state.filteredFormulas.map((e) {
+                                  int? quantity;
 
-                                if (e is AttaMenu) {
-                                  quantity = state.reservation?.menus
-                                      .fold<int?>(null, (p, m) => e.id == m.menuId ? p = (p ?? 0) + 1 : p);
-                                } else if (e is AttaDish) {
-                                  quantity = state.reservation?.dishIds[e.id];
-                                }
+                                  if (e is AttaMenu) {
+                                    quantity = state.reservation?.menus
+                                        .fold<int?>(null, (p, m) => e.id == m.menuId ? p = (p ?? 0) + 1 : p);
+                                  } else if (e is AttaDish) {
+                                    quantity = state.reservation?.dishIds[e.id];
+                                  }
 
-                                return FormulaCard(
-                                  formula: e,
-                                  badge: quantity == null
-                                      ? null
-                                      : Container(
-                                          decoration: BoxDecoration(
-                                            color: AttaColors.secondary,
-                                            borderRadius: BorderRadius.circular(AttaRadius.small),
-                                          ),
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: AttaSpacing.xs,
-                                            vertical: AttaSpacing.xxs,
-                                          ),
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Icon(
-                                                Icons.shopping_basket_rounded,
-                                                size: 13,
-                                                color: AttaColors.white,
-                                              ),
-                                              const SizedBox(width: AttaSpacing.xxs),
-                                              Text(
-                                                quantity.toString(),
-                                                style: AttaTextStyle.caption.copyWith(
+                                  return FormulaCard(
+                                    formula: e,
+                                    badge: quantity == null
+                                        ? null
+                                        : Container(
+                                            decoration: BoxDecoration(
+                                              color: AttaColors.secondary,
+                                              borderRadius: BorderRadius.circular(AttaRadius.small),
+                                            ),
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: AttaSpacing.xs,
+                                              vertical: AttaSpacing.xxs,
+                                            ),
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Icon(
+                                                  Icons.shopping_basket_rounded,
+                                                  size: 13,
                                                   color: AttaColors.white,
                                                 ),
-                                              ),
-                                            ],
+                                                const SizedBox(width: AttaSpacing.xxs),
+                                                Text(
+                                                  quantity.toString(),
+                                                  style: AttaTextStyle.caption.copyWith(
+                                                    color: AttaColors.white,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                  onTap: () async {
-                                    if (e is AttaMenu) {
-                                      MenuDetailPageArgument args = MenuDetailPageArgument(
-                                        restaurantId: state.restaurant.id,
-                                        menuId: e.id,
-                                      );
-                                      if (quantity != null && quantity > 0) {
-                                        final reservationMenu = await _showMenuBottomSheet(
-                                          context,
-                                          menusReservation:
-                                              state.reservation!.menus.where((m) => m.menuId == e.id).toList(),
+                                    onTap: () async {
+                                      if (e is AttaMenu) {
+                                        MenuDetailPageArgument args = MenuDetailPageArgument(
                                           restaurantId: state.restaurant.id,
+                                          menuId: e.id,
                                         );
-                                        if (reservationMenu == null) return;
-                                        if (reservationMenu.value != null) {
-                                          args = args.copyWith(reservationMenu: reservationMenu.value);
+                                        if (quantity != null && quantity > 0) {
+                                          final reservationMenu = await _showMenuBottomSheet(
+                                            context,
+                                            menusReservation:
+                                                state.reservation!.menus.where((m) => m.menuId == e.id).toList(),
+                                            restaurantId: state.restaurant.id,
+                                          );
+                                          if (reservationMenu == null) return;
+                                          if (reservationMenu.value != null) {
+                                            args = args.copyWith(reservationMenu: reservationMenu.value);
+                                          }
                                         }
+                                        // ignore: use_build_context_synchronously
+                                        await context.adapativePushNamed(
+                                          MenuDetailPage.routeName,
+                                          pathParameters: args.toPathParameters(),
+                                          extra: args.toExtra(),
+                                        );
+                                      } else if (e is AttaDish) {
+                                        await context.adapativePushNamed<bool>(
+                                          DishDetailPage.routeName,
+                                          pathParameters: DishDetailPageArgument(
+                                            restaurantId: state.restaurant.id,
+                                            dishId: e.id,
+                                          ).toPathParameters(),
+                                        );
                                       }
                                       // ignore: use_build_context_synchronously
-                                      await context.adapativePushNamed(
-                                        MenuDetailPage.routeName,
-                                        pathParameters: args.toPathParameters(),
-                                        extra: args.toExtra(),
-                                      );
-                                    } else if (e is AttaDish) {
-                                      await context.adapativePushNamed<bool>(
-                                        DishDetailPage.routeName,
-                                        pathParameters: DishDetailPageArgument(
-                                          restaurantId: state.restaurant.id,
-                                          dishId: e.id,
-                                        ).toPathParameters(),
-                                      );
-                                    }
-                                    // ignore: use_build_context_synchronously
-                                    context.read<RestaurantDetailCubit>().updateReservation();
-                                  },
-                                );
-                              }).toList(),
-                            ),
-                          );
-                  },
+                                      context.read<RestaurantDetailCubit>().updateReservation();
+                                    },
+                                  );
+                                }).toList(),
+                              ),
+                            );
+                    },
+                  ),
                 ),
-              ),
-              DecoratedSliver(
-                decoration: const BoxDecoration(color: Colors.white),
-                sliver: SliverPadding(
-                  padding: EdgeInsets.only(bottom: AttaSpacing.m + 48 + MediaQuery.viewInsetsOf(context).bottom),
+                DecoratedSliver(
+                  decoration: const BoxDecoration(color: Colors.white),
+                  sliver: SliverPadding(
+                    padding: EdgeInsets.only(bottom: AttaSpacing.m + 48 + MediaQuery.viewInsetsOf(context).bottom),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           Positioned(
             bottom: AttaSpacing.m,
