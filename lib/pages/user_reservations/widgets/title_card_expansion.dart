@@ -23,7 +23,7 @@ class _TitleReservationCardExpansion extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(AttaRadius.small),
               child: CachedNetworkImage(
-                imageUrl: restaurant.imageUrl,
+                imageUrl: restaurant.thumbnail,
                 width: 68,
                 maxWidthDiskCache: 1000,
                 maxHeightDiskCache: 1000,

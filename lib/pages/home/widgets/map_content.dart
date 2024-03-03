@@ -53,7 +53,7 @@ class _MapContentState extends State<_MapContent> with TickerProviderStateMixin 
             height: 48,
             point: LatLng(restaurant.latitude, restaurant.longitude),
             child: CachedNetworkImage(
-              imageUrl: restaurant.imageUrl,
+              imageUrl: restaurant.thumbnail,
               fadeInDuration: AttaAnimation.fastAnimation,
               fadeOutDuration: AttaAnimation.fastAnimation,
               memCacheWidth: 52 * 2,

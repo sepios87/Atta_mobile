@@ -19,13 +19,11 @@ class _RestaurantSearchCard extends StatelessWidget {
           );
         },
         child: ListTile(
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: AttaSpacing.m,
-          ),
+          contentPadding: const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
           leading: ClipRRect(
             borderRadius: BorderRadius.circular(AttaRadius.small),
             child: CachedNetworkImage(
-              imageUrl: restaurant.imageUrl,
+              imageUrl: restaurant.thumbnail,
               width: 68,
               height: 68,
               maxWidthDiskCache: 1000,

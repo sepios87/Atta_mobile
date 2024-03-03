@@ -28,12 +28,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 part 'widgets/app_bar.dart';
 part 'widgets/search_bar.dart';
 part 'widgets/header.dart';
 part 'bottom_sheet/menu_bottom_sheet.dart';
+
+const _kScrollHeigtToShowCarousel = 20.0;
 
 class RestaurantDetailPageArgument {
   const RestaurantDetailPageArgument({
@@ -84,9 +87,9 @@ class _RestaurantDetailScreenState extends State<_RestaurantDetailScreen> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _scrollController.addListener(() {
-        if (_scrollController.offset < 20 && !_isTopScroll) {
+        if (_scrollController.offset < _kScrollHeigtToShowCarousel && !_isTopScroll) {
           setState(() => _isTopScroll = true);
-        } else if (_scrollController.offset > 20 && _isTopScroll) {
+        } else if (_scrollController.offset > _kScrollHeigtToShowCarousel && _isTopScroll) {
           setState(() => _isTopScroll = false);
         }
       });
@@ -108,137 +111,132 @@ class _RestaurantDetailScreenState extends State<_RestaurantDetailScreen> {
       backgroundColor: AttaColors.white,
       body: Stack(
         children: [
-          GestureDetector(
-            onHorizontalDragEnd: (details) {
-              if (details.primaryVelocity! > 0) {
-                _pageController.previousPage(
-                  duration: const Duration(milliseconds: 300),
-                  curve: Curves.easeInOut,
-                );
-              } else {
-                _pageController.nextPage(
-                  duration: const Duration(milliseconds: 300),
-                  curve: Curves.easeInOut,
-                );
-              }
-            },
-            child: CustomScrollView(
-              controller: _scrollController,
-              slivers: [
-                _AppBar(
-                  pageControler: _pageController,
-                  isTopScroll: _isTopScroll,
-                  pageViewHeight: _pageViewHeight,
-                ),
-                const _Header(),
-                DecoratedSliver(
-                  decoration: const BoxDecoration(color: Colors.white),
-                  sliver: BlocBuilder<RestaurantDetailCubit, RestaurantDetailState>(
-                    buildWhen: (previous, current) => previous.filteredFormulas != current.filteredFormulas,
-                    builder: (context, state) {
-                      return state.filteredFormulas.isEmpty
-                          ? SliverFillRemaining(
-                              hasScrollBody: false,
-                              child: Center(
-                                child: const Text('Aucun résultat').withPadding(
-                                  const EdgeInsets.only(top: AttaSpacing.m, bottom: AttaSpacing.xl),
-                                ),
+          CustomScrollView(
+            controller: _scrollController,
+            slivers: [
+              _AppBar(
+                restaurant: context.read<RestaurantDetailCubit>().state.restaurant,
+                pageControler: _pageController,
+                isTopScroll: _isTopScroll,
+                pageViewHeight: _pageViewHeight,
+                onTapHeader: () {
+                  if (!_isTopScroll) {
+                    _scrollController.animateTo(
+                      0,
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeInCubic,
+                    );
+                  }
+                },
+              ),
+              const _Header(),
+              DecoratedSliver(
+                decoration: const BoxDecoration(color: Colors.white),
+                sliver: BlocBuilder<RestaurantDetailCubit, RestaurantDetailState>(
+                  buildWhen: (previous, current) => previous.filteredFormulas != current.filteredFormulas,
+                  builder: (context, state) {
+                    return state.filteredFormulas.isEmpty
+                        ? SliverFillRemaining(
+                            hasScrollBody: false,
+                            child: Center(
+                              child: const Text('Aucun résultat').withPadding(
+                                const EdgeInsets.only(top: AttaSpacing.m, bottom: AttaSpacing.xl),
                               ),
-                            )
-                          : SliverList(
-                              delegate: SliverChildListDelegate(
-                                state.filteredFormulas.map((e) {
-                                  int? quantity;
+                            ),
+                          )
+                        : SliverList(
+                            delegate: SliverChildListDelegate(
+                              state.filteredFormulas.map((e) {
+                                int? quantity;
 
-                                  if (e is AttaMenu) {
-                                    quantity = state.reservation?.menus
-                                        .fold<int?>(null, (p, m) => e.id == m.menuId ? p = (p ?? 0) + 1 : p);
-                                  } else if (e is AttaDish) {
-                                    quantity = state.reservation?.dishIds[e.id];
-                                  }
+                                if (e is AttaMenu) {
+                                  quantity = state.reservation?.menus
+                                      .fold<int?>(null, (p, m) => e.id == m.menuId ? p = (p ?? 0) + 1 : p);
+                                } else if (e is AttaDish) {
+                                  quantity = state.reservation?.dishIds[e.id];
+                                }
 
-                                  return FormulaCard(
-                                    formula: e,
-                                    badge: quantity == null
-                                        ? null
-                                        : Container(
-                                            decoration: BoxDecoration(
-                                              color: AttaColors.secondary,
-                                              borderRadius: BorderRadius.circular(AttaRadius.small),
-                                            ),
-                                            padding: const EdgeInsets.symmetric(
-                                              horizontal: AttaSpacing.xs,
-                                              vertical: AttaSpacing.xxs,
-                                            ),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Icon(
-                                                  Icons.shopping_basket_rounded,
-                                                  size: 13,
+                                return FormulaCard(
+                                  formula: e,
+                                  badge: quantity == null
+                                      ? null
+                                      : Container(
+                                          decoration: BoxDecoration(
+                                            color: AttaColors.secondary,
+                                            borderRadius: BorderRadius.circular(AttaRadius.small),
+                                          ),
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: AttaSpacing.xs,
+                                            vertical: AttaSpacing.xxs,
+                                          ),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Icon(
+                                                Icons.shopping_basket_rounded,
+                                                size: 13,
+                                                color: AttaColors.white,
+                                              ),
+                                              const SizedBox(width: AttaSpacing.xxs),
+                                              Text(
+                                                quantity.toString(),
+                                                style: AttaTextStyle.caption.copyWith(
                                                   color: AttaColors.white,
                                                 ),
-                                                const SizedBox(width: AttaSpacing.xxs),
-                                                Text(
-                                                  quantity.toString(),
-                                                  style: AttaTextStyle.caption.copyWith(
-                                                    color: AttaColors.white,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
+                                              ),
+                                            ],
                                           ),
-                                    onTap: () async {
-                                      if (e is AttaMenu) {
-                                        MenuDetailPageArgument args = MenuDetailPageArgument(
+                                        ),
+                                  onTap: () async {
+                                    if (e is AttaMenu) {
+                                      MenuDetailPageArgument args = MenuDetailPageArgument(
+                                        restaurantId: state.restaurant.id,
+                                        menuId: e.id,
+                                      );
+                                      if (quantity != null && quantity > 0) {
+                                        final reservationMenu = await _showMenuBottomSheet(
+                                          context,
+                                          menusReservation:
+                                              state.reservation!.menus.where((m) => m.menuId == e.id).toList(),
                                           restaurantId: state.restaurant.id,
-                                          menuId: e.id,
                                         );
-                                        if (quantity != null && quantity > 0) {
-                                          final reservationMenu = await _showMenuBottomSheet(
-                                            context,
-                                            menusReservation:
-                                                state.reservation!.menus.where((m) => m.menuId == e.id).toList(),
-                                            restaurantId: state.restaurant.id,
-                                          );
-                                          if (reservationMenu == null) return;
-                                          if (reservationMenu.value != null) {
-                                            args = args.copyWith(reservationMenu: reservationMenu.value);
-                                          }
+                                        if (reservationMenu == null) return;
+                                        if (reservationMenu.value != null) {
+                                          args = args.copyWith(reservationMenu: reservationMenu.value);
                                         }
-                                        // ignore: use_build_context_synchronously
-                                        await context.adapativePushNamed(
-                                          MenuDetailPage.routeName,
-                                          pathParameters: args.toPathParameters(),
-                                          extra: args.toExtra(),
-                                        );
-                                      } else if (e is AttaDish) {
-                                        await context.adapativePushNamed<bool>(
-                                          DishDetailPage.routeName,
-                                          pathParameters: DishDetailPageArgument(
-                                            restaurantId: state.restaurant.id,
-                                            dishId: e.id,
-                                          ).toPathParameters(),
-                                        );
                                       }
                                       // ignore: use_build_context_synchronously
-                                      context.read<RestaurantDetailCubit>().updateReservation();
-                                    },
-                                  );
-                                }).toList(),
-                              ),
-                            );
-                    },
-                  ),
+                                      await context.adapativePushNamed(
+                                        MenuDetailPage.routeName,
+                                        pathParameters: args.toPathParameters(),
+                                        extra: args.toExtra(),
+                                      );
+                                    } else if (e is AttaDish) {
+                                      await context.adapativePushNamed<bool>(
+                                        DishDetailPage.routeName,
+                                        pathParameters: DishDetailPageArgument(
+                                          restaurantId: state.restaurant.id,
+                                          dishId: e.id,
+                                        ).toPathParameters(),
+                                      );
+                                    }
+                                    // ignore: use_build_context_synchronously
+                                    context.read<RestaurantDetailCubit>().updateReservation();
+                                  },
+                                );
+                              }).toList(),
+                            ),
+                          );
+                  },
                 ),
-                DecoratedSliver(
-                  decoration: const BoxDecoration(color: Colors.white),
-                  sliver: SliverPadding(
-                    padding: EdgeInsets.only(bottom: AttaSpacing.m + 48 + MediaQuery.viewInsetsOf(context).bottom),
-                  ),
+              ),
+              DecoratedSliver(
+                decoration: const BoxDecoration(color: Colors.white),
+                sliver: SliverPadding(
+                  padding: EdgeInsets.only(bottom: AttaSpacing.m + 48 + MediaQuery.viewInsetsOf(context).bottom),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
           Positioned(
             bottom: AttaSpacing.m,

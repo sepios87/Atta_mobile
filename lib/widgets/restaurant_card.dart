@@ -33,7 +33,7 @@ class RestaurantCard extends StatelessWidget {
           child: Stack(
             children: [
               CachedNetworkImage(
-                imageUrl: restaurant.imageUrl,
+                imageUrl: restaurant.thumbnail,
                 width: double.infinity,
                 height: 98,
                 maxWidthDiskCache: 1000,

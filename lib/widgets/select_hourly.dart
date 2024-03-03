@@ -9,6 +9,8 @@ import 'package:atta/theme/spacing.dart';
 import 'package:atta/theme/text_style.dart';
 import 'package:flutter/material.dart';
 
+const kSelectHourlyHeight = 32.0;
+
 class SelectHourly extends StatelessWidget {
   const SelectHourly({
     required this.openingTimes,
