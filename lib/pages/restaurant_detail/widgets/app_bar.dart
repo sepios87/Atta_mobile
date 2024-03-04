@@ -42,6 +42,7 @@ class _AppBar extends StatelessWidget {
               );
             },
           ),
+        const SizedBox(width: AttaSpacing.s),
       ],
       flexibleSpace: FlexibleSpaceBar(
         titlePadding: isTopScroll
@@ -64,7 +65,7 @@ class _AppBar extends StatelessWidget {
                           maxWidthDiskCache: 1000,
                           maxHeightDiskCache: 1000,
                           fadeInDuration: AttaAnimation.mediumAnimation,
-                          fit: BoxFit.cover,
+                          fit: BoxFit.contain,
                         );
                       },
                     ),

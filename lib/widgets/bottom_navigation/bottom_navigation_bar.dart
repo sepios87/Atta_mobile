@@ -54,7 +54,7 @@ class AttaBottomNavigationBar extends StatelessWidget {
     return BlocProvider(
       create: (context) => BottomNavigationCubit(),
       child: Theme(
-        data: ThemeData(
+        data: Theme.of(context).copyWith(
           splashFactory: InkRipple.splashFactory,
         ),
         child: BlocBuilder<BottomNavigationCubit, BottomNavigationState>(
