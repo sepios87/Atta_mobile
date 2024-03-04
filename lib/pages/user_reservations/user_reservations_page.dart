@@ -12,8 +12,6 @@ import 'package:atta/theme/colors.dart';
 import 'package:atta/theme/radius.dart';
 import 'package:atta/theme/spacing.dart';
 import 'package:atta/theme/text_style.dart';
-import 'package:atta/widgets/app_bar.dart';
-import 'package:atta/widgets/bottom_navigation/bottom_navigation_bar.dart';
 import 'package:atta/widgets/reservation_formula_detail.dart';
 import 'package:atta/widgets/skeleton.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -48,84 +46,80 @@ class _UserReservations extends StatelessWidget {
         final afterReservation =
             state.user.reservations.where((r) => r.dateTime.isAfter(DateTime.now()) || r.dateTime.isToday).toList();
 
-        return Scaffold(
-          appBar: AttaAppBar(user: state.user),
-          body: Container(
-            constraints: const BoxConstraints.expand(),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadiusExt.top(AttaRadius.medium),
-            ),
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(vertical: AttaSpacing.m),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: AttaSpacing.m),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
-                    child: SizedBox(
-                      height: AttaTextStyle.header.fontSize,
-                      width: double.infinity,
-                      child: Stack(
-                        clipBehavior: Clip.none,
-                        children: [
-                          Text('Vos réservations', style: AttaTextStyle.header),
-                          Positioned(
-                            right: 0,
-                            top: 0,
-                            child: FractionalTranslation(
-                              translation: const Offset(0, -0.25),
-                              child: state.selectedReservations.isNotEmpty
-                                  ? IconButton(
-                                      icon: const Icon(Icons.delete_outline_rounded),
-                                      onPressed: () =>
-                                          context.read<UserReservationsCubit>().onRemoveAllSelectReservations(),
-                                    )
-                                  : const SizedBox.shrink(),
-                            ),
+        return Container(
+          constraints: const BoxConstraints.expand(),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadiusExt.top(AttaRadius.medium),
+          ),
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(vertical: AttaSpacing.m),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: AttaSpacing.m),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
+                  child: SizedBox(
+                    height: AttaTextStyle.header.fontSize,
+                    width: double.infinity,
+                    child: Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        Text('Vos réservations', style: AttaTextStyle.header),
+                        Positioned(
+                          right: 0,
+                          top: 0,
+                          child: FractionalTranslation(
+                            translation: const Offset(0, -0.25),
+                            child: state.selectedReservations.isNotEmpty
+                                ? IconButton(
+                                    icon: const Icon(Icons.delete_outline_rounded),
+                                    onPressed: () =>
+                                        context.read<UserReservationsCubit>().onRemoveAllSelectReservations(),
+                                  )
+                                : const SizedBox.shrink(),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
-                  const SizedBox(height: AttaSpacing.l),
-                  if (state.withoutReservations)
-                    Text("Vous n'avez pas encore de réservations", style: AttaTextStyle.content).withPadding(
+                ),
+                const SizedBox(height: AttaSpacing.l),
+                if (state.withoutReservations)
+                  Text("Vous n'avez pas encore de réservations", style: AttaTextStyle.content).withPadding(
+                    const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
+                  )
+                else ...[
+                  if (afterReservation.isNotEmpty) ...[
+                    Text('Pour les prochains jours', style: AttaTextStyle.subHeader).withPadding(
                       const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
-                    )
-                  else ...[
-                    if (afterReservation.isNotEmpty) ...[
-                      Text('Pour les prochains jours', style: AttaTextStyle.subHeader).withPadding(
-                        const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
+                    ),
+                    const SizedBox(height: AttaSpacing.xs),
+                    ...afterReservation.map(
+                      (r) => _ReservationCardExpansion(
+                        reservation: r,
+                        key: ValueKey(r.id),
                       ),
-                      const SizedBox(height: AttaSpacing.xs),
-                      ...afterReservation.map(
-                        (r) => _ReservationCardExpansion(
-                          reservation: r,
-                          key: ValueKey(r.id),
-                        ),
+                    ),
+                    const SizedBox(height: AttaSpacing.l),
+                  ],
+                  if (beforeReservation.isNotEmpty) ...[
+                    Text('Déja passées', style: AttaTextStyle.subHeader).withPadding(
+                      const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
+                    ),
+                    const SizedBox(height: AttaSpacing.xs),
+                    ...beforeReservation.map(
+                      (r) => _ReservationCardExpansion(
+                        reservation: r,
+                        key: ValueKey(r.id),
                       ),
-                      const SizedBox(height: AttaSpacing.l),
-                    ],
-                    if (beforeReservation.isNotEmpty) ...[
-                      Text('Déja passées', style: AttaTextStyle.subHeader).withPadding(
-                        const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
-                      ),
-                      const SizedBox(height: AttaSpacing.xs),
-                      ...beforeReservation.map(
-                        (r) => _ReservationCardExpansion(
-                          reservation: r,
-                          key: ValueKey(r.id),
-                        ),
-                      ),
-                    ],
+                    ),
                   ],
                 ],
-              ),
+              ],
             ),
           ),
-          bottomNavigationBar: const AttaBottomNavigationBar(),
         );
       },
     );

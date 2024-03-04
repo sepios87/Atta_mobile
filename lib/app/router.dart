@@ -19,20 +19,52 @@ final GoRouter _router = GoRouter(
         return PreloadPage.getScreen();
       },
     ),
-    GoRoute(
-      path: HomePage.path,
-      name: HomePage.routeName,
-      builder: (BuildContext context, GoRouterState state) {
-        return HomePage.getScreen();
+    ShellRoute(
+      builder: (context, state, child) {
+        return HomeBase(path: state.fullPath, child: child);
       },
+      routes: [
+        GoRoute(
+          path: HomePage.path,
+          name: HomePage.routeName,
+          builder: (BuildContext context, GoRouterState state) {
+            return HomePage.getScreen();
+          },
+        ),
+        GoRoute(
+          path: FavoritePage.path,
+          name: FavoritePage.routeName,
+          builder: (BuildContext context, GoRouterState state) {
+            return FavoritePage.getScreen();
+          },
+        ),
+        GoRoute(
+          path: UserReservationsPage.path,
+          name: UserReservationsPage.routeName,
+          builder: (BuildContext context, GoRouterState state) {
+            return UserReservationsPage.getScreen();
+          },
+        ),
+      ],
+      // name: BasePage.routeName,
+      // builder: (BuildContext context, GoRouterState state) {
+      //   return BasePage.getScreen();
+      // },
     ),
-    GoRoute(
-      path: FavoritePage.path,
-      name: FavoritePage.routeName,
-      builder: (BuildContext context, GoRouterState state) {
-        return FavoritePage.getScreen();
-      },
-    ),
+    // GoRoute(
+    //   path: HomePage.path,
+    //   name: HomePage.routeName,
+    //   builder: (BuildContext context, GoRouterState state) {
+    //     return HomePage.getScreen();
+    //   },
+    // ),
+    // GoRoute(
+    //   path: FavoritePage.path,
+    //   name: FavoritePage.routeName,
+    //   builder: (BuildContext context, GoRouterState state) {
+    //     return FavoritePage.getScreen();
+    //   },
+    // ),
     GoRoute(
       path: RestaurantDetailPage.path,
       name: RestaurantDetailPage.routeName,
@@ -86,13 +118,13 @@ final GoRouter _router = GoRouter(
         return ProfilePage.getScreen();
       },
     ),
-    GoRoute(
-      path: UserReservationsPage.path,
-      name: UserReservationsPage.routeName,
-      builder: (BuildContext context, GoRouterState state) {
-        return UserReservationsPage.getScreen();
-      },
-    ),
+    // GoRoute(
+    //   path: UserReservationsPage.path,
+    //   name: UserReservationsPage.routeName,
+    //   builder: (BuildContext context, GoRouterState state) {
+    //     return UserReservationsPage.getScreen();
+    //   },
+    // ),
     GoRoute(
       path: CartPage.path,
       name: CartPage.routeName,

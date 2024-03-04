@@ -4,6 +4,7 @@ import 'package:atta/pages/auth/auth_page.dart';
 import 'package:atta/pages/cart/cart_page.dart';
 import 'package:atta/pages/dish_detail/dish_detail_page.dart';
 import 'package:atta/pages/favorite/favorite_page.dart';
+import 'package:atta/pages/home/home_base/home_base.dart';
 import 'package:atta/pages/home/home_page.dart';
 import 'package:atta/pages/menu_detail/menu_detail_page.dart';
 import 'package:atta/pages/preload/preload_page.dart';
