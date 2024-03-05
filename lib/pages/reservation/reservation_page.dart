@@ -63,12 +63,7 @@ class _ReservationScreen extends StatelessWidget {
         final status = state.status;
 
         if (status is ReservationSuccessStatus) {
-          // PopUntil not working with ShellRoute
-          if (context.canPop()) context.pop();
-          // Problem with ShellRoute not detected in canPop
-          context
-            ..pop()
-            ..adapativePushNamed(UserReservationsPage.routeName);
+          context.goNamed(UserReservationsPage.routeName);
         }
 
         if (status is ReservationErrorStatus) {
