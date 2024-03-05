@@ -254,7 +254,7 @@ double _calculateMaxTableXPosition(List<AttaTable> tables) {
   double max = 0;
   for (final table in tables) {
     if (table.x + table.width > max) {
-      max = (table.x + table.width).toDouble();
+      max = table.x + table.width;
     }
   }
   return max + 1; // + 1 for right margin
@@ -264,7 +264,7 @@ double _calculateMaxTableYPosition(List<AttaTable> tables) {
   double max = 0;
   for (final table in tables) {
     if (table.y + table.height > max) {
-      max = (table.y + table.height).toDouble();
+      max = table.y + table.height;
     }
   }
   return max + 1; // + 1 for bottom margin

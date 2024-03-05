@@ -62,7 +62,7 @@ class _AttaAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         IconButton(
           onPressed: () => context.adapativePushNamed(CartPage.routeName),
-          icon: const Icon(Icons.shopping_cart_rounded),
+          icon: const Icon(CupertinoIcons.cart),
         ),
         const SizedBox(width: AttaSpacing.xs),
       ],

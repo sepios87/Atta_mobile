@@ -5,26 +5,19 @@ enum _BottomNavigationItem {
   home,
   reservations;
 
-  factory _BottomNavigationItem.getFromPath(String? path) {
-    return _BottomNavigationItem.values.firstWhere(
-      (item) => item.path == path,
-      orElse: () => _BottomNavigationItem.home,
-    );
-  }
-
   String get label {
     return switch (this) {
       _BottomNavigationItem.favorites => 'Favoris',
-      _BottomNavigationItem.home => 'Accueil',
-      _BottomNavigationItem.reservations => 'Réservations'
+      _BottomNavigationItem.home => 'Resto',
+      _BottomNavigationItem.reservations => 'Résa'
     };
   }
 
   IconData get icon {
     return switch (this) {
-      _BottomNavigationItem.favorites => Icons.favorite_rounded,
-      _BottomNavigationItem.home => Icons.home_rounded,
-      _BottomNavigationItem.reservations => Icons.today,
+      _BottomNavigationItem.favorites => Icons.favorite_outline,
+      _BottomNavigationItem.home => Icons.restaurant_rounded,
+      _BottomNavigationItem.reservations => Icons.today_outlined,
     };
   }
 
@@ -52,28 +45,64 @@ class _AttaBottomNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Theme(
-      data: Theme.of(context).copyWith(
-        splashFactory: InkRipple.splashFactory,
-      ),
-      child: BottomNavigationBar(
-        key: const Key('bottom_navigation_bar'),
-        currentIndex: _BottomNavigationItem.getFromPath(path).index,
-        onTap: (index) {
-          context.adapativeReplacementNamed(_BottomNavigationItem.values[index].routeName);
-        },
-        backgroundColor: AttaColors.black,
-        showUnselectedLabels: false,
-        showSelectedLabels: false,
-        selectedItemColor: AttaColors.primary,
-        unselectedItemColor: AttaColors.white.withOpacity(0.8),
-        items: _BottomNavigationItem.values.map((item) {
-          return BottomNavigationBarItem(
-            icon: Icon(item.icon),
-            label: item.label,
-            tooltip: item.label,
-          );
-        }).toList(),
+    // Background color is the Scaffold background color
+    return SafeArea(
+      top: false,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          vertical: AttaSpacing.s,
+          horizontal: AttaSpacing.m,
+        ),
+        child: Row(
+          children: _BottomNavigationItem.values.map((item) {
+            final isSelected = item.path == path;
+
+            return Expanded(
+              child: GestureDetector(
+                onTap: () => context.adapativeReplacementNamed(item.routeName),
+                child: AnimatedContainer(
+                  height: 42,
+                  duration: AttaAnimation.fastAnimation,
+                  curve: Curves.easeIn,
+                  padding: EdgeInsets.symmetric(horizontal: isSelected ? 20 : 0),
+                  decoration: BoxDecoration(
+                    color: isSelected ? AttaColors.primary : AttaColors.black,
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(item.icon, color: isSelected ? AttaColors.white : AttaColors.white.withOpacity(0.8)),
+                      AnimatedSwitcher(
+                        duration: AttaAnimation.fastAnimation,
+                        reverseDuration: AttaAnimation.mediumAnimation,
+                        switchInCurve: Curves.ease,
+                        switchOutCurve: Curves.ease,
+                        transitionBuilder: (child, animation) {
+                          return FadeTransition(
+                            opacity: animation,
+                            child: SizeTransition(
+                              sizeFactor: animation,
+                              axis: Axis.horizontal,
+                              child: Center(child: child),
+                            ),
+                          );
+                        },
+                        child: isSelected
+                            ? Text(item.label, style: AttaTextStyle.caption.copyWith(color: AttaColors.white))
+                                .withPadding(
+                                const EdgeInsets.only(left: AttaSpacing.xs),
+                              )
+                            : const SizedBox.shrink(),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          }).toList(),
+        ),
       ),
     );
   }

@@ -13,10 +13,10 @@ class HomeBaseState {
   final AttaUser? user;
 
   HomeBaseState copyWith({
-    AttaUser? user,
+    Wrapped<AttaUser?>? user,
   }) {
     return HomeBaseState(
-      user: user ?? this.user,
+      user: user == null ? this.user : user.value,
     );
   }
 }

@@ -40,6 +40,7 @@ class __ReservationBodyState extends State<_ReservationBody> {
                     selectedOpeningTime: state.selectedOpeningTime,
                     onDateChanged: (date) {
                       context.read<ReservationCubit>().selectDate(date);
+                      context.read<ReservationCubit>().selectFirstOpeningTime();
                     },
                     onOpeningTimeChanged: (openingTime) {
                       context.read<ReservationCubit>().selectOpeningTime(openingTime);

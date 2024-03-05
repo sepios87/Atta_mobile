@@ -61,6 +61,7 @@ class _HomeScreen extends StatelessWidget {
             constraints: BoxConstraints(
               minHeight: MediaQuery.of(context).size.height * 0.2,
             ),
+            useRootNavigator: true,
             context: context,
             isScrollControlled: true,
             builder: (_) => BlocProvider.value(

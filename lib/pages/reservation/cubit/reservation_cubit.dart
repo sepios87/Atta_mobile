@@ -1,7 +1,9 @@
+import 'package:atta/entities/day.dart';
 import 'package:atta/entities/reservation.dart';
 import 'package:atta/entities/restaurant.dart';
 import 'package:atta/entities/restaurant_plan.dart';
 import 'package:atta/entities/wrapped.dart';
+import 'package:atta/extensions/opening_time_ext.dart';
 import 'package:atta/main.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -69,6 +71,13 @@ class ReservationCubit extends Cubit<ReservationState> {
         restaurantId: state.restaurant.id,
         time: Wrapped.value(time),
       );
+    }
+  }
+
+  void selectFirstOpeningTime() {
+    final openingTimes = state.restaurant.openingHoursSlots.getTimesOfDay(AttaDay.fromDateTime(state.selectedDate));
+    if (openingTimes.isNotEmpty) {
+      selectOpeningTime(openingTimes.first);
     }
   }
 

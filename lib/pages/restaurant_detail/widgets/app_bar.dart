@@ -154,6 +154,7 @@ class _AppBar extends StatelessWidget {
                 selectedOpeningTime: state.selectedOpeningTime,
                 onDateChanged: (date) {
                   context.read<RestaurantDetailCubit>().selectDate(date);
+                  context.read<RestaurantDetailCubit>().selectFirstOpeningTime();
                 },
                 onOpeningTimeChanged: (openingTime) {
                   context.read<RestaurantDetailCubit>().selectOpeningTime(openingTime);

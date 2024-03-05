@@ -9,11 +9,13 @@ import 'package:atta/pages/home/home_base/cubit/home_base_cubit.dart';
 import 'package:atta/pages/home/home_page.dart';
 import 'package:atta/pages/profile/profile_page.dart';
 import 'package:atta/pages/user_reservations/user_reservations_page.dart';
+import 'package:atta/theme/animation.dart';
 import 'package:atta/theme/colors.dart';
 import 'package:atta/theme/radius.dart';
 import 'package:atta/theme/spacing.dart';
 import 'package:atta/theme/text_style.dart';
 import 'package:atta/widgets/user_avatar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
