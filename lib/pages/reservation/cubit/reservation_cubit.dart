@@ -11,7 +11,48 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'reservation_state.dart';
 
-const mockPlan = AttaRestaurantPlan(
+const bigMockPlan = AttaRestaurantPlan(
+  id: 2,
+  tables: [
+    AttaTable(id: 1, x: 1, y: 1, numberOfSeats: 2, width: 1, height: 1),
+    AttaTable(id: 2, x: 3, y: 1, numberOfSeats: 4, width: 3, height: 1),
+    AttaTable(id: 3, x: 7, y: 1, numberOfSeats: 2, width: 1, height: 1),
+    AttaTable(id: 4, x: 9, y: 1, numberOfSeats: 4, width: 2, height: 2),
+    AttaTable(id: 5, x: 1, y: 4, numberOfSeats: 2, width: 1, height: 1),
+    AttaTable(id: 6, x: 3, y: 4, numberOfSeats: 4, width: 3, height: 1),
+    AttaTable(id: 7, x: 7, y: 4, numberOfSeats: 2, width: 1, height: 1),
+    AttaTable(id: 8, x: 9, y: 4, numberOfSeats: 4, width: 2, height: 2),
+    AttaTable(id: 9, x: 1, y: 6, numberOfSeats: 6, width: 1, height: 3),
+    AttaTable(id: 10, x: 4, y: 6, numberOfSeats: 4, width: 2, height: 2),
+    AttaTable(id: 11, x: 7, y: 6, numberOfSeats: 6, width: 1, height: 3),
+    AttaTable(id: 12, x: 1, y: 10, numberOfSeats: 2, width: 1, height: 1),
+    AttaTable(id: 13, x: 3, y: 10, numberOfSeats: 4, width: 3, height: 1),
+    AttaTable(id: 14, x: 7, y: 10, numberOfSeats: 2, width: 1, height: 1),
+    AttaTable(id: 15, x: 9, y: 10, numberOfSeats: 4, width: 2, height: 2),
+    AttaTable(id: 16, x: 1, y: 13, numberOfSeats: 2, width: 1, height: 1),
+    AttaTable(id: 17, x: 3, y: 13, numberOfSeats: 4, width: 3, height: 1),
+    AttaTable(id: 18, x: 7, y: 13, numberOfSeats: 2, width: 1, height: 1),
+    AttaTable(id: 19, x: 9, y: 13, numberOfSeats: 4, width: 2, height: 2),
+    AttaTable(id: 20, x: 1, y: 15, numberOfSeats: 6, width: 1, height: 3),
+    AttaTable(id: 21, x: 4, y: 15, numberOfSeats: 4, width: 2, height: 2),
+    AttaTable(id: 22, x: 7, y: 15, numberOfSeats: 6, width: 1, height: 3),
+    AttaTable(id: 23, x: 1, y: 19, numberOfSeats: 2, width: 1, height: 1),
+    AttaTable(id: 24, x: 3, y: 19, numberOfSeats: 4, width: 3, height: 1),
+    AttaTable(id: 25, x: 7, y: 19, numberOfSeats: 2, width: 1, height: 1),
+  ],
+  toilets: [
+    AttaToilets(id: 1, x: 9, y: 17),
+  ],
+  kitchens: [
+    AttaKitchen(id: 1, x: 11, y: 17),
+  ],
+  doors: [
+    AttaDoor(id: 1, x: 0, y: 9, isVertical: true),
+    AttaDoor(id: 2, x: 0, y: 10, isVertical: true),
+  ],
+);
+
+const defaultMockPlan = AttaRestaurantPlan(
   id: 1,
   tables: [
     AttaTable(id: 1, x: 1, y: 1, numberOfSeats: 2, width: 1, height: 1),
@@ -31,7 +72,7 @@ const mockPlan = AttaRestaurantPlan(
   ],
   doors: [
     AttaDoor(id: 1, x: 4, y: 10, isVertical: false),
-    AttaDoor(id: 1, x: 5, y: 10, isVertical: false),
+    AttaDoor(id: 2, x: 5, y: 10, isVertical: false),
   ],
 );
 
@@ -97,7 +138,7 @@ class ReservationCubit extends Cubit<ReservationState> {
 
   void onNumberOfPersonsChanged(int value) {
     AttaReservation reservation = state.reservation.copyWith(numberOfPersons: value);
-    final table = mockPlan.tables.firstWhereOrNull((e) => e.id == state.reservation.tableId);
+    final table = bigMockPlan.tables.firstWhereOrNull((e) => e.id == state.reservation.tableId);
 
     if (table != null && !state.isSelectableTable(table, value)) {
       reservation = reservation.copyWith(tableId: const Wrapped.value(null));

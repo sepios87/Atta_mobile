@@ -250,13 +250,14 @@ class _Door extends StatelessWidget {
         height: isVertical ? size : 2,
         width: isVertical ? 2 : size,
         color: AttaColors.accent,
-        child: Padding(
-          padding: const EdgeInsets.all(3),
-          child: Icon(
-            Icons.door_sliding_outlined,
-            size: 20,
-            color: AttaColors.accent,
-          ),
+        padding: EdgeInsets.symmetric(
+          vertical: isVertical ? 0 : 2,
+          horizontal: isVertical ? 2 : 0,
+        ),
+        child: Icon(
+          Icons.door_sliding_outlined,
+          size: 20,
+          color: AttaColors.accent,
         ),
       ),
     );
@@ -305,32 +306,37 @@ class _Table extends StatelessWidget {
                   : AttaColors.black.withOpacity(0.5),
               borderRadius: BorderRadius.circular(AttaRadius.small),
             ),
-            child: Center(
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const SizedBox(width: AttaSpacing.xxs),
-                  Icon(
-                    Icons.person,
-                    size: 12,
-                    color: AttaColors.white,
-                  ),
-                  const SizedBox(width: AttaSpacing.xxs),
-                  Text(
-                    table.numberOfSeats.toString(),
-                    textAlign: TextAlign.center,
-                    style: AttaTextStyle.content.copyWith(color: AttaColors.white),
-                  ),
-                  const SizedBox(width: AttaSpacing.xxs),
-                ],
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Center(
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const SizedBox(width: AttaSpacing.xxs),
+                    Icon(
+                      Icons.person,
+                      size: 12,
+                      color: AttaColors.white,
+                    ),
+                    const SizedBox(width: AttaSpacing.xxs),
+                    Text(
+                      table.numberOfSeats.toString(),
+                      textAlign: TextAlign.center,
+                      style: AttaTextStyle.content.copyWith(
+                        color: AttaColors.white,
+                      ),
+                    ),
+                    const SizedBox(width: AttaSpacing.xxs),
+                  ],
+                ),
               ),
             ),
           ),
           Positioned(
-            bottom: -6,
-            right: -6,
+            bottom: 0,
+            right: 0,
             child: FractionalTranslation(
-              translation: const Offset(0.5, 0.5),
+              translation: const Offset(0.75, 0.75),
               child: Container(
                 padding: const EdgeInsets.symmetric(
                   horizontal: AttaSpacing.xxs,

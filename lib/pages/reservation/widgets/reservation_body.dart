@@ -79,7 +79,7 @@ class __ReservationBodyState extends State<_ReservationBody> {
                         selectedTableId: state.reservation.tableId,
                         onTableSelected: (tableId) => context.read<ReservationCubit>().onTableSelected(tableId),
                         // TODO(florian): Replace with real data
-                        plan: mockPlan,
+                        plan: bigMockPlan,
                       ),
                     );
                   },
