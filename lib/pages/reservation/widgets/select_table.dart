@@ -2,38 +2,40 @@ part of '../reservation_page.dart';
 
 class _ContainerSelectTable extends StatelessWidget {
   const _ContainerSelectTable({
-    required this.tables,
+    required this.plan,
     required this.selectedTableId,
     required this.onTableSelected,
     required this.numberOfSeats,
   });
 
-  final List<AttaTable> tables;
+  final AttaRestaurantPlan plan;
   final int? selectedTableId;
   final void Function(int? tableId) onTableSelected;
   final int numberOfSeats;
 
   @override
   Widget build(BuildContext context) {
-    final maxTableXPosition = _calculateMaxTableXPosition(tables);
-    final maxTableYPosition = _calculateMaxTableYPosition(tables);
+    final maxTableXPosition = _calculateMaxTableXPosition(plan.tables);
+    final maxTableYPosition = _calculateMaxTableYPosition(plan.tables);
 
     return Stack(
       children: [
-        Container(
-          decoration: BoxDecoration(
-            color: AttaColors.white,
-            borderRadius: BorderRadius.circular(AttaRadius.small),
-          ),
-          child: LayoutBuilder(
-            builder: (context, constraints) => _SelectTable(
-              tables: tables,
-              selectedTableId: selectedTableId,
-              onTableSelected: onTableSelected,
-              numberOfSeats: numberOfSeats,
-              constraints: constraints,
-              maxTableXPosition: maxTableXPosition,
-              maxTableYPosition: maxTableYPosition,
+        Positioned.fill(
+          child: Container(
+            decoration: BoxDecoration(
+              color: AttaColors.white,
+              borderRadius: BorderRadius.circular(AttaRadius.small),
+            ),
+            child: LayoutBuilder(
+              builder: (context, constraints) => _SelectTable(
+                positionedElements: plan.positionedElements,
+                selectedTableId: selectedTableId,
+                onTableSelected: onTableSelected,
+                numberOfSeats: numberOfSeats,
+                constraints: constraints,
+                maxTableXPosition: maxTableXPosition,
+                maxTableYPosition: maxTableYPosition,
+              ),
             ),
           ),
         ),
@@ -53,7 +55,7 @@ class _ContainerSelectTable extends StatelessWidget {
 
 class _SelectTable extends StatefulWidget {
   const _SelectTable({
-    required this.tables,
+    required this.positionedElements,
     required this.selectedTableId,
     required this.onTableSelected,
     required this.numberOfSeats,
@@ -62,7 +64,7 @@ class _SelectTable extends StatefulWidget {
     required this.maxTableYPosition,
   });
 
-  final List<AttaTable> tables;
+  final List<AttaPositionnedElement> positionedElements;
   final int? selectedTableId;
   final void Function(int? tableId) onTableSelected;
   final int numberOfSeats;
@@ -106,7 +108,7 @@ class _SelectTableState extends State<_SelectTable> {
       },
       onTapUp: (details) {
         final position = _transformationController.toScene(details.localPosition);
-        final table = widget.tables.firstWhereOrNull(
+        final table = widget.positionedElements.whereType<AttaTable>().firstWhereOrNull(
           (e) {
             final tablePosition = Offset(
               (e.x * maxWidth) / widget.maxTableXPosition,
@@ -137,19 +139,124 @@ class _SelectTableState extends State<_SelectTable> {
         maxScale: 3,
         child: Stack(
           clipBehavior: Clip.none,
-          children: widget.tables
+          children: widget.positionedElements
               .map(
-                (t) => _Table(
-                  table: t,
-                  x: (t.x * maxWidth) / widget.maxTableXPosition,
-                  y: (t.y * maxHeight) / widget.maxTableYPosition,
-                  width: (t.width * maxWidth) / widget.maxTableXPosition,
-                  height: (t.height * maxHeight) / widget.maxTableYPosition,
-                  isSelected: t.id == widget.selectedTableId,
-                  isEnable: isSelectableTable(t),
-                ),
+                (t) => switch (t) {
+                  final AttaTable table => _Table(
+                      table: table,
+                      x: (table.x * maxWidth) / widget.maxTableXPosition,
+                      y: (table.y * maxHeight) / widget.maxTableYPosition,
+                      width: (table.width * maxWidth) / widget.maxTableXPosition,
+                      height: (table.height * maxHeight) / widget.maxTableYPosition,
+                      isSelected: table.id == widget.selectedTableId,
+                      isEnable: isSelectableTable(table),
+                    ),
+                  final AttaToilets toilets => _Toillet(
+                      x: (toilets.x * maxWidth) / widget.maxTableXPosition,
+                      y: (toilets.y * maxHeight) / widget.maxTableYPosition,
+                    ),
+                  final AttaDoor door => _Door(
+                      x: (door.x * maxWidth) / widget.maxTableXPosition,
+                      y: (door.y * maxHeight) / widget.maxTableYPosition,
+                      size: (maxHeight / widget.maxTableYPosition) * 1.5,
+                      isVertical: door.isVertical,
+                    ),
+                  final AttaKitchen kitchen => _Kitchen(
+                      x: (kitchen.x * maxWidth) / widget.maxTableXPosition,
+                      y: (kitchen.y * maxHeight) / widget.maxTableYPosition,
+                    ),
+                },
               )
               .toList(),
+        ),
+      ),
+    );
+  }
+}
+
+class _Toillet extends StatelessWidget {
+  const _Toillet({
+    required this.x,
+    required this.y,
+  });
+
+  final double x;
+  final double y;
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      left: x,
+      top: y,
+      child: CircleAvatar(
+        backgroundColor: AttaColors.accent,
+        maxRadius: 16,
+        child: const Icon(
+          Icons.wc,
+          size: 18,
+          color: Colors.white,
+        ),
+      ),
+    );
+  }
+}
+
+class _Kitchen extends StatelessWidget {
+  const _Kitchen({
+    required this.x,
+    required this.y,
+  });
+
+  final double x;
+  final double y;
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      left: x,
+      top: y,
+      child: CircleAvatar(
+        backgroundColor: AttaColors.accent,
+        maxRadius: 16,
+        child: const Icon(
+          Icons.restaurant_rounded,
+          size: 18,
+          color: Colors.white,
+        ),
+      ),
+    );
+  }
+}
+
+class _Door extends StatelessWidget {
+  const _Door({
+    required this.x,
+    required this.y,
+    required this.size,
+    required this.isVertical,
+  });
+
+  final double x;
+  final double y;
+  final double size;
+  final bool isVertical;
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      left: x,
+      top: y,
+      child: Container(
+        height: isVertical ? size : 2,
+        width: isVertical ? 2 : size,
+        color: AttaColors.accent,
+        child: Padding(
+          padding: const EdgeInsets.all(3),
+          child: Icon(
+            Icons.door_sliding_outlined,
+            size: 20,
+            color: AttaColors.accent,
+          ),
         ),
       ),
     );

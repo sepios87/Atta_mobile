@@ -11,15 +11,29 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'reservation_state.dart';
 
-const mockTables = [
-  AttaTable(id: 1, x: 1, y: 1, numberOfSeats: 2, width: 1, height: 1),
-  AttaTable(id: 2, x: 3, y: 1, numberOfSeats: 5, width: 3, height: 1),
-  AttaTable(id: 3, x: 1, y: 3, numberOfSeats: 2, width: 1, height: 1),
-  AttaTable(id: 4, x: 3, y: 3, numberOfSeats: 6, width: 2, height: 5),
-  AttaTable(id: 5, x: 6, y: 3, numberOfSeats: 2, width: 1, height: 1),
-  AttaTable(id: 6, x: 8, y: 3, numberOfSeats: 2, width: 1, height: 1),
-  AttaTable(id: 7, x: 1, y: 5, numberOfSeats: 2, width: 1, height: 5),
-];
+const mockPlan = AttaRestaurantPlan(
+  id: 1,
+  tables: [
+    AttaTable(id: 1, x: 1, y: 1, numberOfSeats: 2, width: 1, height: 1),
+    AttaTable(id: 2, x: 3, y: 1, numberOfSeats: 4, width: 3, height: 1),
+    AttaTable(id: 3, x: 1, y: 3, numberOfSeats: 2, width: 1, height: 1),
+    AttaTable(id: 4, x: 3, y: 3, numberOfSeats: 8, width: 2, height: 5),
+    AttaTable(id: 5, x: 6, y: 3, numberOfSeats: 2, width: 1, height: 1),
+    AttaTable(id: 6, x: 8, y: 3, numberOfSeats: 2, width: 1, height: 1),
+    AttaTable(id: 7, x: 1, y: 5, numberOfSeats: 6, width: 1, height: 5),
+    AttaTable(id: 8, x: 6, y: 6, numberOfSeats: 6, width: 3, height: 2),
+  ],
+  toilets: [
+    AttaToilets(id: 1, x: 8, y: 9),
+  ],
+  kitchens: [
+    AttaKitchen(id: 1, x: 9, y: 0),
+  ],
+  doors: [
+    AttaDoor(id: 1, x: 4, y: 10, isVertical: false),
+    AttaDoor(id: 1, x: 5, y: 10, isVertical: false),
+  ],
+);
 
 class ReservationCubit extends Cubit<ReservationState> {
   ReservationCubit({
@@ -83,7 +97,7 @@ class ReservationCubit extends Cubit<ReservationState> {
 
   void onNumberOfPersonsChanged(int value) {
     AttaReservation reservation = state.reservation.copyWith(numberOfPersons: value);
-    final table = mockTables.firstWhereOrNull((e) => e.id == state.reservation.tableId);
+    final table = mockPlan.tables.firstWhereOrNull((e) => e.id == state.reservation.tableId);
 
     if (table != null && !state.isSelectableTable(table, value)) {
       reservation = reservation.copyWith(tableId: const Wrapped.value(null));

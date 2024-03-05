@@ -27,14 +27,12 @@ class AttaRestaurant {
   });
 
   factory AttaRestaurant.fromMap(Map<String, dynamic> map) {
-    print(map['filters']);
-
     return AttaRestaurant._(
       id: map.parse<int>('id'),
       createdAt: DateTime.tryParse(map.parse<String>('created_at')) ?? DateTime.now(),
       name: map.parse<String>('name', fallback: ''),
       imagesUrl: map.parse<List>('images_url', fallback: []).map((e) => e.toString()).toList(),
-      filters: map.parse<List>('filters', fallback: []).map(AttaRestaurantFilter.fromValue).toList(),
+      filters: (map.parse<List?>('filters', fallback: []) ?? []).map(AttaRestaurantFilter.fromValue).toList(),
       description: map.parse<String?>('description'),
       longitude: map.parse<double>('longitude', fallback: 0),
       latitude: map.parse<double>('latitude', fallback: 0),
