@@ -33,7 +33,7 @@ class RestaurantCard extends StatelessWidget {
           child: Stack(
             children: [
               CachedNetworkImage(
-                imageUrl: restaurant.imageUrl,
+                imageUrl: restaurant.thumbnail,
                 width: double.infinity,
                 height: 98,
                 maxWidthDiskCache: 1000,
@@ -53,11 +53,7 @@ class RestaurantCard extends StatelessWidget {
                     ),
                   );
                 },
-                placeholder: (context, _) {
-                  return const AttaSkeleton(
-                    size: Size(double.infinity, 98),
-                  );
-                },
+                placeholder: (context, _) => const AttaSkeleton(size: Size(double.infinity, 98)),
               ),
               if (positionedWidget != null) positionedWidget!,
             ],

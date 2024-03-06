@@ -2,7 +2,11 @@ part of '../main.dart';
 
 String? initialFullPath;
 
+final _rootNavigatorKey = GlobalKey<NavigatorState>();
+final _shellNavigatorKey = GlobalKey<NavigatorState>();
+
 final GoRouter _router = GoRouter(
+  navigatorKey: _rootNavigatorKey,
   initialLocation: PreloadPage.path,
   redirect: (context, state) {
     // If not preload data, redirect to preload page
@@ -14,26 +18,47 @@ final GoRouter _router = GoRouter(
   },
   routes: [
     GoRoute(
+      parentNavigatorKey: _rootNavigatorKey,
       path: PreloadPage.path,
       builder: (BuildContext context, GoRouterState state) {
         return PreloadPage.getScreen();
       },
     ),
-    GoRoute(
-      path: HomePage.path,
-      name: HomePage.routeName,
-      builder: (BuildContext context, GoRouterState state) {
-        return HomePage.getScreen();
+    ShellRoute(
+      navigatorKey: _shellNavigatorKey,
+      parentNavigatorKey: _rootNavigatorKey,
+      builder: (context, state, child) {
+        return HomeBase(path: state.fullPath, child: child);
       },
+      routes: [
+        GoRoute(
+          parentNavigatorKey: _shellNavigatorKey,
+          path: HomePage.path,
+          name: HomePage.routeName,
+          builder: (BuildContext context, GoRouterState state) {
+            return HomePage.getScreen();
+          },
+        ),
+        GoRoute(
+          parentNavigatorKey: _shellNavigatorKey,
+          path: FavoritePage.path,
+          name: FavoritePage.routeName,
+          builder: (BuildContext context, GoRouterState state) {
+            return FavoritePage.getScreen();
+          },
+        ),
+        GoRoute(
+          parentNavigatorKey: _shellNavigatorKey,
+          path: UserReservationsPage.path,
+          name: UserReservationsPage.routeName,
+          builder: (BuildContext context, GoRouterState state) {
+            return UserReservationsPage.getScreen();
+          },
+        ),
+      ],
     ),
     GoRoute(
-      path: FavoritePage.path,
-      name: FavoritePage.routeName,
-      builder: (BuildContext context, GoRouterState state) {
-        return FavoritePage.getScreen();
-      },
-    ),
-    GoRoute(
+      parentNavigatorKey: _rootNavigatorKey,
       path: RestaurantDetailPage.path,
       name: RestaurantDetailPage.routeName,
       builder: (BuildContext context, GoRouterState state) {
@@ -43,6 +68,7 @@ final GoRouter _router = GoRouter(
       },
     ),
     GoRoute(
+      parentNavigatorKey: _rootNavigatorKey,
       path: ReservationPage.path,
       name: ReservationPage.routeName,
       builder: (BuildContext context, GoRouterState state) {
@@ -52,6 +78,7 @@ final GoRouter _router = GoRouter(
       },
     ),
     GoRoute(
+      parentNavigatorKey: _rootNavigatorKey,
       path: DishDetailPage.path,
       name: DishDetailPage.routeName,
       builder: (BuildContext context, GoRouterState state) {
@@ -61,6 +88,7 @@ final GoRouter _router = GoRouter(
       },
     ),
     GoRoute(
+      parentNavigatorKey: _rootNavigatorKey,
       path: MenuDetailPage.path,
       name: MenuDetailPage.routeName,
       builder: (BuildContext context, GoRouterState state) {
@@ -73,6 +101,7 @@ final GoRouter _router = GoRouter(
       },
     ),
     GoRoute(
+      parentNavigatorKey: _rootNavigatorKey,
       path: AuthPage.path,
       name: AuthPage.routeName,
       builder: (BuildContext context, GoRouterState state) {
@@ -80,6 +109,7 @@ final GoRouter _router = GoRouter(
       },
     ),
     GoRoute(
+      parentNavigatorKey: _rootNavigatorKey,
       path: ProfilePage.path,
       name: ProfilePage.routeName,
       builder: (BuildContext context, GoRouterState state) {
@@ -87,10 +117,11 @@ final GoRouter _router = GoRouter(
       },
     ),
     GoRoute(
-      path: UserReservationsPage.path,
-      name: UserReservationsPage.routeName,
+      parentNavigatorKey: _rootNavigatorKey,
+      path: CartPage.path,
+      name: CartPage.routeName,
       builder: (BuildContext context, GoRouterState state) {
-        return UserReservationsPage.getScreen();
+        return CartPage.getScreen();
       },
     ),
   ],

@@ -23,7 +23,7 @@ class _TitleReservationCardExpansion extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(AttaRadius.small),
               child: CachedNetworkImage(
-                imageUrl: restaurant.imageUrl,
+                imageUrl: restaurant.thumbnail,
                 width: 68,
                 maxWidthDiskCache: 1000,
                 maxHeightDiskCache: 1000,
@@ -47,9 +47,7 @@ class _TitleReservationCardExpansion extends StatelessWidget {
                     ),
                   );
                 },
-                placeholder: (context, _) {
-                  return const AttaSkeleton(size: Size(68, 68));
-                },
+                placeholder: (context, _) => const AttaSkeleton(size: Size(68, 68)),
               ),
             ),
             const SizedBox(width: AttaSpacing.m),

@@ -28,13 +28,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 part 'widgets/app_bar.dart';
 part 'widgets/search_bar.dart';
 part 'widgets/header.dart';
-
 part 'bottom_sheet/menu_bottom_sheet.dart';
+
+const _kScrollHeigtToShowCarousel = 20.0;
 
 class RestaurantDetailPageArgument {
   const RestaurantDetailPageArgument({
@@ -65,8 +67,42 @@ class RestaurantDetailPage {
       );
 }
 
-class _RestaurantDetailScreen extends StatelessWidget {
+class _RestaurantDetailScreen extends StatefulWidget {
   const _RestaurantDetailScreen();
+
+  @override
+  State<_RestaurantDetailScreen> createState() => _RestaurantDetailScreenState();
+}
+
+class _RestaurantDetailScreenState extends State<_RestaurantDetailScreen> {
+  final _pageController = PageController();
+  late final _pageViewHeight = MediaQuery.sizeOf(context).height * 0.7;
+  late final _scrollController = ScrollController(initialScrollOffset: _pageViewHeight - 280);
+
+  bool _isTopScroll = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _scrollController.addListener(() {
+        if (_scrollController.offset < _kScrollHeigtToShowCarousel && !_isTopScroll) {
+          setState(() => _isTopScroll = true);
+        } else if (_scrollController.offset > _kScrollHeigtToShowCarousel && _isTopScroll) {
+          setState(() => _isTopScroll = false);
+        }
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    _pageController.dispose();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,13 +112,26 @@ class _RestaurantDetailScreen extends StatelessWidget {
       body: Stack(
         children: [
           CustomScrollView(
+            controller: _scrollController,
             slivers: [
-              const _AppBar(),
+              _AppBar(
+                restaurant: context.read<RestaurantDetailCubit>().state.restaurant,
+                pageControler: _pageController,
+                isTopScroll: _isTopScroll,
+                pageViewHeight: _pageViewHeight,
+                onTapHeader: () {
+                  if (!_isTopScroll) {
+                    _scrollController.animateTo(
+                      0,
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeInCubic,
+                    );
+                  }
+                },
+              ),
               const _Header(),
               DecoratedSliver(
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                ),
+                decoration: const BoxDecoration(color: Colors.white),
                 sliver: BlocBuilder<RestaurantDetailCubit, RestaurantDetailState>(
                   buildWhen: (previous, current) => previous.filteredFormulas != current.filteredFormulas,
                   builder: (context, state) {
@@ -147,7 +196,9 @@ class _RestaurantDetailScreen extends StatelessWidget {
                                       if (quantity != null && quantity > 0) {
                                         final reservationMenu = await _showMenuBottomSheet(
                                           context,
-                                          menusReservation: state.reservation!.menus.toList(),
+                                          menusReservation:
+                                              state.reservation!.menus.where((m) => m.menuId == e.id).toList(),
+                                          restaurantId: state.restaurant.id,
                                         );
                                         if (reservationMenu == null) return;
                                         if (reservationMenu.value != null) {
@@ -193,41 +244,35 @@ class _RestaurantDetailScreen extends StatelessWidget {
             right: AttaSpacing.m,
             child: BlocBuilder<RestaurantDetailCubit, RestaurantDetailState>(
               builder: (context, state) {
-                return AnimatedSwitcher(
-                  duration: AttaAnimation.mediumAnimation,
-                  child: state.selectedOpeningTime != null ||
-                          (state.reservation != null && state.reservation!.withFormulas)
-                      ? ElevatedButton(
-                          key: const ValueKey('reservation_button'),
-                          onPressed: () {
-                            if (userService.isLogged) {
-                              context.adapativePushNamed(
-                                ReservationPage.routeName,
-                                pathParameters: ReservationPageArgument(
-                                  restaurantId: state.restaurant.id,
-                                ).toPathParameters(),
-                              );
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  backgroundColor: AttaColors.black,
-                                  content: const Text('Vous devez être connecté pour réserver'),
-                                  action: SnackBarAction(
-                                    textColor: AttaColors.white,
-                                    label: 'Se connecter',
-                                    onPressed: () => context.adapativePushNamed(AuthPage.routeName),
-                                  ),
-                                ),
-                              );
-                            }
-                          },
-                          child: Text(
-                            state.reservation?.withFormulas ?? false
-                                ? 'Commander et réserver (${state.totalAmount.toEuro})'
-                                : 'Réserver sans commander',
+                return ElevatedButton(
+                  key: const ValueKey('reservation_button'),
+                  onPressed: () {
+                    if (userService.isLogged) {
+                      context.adapativePushNamed(
+                        ReservationPage.routeName,
+                        pathParameters: ReservationPageArgument(
+                          restaurantId: state.restaurant.id,
+                        ).toPathParameters(),
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          backgroundColor: AttaColors.black,
+                          content: const Text('Vous devez être connecté pour réserver'),
+                          action: SnackBarAction(
+                            textColor: AttaColors.white,
+                            label: 'Se connecter',
+                            onPressed: () => context.adapativePushNamed(AuthPage.routeName),
                           ),
-                        )
-                      : const SizedBox.shrink(key: ValueKey('empty')),
+                        ),
+                      );
+                    }
+                  },
+                  child: Text(
+                    state.reservation?.withFormulas ?? false
+                        ? 'Commander et réserver (${state.totalAmount.toEuro})'
+                        : 'Réserver sans commander',
+                  ),
                 );
               },
             ),

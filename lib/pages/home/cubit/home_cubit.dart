@@ -6,7 +6,7 @@ import 'package:atta/entities/user.dart';
 import 'package:atta/entities/wrapped.dart';
 import 'package:atta/extensions/restaurant_ext.dart';
 import 'package:atta/main.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'home_state.dart';

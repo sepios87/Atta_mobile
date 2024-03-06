@@ -57,9 +57,7 @@ class __DishImageState extends State<_DishImage> with SingleTickerProviderStateM
             useOldImageOnUrlChange: true,
             fadeInDuration: AttaAnimation.mediumAnimation,
             fit: BoxFit.cover,
-            placeholder: (context, _) {
-              return AttaSkeleton(size: Size(imageSize, imageSize));
-            },
+            placeholder: (context, _) => AttaSkeleton(size: Size(imageSize, imageSize)),
           ),
         ),
       ),

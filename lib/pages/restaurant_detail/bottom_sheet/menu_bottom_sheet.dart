@@ -3,14 +3,13 @@ part of '../restaurant_detail_page.dart';
 Future<Wrapped<AttaMenuReservation?>?> _showMenuBottomSheet(
   BuildContext context, {
   required List<AttaMenuReservation> menusReservation,
+  required int restaurantId,
 }) async {
   return showModalBottomSheet<Wrapped<AttaMenuReservation?>?>(
     context: context,
-    builder: (_) => BlocProvider.value(
-      value: context.read<RestaurantDetailCubit>(),
-      child: _MenuBottomSheetContent(
-        menusReservation: menusReservation,
-      ),
+    builder: (_) => _MenuBottomSheetContent(
+      menusReservation: menusReservation,
+      restaurantId: restaurantId,
     ),
   );
 }
@@ -18,14 +17,14 @@ Future<Wrapped<AttaMenuReservation?>?> _showMenuBottomSheet(
 class _MenuBottomSheetContent extends StatelessWidget {
   const _MenuBottomSheetContent({
     required this.menusReservation,
+    required this.restaurantId,
   });
 
   final List<AttaMenuReservation> menusReservation;
+  final int restaurantId;
 
   @override
   Widget build(BuildContext context) {
-    final restaurantId = context.read<RestaurantDetailCubit>().state.restaurant.id;
-
     return Stack(
       children: [
         SingleChildScrollView(
@@ -48,7 +47,7 @@ class _MenuBottomSheetContent extends StatelessWidget {
                 final dishes = restaurantService.getDishesFromIds(
                   restaurantId,
                   menuReservation.selectedDishIds.toList(),
-                );
+                )..sort((a, b) => a.type.compareTo(b.type));
 
                 if (dishes.isEmpty) return const SizedBox.shrink();
 

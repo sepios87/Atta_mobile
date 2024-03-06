@@ -9,6 +9,8 @@ import 'package:atta/theme/spacing.dart';
 import 'package:atta/theme/text_style.dart';
 import 'package:flutter/material.dart';
 
+const kSelectHourlyHeight = 32.0;
+
 class SelectHourly extends StatelessWidget {
   const SelectHourly({
     required this.openingTimes,
@@ -30,46 +32,46 @@ class SelectHourly extends StatelessWidget {
   Widget build(BuildContext context) {
     final openingTimesOfDay = openingTimes.getTimesOfDay(AttaDay.fromDateTime(selectedDate));
 
+    Future<void> onShowDatePicker() async {
+      final date = await showDatePicker(
+        context: context,
+        initialDate: openingTimesOfDay.isNotEmpty ? selectedDate : null,
+        firstDate: DateTime.now(),
+        lastDate: DateTime.now().add(const Duration(days: 30)),
+        selectableDayPredicate: (date) => openingTimes.containsKey(AttaDay.fromDateTime(date)),
+      );
+      if (date != null) onDateChanged(date);
+    }
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text('Réserve ton horaire', style: AttaTextStyle.label),
-            TextButton(
-              onPressed: () async {
-                final date = await showDatePicker(
-                  context: context,
-                  initialDate: openingTimesOfDay.isNotEmpty ? selectedDate : null,
-                  firstDate: DateTime.now(),
-                  lastDate: DateTime.now().add(const Duration(days: 30)),
-                  selectableDayPredicate: (date) => openingTimes.containsKey(AttaDay.fromDateTime(date)),
-                );
-                if (date != null) onDateChanged(date);
-              },
-              child: Row(
-                children: [
-                  Text(selectedDate.format(), style: AttaTextStyle.label),
-                  const Icon(Icons.keyboard_arrow_down),
-                ],
-              ),
-            ),
-          ],
+        TextButton(
+          onPressed: onShowDatePicker,
+          style: TextButton.styleFrom(padding: EdgeInsets.zero),
+          child: Row(
+            children: [
+              Text('Réserve ton horaire', style: AttaTextStyle.subHeader),
+              const Spacer(),
+              Text(selectedDate.format(), style: AttaTextStyle.label),
+              const Icon(Icons.keyboard_arrow_down),
+            ],
+          ),
         ),
         SizedBox(
           height: 32,
           child: openingTimesOfDay.isEmpty
-              ? Container(
-                  decoration: BoxDecoration(
-                    color: AttaColors.secondary.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(AttaRadius.small),
-                  ),
-                  child: Center(
-                    child: Text(
-                      'Le restaurant est fermé ${selectedDate.format().toLowerCase()}',
-                      style: AttaTextStyle.label.copyWith(
-                        fontWeight: FontWeight.bold,
+              ? GestureDetector(
+                  onTap: onShowDatePicker,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: AttaColors.secondary.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(AttaRadius.small),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Le restaurant est fermé ${selectedDate.format().toLowerCase()}',
+                        style: AttaTextStyle.label,
                       ),
                     ),
                   ),

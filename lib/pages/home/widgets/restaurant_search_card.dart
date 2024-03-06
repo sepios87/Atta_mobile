@@ -19,13 +19,11 @@ class _RestaurantSearchCard extends StatelessWidget {
           );
         },
         child: ListTile(
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: AttaSpacing.m,
-          ),
+          contentPadding: const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
           leading: ClipRRect(
             borderRadius: BorderRadius.circular(AttaRadius.small),
             child: CachedNetworkImage(
-              imageUrl: restaurant.imageUrl,
+              imageUrl: restaurant.thumbnail,
               width: 68,
               height: 68,
               maxWidthDiskCache: 1000,
@@ -33,9 +31,7 @@ class _RestaurantSearchCard extends StatelessWidget {
               useOldImageOnUrlChange: true,
               fadeInDuration: AttaAnimation.mediumAnimation,
               fit: BoxFit.cover,
-              placeholder: (context, _) {
-                return const AttaSkeleton(size: Size(68, 68));
-              },
+              placeholder: (context, _) => const AttaSkeleton(size: Size(68, 68)),
             ),
           ),
           title: Text(restaurant.name, style: AttaTextStyle.label),

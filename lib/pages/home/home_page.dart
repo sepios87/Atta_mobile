@@ -15,8 +15,6 @@ import 'package:atta/theme/colors.dart';
 import 'package:atta/theme/radius.dart';
 import 'package:atta/theme/spacing.dart';
 import 'package:atta/theme/text_style.dart';
-import 'package:atta/widgets/app_bar.dart';
-import 'package:atta/widgets/bottom_navigation/bottom_navigation_bar.dart';
 import 'package:atta/widgets/favorite_button.dart';
 import 'package:atta/widgets/formula_card.dart';
 import 'package:atta/widgets/restaurant_card.dart';
@@ -38,7 +36,7 @@ part 'widgets/default_content.dart';
 part 'widgets/search_content.dart';
 part 'widgets/map_content.dart';
 part 'widgets/restaurant_search_card.dart';
-part 'bottom_sheets/restaurant_detail_modal.dart';
+part 'bottom_sheets/restaurant_preview.dart';
 
 class HomePage {
   static const path = '/home';
@@ -63,11 +61,12 @@ class _HomeScreen extends StatelessWidget {
             constraints: BoxConstraints(
               minHeight: MediaQuery.of(context).size.height * 0.2,
             ),
+            useRootNavigator: true,
             context: context,
             isScrollControlled: true,
             builder: (_) => BlocProvider.value(
               value: context.read<HomeCubit>(),
-              child: _RestaurantDetailBottomSheet(state.selectedRestaurant!),
+              child: _RestaurantPreviewBottomSheet(state.selectedRestaurant!),
             ),
           ).whenComplete(() {
             context.read<HomeCubit>().onRestaurantUnselected();
@@ -77,87 +76,83 @@ class _HomeScreen extends StatelessWidget {
       child: BlocSelector<HomeCubit, HomeState, AttaUser?>(
         selector: (state) => state.user,
         builder: (context, user) {
-          return Scaffold(
-            appBar: AttaAppBar(user: user),
-            bottomNavigationBar: const AttaBottomNavigationBar(),
-            body: Container(
-              constraints: const BoxConstraints.expand(),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadiusExt.top(AttaRadius.medium),
-              ),
-              child: Column(
-                children: [
-                  const SizedBox(height: AttaSpacing.l),
-                  Padding(
-                    padding: const EdgeInsets.only(left: AttaSpacing.m, right: AttaSpacing.xs),
-                    child: AttaSearchBar(
-                      onFocus: (isOnFocus) => context.read<HomeCubit>().onSearchFocusChange(isOnFocus),
-                      onSearch: (value) => context.read<HomeCubit>().onSearchTextChange(value),
-                      inactiveTrailing: BlocSelector<HomeCubit, HomeState, bool>(
-                        selector: (state) => state.isOnListView,
-                        builder: (context, isOnListView) {
-                          return IconButton(
-                            padding: EdgeInsets.zero,
-                            splashRadius: AttaSpacing.s,
-                            onPressed: () => context.read<HomeCubit>().onToogleListView(),
-                            icon: isOnListView
-                                ? const Icon(CupertinoIcons.map)
-                                : const Icon(CupertinoIcons.square_grid_2x2),
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: AttaSpacing.s),
-                  const _Filters(),
-                  const SizedBox(height: AttaSpacing.s),
-                  Expanded(
-                    child: BlocBuilder<HomeCubit, HomeState>(
-                      buildWhen: (previous, current) =>
-                          previous.isOnSearch != current.isOnSearch || previous.isOnListView != current.isOnListView,
-                      builder: (context, state) {
-                        Widget child = const _DefaultContent(key: ValueKey('default_content'));
-                        if (!state.isOnListView) {
-                          child = const _MapContent(key: ValueKey('map_content'));
-                        }
-                        if (state.isOnSearch) {
-                          child = const _SearchContent(key: ValueKey('search_content'));
-                        }
-
-                        return AnimatedSwitcher(
-                          duration: AttaAnimation.mediumAnimation,
-                          reverseDuration: AttaAnimation.mediumAnimation,
-                          switchInCurve: Curves.easeInOut,
-                          switchOutCurve: Curves.easeIn,
-                          transitionBuilder: (child, animation) {
-                            return FadeTransition(
-                              opacity: animation,
-                              child: SlideTransition(
-                                position: Tween<Offset>(
-                                  begin: const Offset(0, -0.1),
-                                  end: Offset.zero,
-                                ).animate(animation),
-                                child: child,
-                              ),
-                            );
-                          },
-                          layoutBuilder: (currentChild, previousChildren) {
-                            return Stack(
-                              alignment: Alignment.topCenter,
-                              children: [
-                                ...previousChildren,
-                                if (currentChild != null) currentChild,
-                              ],
-                            );
-                          },
-                          child: child,
+          return Container(
+            constraints: const BoxConstraints.expand(),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadiusExt.top(AttaRadius.medium),
+            ),
+            child: Column(
+              children: [
+                const SizedBox(height: AttaSpacing.l),
+                Padding(
+                  padding: const EdgeInsets.only(left: AttaSpacing.m, right: AttaSpacing.xs),
+                  child: AttaSearchBar(
+                    onFocus: (isOnFocus) => context.read<HomeCubit>().onSearchFocusChange(isOnFocus),
+                    onSearch: (value) => context.read<HomeCubit>().onSearchTextChange(value),
+                    inactiveTrailing: BlocSelector<HomeCubit, HomeState, bool>(
+                      selector: (state) => state.isOnListView,
+                      builder: (context, isOnListView) {
+                        return IconButton(
+                          padding: EdgeInsets.zero,
+                          splashRadius: AttaSpacing.s,
+                          onPressed: () => context.read<HomeCubit>().onToogleListView(),
+                          icon: isOnListView
+                              ? const Icon(CupertinoIcons.map)
+                              : const Icon(CupertinoIcons.square_grid_2x2),
                         );
                       },
                     ),
                   ),
-                ],
-              ),
+                ),
+                const SizedBox(height: AttaSpacing.s),
+                const _Filters(),
+                const SizedBox(height: AttaSpacing.s),
+                Expanded(
+                  child: BlocBuilder<HomeCubit, HomeState>(
+                    buildWhen: (previous, current) =>
+                        previous.isOnSearch != current.isOnSearch || previous.isOnListView != current.isOnListView,
+                    builder: (context, state) {
+                      Widget child = const _DefaultContent(key: ValueKey('default_content'));
+                      if (!state.isOnListView) {
+                        child = const _MapContent(key: ValueKey('map_content'));
+                      }
+                      if (state.isOnSearch) {
+                        child = const _SearchContent(key: ValueKey('search_content'));
+                      }
+
+                      return AnimatedSwitcher(
+                        duration: AttaAnimation.mediumAnimation,
+                        reverseDuration: AttaAnimation.mediumAnimation,
+                        switchInCurve: Curves.easeInOut,
+                        switchOutCurve: Curves.easeIn,
+                        transitionBuilder: (child, animation) {
+                          return FadeTransition(
+                            opacity: animation,
+                            child: SlideTransition(
+                              position: Tween<Offset>(
+                                begin: const Offset(0, -0.1),
+                                end: Offset.zero,
+                              ).animate(animation),
+                              child: child,
+                            ),
+                          );
+                        },
+                        layoutBuilder: (currentChild, previousChildren) {
+                          return Stack(
+                            alignment: Alignment.topCenter,
+                            children: [
+                              ...previousChildren,
+                              if (currentChild != null) currentChild,
+                            ],
+                          );
+                        },
+                        child: child,
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
           );
         },

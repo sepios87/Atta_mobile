@@ -15,7 +15,8 @@ enum AttaRestaurantFilter {
   italian,
   mexican,
   indian,
-  thai;
+  thai,
+  brazilian;
 
   factory AttaRestaurantFilter.fromValue(dynamic value) {
     return AttaRestaurantFilter.values.firstWhere(
@@ -39,6 +40,7 @@ enum AttaRestaurantFilter {
       mexican => 'Mexicain',
       indian => 'Indien',
       thai => 'Thai',
+      brazilian => 'Brésilien',
     };
   }
 }

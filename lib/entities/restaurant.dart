@@ -11,7 +11,7 @@ class AttaRestaurant {
     required this.id,
     required this.createdAt,
     required this.name,
-    required this.imageUrl,
+    required this.imagesUrl,
     required this.filters,
     required this.description,
     required this.longitude,
@@ -31,8 +31,8 @@ class AttaRestaurant {
       id: map.parse<int>('id'),
       createdAt: DateTime.tryParse(map.parse<String>('created_at')) ?? DateTime.now(),
       name: map.parse<String>('name', fallback: ''),
-      imageUrl: map.parse<String>('image_url', fallback: ''),
-      filters: map.parse<List>('filters', fallback: []).map(AttaRestaurantFilter.fromValue).toList(),
+      imagesUrl: map.parse<List>('images_url', fallback: []).map((e) => e.toString()).toList(),
+      filters: (map.parse<List?>('filters', fallback: []) ?? []).map(AttaRestaurantFilter.fromValue).toList(),
       description: map.parse<String?>('description'),
       longitude: map.parse<double>('longitude', fallback: 0),
       latitude: map.parse<double>('latitude', fallback: 0),
@@ -61,7 +61,7 @@ class AttaRestaurant {
   final DateTime createdAt;
   final String name;
   final String address;
-  final String imageUrl;
+  final List<String> imagesUrl;
   final List<AttaRestaurantFilter> filters;
   final double longitude;
   final double latitude;
@@ -79,6 +79,8 @@ class AttaRestaurant {
   num get averagePrice => dishes.fold<num>(0, (previous, e) => previous + e.price) / dishes.length;
   List<AttaFormula> get formulas => [...dishes, ...menus];
 
+  String get thumbnail => imagesUrl.firstOrNull ?? '';
+
   Map<String, dynamic> toMap() {
     return {
       'id': id,
@@ -86,7 +88,7 @@ class AttaRestaurant {
       'longitude': longitude,
       'latitude': latitude,
       'address': address,
-      'image_url': imageUrl,
+      'images_url': imagesUrl,
       'filters': filters.map((e) => e.toString()).toList(),
       'description': description,
       'phone': phone,

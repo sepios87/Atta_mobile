@@ -8,6 +8,7 @@ ThemeData get _attaThemeData {
       backgroundColor: AttaColors.black,
       foregroundColor: AttaColors.white,
       elevation: 0,
+      iconTheme: IconThemeData(color: AttaColors.white),
     ),
     textSelectionTheme: TextSelectionThemeData(
       cursorColor: AttaColors.black,

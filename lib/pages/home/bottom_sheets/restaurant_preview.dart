@@ -1,7 +1,7 @@
 part of '../home_page.dart';
 
-class _RestaurantDetailBottomSheet extends StatelessWidget {
-  const _RestaurantDetailBottomSheet(this.restaurant);
+class _RestaurantPreviewBottomSheet extends StatelessWidget {
+  const _RestaurantPreviewBottomSheet(this.restaurant);
 
   final AttaRestaurant restaurant;
 
@@ -72,12 +72,14 @@ class _RestaurantDetailBottomSheet extends StatelessWidget {
                   .then(
                 (value) {
                   if (value != null && value) {
-                    context.adapativePushNamed(
-                      RestaurantDetailPage.routeName,
-                      pathParameters: RestaurantDetailPageArgument(
-                        restaurantId: restaurant.id,
-                      ).toPathParameters(),
-                    );
+                    context
+                      ..pop()
+                      ..adapativePushNamed(
+                        RestaurantDetailPage.routeName,
+                        pathParameters: RestaurantDetailPageArgument(
+                          restaurantId: restaurant.id,
+                        ).toPathParameters(),
+                      );
                   }
                 },
               );

@@ -68,10 +68,10 @@ class _ProfileScreen extends StatelessWidget {
                         textAlign: TextAlign.center,
                         style: AttaTextStyle.header,
                       ),
-                      if (state.user.firstName != null || state.user.lastName != null) ...[
+                      if (state.user.fullName.isNotEmpty) ...[
                         const SizedBox(height: AttaSpacing.s),
                         Text(
-                          '${state.user.firstName ?? ''} ${state.user.lastName ?? ''}',
+                          state.user.fullName,
                           textAlign: TextAlign.center,
                           style: AttaTextStyle.subHeader,
                         ),

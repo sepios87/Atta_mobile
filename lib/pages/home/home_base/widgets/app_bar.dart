@@ -1,17 +1,7 @@
-import 'package:atta/entities/user.dart';
-import 'package:atta/extensions/context_ext.dart';
-import 'package:atta/extensions/widget_ext.dart';
-import 'package:atta/pages/auth/auth_page.dart';
-import 'package:atta/pages/profile/profile_page.dart';
-import 'package:atta/theme/colors.dart';
-import 'package:atta/theme/radius.dart';
-import 'package:atta/theme/spacing.dart';
-import 'package:atta/theme/text_style.dart';
-import 'package:atta/widgets/user_avatar.dart';
-import 'package:flutter/material.dart';
+part of '../home_base.dart';
 
-class AttaAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const AttaAppBar({super.key, this.user});
+class _AttaAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const _AttaAppBar({required this.user});
 
   final AttaUser? user;
 
@@ -49,14 +39,14 @@ class AttaAppBar extends StatelessWidget implements PreferredSizeWidget {
                     children: [
                       if (user!.lastName != null)
                         Text(
-                          user!.firstName != null ? user!.lastName! : user!.lastName!,
+                          user!.lastName!.toUpperCase(),
                           style: AttaTextStyle.caption.copyWith(
                             color: AttaColors.white,
                           ),
                         ),
                       if (user!.firstName != null)
                         Text(
-                          user!.lastName != null ? user!.firstName! : user!.firstName!,
+                          user!.firstName!.capitalize(),
                           style: AttaTextStyle.caption.copyWith(
                             color: AttaColors.white,
                             fontSize: 15,
@@ -69,6 +59,13 @@ class AttaAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ],
               ),
       ),
+      actions: [
+        IconButton(
+          onPressed: () => context.adapativePushNamed(CartPage.routeName),
+          icon: const Icon(CupertinoIcons.cart),
+        ),
+        const SizedBox(width: AttaSpacing.xs),
+      ],
     );
   }
 

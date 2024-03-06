@@ -87,10 +87,7 @@ class _MenuDetailScreen extends StatelessWidget {
               restaurantId: context.read<MenuDetailCubit>().state.restaurant.id,
             ).toPathParameters(),
           ),
-          icon: Icon(
-            Icons.arrow_back_ios_new_rounded,
-            color: AttaColors.white,
-          ),
+          icon: const Icon(Icons.arrow_back_ios_new_rounded),
         ),
       ),
       body: Container(

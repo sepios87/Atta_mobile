@@ -4,6 +4,8 @@ import 'package:atta/extensions/border_radius_ext.dart';
 import 'package:atta/extensions/context_ext.dart';
 import 'package:atta/extensions/widget_ext.dart';
 import 'package:atta/main.dart';
+import 'package:atta/pages/dish_detail/dish_detail_page.dart';
+import 'package:atta/pages/menu_detail/menu_detail_page.dart';
 import 'package:atta/pages/reservation/cubit/reservation_cubit.dart';
 import 'package:atta/pages/restaurant_detail/restaurant_detail_page.dart';
 import 'package:atta/pages/user_reservations/user_reservations_page.dart';
@@ -18,9 +20,10 @@ import 'package:atta/widgets/select_hourly.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
-part 'widgets/select_table.dart';
 part 'widgets/reservation_body.dart';
+part 'widgets/select_table.dart';
 
 class ReservationPageArgument {
   const ReservationPageArgument({required this.restaurantId});
@@ -60,7 +63,7 @@ class _ReservationScreen extends StatelessWidget {
         final status = state.status;
 
         if (status is ReservationSuccessStatus) {
-          context.adapativeReplacementNamed(UserReservationsPage.routeName);
+          context.goNamed(UserReservationsPage.routeName);
         }
 
         if (status is ReservationErrorStatus) {
