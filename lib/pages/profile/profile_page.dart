@@ -1,6 +1,7 @@
 import 'package:atta/bottom_sheet/edit_profile.dart';
 import 'package:atta/extensions/border_radius_ext.dart';
 import 'package:atta/extensions/context_ext.dart';
+import 'package:atta/extensions/locale_ext.dart';
 import 'package:atta/extensions/widget_ext.dart';
 import 'package:atta/pages/home/home_page.dart';
 import 'package:atta/pages/profile/cubit/profile_cubit.dart';
@@ -11,6 +12,7 @@ import 'package:atta/theme/text_style.dart';
 import 'package:atta/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 
 class ProfilePage {
   static const path = '/profile';
@@ -145,6 +147,44 @@ class _ProfileScreen extends StatelessWidget {
                           subtitle: const Text('Pour mettre à jour vos informations'),
                           trailing: const Icon(Icons.chevron_right_rounded),
                           onTap: () => showEditProfileBottomSheet(context, state.user),
+                        ),
+                      ),
+                      const Divider(),
+                      Material(
+                        color: Colors.transparent,
+                        child: ListTile(
+                          title: const Text('Changer la langue'),
+                          trailing: const Icon(Icons.chevron_right_rounded),
+                          onTap: () {
+                            showDialog<void>(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: const Text('Selectionnez une langue'),
+                                  content: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: LocalizedApp.of(context)
+                                        .delegate
+                                        .supportedLocales
+                                        .map(
+                                          (locale) => ListTile(
+                                            contentPadding: EdgeInsets.zero,
+                                            leading: LocalizedApp.of(context).delegate.currentLocale == locale
+                                                ? const Icon(Icons.check)
+                                                : const SizedBox.square(dimension: 24),
+                                            title: Text(locale.languageName),
+                                            onTap: () {
+                                              changeLocale(context, locale.languageCode);
+                                              Navigator.pop(context);
+                                            },
+                                          ),
+                                        )
+                                        .toList(),
+                                  ),
+                                );
+                              },
+                            );
+                          },
                         ),
                       ),
                       const Spacer(),

@@ -7,9 +7,9 @@ enum _BottomNavigationItem {
 
   String get label {
     return switch (this) {
-      _BottomNavigationItem.favorites => 'Favoris',
-      _BottomNavigationItem.home => 'Resto',
-      _BottomNavigationItem.reservations => 'Résa'
+      _BottomNavigationItem.favorites => translate('navigation_item.favorites'),
+      _BottomNavigationItem.home => translate('navigation_item.home'),
+      _BottomNavigationItem.reservations => translate('navigation_item.reservations'),
     };
   }
 

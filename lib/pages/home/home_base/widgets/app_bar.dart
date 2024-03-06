@@ -21,7 +21,7 @@ class _AttaAppBar extends StatelessWidget implements PreferredSizeWidget {
         },
         child: user == null
             ? Text(
-                'Se connecter',
+                translate('app_bar.connect'),
                 style: AttaTextStyle.subHeader.copyWith(color: AttaColors.white),
               ).withPadding(
                 const EdgeInsets.symmetric(

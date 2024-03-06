@@ -1,0 +1,39 @@
+{
+    "app_bar": {
+        "connect": "Se connecter"
+    },
+    "navigation_item": {
+        "favorites": "Favoris",
+        "home": "Resto",
+        "reservations": "Résa"
+    },
+    "home_page": {
+        "most_recent_restaurants": "Les plus récents",
+        "most_popular_restaurants": "Les plus populaires",
+        "most_liked_restaurants": "Les plus aimés - A FAIRE",
+        "biggest_number_formula_restaurants": "Avec le plus de plats",
+        "cheaper_restaurants": "Les moins chers",
+        "other_restaurants": "Les hors catégories",
+        "restaurant_with_most_dishes": "Avec le plus de plats",
+        "restaurant_with_most_choices": "Avec le plus de choix - A FAIRE",
+        "restaurant_with_cheaper_menu": "Avec le menu le moins cher",
+        "no_restaurant_found": "Aucun résultat",
+        "restaurant_preview": "Aperçu de la carte",
+        "see_more_button": "En découvir plus",
+        "reservation_button": "Réserver directement"
+    },
+    "favorite_page": {
+        "title": "Vos favoris",
+        "no_favorite": "Vous n'avez pas encore de favoris",
+        "go_to_home": "Découvrir de nouveaux restaurants",
+        "restaurants": "Les restaurants",
+        "dishes": "Les plats"
+    },
+    "auth_page": {
+        "welcome": "Hello",
+        "content": " Bienvenue sur ATTA, l'application parfaite pour vous mettre à table !\n Commencez par créer votre compte pour pouvoir réserver une table dans votre restaurant préféré.",
+        "email": "Email",
+        "password": "Mot de passe",
+        
+    }
+}

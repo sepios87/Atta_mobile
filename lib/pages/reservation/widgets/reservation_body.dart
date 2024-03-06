@@ -66,27 +66,27 @@ class __ReservationBodyState extends State<_ReservationBody> {
                 const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
               ),
               const SizedBox(height: AttaSpacing.s),
-              SizedBox(
-                width: double.infinity,
-                height: 260,
-                child: BlocBuilder<ReservationCubit, ReservationState>(
-                  builder: (context, state) {
-                    return Listener(
-                      onPointerUp: (_) => setState(() => _canScroll = true),
-                      onPointerMove: (_) => setState(() => _canScroll = false),
-                      child: _ContainerSelectTable(
-                        numberOfSeats: state.reservation.numberOfPersons,
-                        selectedTableId: state.reservation.tableId,
-                        onTableSelected: (tableId) => context.read<ReservationCubit>().onTableSelected(tableId),
-                        // TODO(florian): Replace with real data
-                        plan: bigMockPlan,
-                      ),
-                    );
-                  },
+              if (state.plan != null)
+                SizedBox(
+                  width: double.infinity,
+                  height: 260,
+                  child: BlocBuilder<ReservationCubit, ReservationState>(
+                    builder: (context, state) {
+                      return Listener(
+                        onPointerUp: (_) => setState(() => _canScroll = true),
+                        onPointerMove: (_) => setState(() => _canScroll = false),
+                        child: _ContainerSelectTable(
+                          numberOfSeats: state.reservation.numberOfPersons,
+                          selectedTableId: state.reservation.tableId,
+                          onTableSelected: (tableId) => context.read<ReservationCubit>().onTableSelected(tableId),
+                          plan: state.plan!,
+                        ),
+                      );
+                    },
+                  ),
+                ).withPadding(
+                  const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
                 ),
-              ).withPadding(
-                const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
-              ),
               const SizedBox(height: AttaSpacing.l),
               if (state.reservation.dishIds.isNotEmpty) ...[
                 Text('Plats commandés', style: AttaTextStyle.content).withPadding(

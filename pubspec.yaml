@@ -22,13 +22,14 @@ dependencies:
   flutter_map: ^6.1.0
   flutter_map_animations: ^0.5.3
   flutter_map_marker_cluster: ^1.3.4
+  flutter_translate: ^4.0.4
   geolocator: ^11.0.0
   go_router: ^13.2.0
   google_sign_in: ^6.2.1
   image_picker: ^1.0.7
   intl: ^0.18.1
   latlong2: ^0.9.0
-  maps_launcher: ^2.2.0
+  maps_launcher: ^2.2.1
   rxdart: ^0.27.7
   share_plus: ^7.2.2
   sliver_tools: ^0.2.12
@@ -60,6 +61,7 @@ flutter:
   uses-material-design: true
 
   assets:
+    - assets/i18n/
     - assets/logo/
     - assets/icons/
 

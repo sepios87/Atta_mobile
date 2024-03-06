@@ -18,6 +18,7 @@ import 'package:atta/widgets/user_avatar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 
 part 'widgets/app_bar.dart';
 part 'widgets/bottom_navigation_bar.dart';

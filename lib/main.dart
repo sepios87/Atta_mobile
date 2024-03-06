@@ -24,6 +24,7 @@ import 'package:atta/theme/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:go_router/go_router.dart';
@@ -43,15 +44,21 @@ final locationService = LocationService();
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  Intl.systemLocale = await findSystemLocale();
-
   await Supabase.initialize(
     url: const String.fromEnvironment('SUPABASE_URL'),
     anonKey: const String.fromEnvironment('SUPABASE_KEY'),
   );
 
+  Intl.systemLocale = await findSystemLocale();
+
+  final delegate = await LocalizationDelegate.create(
+    fallbackLocale: 'en',
+    supportedLocales: ['en', 'fr'],
+  );
+
   usePathUrlStrategy();
-  runApp(const AttaApp());
+
+  runApp(LocalizedApp(delegate, const AttaApp()));
 }
 
 class AttaApp extends StatelessWidget {
@@ -59,6 +66,8 @@ class AttaApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localizationDelegate = LocalizedApp.of(context).delegate;
+
     return AnnotatedRegion(
       value: SystemUiOverlayStyle(
         statusBarColor: AttaColors.black,
@@ -66,25 +75,29 @@ class AttaApp extends StatelessWidget {
         systemNavigationBarColor: AttaColors.black,
         systemNavigationBarIconBrightness: Brightness.light,
       ),
-      child: MaterialApp.router(
-        title: 'Atta',
-        scrollBehavior: const MaterialScrollBehavior().copyWith(
-          dragDevices: {
-            PointerDeviceKind.mouse,
-            PointerDeviceKind.touch,
-            PointerDeviceKind.stylus,
-            PointerDeviceKind.unknown,
-          },
+      child: LocalizationProvider(
+        state: LocalizationProvider.of(context).state,
+        child: MaterialApp.router(
+          title: 'Atta',
+          scrollBehavior: const MaterialScrollBehavior().copyWith(
+            dragDevices: {
+              PointerDeviceKind.mouse,
+              PointerDeviceKind.touch,
+              PointerDeviceKind.stylus,
+              PointerDeviceKind.unknown,
+            },
+          ),
+          theme: _attaThemeData,
+          routerConfig: _router,
+          locale: localizationDelegate.currentLocale,
+          localizationsDelegates: [
+            localizationDelegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: localizationDelegate.supportedLocales,
         ),
-        theme: _attaThemeData,
-        routerConfig: _router,
-        locale: const Locale('fr', 'FR'),
-        localizationsDelegates: const [
-          GlobalWidgetsLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: const [Locale('en', 'US'), Locale('fr', 'FR')],
       ),
     );
   }

@@ -16,6 +16,7 @@ import 'package:atta/widgets/formula_card.dart';
 import 'package:atta/widgets/restaurant_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:go_router/go_router.dart';
 
 part 'widgets/favorite_dish.dart';
@@ -56,24 +57,24 @@ class _FavoriteScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const SizedBox(height: AttaSpacing.m),
-                Text('Vos favoris', style: AttaTextStyle.header).withPadding(
+                Text(translate('favorite_page.title'), style: AttaTextStyle.header).withPadding(
                   const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
                 ),
                 const SizedBox(height: AttaSpacing.l),
                 if (favoriteRestaurants.isEmpty && favoriteDishs.isEmpty) ...[
-                  const Text("Vous n'avez pas encore de favoris").withPadding(
+                  Text(translate('favorite_page.no_favorite')).withPadding(
                     const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
                   ),
                   const SizedBox(height: AttaSpacing.l),
                   ElevatedButton(
                     onPressed: () => context.replaceNamed(HomePage.routeName),
-                    child: const Text('Découvrir de nouveaux restaurants'),
+                    child: Text(translate('favorite_page.go_to_home')),
                   ).withPadding(
                     const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
                   ),
                 ],
                 if (favoriteRestaurants.isNotEmpty) ...[
-                  Text('Les restaurants', style: AttaTextStyle.subHeader).withPadding(
+                  Text(translate('favorite_page.restaurants'), style: AttaTextStyle.subHeader).withPadding(
                     const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
                   ),
                   const SizedBox(height: AttaSpacing.m),
@@ -95,6 +96,7 @@ class _FavoriteScreen extends StatelessWidget {
                             (context, animation) => _FavoriteRestaurant(
                               restaurant: restaurant,
                               animation: animation,
+                              // Empty function to show the animation
                               onUnlikedDish: () {},
                             ),
                           );
@@ -105,7 +107,7 @@ class _FavoriteScreen extends StatelessWidget {
                   const SizedBox(height: AttaSpacing.m),
                 ],
                 if (favoriteDishs.isNotEmpty) ...[
-                  Text('Les plats', style: AttaTextStyle.subHeader).withPadding(
+                  Text(translate('favorite_page.dishes'), style: AttaTextStyle.subHeader).withPadding(
                     const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
                   ),
                   const SizedBox(height: AttaSpacing.xxs),
@@ -129,6 +131,7 @@ class _FavoriteScreen extends StatelessWidget {
                               animation: animation,
                               dish: dish.$1,
                               restaurant: state.getRestaurant(dish.$2),
+                              // Empty function to show the animation
                               onUnlikedDish: () {},
                             ),
                           );

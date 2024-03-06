@@ -86,6 +86,8 @@ class ReservationCubit extends Cubit<ReservationState> {
             selectedTime: reservationService.selectedTime,
             reservation: reservationService.getReservation(restaurantId) ??
                 AttaReservation.fromRestaurantId(restaurantId: restaurantId),
+            // TODO(florian): Replace with real data
+            plan: defaultMockPlan,
           ),
         );
 
@@ -138,7 +140,7 @@ class ReservationCubit extends Cubit<ReservationState> {
 
   void onNumberOfPersonsChanged(int value) {
     AttaReservation reservation = state.reservation.copyWith(numberOfPersons: value);
-    final table = bigMockPlan.tables.firstWhereOrNull((e) => e.id == state.reservation.tableId);
+    final table = state.plan!.tables.firstWhereOrNull((e) => e.id == state.reservation.tableId);
 
     if (table != null && !state.isSelectableTable(table, value)) {
       reservation = reservation.copyWith(tableId: const Wrapped.value(null));
