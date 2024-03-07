@@ -1,5 +1,6 @@
 import 'package:atta/entities/formula.dart';
 import 'package:atta/extensions/map_ext.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 
 enum DishType {
   entrance,
@@ -17,11 +18,11 @@ enum DishType {
 
   String get translatedName {
     return switch (this) {
-      DishType.entrance => 'Entrée',
-      DishType.main => 'Plat principal',
-      DishType.accompaniment => 'Accompagnement',
-      DishType.dessert => 'Dessert',
-      DishType.drink => 'Boisson',
+      DishType.entrance => translate('dish_type_entity.entrance'),
+      DishType.main => translate('dish_type_entity.main'),
+      DishType.accompaniment => translate('dish_type_entity.accompaniment'),
+      DishType.dessert => translate('dish_type_entity.dessert'),
+      DishType.drink => translate('dish_type_entity.drink'),
     };
   }
 

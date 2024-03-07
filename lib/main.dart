@@ -72,8 +72,9 @@ class AttaApp extends StatelessWidget {
       value: SystemUiOverlayStyle(
         statusBarColor: AttaColors.black,
         statusBarIconBrightness: Brightness.light,
-        systemNavigationBarColor: AttaColors.black,
         systemNavigationBarIconBrightness: Brightness.light,
+        systemNavigationBarColor: AttaColors.black.withOpacity(0.002),
+        systemNavigationBarDividerColor: Colors.black.withOpacity(0.002),
       ),
       child: LocalizationProvider(
         state: LocalizationProvider.of(context).state,

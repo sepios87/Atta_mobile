@@ -67,7 +67,7 @@ class _UserReservations extends StatelessWidget {
                     child: Stack(
                       clipBehavior: Clip.none,
                       children: [
-                        Text(translate('user_reservations.title'), style: AttaTextStyle.header),
+                        Text(translate('user_reservation_page.title'), style: AttaTextStyle.header),
                         Positioned(
                           right: 0,
                           top: 0,
@@ -88,12 +88,13 @@ class _UserReservations extends StatelessWidget {
                 ),
                 const SizedBox(height: AttaSpacing.l),
                 if (state.withoutReservations)
-                  Text(translate('user_reservations.no_reservations'), style: AttaTextStyle.content).withPadding(
+                  Text(translate('user_reservation_page.no_reservations'), style: AttaTextStyle.content).withPadding(
                     const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
                   )
                 else ...[
                   if (afterReservation.isNotEmpty) ...[
-                    Text(translate('user_reservations.after_reservations'), style: AttaTextStyle.subHeader).withPadding(
+                    Text(translate('user_reservation_page.after_reservations'), style: AttaTextStyle.subHeader)
+                        .withPadding(
                       const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
                     ),
                     const SizedBox(height: AttaSpacing.xs),
@@ -107,7 +108,7 @@ class _UserReservations extends StatelessWidget {
                     const SizedBox(height: AttaSpacing.l),
                   ],
                   if (beforeReservation.isNotEmpty) ...[
-                    Text(translate('user_reservations.before_reservations'), style: AttaTextStyle.subHeader)
+                    Text(translate('user_reservation_page.before_reservations'), style: AttaTextStyle.subHeader)
                         .withPadding(
                       const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
                     ),

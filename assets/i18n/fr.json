@@ -1,6 +1,43 @@
 {
+    "date_time": {
+        "today": "Aujourd'hui",
+        "tomorrow": "Demain",
+        "today_at": "Aujourd'hui à {{time}}",
+        "tomorrow_at": "Demain à {{time}}",
+        "at": "Le {{date}} à {{time}}"
+    },
+    "dish_type_entity": {
+        "entrance": "Entrée",
+        "main": "Plat principal",
+        "accompaniment": "Accompagnement",
+        "dessert": "Dessert",
+        "drink": "Boisson"
+    },
+    "restaurant_filter_entity": {
+        "crepe": "Crêperie",
+        "pizza": "Pizzeria",
+        "burger": "Burger",
+        "kebab": "Kebab",
+        "salad": "Salade",
+        "vegan": "Végétalien",
+        "vegetarian": "Végétarien",
+        "asian": "Asiatique",
+        "french": "Français",
+        "italian": "Italien",
+        "mexican": "Mexicain",
+        "indian": "Indien",
+        "thai": "Thaïlandais",
+        "brazilian": "Brésilien"
+    },
+    "formula_type_entity": {
+        "dish": "Plat",
+        "menu": "Menu"
+    },
     "app_bar": {
         "connect": "Se connecter"
+    },
+    "select_hourly": {
+        "title": "Réserve ton horaire"
     },
     "navigation_item": {
         "favorites": "Favoris",
@@ -8,6 +45,7 @@
         "reservations": "Résa"
     },
     "preload_page": {
+        "loading": "Chargement...",
         "retry_button": "Réessayer"
     },
     "home_page": {
@@ -50,6 +88,21 @@
         "order_to_complete": "Commandes à terminer"
     },
     "profile_page": {
+        "favorite_restaurants": {
+            "zero": "Restaurant\nfavori",
+            "one": "Restaurant\nfavori",
+            "other": "Restaurants\nfavoris"
+        },
+        "favorite_dishes": {
+            "zero": "Plat\nfavori",
+            "one": "Plat\nfavori",
+            "other": "Plats\nfavoris"
+        },
+        "reservations": {
+            "zero": "Réservation\nréalisée",
+            "one": "Réservation\nréalisée",
+            "other": "Réservations\nréalisées"
+        },
         "edit_profile": "Modifier le profil",
         "edit_profile_description": "Mettre à jour les informations",
         "change_language": "Changer la langue",
@@ -85,10 +138,11 @@
         "confirm_reservation_button": "Confirmer"
     },
     "edit_profile_bottom_sheet": {
-        "remove_image": "Supprimer la photo",
+        "delete_image": "Supprimer la photo",
         "first_name": "Prénom",
         "last_name": "Nom",
         "phone": "Numéro de téléphone",
-        "email": "Email"
+        "email": "Email",
+        "save_button": "Enregistrer"
     }
 }

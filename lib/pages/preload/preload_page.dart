@@ -71,7 +71,7 @@ class _PreloadScreen extends StatelessWidget {
                 const _AnimatedLogo(),
                 const SizedBox(height: AttaSpacing.xl),
                 Text(
-                  'Chargement...',
+                  translate('preload_page.loading'),
                   style: AttaTextStyle.header.copyWith(
                     color: AttaColors.white,
                   ),

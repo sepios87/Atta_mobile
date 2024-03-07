@@ -9,6 +9,7 @@ import 'package:atta/theme/radius.dart';
 import 'package:atta/theme/spacing.dart';
 import 'package:atta/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:image_picker/image_picker.dart';
 
 Future<void> showEditProfileBottomSheet(BuildContext context, AttaUser user) {
@@ -118,7 +119,7 @@ class _EditProfileContentState extends State<_EditProfileContent> {
                   });
                 },
                 icon: const Icon(Icons.delete_outline_rounded),
-                label: const Text('Supprimer la photo'),
+                label: Text(translate('edit_profile_bottom_sheet.delete_image')),
               ),
             ],
             const SizedBox(height: AttaSpacing.m),
@@ -129,27 +130,24 @@ class _EditProfileContentState extends State<_EditProfileContent> {
                   TextFormField(
                     initialValue: widget.user.lastName,
                     onSaved: (value) => _lastName = value ?? '',
-                    decoration: const InputDecoration(
-                      labelText: 'Nom',
-                      hintText: 'Entrez votre nom',
+                    decoration: InputDecoration(
+                      labelText: translate('edit_profile_bottom_sheet.last_name'),
                     ),
                   ),
                   const SizedBox(height: AttaSpacing.m),
                   TextFormField(
                     initialValue: widget.user.firstName,
                     onSaved: (value) => _firstName = value ?? '',
-                    decoration: const InputDecoration(
-                      labelText: 'Prénom',
-                      hintText: 'Entrez votre prénom',
+                    decoration: InputDecoration(
+                      labelText: translate('edit_profile_bottom_sheet.first_name'),
                     ),
                   ),
                   const SizedBox(height: AttaSpacing.m),
                   TextFormField(
                     initialValue: widget.user.phone,
                     onSaved: (value) => _phone = value ?? '',
-                    decoration: const InputDecoration(
-                      labelText: 'Numéro de téléphone',
-                      hintText: 'Entrez votre numéro de téléphone',
+                    decoration: InputDecoration(
+                      labelText: translate('edit_profile_bottom_sheet.phone'),
                     ),
                     keyboardType: TextInputType.phone,
                   ),
@@ -157,9 +155,8 @@ class _EditProfileContentState extends State<_EditProfileContent> {
                   TextFormField(
                     initialValue: widget.user.email,
                     enabled: false,
-                    decoration: const InputDecoration(
-                      labelText: 'Email',
-                      hintText: 'Entrez votre email',
+                    decoration: InputDecoration(
+                      labelText: translate('edit_profile_bottom_sheet.email'),
                     ),
                   ),
                 ],
@@ -205,7 +202,7 @@ class _EditProfileContentState extends State<_EditProfileContent> {
                         color: Colors.white,
                       ),
                     )
-                  : const Text('Enregistrer'),
+                  : Text(translate('edit_profile_bottom_sheet.save_button')),
             ),
           ],
         ),

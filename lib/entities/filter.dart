@@ -1,6 +1,7 @@
 import 'package:atta/entities/dish.dart';
 import 'package:atta/entities/formula.dart';
 import 'package:atta/entities/menu.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 
 enum AttaRestaurantFilter {
   crepe,
@@ -27,20 +28,20 @@ enum AttaRestaurantFilter {
 
   String get translatedName {
     return switch (this) {
-      crepe => 'Crêpe',
-      pizza => 'Pizza',
-      burger => 'Burger',
-      kebab => 'Kebab',
-      salad => 'Salad',
-      vegan => 'Vegan',
-      vegetarian => 'Végétarien',
-      asian => 'Asiatique',
-      french => 'Francais',
-      italian => 'Italien',
-      mexican => 'Mexicain',
-      indian => 'Indien',
-      thai => 'Thai',
-      brazilian => 'Brésilien',
+      crepe => translate('restaurant_filter_entity.crepe'),
+      pizza => translate('restaurant_filter_entity.pizza'),
+      burger => translate('restaurant_filter_entity.burger'),
+      kebab => translate('restaurant_filter_entity.kebab'),
+      salad => translate('restaurant_filter_entity.salad'),
+      vegan => translate('restaurant_filter_entity.vegan'),
+      vegetarian => translate('restaurant_filter_entity.vegetarian'),
+      asian => translate('restaurant_filter_entity.asian'),
+      french => translate('restaurant_filter_entity.french'),
+      italian => translate('restaurant_filter_entity.italian'),
+      mexican => translate('restaurant_filter_entity.mexican'),
+      indian => translate('restaurant_filter_entity.indian'),
+      thai => translate('restaurant_filter_entity.thai'),
+      brazilian => translate('restaurant_filter_entity.brazilian'),
     };
   }
 }
@@ -53,8 +54,8 @@ enum AttaFormulaType<T extends AttaFormula> {
 
   String get name {
     return switch (this) {
-      dish => 'Plat',
-      menu => 'Menu',
+      dish => translate('formula_type_entity.dish'),
+      menu => translate('formula_type_entity.menu'),
     };
   }
 }

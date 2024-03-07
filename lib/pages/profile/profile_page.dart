@@ -41,7 +41,9 @@ class _ProfileScreen extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.only(top: kToolbarHeight + MediaQuery.paddingOf(context).top - _kAvatarSize),
+        padding: EdgeInsets.only(
+          top: kToolbarHeight + MediaQuery.paddingOf(context).top - _kAvatarSize,
+        ),
         child: BlocBuilder<ProfileCubit, ProfileState>(
           builder: (context, state) {
             return Stack(
@@ -91,7 +93,10 @@ class _ProfileScreen extends StatelessWidget {
                                     style: AttaTextStyle.subHeader,
                                   ),
                                   Text(
-                                    'Restaurants\nfavoris',
+                                    translatePlural(
+                                      'profile_page.favorite_restaurants',
+                                      state.user.favoritesRestaurantIds.length,
+                                    ),
                                     textAlign: TextAlign.center,
                                     style: AttaTextStyle.caption,
                                   ),
@@ -110,7 +115,10 @@ class _ProfileScreen extends StatelessWidget {
                                     style: AttaTextStyle.subHeader,
                                   ),
                                   Text(
-                                    'Plats\nfavoris',
+                                    translatePlural(
+                                      'profile_page.favorite_dishes',
+                                      state.user.favoriteDishesIds.length,
+                                    ),
                                     textAlign: TextAlign.center,
                                     style: AttaTextStyle.caption,
                                   ),
@@ -129,7 +137,7 @@ class _ProfileScreen extends StatelessWidget {
                                     style: AttaTextStyle.subHeader,
                                   ),
                                   Text(
-                                    'Réservations\npassées',
+                                    translatePlural('profile_page.reservations', state.user.reservations.length),
                                     textAlign: TextAlign.center,
                                     style: AttaTextStyle.caption,
                                   ),
@@ -214,7 +222,7 @@ class _ProfileScreen extends StatelessWidget {
                               )
                             : Text(translate('profile_page.logout_button')),
                       ),
-                      const SizedBox(height: AttaSpacing.m),
+                      SizedBox(height: MediaQuery.of(context).padding.bottom + AttaSpacing.s),
                     ],
                   ),
                 ),

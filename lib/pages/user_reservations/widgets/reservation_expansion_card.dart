@@ -42,16 +42,16 @@ class _ReservationCardExpansionState extends State<_ReservationCardExpansion> {
                   context: context,
                   builder: (context) {
                     return AlertDialog(
-                      title: Text(translate('user_reservations.cancel_reservation')),
-                      content: Text(translate('user_reservations.cancel_reservation_message')),
+                      title: Text(translate('user_reservation_page.cancel_reservation')),
+                      content: Text(translate('user_reservation_page.cancel_reservation_message')),
                       actions: [
                         TextButton(
                           onPressed: () => Navigator.of(context).pop(false),
-                          child: Text(translate('user_reservations.cancel_reservation_button')),
+                          child: Text(translate('user_reservation_page.cancel_reservation_button')),
                         ),
                         TextButton(
                           onPressed: () => Navigator.of(context).pop(true),
-                          child: Text(translate('user_reservations.confirm_reservation_button')),
+                          child: Text(translate('user_reservation_page.confirm_reservation_button')),
                         ),
                       ],
                     );

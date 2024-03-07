@@ -1,5 +1,148 @@
 {
-    "home": {
-        "most_recent": "test coucou"
+    "date_time": {
+        "today": "Today",
+        "tomorrow": "Tomorrow",
+        "today_at": "Today at {{time}}",
+        "tomorrow_at": "Tomorrow at {{time}}",
+        "at": "On {{date}} at {{time}}"
+    },
+    "dish_type_entity": {
+        "entrance": "Appetizer",
+        "main": "Main Course",
+        "accompaniment": "Side Dish",
+        "dessert": "Dessert",
+        "drink": "Beverage"
+    },
+    "restaurant_filter_entity": {
+        "crepe": "Creperie",
+        "pizza": "Pizzeria",
+        "burger": "Burger",
+        "kebab": "Kebab",
+        "salad": "Salad",
+        "vegan": "Vegan",
+        "vegetarian": "Vegetarian",
+        "asian": "Asian",
+        "french": "French",
+        "italian": "Italian",
+        "mexican": "Mexican",
+        "indian": "Indian",
+        "thai": "Thai",
+        "brazilian": "Brazilian"
+    },
+    "formula_type_entity": {
+        "dish": "Dish",
+        "menu": "Menu"
+    },
+    "app_bar": {
+        "connect": "Log in"
+    },
+    "select_hourly": {
+        "title": "Reserve your schedule"
+    },
+    "navigation_item": {
+        "favorites": "Favorites",
+        "home": "Home",
+        "reservations": "Reservations"
+    },
+    "preload_page": {
+        "loading": "Loading...",
+        "retry_button": "Retry"
+    },
+    "home_page": {
+        "most_recent_restaurants": "Most Recent",
+        "most_popular_restaurants": "Most Popular",
+        "most_liked_restaurants": "Most Liked - TO DO",
+        "biggest_number_formula_restaurants": "With the Most Dishes",
+        "cheaper_restaurants": "Least Expensive",
+        "other_restaurants": "Out of Category",
+        "restaurant_with_most_dishes": "With the Most Dishes",
+        "restaurant_with_most_choices": "With the Most Choices - TO DO",
+        "restaurant_with_cheaper_menu": "With the Cheapest Menu",
+        "no_restaurant_found": "No Results",
+        "restaurant_preview": "Menu Preview",
+        "see_more_button": "Discover More",
+        "reservation_button": "Reserve Directly"
+    },
+    "favorite_page": {
+        "title": "Your Favorites",
+        "no_favorite": "You don't have any favorites yet",
+        "go_to_home": "Discover new restaurants",
+        "restaurants": "Restaurants",
+        "dishes": "Dishes"
+    },
+    "auth_page": {
+        "welcome": "Hello",
+        "content": " Welcome to ATTA, the perfect app to get you to the table! \n Start by creating your account to be able to reserve a table in your favorite restaurant.",
+        "email": "Email",
+        "required_email": "Please enter your email",
+        "password": "Password",
+        "required_password": "Please enter your password",
+        "forget_password_button": "Forgot Password?",
+        "email_sent": "A password reset email has been sent",
+        "login_button": "Log in",
+        "create_account_button": "Create an account",
+        "confirm_password": "Confirm Password",
+        "password_not_match": "Passwords do not match"
+    },
+    "cart_page": {
+        "order_to_complete": "Orders to complete"
+    },
+    "profile_page": {
+        "favorite_restaurants": {
+            "zero": "Favorite\nRestaurant",
+            "one": "Favorite\nRestaurant",
+            "other": "Favorite\nRestaurants"
+        },
+        "favorite_dishes": {
+            "zero": "Favorite\nDish",
+            "one": "Favorite\nDish",
+            "other": "Favorite\nDishes"
+        },
+        "reservations": {
+            "zero": "Réservation\nrealised",
+            "one": "Réservation\nrealised",
+            "other": "Réservations\nrealised"
+        },
+        "edit_profile": "Edit Profile",
+        "edit_profile_description": "Update information",
+        "change_language": "Change Language",
+        "select_language": "Select Language",
+        "remove_account_button": "Delete Account",
+        "logout_button": "Log out"
+    },
+    "reservation_page": {
+        "title": "Reservation",
+        "number_of_persons": "For how many people?",
+        "select_table": "Choose your table",
+        "dish_selected": "Ordered Dishes",
+        "menu_selected": "Ordered Menus",
+        "comment": "Comment",
+        "hint_comment": "Example: Allergies, preferences, etc.",
+        "reservation_button": "Reserve"
+    },
+    "restaurant_detail_page": {
+        "login_to_reserve": "Log in to reserve",
+        "login_button": "Log in",
+        "command_and_reserve_button": "Order and reserve {{price}}",
+        "reserve_button": "Reserve",
+        "no_formulas": "No dishes or menus available"
+    },
+    "user_reservation_page": {
+        "title": "Your Reservations",
+        "no_reservations": "You don't have any reservations yet",
+        "after_reservations": "For the next few days",
+        "before_reservations": "Your past reservations",
+        "cancel_reservation": "Cancel Reservation",
+        "cancel_reservation_confirmation": "Do you really want to cancel this reservation?",
+        "cancel_reservation_button": "Cancel",
+        "confirm_reservation_button": "Confirm"
+    },
+    "edit_profile_bottom_sheet": {
+        "delete_image": "Delete Photo",
+        "first_name": "First Name",
+        "last_name": "Last Name",
+        "phone": "Phone Number",
+        "email": "Email",
+        "save_button": "Save"
     }
 }
