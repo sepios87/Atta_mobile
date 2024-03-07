@@ -106,6 +106,11 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   void onToogleListView() {
-    emit(state.copyWith(isOnListView: !state.isOnListView));
+    emit(
+      state.copyWith(
+        isOnListView: !state.isOnListView,
+        selectedRestaurant: const Wrapped.value(null),
+      ),
+    );
   }
 }

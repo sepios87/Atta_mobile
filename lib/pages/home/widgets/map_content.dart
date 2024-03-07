@@ -1,6 +1,6 @@
 part of '../home_page.dart';
 
-const _kDefaultCenterZoom = 15.2;
+const _kDefaultCenterZoom = 15.0;
 
 class _MapContent extends StatefulWidget {
   const _MapContent({super.key});
@@ -36,8 +36,6 @@ class _MapContentState extends State<_MapContent> with TickerProviderStateMixin 
 
   @override
   void dispose() {
-    context.read<HomeCubit>().onRestaurantUnselected();
-
     _animatedMapController.dispose();
     _pageController.dispose();
 
@@ -141,6 +139,7 @@ class _MapContentState extends State<_MapContent> with TickerProviderStateMixin 
                   options: MarkerClusterLayerOptions(
                     size: const Size.square(32),
                     alignment: Alignment.center,
+                    disableClusteringAtZoom: _kDefaultCenterZoom.floor() - 1,
                     rotate: true,
                     animationsOptions: AnimationsOptions(
                       fadeInCurve: Curves.easeIn,
