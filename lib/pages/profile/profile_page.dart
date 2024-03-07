@@ -166,7 +166,7 @@ class _ProfileScreen extends StatelessWidget {
                           onTap: () {
                             showDialog<void>(
                               context: context,
-                              builder: (context) {
+                              builder: (childContext) {
                                 return AlertDialog(
                                   title: Text(translate('profile_page.select_language')),
                                   content: Column(
@@ -183,7 +183,8 @@ class _ProfileScreen extends StatelessWidget {
                                             title: Text(locale.languageName),
                                             onTap: () {
                                               changeLocale(context, locale.languageCode);
-                                              Navigator.pop(context);
+                                              context.read<ProfileCubit>().onChangeLanguage(locale.languageCode);
+                                              Navigator.pop(childContext);
                                             },
                                           ),
                                         )
@@ -197,7 +198,9 @@ class _ProfileScreen extends StatelessWidget {
                       ),
                       const Spacer(),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          // TODO(florian): implement
+                        },
                         child: Text(
                           translate('profile_page.remove_account_button'),
                           style: AttaTextStyle.caption.copyWith(color: Colors.grey.shade600),

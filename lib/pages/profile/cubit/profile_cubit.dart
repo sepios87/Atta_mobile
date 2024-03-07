@@ -32,4 +32,13 @@ class ProfileCubit extends Cubit<ProfileState> {
       emit(state.copyWith(status: ProfileIdleStatus()));
     }
   }
+
+  Future<void> onChangeLanguage(String languageCode) async {
+    try {
+      await userService.updateLanguage(languageCode);
+    } catch (e) {
+      emit(state.copyWith(status: ProfileErrorStatus(e)));
+      emit(state.copyWith(status: ProfileIdleStatus()));
+    }
+  }
 }

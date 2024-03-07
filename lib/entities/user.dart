@@ -15,6 +15,7 @@ class AttaUser {
     required this.favoritesRestaurantIds,
     required this.favoriteDishesIds,
     required Iterable<AttaReservation> reservations,
+    required this.languageCode,
   }) : reservations = SplayTreeSet.from(reservations, (a, b) {
           final compare = a.dateTime.compareTo(b.dateTime);
           // Si les dates sont égales, ca supprime la réservation car considérée comme doublon
@@ -40,6 +41,7 @@ class AttaUser {
       favoritesRestaurantIds: {},
       favoriteDishesIds: {},
       reservations: SplayTreeSet(),
+      languageCode: null,
     );
   }
 
@@ -62,6 +64,7 @@ class AttaUser {
       reservations: map.parse<List>('reservations', fallback: []).map(
         (e) => AttaReservation.fromMap(e as Map<String, dynamic>),
       ),
+      languageCode: map.parse<String?>('language_code'),
     );
   }
 
@@ -75,6 +78,7 @@ class AttaUser {
   final Set<int> favoritesRestaurantIds;
   final Set<(int dishId, int restaurantId)> favoriteDishesIds;
   final SplayTreeSet<AttaReservation> reservations;
+  final String? languageCode;
 
   String get fullName =>
       '${lastName?.toUpperCase().replaceAll(' ', ' ') ?? ''} ${firstName?.replaceAll(' ', '') ?? ''}'.trim();
@@ -93,6 +97,7 @@ class AttaUser {
       'last_name': lastName,
       'phone': phone,
       'image_url': imageUrl,
+      'language_code': languageCode,
     };
   }
 
@@ -102,6 +107,7 @@ class AttaUser {
     Wrapped<String?>? lastName,
     Wrapped<String?>? phone,
     Wrapped<String?>? imageUrl,
+    String? languageCode,
   }) {
     return AttaUser._(
       id: id,
@@ -113,6 +119,7 @@ class AttaUser {
       favoritesRestaurantIds: favoritesRestaurantIds,
       favoriteDishesIds: favoriteDishesIds,
       reservations: reservations ?? this.reservations,
+      languageCode: languageCode,
     );
   }
 

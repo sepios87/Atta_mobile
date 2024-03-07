@@ -64,7 +64,7 @@ class _AttaBottomNavigationBar extends StatelessWidget {
                   height: 42,
                   duration: AttaAnimation.fastAnimation,
                   curve: Curves.easeIn,
-                  padding: EdgeInsets.symmetric(horizontal: isSelected ? 20 : 0),
+                  padding: EdgeInsets.symmetric(horizontal: isSelected ? AttaSpacing.s : 0),
                   decoration: BoxDecoration(
                     color: isSelected ? AttaColors.primary : AttaColors.black,
                     borderRadius: BorderRadius.circular(50),
@@ -90,10 +90,10 @@ class _AttaBottomNavigationBar extends StatelessWidget {
                           );
                         },
                         child: isSelected
-                            ? Text(item.label, style: AttaTextStyle.caption.copyWith(color: AttaColors.white))
-                                .withPadding(
-                                const EdgeInsets.only(left: AttaSpacing.xs),
-                              )
+                            ? Text(
+                                item.label,
+                                style: AttaTextStyle.caption.copyWith(color: AttaColors.white),
+                              ).withPadding(const EdgeInsets.only(left: AttaSpacing.xs))
                             : const SizedBox.shrink(),
                       ),
                     ],

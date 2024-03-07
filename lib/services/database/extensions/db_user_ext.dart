@@ -44,6 +44,14 @@ extension DatabaseUserService on DatabaseService {
     }
   }
 
+  Future<void> updateUserLanguage(String languageCode) async {
+    try {
+      await _supabase.from('users').update({'language_code': languageCode}).eq('id', currentUser!.id);
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
   Future<AttaUser> signInWithGoogle() async {
     final googleUser = await GoogleSignIn(
       serverClientId: '483884968558-q61qivnvh51qcl1rumoholvl73ecck5s.apps.googleusercontent.com',

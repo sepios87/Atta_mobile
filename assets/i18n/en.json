@@ -41,11 +41,10 @@
     },
     "navigation_item": {
         "favorites": "Favorites",
-        "home": "Home",
-        "reservations": "Reservations"
+        "home": "Resto",
+        "reservations": "Resa"
     },
     "preload_page": {
-        "loading": "Loading...",
         "retry_button": "Retry"
     },
     "home_page": {
