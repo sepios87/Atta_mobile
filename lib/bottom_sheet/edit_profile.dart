@@ -55,7 +55,7 @@ class _EditProfileContentState extends State<_EditProfileContent> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       padding: EdgeInsets.only(
-        bottom: MediaQuery.of(context).viewInsets.bottom + AttaSpacing.m,
+        bottom: MediaQuery.paddingOf(context).bottom,
         left: AttaSpacing.m,
         right: AttaSpacing.m,
       ),

@@ -134,7 +134,7 @@ class _RestaurantPreviewBottomSheet extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(height: AttaSpacing.m),
+        SizedBox(height: MediaQuery.paddingOf(context).bottom),
       ],
     );
   }

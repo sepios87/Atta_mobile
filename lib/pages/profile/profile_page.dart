@@ -182,8 +182,10 @@ class _ProfileScreen extends StatelessWidget {
                                                 : const SizedBox.square(dimension: 24),
                                             title: Text(locale.languageName),
                                             onTap: () {
-                                              changeLocale(context, locale.languageCode);
-                                              context.read<ProfileCubit>().onChangeLanguage(locale.languageCode);
+                                              context.read<ProfileCubit>().onChangeLanguage(
+                                                    context,
+                                                    locale.languageCode,
+                                                  );
                                               Navigator.pop(childContext);
                                             },
                                           ),
@@ -225,7 +227,7 @@ class _ProfileScreen extends StatelessWidget {
                               )
                             : Text(translate('profile_page.logout_button')),
                       ),
-                      SizedBox(height: MediaQuery.of(context).padding.bottom + AttaSpacing.s),
+                      SizedBox(height: MediaQuery.of(context).padding.bottom),
                     ],
                   ),
                 ),

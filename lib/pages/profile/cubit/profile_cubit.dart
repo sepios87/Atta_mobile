@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:atta/entities/user.dart';
 import 'package:atta/main.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 
 part 'profile_state.dart';
 
@@ -33,8 +35,9 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
-  Future<void> onChangeLanguage(String languageCode) async {
+  Future<void> onChangeLanguage(BuildContext context, String languageCode) async {
     try {
+      await changeLocale(context, languageCode);
       await userService.updateLanguage(languageCode);
     } catch (e) {
       emit(state.copyWith(status: ProfileErrorStatus(e)));

@@ -116,7 +116,7 @@
         "dish_selected": "Plats commandés",
         "menu_selected": "Menus commandés",
         "comment": "Commentaire",
-        "hint_comment": "Exemple : Allergies, préférences, etc.",
+        "comment_hint": "Exemple : Allergies, préférences, etc.",
         "reservation_button": "Réserver"
     },
     "restaurant_detail_page": {

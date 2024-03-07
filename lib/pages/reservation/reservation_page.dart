@@ -96,7 +96,9 @@ class _ReservationScreen extends StatelessWidget {
             color: Colors.white,
             borderRadius: BorderRadiusExt.top(AttaRadius.medium),
           ),
-          child: const _ReservationBody(),
+          child: const SafeArea(
+            child: _ReservationBody(),
+          ),
         ),
       ),
     );

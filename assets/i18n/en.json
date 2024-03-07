@@ -116,7 +116,7 @@
         "dish_selected": "Ordered Dishes",
         "menu_selected": "Ordered Menus",
         "comment": "Comment",
-        "hint_comment": "Example: Allergies, preferences, etc.",
+        "comment_hint": "Example: Allergies, preferences, etc.",
         "reservation_button": "Reserve"
     },
     "restaurant_detail_page": {

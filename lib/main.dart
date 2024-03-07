@@ -44,6 +44,16 @@ final locationService = LocationService();
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge).ignore();
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarBrightness: Brightness.light,
+      statusBarIconBrightness: Brightness.dark,
+      statusBarColor: Colors.transparent,
+      systemNavigationBarColor: Colors.transparent,
+    ),
+  );
+
   await Supabase.initialize(
     url: const String.fromEnvironment('SUPABASE_URL'),
     anonKey: const String.fromEnvironment('SUPABASE_KEY'),
@@ -68,37 +78,28 @@ class AttaApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final localizationDelegate = LocalizedApp.of(context).delegate;
 
-    return AnnotatedRegion(
-      value: SystemUiOverlayStyle(
-        statusBarColor: AttaColors.black,
-        statusBarIconBrightness: Brightness.light,
-        systemNavigationBarIconBrightness: Brightness.light,
-        systemNavigationBarColor: AttaColors.black.withOpacity(0.002),
-        systemNavigationBarDividerColor: Colors.black.withOpacity(0.002),
-      ),
-      child: LocalizationProvider(
-        state: LocalizationProvider.of(context).state,
-        child: MaterialApp.router(
-          title: 'Atta',
-          scrollBehavior: const MaterialScrollBehavior().copyWith(
-            dragDevices: {
-              PointerDeviceKind.mouse,
-              PointerDeviceKind.touch,
-              PointerDeviceKind.stylus,
-              PointerDeviceKind.unknown,
-            },
-          ),
-          theme: _attaThemeData,
-          routerConfig: _router,
-          locale: localizationDelegate.currentLocale,
-          localizationsDelegates: [
-            localizationDelegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: localizationDelegate.supportedLocales,
+    return LocalizationProvider(
+      state: LocalizationProvider.of(context).state,
+      child: MaterialApp.router(
+        title: 'Atta',
+        scrollBehavior: const MaterialScrollBehavior().copyWith(
+          dragDevices: {
+            PointerDeviceKind.mouse,
+            PointerDeviceKind.touch,
+            PointerDeviceKind.stylus,
+            PointerDeviceKind.unknown,
+          },
         ),
+        theme: _attaThemeData,
+        routerConfig: _router,
+        locale: localizationDelegate.currentLocale,
+        localizationsDelegates: [
+          localizationDelegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: localizationDelegate.supportedLocales,
       ),
     );
   }
