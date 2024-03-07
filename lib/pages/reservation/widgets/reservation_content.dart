@@ -1,13 +1,13 @@
 part of '../reservation_page.dart';
 
-class _ReservationBody extends StatefulWidget {
-  const _ReservationBody();
+class _ReservationContent extends StatefulWidget {
+  const _ReservationContent();
 
   @override
-  State<_ReservationBody> createState() => __ReservationBodyState();
+  State<_ReservationContent> createState() => _ReservationContentState();
 }
 
-class __ReservationBodyState extends State<_ReservationBody> {
+class _ReservationContentState extends State<_ReservationContent> {
   bool _canScroll = true;
   final _commentController = TextEditingController();
 

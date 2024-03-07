@@ -23,7 +23,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:go_router/go_router.dart';
 
-part 'widgets/reservation_body.dart';
+part 'widgets/reservation_content.dart';
 part 'widgets/select_table.dart';
 
 class ReservationPageArgument {
@@ -97,7 +97,7 @@ class _ReservationScreen extends StatelessWidget {
             borderRadius: BorderRadiusExt.top(AttaRadius.medium),
           ),
           child: const SafeArea(
-            child: _ReservationBody(),
+            child: _ReservationContent(),
           ),
         ),
       ),
