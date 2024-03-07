@@ -15,6 +15,7 @@ import 'package:atta/widgets/skeleton.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 
 part 'widgets/reservation_cart_card.dart';
 
@@ -54,7 +55,7 @@ class _CartScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: AttaSpacing.m),
-                  Text('Commandes à terminer', style: AttaTextStyle.header).withPadding(
+                  Text(translate('cart_page.order_to_complete'), style: AttaTextStyle.header).withPadding(
                     const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
                   ),
                   const SizedBox(height: AttaSpacing.m),

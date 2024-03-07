@@ -7,6 +7,9 @@
         "home": "Resto",
         "reservations": "Résa"
     },
+    "preload_page": {
+        "retry_button": "Réessayer"
+    },
     "home_page": {
         "most_recent_restaurants": "Les plus récents",
         "most_popular_restaurants": "Les plus populaires",
@@ -42,5 +45,50 @@
         "create_account_button": "Créer un compte",
         "confirm_password": "Confirmer le mot de passe",
         "password_not_match": "Les mots de passe ne correspondent pas"
+    },
+    "cart_page": {
+        "order_to_complete": "Commandes à terminer"
+    },
+    "profile_page": {
+        "edit_profile": "Modifier le profil",
+        "edit_profile_description": "Mettre à jour les informations",
+        "change_language": "Changer la langue",
+        "select_language": "Sélectionner la langue",
+        "remove_account_button": "Supprimer le compte",
+        "logout_button": "Se déconnecter"
+    },
+    "reservation_page": {
+        "title": "Réservation",
+        "number_of_persons": "Pour combien de personnes ?",
+        "select_table": "Choisi ta table",
+        "dish_selected": "Plats commandés",
+        "menu_selected": "Menus commandés",
+        "comment": "Commentaire",
+        "hint_comment": "Exemple : Allergies, préférences, etc.",
+        "reservation_button": "Réserver"
+    },
+    "restaurant_detail_page": {
+        "login_to_reserve": "Connectez-vous pour réserver",
+        "login_button": "Se connecter",
+        "command_and_reserve_button": "Commander et réserver {{price}}",
+        "reserve_button": "Réserver",
+        "no_formulas": "Aucun plat ou menu disponible"
+    },
+    "user_reservation_page": {
+        "title": "Vos réservations",
+        "no_reservations": "Vous n'avez pas encore de réservations",
+        "after_reservations": "Pour les prochains jours",
+        "before_reservations": "Vos réservations passées",
+        "cancel_reservation": "Annuler la réservation",
+        "cancel_reservation_confirmation": "Voulez-vous vraiment annuler cette réservation ?",
+        "cancel_reservation_button": "Annuler",
+        "confirm_reservation_button": "Confirmer"
+    },
+    "edit_profile_bottom_sheet": {
+        "remove_image": "Supprimer la photo",
+        "first_name": "Prénom",
+        "last_name": "Nom",
+        "phone": "Numéro de téléphone",
+        "email": "Email"
     }
 }

@@ -17,6 +17,7 @@ import 'package:atta/widgets/skeleton.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -66,7 +67,7 @@ class _UserReservations extends StatelessWidget {
                     child: Stack(
                       clipBehavior: Clip.none,
                       children: [
-                        Text('Vos réservations', style: AttaTextStyle.header),
+                        Text(translate('user_reservations.title'), style: AttaTextStyle.header),
                         Positioned(
                           right: 0,
                           top: 0,
@@ -87,12 +88,12 @@ class _UserReservations extends StatelessWidget {
                 ),
                 const SizedBox(height: AttaSpacing.l),
                 if (state.withoutReservations)
-                  Text("Vous n'avez pas encore de réservations", style: AttaTextStyle.content).withPadding(
+                  Text(translate('user_reservations.no_reservations'), style: AttaTextStyle.content).withPadding(
                     const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
                   )
                 else ...[
                   if (afterReservation.isNotEmpty) ...[
-                    Text('Pour les prochains jours', style: AttaTextStyle.subHeader).withPadding(
+                    Text(translate('user_reservations.after_reservations'), style: AttaTextStyle.subHeader).withPadding(
                       const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
                     ),
                     const SizedBox(height: AttaSpacing.xs),
@@ -100,12 +101,14 @@ class _UserReservations extends StatelessWidget {
                       (r) => _ReservationCardExpansion(
                         reservation: r,
                         key: ValueKey(r.id),
+                        isPast: false,
                       ),
                     ),
                     const SizedBox(height: AttaSpacing.l),
                   ],
                   if (beforeReservation.isNotEmpty) ...[
-                    Text('Déja passées', style: AttaTextStyle.subHeader).withPadding(
+                    Text(translate('user_reservations.before_reservations'), style: AttaTextStyle.subHeader)
+                        .withPadding(
                       const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
                     ),
                     const SizedBox(height: AttaSpacing.xs),
@@ -113,6 +116,7 @@ class _UserReservations extends StatelessWidget {
                       (r) => _ReservationCardExpansion(
                         reservation: r,
                         key: ValueKey(r.id),
+                        isPast: true,
                       ),
                     ),
                   ],

@@ -6,6 +6,7 @@ import 'package:atta/theme/spacing.dart';
 import 'package:atta/theme/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 
 part 'widgets/animated_logo.dart';
 
@@ -56,7 +57,7 @@ class _PreloadScreen extends StatelessWidget {
                     const SizedBox(height: AttaSpacing.xxl),
                     ElevatedButton(
                       onPressed: () => context.read<PreloadCubit>().load(),
-                      child: const Text('Réessayer'),
+                      child: Text(translate('preload_page.retry')),
                     ),
                   ],
                 ),

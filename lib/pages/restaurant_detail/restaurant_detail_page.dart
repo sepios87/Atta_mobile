@@ -28,6 +28,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -139,7 +140,7 @@ class _RestaurantDetailScreenState extends State<_RestaurantDetailScreen> {
                         ? SliverFillRemaining(
                             hasScrollBody: false,
                             child: Center(
-                              child: const Text('Aucun résultat').withPadding(
+                              child: Text(translate('restaurant_detail_page.no_formulas')).withPadding(
                                 const EdgeInsets.only(top: AttaSpacing.m, bottom: AttaSpacing.xl),
                               ),
                             ),
@@ -258,10 +259,10 @@ class _RestaurantDetailScreenState extends State<_RestaurantDetailScreen> {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           backgroundColor: AttaColors.black,
-                          content: const Text('Vous devez être connecté pour réserver'),
+                          content: Text(translate('restaurant_detail_page.login_to_reserve')),
                           action: SnackBarAction(
                             textColor: AttaColors.white,
-                            label: 'Se connecter',
+                            label: translate('restaurant_detail_page.login_button'),
                             onPressed: () => context.adapativePushNamed(AuthPage.routeName),
                           ),
                         ),
@@ -270,8 +271,11 @@ class _RestaurantDetailScreenState extends State<_RestaurantDetailScreen> {
                   },
                   child: Text(
                     state.reservation?.withFormulas ?? false
-                        ? 'Commander et réserver (${state.totalAmount.toEuro})'
-                        : 'Réserver sans commander',
+                        ? translate(
+                            'restaurant_detail_page.command_and_reserve_button',
+                            args: {'price': state.totalAmount.toEuro},
+                          )
+                        : translate('restaurant_detail_page.reserve_button'),
                   ),
                 );
               },

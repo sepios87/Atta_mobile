@@ -29,7 +29,7 @@ class __ReservationBodyState extends State<_ReservationBody> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const SizedBox(height: AttaSpacing.m),
-              Text('Reservation', style: AttaTextStyle.header).withPadding(
+              Text(translate('reservation_page.title'), style: AttaTextStyle.header).withPadding(
                 const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
               ),
               BlocBuilder<ReservationCubit, ReservationState>(
@@ -51,7 +51,7 @@ class __ReservationBodyState extends State<_ReservationBody> {
                 const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
               ),
               const SizedBox(height: AttaSpacing.m),
-              Text('Pour combien de personnes ?', style: AttaTextStyle.content).withPadding(
+              Text(translate('reservation_page.number_of_persons'), style: AttaTextStyle.content).withPadding(
                 const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
               ),
               const SizedBox(height: AttaSpacing.s),
@@ -62,7 +62,7 @@ class __ReservationBodyState extends State<_ReservationBody> {
                 const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
               ),
               const SizedBox(height: AttaSpacing.l),
-              Text('Choisi ta place', style: AttaTextStyle.content).withPadding(
+              Text(translate('reservation_page.select_table'), style: AttaTextStyle.content).withPadding(
                 const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
               ),
               const SizedBox(height: AttaSpacing.s),
@@ -89,7 +89,7 @@ class __ReservationBodyState extends State<_ReservationBody> {
                 ),
               const SizedBox(height: AttaSpacing.l),
               if (state.reservation.dishIds.isNotEmpty) ...[
-                Text('Plats commandés', style: AttaTextStyle.content).withPadding(
+                Text(translate('reservation_page.dish_selected'), style: AttaTextStyle.content).withPadding(
                   const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
                 ),
                 const SizedBox(height: AttaSpacing.s),
@@ -117,7 +117,7 @@ class __ReservationBodyState extends State<_ReservationBody> {
                 const SizedBox(height: AttaSpacing.l),
               ],
               if (state.reservation.menus.isNotEmpty) ...[
-                Text('Menus commandés', style: AttaTextStyle.content).withPadding(
+                Text(translate('reservation_page.menu_selected'), style: AttaTextStyle.content).withPadding(
                   const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
                 ),
                 const SizedBox(height: AttaSpacing.s),
@@ -164,7 +164,7 @@ class __ReservationBodyState extends State<_ReservationBody> {
                 }),
                 const SizedBox(height: AttaSpacing.l),
               ],
-              Text('Commentaire', style: AttaTextStyle.content).withPadding(
+              Text(translate('reservation_page.comment'), style: AttaTextStyle.content).withPadding(
                 const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
               ),
               const SizedBox(height: AttaSpacing.s),
@@ -178,7 +178,7 @@ class __ReservationBodyState extends State<_ReservationBody> {
                   ),
                   filled: true,
                   contentPadding: const EdgeInsets.all(AttaSpacing.s),
-                  hintText: 'Je suis allergique aux fruits à coque...',
+                  hintText: translate('reservation_page.comment_hint'),
                 ),
               ).withPadding(
                 const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
@@ -203,7 +203,7 @@ class __ReservationBodyState extends State<_ReservationBody> {
                               color: AttaColors.white,
                             ),
                           )
-                        : const Text('Réserver'),
+                        : Text(translate('reservation_page.reservation_button')),
                   ).withPadding(const EdgeInsets.symmetric(horizontal: AttaSpacing.m));
                 },
               ),

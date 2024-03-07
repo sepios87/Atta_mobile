@@ -143,8 +143,8 @@ class _ProfileScreen extends StatelessWidget {
                       Material(
                         color: Colors.transparent,
                         child: ListTile(
-                          title: const Text('Modifier le profile'),
-                          subtitle: const Text('Pour mettre à jour vos informations'),
+                          title: Text(translate('profile_page.edit_profile')),
+                          subtitle: Text(translate('profile_page.edit_profile_description')),
                           trailing: const Icon(Icons.chevron_right_rounded),
                           onTap: () => showEditProfileBottomSheet(context, state.user),
                         ),
@@ -153,14 +153,14 @@ class _ProfileScreen extends StatelessWidget {
                       Material(
                         color: Colors.transparent,
                         child: ListTile(
-                          title: const Text('Changer la langue'),
+                          title: Text(translate('profile_page.change_language')),
                           trailing: const Icon(Icons.chevron_right_rounded),
                           onTap: () {
                             showDialog<void>(
                               context: context,
                               builder: (context) {
                                 return AlertDialog(
-                                  title: const Text('Selectionnez une langue'),
+                                  title: Text(translate('profile_page.select_language')),
                                   content: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     children: LocalizedApp.of(context)
@@ -191,7 +191,7 @@ class _ProfileScreen extends StatelessWidget {
                       TextButton(
                         onPressed: () {},
                         child: Text(
-                          'Supprimer le compte',
+                          translate('profile_page.remove_account_button'),
                           style: AttaTextStyle.caption.copyWith(color: Colors.grey.shade600),
                         ),
                       ),
@@ -212,7 +212,7 @@ class _ProfileScreen extends StatelessWidget {
                                   strokeWidth: 2,
                                 ),
                               )
-                            : const Text('Se déconnecter'),
+                            : Text(translate('profile_page.logout_button')),
                       ),
                       const SizedBox(height: AttaSpacing.m),
                     ],
