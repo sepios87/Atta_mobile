@@ -33,7 +33,14 @@
         "welcome": "Hello",
         "content": " Bienvenue sur ATTA, l'application parfaite pour vous mettre à table !\n Commencez par créer votre compte pour pouvoir réserver une table dans votre restaurant préféré.",
         "email": "Email",
+        "required_email": "Veuillez entrer votre email",
         "password": "Mot de passe",
-        
+        "required_password": "Veuillez entrer votre mot de passe",
+        "forget_password_button": "Mot de passe oublié ?",
+        "email_sent": "Un email de réinitialisation de mot de passe a été envoyé",
+        "login_button": "Se connecter",
+        "create_account_button": "Créer un compte",
+        "confirm_password": "Confirmer le mot de passe",
+        "password_not_match": "Les mots de passe ne correspondent pas"
     }
 }
