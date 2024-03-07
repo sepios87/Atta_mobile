@@ -1,6 +1,4 @@
-import 'package:atta/entities/restaurant.dart';
 import 'package:atta/entities/wrapped.dart';
-import 'package:atta/extensions/date_time_ext.dart';
 import 'package:atta/extensions/map_ext.dart';
 import 'package:flutter/material.dart';
 
@@ -167,10 +165,6 @@ class AttaReservation {
       menus: menus ?? this.menus,
       comment: comment,
     );
-  }
-
-  String shareText(AttaRestaurant restaurant) {
-    return "AttaReservation !\n\nRetrouves moi ${dateTime.accurateFormat(withPronoun: true).toLowerCase()} au restaurant ${restaurant.name} (${restaurant.address}) ! J'ai réservé une table pour $numberOfPersons personnes.";
   }
 
   @override

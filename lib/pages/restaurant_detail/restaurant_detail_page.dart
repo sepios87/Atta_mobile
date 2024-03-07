@@ -240,7 +240,7 @@ class _RestaurantDetailScreenState extends State<_RestaurantDetailScreen> {
             ],
           ),
           Positioned(
-            bottom: MediaQuery.paddingOf(context).bottom,
+            bottom: MediaQuery.paddingOf(context).bottom + AttaSpacing.s,
             left: AttaSpacing.m,
             right: AttaSpacing.m,
             child: BlocBuilder<RestaurantDetailCubit, RestaurantDetailState>(

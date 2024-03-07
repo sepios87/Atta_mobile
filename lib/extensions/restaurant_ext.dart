@@ -1,6 +1,13 @@
 import 'package:atta/entities/restaurant.dart';
 import 'package:collection/collection.dart';
 
+extension AttaRestaurantExt on AttaRestaurant {
+  String shareText() {
+    // TODO(florian): translate
+    return "Découvre le restaurant $name, à l'adresse suivante : $address";
+  }
+}
+
 extension AttaRestaurantListExt on List<AttaRestaurant> {
   List<AttaRestaurant> getMostRecents(int maxNumber) {
     return sorted((a, b) => b.createdAt.compareTo(a.createdAt)).take(maxNumber).toList();

@@ -51,7 +51,7 @@ class _AttaBottomNavigationBar extends StatelessWidget {
         top: AttaSpacing.s,
         left: AttaSpacing.m,
         right: AttaSpacing.m,
-        bottom: MediaQuery.paddingOf(context).bottom + AttaSpacing.xs,
+        bottom: MediaQuery.paddingOf(context).bottom + AttaSpacing.s,
       ),
       child: Row(
         children: _BottomNavigationItem.values.map((item) {

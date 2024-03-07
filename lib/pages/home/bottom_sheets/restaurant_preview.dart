@@ -88,7 +88,11 @@ class _RestaurantPreviewBottomSheet extends StatelessWidget {
         ),
         const SizedBox(height: AttaSpacing.l),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
+          padding: EdgeInsets.only(
+            left: AttaSpacing.m,
+            right: AttaSpacing.m,
+            bottom: MediaQuery.paddingOf(context).bottom + AttaSpacing.s,
+          ),
           child: Row(
             children: [
               Expanded(
@@ -134,7 +138,6 @@ class _RestaurantPreviewBottomSheet extends StatelessWidget {
             ],
           ),
         ),
-        SizedBox(height: MediaQuery.paddingOf(context).bottom),
       ],
     );
   }

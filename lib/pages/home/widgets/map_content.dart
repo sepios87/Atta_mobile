@@ -1,6 +1,6 @@
 part of '../home_page.dart';
 
-const _kDefaultCenterZoom = 16.0;
+const _kDefaultCenterZoom = 15.2;
 
 class _MapContent extends StatefulWidget {
   const _MapContent({super.key});
@@ -172,7 +172,7 @@ class _MapContentState extends State<_MapContent> with TickerProviderStateMixin 
             ),
             if (restaurants.isNotEmpty)
               Positioned(
-                bottom: AttaSpacing.s,
+                bottom: MediaQuery.paddingOf(context).bottom + AttaSpacing.s,
                 left: 0,
                 right: 0,
                 child: SizedBox(

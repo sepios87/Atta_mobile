@@ -5,9 +5,11 @@ import 'package:atta/entities/reservation.dart';
 import 'package:atta/entities/restaurant.dart';
 import 'package:atta/entities/wrapped.dart';
 import 'package:atta/extensions/opening_time_ext.dart';
+import 'package:atta/extensions/restaurant_ext.dart';
 import 'package:atta/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:share_plus/share_plus.dart';
 
 part 'restaurant_detail_state.dart';
 
@@ -81,5 +83,9 @@ class RestaurantDetailCubit extends Cubit<RestaurantDetailState> {
 
   void updateReservation() {
     emit(state.copyWith(reservation: reservationService.getReservation(state.restaurant.id)));
+  }
+
+  void onShare() {
+    Share.share(state.restaurant.shareText());
   }
 }

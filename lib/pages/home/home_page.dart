@@ -60,7 +60,7 @@ class _HomeScreen extends StatelessWidget {
         if (state.selectedRestaurant != null) {
           showModalBottomSheet<void>(
             constraints: BoxConstraints(
-              minHeight: MediaQuery.of(context).size.height * 0.2,
+              minHeight: MediaQuery.sizeOf(context).height * 0.2,
             ),
             useRootNavigator: true,
             context: context,

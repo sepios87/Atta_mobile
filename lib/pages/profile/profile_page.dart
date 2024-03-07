@@ -227,7 +227,7 @@ class _ProfileScreen extends StatelessWidget {
                               )
                             : Text(translate('profile_page.logout_button')),
                       ),
-                      SizedBox(height: MediaQuery.of(context).padding.bottom),
+                      SizedBox(height: MediaQuery.paddingOf(context).bottom + AttaSpacing.s),
                     ],
                   ),
                 ),

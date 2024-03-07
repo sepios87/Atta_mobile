@@ -117,7 +117,7 @@ class _MenuDetailScreen extends StatelessWidget {
               ),
             ),
             Positioned(
-              bottom: MediaQuery.paddingOf(context).bottom,
+              bottom: MediaQuery.paddingOf(context).bottom + AttaSpacing.s,
               left: AttaSpacing.m,
               right: AttaSpacing.m,
               child: Row(
