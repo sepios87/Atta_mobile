@@ -42,7 +42,7 @@ class _FavoriteButtonState extends State<FavoriteButton> {
           secondChild: Icon(
             Icons.favorite_border_rounded,
             color: widget.borderColor,
-            size: 30,
+            size: 28,
           ),
         ),
       ),

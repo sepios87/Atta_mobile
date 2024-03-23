@@ -234,7 +234,12 @@ class _RestaurantDetailScreenState extends State<_RestaurantDetailScreen> {
               DecoratedSliver(
                 decoration: const BoxDecoration(color: Colors.white),
                 sliver: SliverPadding(
-                  padding: EdgeInsets.only(bottom: AttaSpacing.m + 48 + MediaQuery.viewInsetsOf(context).bottom),
+                  padding: EdgeInsets.only(
+                    bottom: AttaSpacing.m +
+                        48 +
+                        MediaQuery.viewInsetsOf(context).bottom +
+                        MediaQuery.paddingOf(context).bottom,
+                  ),
                 ),
               ),
             ],

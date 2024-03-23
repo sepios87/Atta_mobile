@@ -53,59 +53,63 @@ class _MapContentState extends State<_MapContent> with TickerProviderStateMixin 
             width: 48,
             height: 48,
             point: LatLng(restaurant.latitude, restaurant.longitude),
-            child: BlocBuilder<HomeCubit, HomeState>(
-              // Rebuild just 2 restaurants
-              buildWhen: (previous, current) =>
-                  previous.selectedRestaurant != current.selectedRestaurant &&
-                      current.selectedRestaurant?.id == restaurant.id ||
-                  previous.selectedRestaurant?.id == restaurant.id,
-              builder: (context, state) {
-                return AnimatedContainer(
-                  key: Key(restaurant.id.toString()),
-                  duration: AttaAnimation.mediumAnimation,
-                  decoration: state.selectedRestaurant?.id == restaurant.id
-                      ? BoxDecoration(
-                          border: Border.all(color: AttaColors.accent, width: 3),
+            child: Stack(
+              children: [
+                CachedNetworkImage(
+                  imageUrl: restaurant.thumbnail,
+                  fadeInDuration: AttaAnimation.fastAnimation,
+                  fadeOutDuration: AttaAnimation.fastAnimation,
+                  useOldImageOnUrlChange: true,
+                  memCacheWidth: 52 * 2,
+                  imageBuilder: (context, imageProvider) {
+                    return GestureDetector(
+                      onTap: () {
+                        _pageController.animateToPage(
+                          restaurants.indexOf(restaurant),
+                          duration: AttaAnimation.fastAnimation,
+                          curve: Curves.easeInOut,
+                        );
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: AttaColors.black,
                           shape: BoxShape.circle,
-                        )
-                      : null,
-                  child: CachedNetworkImage(
-                    imageUrl: restaurant.thumbnail,
-                    fadeInDuration: AttaAnimation.fastAnimation,
-                    fadeOutDuration: AttaAnimation.fastAnimation,
-                    useOldImageOnUrlChange: true,
-                    memCacheWidth: 52 * 2,
-                    imageBuilder: (context, imageProvider) {
-                      return GestureDetector(
-                        onTap: () {
-                          _pageController.animateToPage(
-                            restaurants.indexOf(restaurant),
-                            duration: AttaAnimation.fastAnimation,
-                            curve: Curves.easeInOut,
-                          );
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: AttaColors.black,
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                              image: imageProvider,
-                              fit: BoxFit.cover,
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: AttaColors.black.withOpacity(0.1),
-                                blurRadius: 6,
-                                offset: const Offset(0, 4),
-                              ),
-                            ],
+                          image: DecorationImage(
+                            image: imageProvider,
+                            fit: BoxFit.cover,
                           ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: AttaColors.black.withOpacity(0.1),
+                              blurRadius: 6,
+                              offset: const Offset(0, 4),
+                            ),
+                          ],
                         ),
-                      );
-                    },
-                  ),
-                );
-              },
+                      ),
+                    );
+                  },
+                ),
+                BlocBuilder<HomeCubit, HomeState>(
+                  // Rebuild just 2 restaurants
+                  buildWhen: (previous, current) =>
+                      previous.selectedRestaurant != current.selectedRestaurant &&
+                          current.selectedRestaurant?.id == restaurant.id ||
+                      previous.selectedRestaurant?.id == restaurant.id,
+                  builder: (context, state) {
+                    return AnimatedContainer(
+                      key: Key(restaurant.id.toString()),
+                      duration: AttaAnimation.mediumAnimation,
+                      decoration: state.selectedRestaurant?.id == restaurant.id
+                          ? BoxDecoration(
+                              border: Border.all(color: AttaColors.accent, width: 3),
+                              shape: BoxShape.circle,
+                            )
+                          : null,
+                    );
+                  },
+                ),
+              ],
             ),
           );
         }).toList();
