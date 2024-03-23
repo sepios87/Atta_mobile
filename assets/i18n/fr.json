@@ -2,9 +2,9 @@
     "date_time": {
         "today": "Aujourd'hui",
         "tomorrow": "Demain",
-        "today_at": "Aujourd'hui à {{time}}",
-        "tomorrow_at": "Demain à {{time}}",
-        "at": "Le {{date}} à {{time}}"
+        "today_at": "Aujourd'hui à {time}",
+        "tomorrow_at": "Demain à {time}",
+        "at": "Le {date} à {time}"
     },
     "dish_type_entity": {
         "entrance": "Entrée",
@@ -122,7 +122,7 @@
     "restaurant_detail_page": {
         "login_to_reserve": "Connectez-vous pour réserver",
         "login_button": "Se connecter",
-        "command_and_reserve_button": "Commander et réserver {{price}}",
+        "command_and_reserve_button": "Commander et réserver {price}",
         "reserve_button": "Réserver",
         "no_formulas": "Aucun plat ou menu disponible"
     },

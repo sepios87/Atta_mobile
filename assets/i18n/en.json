@@ -2,9 +2,9 @@
     "date_time": {
         "today": "Today",
         "tomorrow": "Tomorrow",
-        "today_at": "Today at {{time}}",
-        "tomorrow_at": "Tomorrow at {{time}}",
-        "at": "On {{date}} at {{time}}"
+        "today_at": "Today at {time}",
+        "tomorrow_at": "Tomorrow at {time}",
+        "at": "On {date} at {time}"
     },
     "dish_type_entity": {
         "entrance": "Appetizer",
@@ -122,7 +122,7 @@
     "restaurant_detail_page": {
         "login_to_reserve": "Log in to reserve",
         "login_button": "Log in",
-        "command_and_reserve_button": "Order and reserve {{price}}",
+        "command_and_reserve_button": "Order and reserve {price}",
         "reserve_button": "Reserve",
         "no_formulas": "No dishes or menus available"
     },
