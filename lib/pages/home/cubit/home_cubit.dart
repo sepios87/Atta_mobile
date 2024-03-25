@@ -20,7 +20,9 @@ class HomeCubit extends Cubit<HomeState> {
           ),
         ) {
     _userSubscription = userService.userStream.listen((user) {
-      emit(state.copyWith(user: Wrapped.value(user)));
+      if (user?.id != state.user?.id) {
+        emit(state.copyWith(user: Wrapped.value(user)));
+      }
     });
     _loadRestaurantsCategories();
   }

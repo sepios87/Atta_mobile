@@ -68,7 +68,7 @@ class _AuthScreen extends StatelessWidget {
 
                   if (status is AuthSuccessStatus) {
                     final user = userService.user;
-                    if (!state.isLogin && user != null) {
+                    if (state.isNewAccount && user != null) {
                       await showEditProfileBottomSheet(context, user);
                     }
                     // ignore: use_build_context_synchronously
