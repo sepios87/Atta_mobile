@@ -11,9 +11,7 @@ part 'home_base_state.dart';
 class HomeBaseCubit extends Cubit<HomeBaseState> {
   HomeBaseCubit() : super(HomeBaseState.initial(user: userService.user)) {
     _userSubscription = userService.userStream.listen((user) {
-      if (user?.id != state.user?.id) {
-        emit(state.copyWith(user: Wrapped.value(user)));
-      }
+      emit(state.copyWith(user: Wrapped.value(user)));
     });
   }
 

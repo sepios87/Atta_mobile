@@ -14,9 +14,7 @@ part 'user_reservations_state.dart';
 class UserReservationsCubit extends Cubit<UserReservationsState> {
   UserReservationsCubit() : super(UserReservationsState.initial(userService.user!)) {
     _userSubscription = userService.userStream.listen((user) {
-      if (user?.id != state.user.id) {
-        emit(state.copyWith(user: user));
-      }
+      emit(state.copyWith(user: user));
     });
   }
 

@@ -11,9 +11,7 @@ part 'profile_state.dart';
 class ProfileCubit extends Cubit<ProfileState> {
   ProfileCubit() : super(ProfileState.initial(userService.user!)) {
     _userStreamSubscription = userService.userStream.listen((user) {
-      if (user?.id != state.user.id) {
-        emit(state.copyWith(user: user));
-      }
+      emit(state.copyWith(user: user));
     });
   }
 

@@ -18,9 +18,7 @@ class FavoriteCubit extends Cubit<FavoriteState> {
           ),
         ) {
     _userSubscription = userService.userStream.listen((user) {
-      if (user?.id != state.user.id) {
-        emit(state.copyWith(user: user));
-      }
+      emit(state.copyWith(user: user));
     });
   }
 
