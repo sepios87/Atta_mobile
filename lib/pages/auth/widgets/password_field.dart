@@ -40,7 +40,7 @@ class __PasswordFieldState extends State<_PasswordField> {
       onChanged: (value) => widget.onChanged?.call(value),
       validator: (value) {
         if (value == null || value.isEmpty) {
-          return 'Veuillez entrer votre mot de passe';
+          return translate('auth_page.required_password');
         }
         return widget.validator?.call(value);
       },

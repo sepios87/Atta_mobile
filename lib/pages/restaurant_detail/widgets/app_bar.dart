@@ -32,6 +32,11 @@ class _AppBar extends StatelessWidget {
         icon: const Icon(Icons.arrow_back_ios_new),
       ),
       actions: [
+        IconButton(
+          onPressed: () => context.read<RestaurantDetailCubit>().onShare(),
+          icon: const Icon(Icons.share),
+        ),
+        const SizedBox(width: AttaSpacing.xs),
         if (userService.isLogged)
           BlocSelector<RestaurantDetailCubit, RestaurantDetailState, bool>(
             selector: (state) => state.isFavorite,

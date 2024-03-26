@@ -6,6 +6,7 @@ import 'package:atta/theme/spacing.dart';
 import 'package:atta/theme/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 
 part 'widgets/animated_logo.dart';
 
@@ -18,8 +19,20 @@ class PreloadPage {
       );
 }
 
-class _PreloadScreen extends StatelessWidget {
+class _PreloadScreen extends StatefulWidget {
   const _PreloadScreen();
+
+  @override
+  State<_PreloadScreen> createState() => _PreloadScreenState();
+}
+
+class _PreloadScreenState extends State<_PreloadScreen> {
+  @override
+  void initState() {
+    super.initState();
+
+    context.read<PreloadCubit>().load(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,29 +68,15 @@ class _PreloadScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: AttaSpacing.xxl),
                     ElevatedButton(
-                      onPressed: () => context.read<PreloadCubit>().load(),
-                      child: const Text('Réessayer'),
+                      onPressed: () => context.read<PreloadCubit>().load(context),
+                      child: Text(translate('preload_page.retry')),
                     ),
                   ],
                 ),
               ),
             );
           }
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const _AnimatedLogo(),
-                const SizedBox(height: AttaSpacing.xl),
-                Text(
-                  'Chargement...',
-                  style: AttaTextStyle.header.copyWith(
-                    color: AttaColors.white,
-                  ),
-                ),
-              ],
-            ),
-          );
+          return const Center(child: _AnimatedLogo());
         },
       ),
     );

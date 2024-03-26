@@ -116,4 +116,10 @@ class UserService {
     _userStreamController.add(newUser);
     await databaseService.updateUser(newUser!);
   }
+
+  Future<void> updateLanguage(String languageCode) async {
+    final newUser = user?.copyWith(languageCode: languageCode);
+    _userStreamController.add(newUser);
+    await databaseService.updateUserLanguage(languageCode);
+  }
 }

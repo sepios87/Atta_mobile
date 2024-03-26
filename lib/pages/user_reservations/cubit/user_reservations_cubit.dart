@@ -1,17 +1,22 @@
 import 'dart:async';
 
 import 'package:atta/entities/reservation.dart';
+import 'package:atta/entities/restaurant.dart';
 import 'package:atta/entities/user.dart';
+import 'package:atta/extensions/reservation_ext.dart';
 import 'package:atta/main.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:share_plus/share_plus.dart';
 
 part 'user_reservations_state.dart';
 
 class UserReservationsCubit extends Cubit<UserReservationsState> {
   UserReservationsCubit() : super(UserReservationsState.initial(userService.user!)) {
     _userSubscription = userService.userStream.listen((user) {
-      emit(state.copyWith(user: user));
+      if (user?.id != state.user.id) {
+        emit(state.copyWith(user: user));
+      }
     });
   }
 
@@ -47,5 +52,9 @@ class UserReservationsCubit extends Cubit<UserReservationsState> {
       await onRemoveReservation(reservation);
     }
     emit(state.copyWith(selectedReservations: []));
+  }
+
+  void onShare({required AttaRestaurant restaurant, required AttaReservation reservation}) {
+    Share.share(reservation.shareText(restaurant));
   }
 }

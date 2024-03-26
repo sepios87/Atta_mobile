@@ -18,11 +18,12 @@ import 'package:atta/widgets/user_avatar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 
 part 'widgets/app_bar.dart';
 part 'widgets/bottom_navigation_bar.dart';
 
-class HomeBase extends StatelessWidget {
+class HomeBase extends StatefulWidget {
   const HomeBase({
     required this.child,
     required this.path,
@@ -33,6 +34,11 @@ class HomeBase extends StatelessWidget {
   final String? path;
 
   @override
+  State<HomeBase> createState() => _HomeBaseState();
+}
+
+class _HomeBaseState extends State<HomeBase> {
+  @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => HomeBaseCubit(),
@@ -40,8 +46,8 @@ class HomeBase extends StatelessWidget {
         builder: (context, state) {
           return Scaffold(
             appBar: _AttaAppBar(user: state.user),
-            body: child,
-            bottomNavigationBar: state.user == null ? null : _AttaBottomNavigationBar(path: path),
+            body: widget.child,
+            bottomNavigationBar: state.user == null ? null : _AttaBottomNavigationBar(path: widget.path),
           );
         },
       ),

@@ -1,6 +1,7 @@
 import 'package:atta/bottom_sheet/edit_profile.dart';
 import 'package:atta/extensions/border_radius_ext.dart';
 import 'package:atta/extensions/context_ext.dart';
+import 'package:atta/extensions/locale_ext.dart';
 import 'package:atta/extensions/widget_ext.dart';
 import 'package:atta/pages/home/home_page.dart';
 import 'package:atta/pages/profile/cubit/profile_cubit.dart';
@@ -11,6 +12,7 @@ import 'package:atta/theme/text_style.dart';
 import 'package:atta/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 
 class ProfilePage {
   static const path = '/profile';
@@ -39,7 +41,9 @@ class _ProfileScreen extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.only(top: kToolbarHeight + MediaQuery.paddingOf(context).top - _kAvatarSize),
+        padding: EdgeInsets.only(
+          top: kToolbarHeight + MediaQuery.paddingOf(context).top - _kAvatarSize,
+        ),
         child: BlocBuilder<ProfileCubit, ProfileState>(
           builder: (context, state) {
             return Stack(
@@ -89,7 +93,10 @@ class _ProfileScreen extends StatelessWidget {
                                     style: AttaTextStyle.subHeader,
                                   ),
                                   Text(
-                                    'Restaurants\nfavoris',
+                                    translatePlural(
+                                      'profile_page.favorite_restaurants',
+                                      state.user.favoritesRestaurantIds.length,
+                                    ),
                                     textAlign: TextAlign.center,
                                     style: AttaTextStyle.caption,
                                   ),
@@ -108,7 +115,10 @@ class _ProfileScreen extends StatelessWidget {
                                     style: AttaTextStyle.subHeader,
                                   ),
                                   Text(
-                                    'Plats\nfavoris',
+                                    translatePlural(
+                                      'profile_page.favorite_dishes',
+                                      state.user.favoriteDishesIds.length,
+                                    ),
                                     textAlign: TextAlign.center,
                                     style: AttaTextStyle.caption,
                                   ),
@@ -127,7 +137,7 @@ class _ProfileScreen extends StatelessWidget {
                                     style: AttaTextStyle.subHeader,
                                   ),
                                   Text(
-                                    'Réservations\npassées',
+                                    translatePlural('profile_page.reservations', state.user.reservations.length),
                                     textAlign: TextAlign.center,
                                     style: AttaTextStyle.caption,
                                   ),
@@ -141,17 +151,60 @@ class _ProfileScreen extends StatelessWidget {
                       Material(
                         color: Colors.transparent,
                         child: ListTile(
-                          title: const Text('Modifier le profile'),
-                          subtitle: const Text('Pour mettre à jour vos informations'),
+                          title: Text(translate('profile_page.edit_profile')),
+                          subtitle: Text(translate('profile_page.edit_profile_description')),
                           trailing: const Icon(Icons.chevron_right_rounded),
                           onTap: () => showEditProfileBottomSheet(context, state.user),
                         ),
                       ),
+                      const Divider(),
+                      Material(
+                        color: Colors.transparent,
+                        child: ListTile(
+                          title: Text(translate('profile_page.change_language')),
+                          trailing: const Icon(Icons.chevron_right_rounded),
+                          onTap: () {
+                            showDialog<void>(
+                              context: context,
+                              builder: (childContext) {
+                                return AlertDialog(
+                                  title: Text(translate('profile_page.select_language')),
+                                  content: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: LocalizedApp.of(context)
+                                        .delegate
+                                        .supportedLocales
+                                        .map(
+                                          (locale) => ListTile(
+                                            contentPadding: EdgeInsets.zero,
+                                            leading: LocalizedApp.of(context).delegate.currentLocale == locale
+                                                ? const Icon(Icons.check)
+                                                : const SizedBox.square(dimension: 24),
+                                            title: Text(locale.languageName),
+                                            onTap: () {
+                                              context.read<ProfileCubit>().onChangeLanguage(
+                                                    context,
+                                                    locale.languageCode,
+                                                  );
+                                              Navigator.pop(childContext);
+                                            },
+                                          ),
+                                        )
+                                        .toList(),
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                        ),
+                      ),
                       const Spacer(),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          // TODO(florian): implement
+                        },
                         child: Text(
-                          'Supprimer le compte',
+                          translate('profile_page.remove_account_button'),
                           style: AttaTextStyle.caption.copyWith(color: Colors.grey.shade600),
                         ),
                       ),
@@ -172,9 +225,9 @@ class _ProfileScreen extends StatelessWidget {
                                   strokeWidth: 2,
                                 ),
                               )
-                            : const Text('Se déconnecter'),
+                            : Text(translate('profile_page.logout_button')),
                       ),
-                      const SizedBox(height: AttaSpacing.m),
+                      SizedBox(height: MediaQuery.paddingOf(context).bottom + AttaSpacing.s),
                     ],
                   ),
                 ),

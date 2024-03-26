@@ -8,6 +8,7 @@ import 'package:atta/theme/radius.dart';
 import 'package:atta/theme/spacing.dart';
 import 'package:atta/theme/text_style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 
 const kSelectHourlyHeight = 32.0;
 
@@ -51,7 +52,7 @@ class SelectHourly extends StatelessWidget {
           style: TextButton.styleFrom(padding: EdgeInsets.zero),
           child: Row(
             children: [
-              Text('Réserve ton horaire', style: AttaTextStyle.subHeader),
+              Text(translate('select_hourly.title'), style: AttaTextStyle.subHeader),
               const Spacer(),
               Text(selectedDate.format(), style: AttaTextStyle.label),
               const Icon(Icons.keyboard_arrow_down),

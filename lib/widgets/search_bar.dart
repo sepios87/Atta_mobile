@@ -101,6 +101,7 @@ class _AttaSearchBarState extends State<AttaSearchBar> {
           },
           child: _isOnSearch
               ? IconButton(
+                  key: const ValueKey('active'),
                   onPressed: () {
                     _textEditingController.clear();
                     _focusNode.unfocus();

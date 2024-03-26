@@ -1,4 +1,4 @@
-import 'package:atta/extensions/string_ext.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:intl/intl.dart';
 
 extension DateTimeExtension on DateTime {
@@ -14,19 +14,25 @@ extension DateTimeExtension on DateTime {
 
   String format() {
     if (isToday) {
-      return "Aujourd'hui";
+      return translate('date_time.today');
     } else if (isTomorrow) {
-      return 'Demain';
+      return translate('date_time.tomorrow');
     }
     return DateFormat('dd/MM').format(this);
   }
 
   String accurateFormat({bool withPronoun = false}) {
     if (isToday) {
-      return "Aujourd'hui à ${DateFormat('HH:mm').format(this)}";
+      return translate('date_time.today_at', args: {'time': DateFormat('HH:mm').format(this)});
     } else if (isTomorrow) {
-      return 'Demain à ${DateFormat('HH:mm').format(this)}';
+      return translate('date_time.tomorrow_at', args: {'time': DateFormat('HH:mm').format(this)});
     }
-    return '${withPronoun ? 'Le ' : ''}${DateFormat('EEEE dd/MM à HH:mm').format(this).capitalize()}';
+    if (withPronoun) {
+      return translate(
+        'date_time.at',
+        args: {'date': DateFormat('dd/MM').format(this), 'time': DateFormat('HH:mm').format(this)},
+      );
+    }
+    return DateFormat('dd/MM - HH:mm').format(this);
   }
 }

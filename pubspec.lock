@@ -322,10 +322,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_bloc
-      sha256: "87325da1ac757fcc4813e6b34ed5dd61169973871fdf181d6c2109dd6935ece1"
+      sha256: f0ecf6e6eb955193ca60af2d5ca39565a86b8a142452c5b24d96fb477428f4d2
       url: "https://pub.dev"
     source: hosted
-    version: "8.1.4"
+    version: "8.1.5"
   flutter_cache_manager:
     dependency: transitive
     description:
@@ -375,18 +375,18 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_map_animations
-      sha256: b21fbfc0694b68470d7c986009d5ad883c8841aded74fbc7b0f61db10f48c33f
+      sha256: e4b929632b43a7939ce07a7cdb05613abb25e1996c9767c16469d0cbb9e1c4a9
       url: "https://pub.dev"
     source: hosted
-    version: "0.5.3"
+    version: "0.6.0"
   flutter_map_marker_cluster:
     dependency: "direct main"
     description:
       name: flutter_map_marker_cluster
-      sha256: "27360384a0ef5e1a72c3815baa0c3ca5f4e614b969dc0b58f7823346520eeeaf"
+      sha256: "16fa4e8ca1b38b18229174b118f212436b7379c02fa33b71826a8d2c98f5f76c"
       url: "https://pub.dev"
     source: hosted
-    version: "1.3.4"
+    version: "1.3.5"
   flutter_map_marker_popup:
     dependency: transitive
     description:
@@ -408,6 +408,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_translate:
+    dependency: "direct main"
+    description:
+      name: flutter_translate
+      sha256: "8b1c449bf6d17753e6f188185f735ebc0a328d21d745878a43be66857de8ebb3"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.4"
   flutter_web_plugins:
     dependency: transitive
     description: flutter
@@ -489,10 +497,10 @@ packages:
     dependency: "direct main"
     description:
       name: go_router
-      sha256: "170c46e237d6eb0e6e9f0e8b3f56101e14fb64f787016e42edd74c39cf8b176a"
+      sha256: "7ecb2f391edbca5473db591b48555a8912dde60edd0fb3013bd6743033b2d3f8"
       url: "https://pub.dev"
     source: hosted
-    version: "13.2.0"
+    version: "13.2.1"
   google_identity_services_web:
     dependency: transitive
     description:
@@ -745,10 +753,10 @@ packages:
     dependency: "direct main"
     description:
       name: maps_launcher
-      sha256: "22a801c2ca1715de34c552dbd6746dbabb50d448f1cbe8f79c1a3fc63473dfee"
+      sha256: "57ba3c31db96e30f58c23fcb22a1fac6accc5683535b2cf344c534bbb9f8f910"
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.0"
+    version: "2.2.1"
   matcher:
     dependency: transitive
     description:
@@ -993,10 +1001,10 @@ packages:
     dependency: transitive
     description:
       name: share_plus_platform_interface
-      sha256: df08bc3a07d01f5ea47b45d03ffcba1fa9cd5370fb44b3f38c70e42cced0f956
+      sha256: "251eb156a8b5fa9ce033747d73535bf53911071f8d3b6f4f0b578505ce0d4496"
       url: "https://pub.dev"
     source: hosted
-    version: "3.3.1"
+    version: "3.4.0"
   shared_preferences:
     dependency: transitive
     description:
@@ -1226,6 +1234,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.3.1"
+  universal_io:
+    dependency: transitive
+    description:
+      name: universal_io
+      sha256: "1722b2dcc462b4b2f3ee7d188dad008b6eb4c40bbd03a3de451d82c78bba9aad"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.2"
   url_launcher:
     dependency: "direct main"
     description:

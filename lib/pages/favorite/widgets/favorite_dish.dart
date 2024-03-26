@@ -28,7 +28,7 @@ class _FavoriteDish extends StatelessWidget {
         ).chain(CurveTween(curve: Curves.easeInExpo)).animate(animation),
         child: FormulaCard(
           formula: dish,
-          suffixName: '(${restaurant.name})',
+          suffixName: restaurant.name,
           badge: FavoriteButton(
             borderColor: AttaColors.black,
             isFavorite: true,

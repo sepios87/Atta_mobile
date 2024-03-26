@@ -5,25 +5,30 @@ class AttaAuthState {
   const AttaAuthState._({
     required this.status,
     required this.isLogin,
+    required this.isNewAccount,
   });
 
   factory AttaAuthState.initial() {
     return AttaAuthState._(
       status: AuthIdleStatus(),
       isLogin: true,
+      isNewAccount: false,
     );
   }
 
   final AuthStatus status;
   final bool isLogin;
+  final bool isNewAccount;
 
   AttaAuthState copyWith({
     AuthStatus? status,
     bool? isLoginForm,
+    bool? isNewAccount,
   }) {
     return AttaAuthState._(
       status: status ?? this.status,
       isLogin: isLoginForm ?? isLogin,
+      isNewAccount: isNewAccount ?? this.isNewAccount,
     );
   }
 }

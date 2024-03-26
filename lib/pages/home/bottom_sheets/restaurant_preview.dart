@@ -53,7 +53,7 @@ class _RestaurantPreviewBottomSheet extends StatelessWidget {
         ),
         const SizedBox(height: AttaSpacing.m),
         Text(
-          'Apercu de la carte',
+          translate('home_page.restaurant_preview'),
           style: AttaTextStyle.subHeader,
         ).withPadding(const EdgeInsets.symmetric(horizontal: AttaSpacing.m)),
         const SizedBox(height: AttaSpacing.xs),
@@ -88,7 +88,11 @@ class _RestaurantPreviewBottomSheet extends StatelessWidget {
         ),
         const SizedBox(height: AttaSpacing.l),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
+          padding: EdgeInsets.only(
+            left: AttaSpacing.m,
+            right: AttaSpacing.m,
+            bottom: MediaQuery.paddingOf(context).bottom + AttaSpacing.s,
+          ),
           child: Row(
             children: [
               Expanded(
@@ -106,8 +110,8 @@ class _RestaurantPreviewBottomSheet extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AttaColors.secondary,
                   ),
-                  child: const Text(
-                    'Voir le restaurant',
+                  child: Text(
+                    translate('home_page.see_more_button'),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -124,8 +128,8 @@ class _RestaurantPreviewBottomSheet extends StatelessWidget {
                           restaurantId: restaurant.id,
                         ).toPathParameters(),
                       ),
-                    child: const Text(
-                      'Réserver directement',
+                    child: Text(
+                      translate('home_page.reservation_button'),
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -134,7 +138,6 @@ class _RestaurantPreviewBottomSheet extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(height: AttaSpacing.m),
       ],
     );
   }

@@ -19,7 +19,7 @@ class _DefaultContent extends StatelessWidget {
             builder: (context, restaurants) {
               if (restaurants.isNotEmpty) {
                 return _RestaurantList(
-                  title: 'Les plus récents',
+                  title: translate('home_page.most_recent_restaurants'),
                   restaurants: restaurants,
                   margin: const EdgeInsets.only(bottom: AttaSpacing.m),
                 );
@@ -32,7 +32,7 @@ class _DefaultContent extends StatelessWidget {
             builder: (context, restaurants) {
               if (restaurants.isNotEmpty) {
                 return _RestaurantList(
-                  title: 'Les plus populaires',
+                  title: translate('home_page.most_popular_restaurants'),
                   restaurants: restaurants,
                   margin: const EdgeInsets.only(bottom: AttaSpacing.m),
                 );
@@ -62,7 +62,7 @@ class _DefaultContent extends StatelessWidget {
                       color: MaterialStateProperty.all(AttaColors.primary),
                       visualDensity: VisualDensity.compact,
                       label: Text(
-                        'Avec le plus de plats',
+                        translate('home_page.restaurant_with_most_dishes'),
                         style: AttaTextStyle.caption.copyWith(
                           color: Colors.white,
                         ),
@@ -78,7 +78,7 @@ class _DefaultContent extends StatelessWidget {
             builder: (context, restaurants) {
               if (restaurants.isNotEmpty) {
                 return _RestaurantList(
-                  title: 'Les moins chers',
+                  title: translate('home_page.cheaper_restaurants'),
                   restaurants: restaurants,
                   margin: const EdgeInsets.only(bottom: AttaSpacing.m),
                 );
@@ -91,7 +91,7 @@ class _DefaultContent extends StatelessWidget {
             builder: (context, restaurants) {
               if (restaurants.isNotEmpty) {
                 return _RestaurantList(
-                  title: 'Avec le plus de choix',
+                  title: translate('home_page.biggest_number_formula_restaurants'),
                   restaurants: restaurants,
                   margin: const EdgeInsets.only(bottom: AttaSpacing.m),
                 );
@@ -121,7 +121,7 @@ class _DefaultContent extends StatelessWidget {
                       color: MaterialStateProperty.all(AttaColors.primary),
                       visualDensity: VisualDensity.compact,
                       label: Text(
-                        'Avec le menu le moins cher',
+                        translate('home_page.restaurant_with_cheaper_menu'),
                         style: AttaTextStyle.caption.copyWith(
                           color: Colors.white,
                         ),
@@ -137,7 +137,7 @@ class _DefaultContent extends StatelessWidget {
             builder: (context, restaurants) {
               if (restaurants.isNotEmpty) {
                 return _RestaurantList(
-                  title: 'Les hors catégories',
+                  title: translate('home_page.other_restaurants'),
                   restaurants: restaurants,
                   margin: const EdgeInsets.only(bottom: AttaSpacing.m),
                 );

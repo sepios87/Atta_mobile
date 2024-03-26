@@ -9,8 +9,8 @@ class AttaOpeningHoursSlots {
 
   factory AttaOpeningHoursSlots.fromMap(Map<String, dynamic> map) {
     return AttaOpeningHoursSlots(
-      openingTime: TimeOfDay.fromDateTime(DateTime.tryParse(map['open'].toString()) ?? DateTime.now()),
-      closingTime: TimeOfDay.fromDateTime(DateTime.tryParse(map['close'].toString()) ?? DateTime.now()),
+      openingTime: TimeOfDayExt.fromHHmm(map['open'].toString()),
+      closingTime: TimeOfDayExt.fromHHmm(map['close'].toString()),
     );
   }
 
@@ -19,8 +19,8 @@ class AttaOpeningHoursSlots {
 
   Map<String, dynamic> toMap() {
     return {
-      'open': openingTime.toDateTime(),
-      'close': closingTime.toDateTime(),
+      'open': openingTime.toHHmm(),
+      'close': closingTime.toHHmm(),
     };
   }
 }

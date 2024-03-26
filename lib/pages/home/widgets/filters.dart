@@ -1,7 +1,7 @@
 part of '../home_page.dart';
 
 class _Filters extends StatelessWidget {
-  const _Filters();
+  const _Filters({super.key});
 
   @override
   Widget build(BuildContext context) {

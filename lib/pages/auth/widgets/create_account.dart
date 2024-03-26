@@ -1,7 +1,7 @@
 part of '../auth_page.dart';
 
-class _RegisterContent extends StatelessWidget {
-  const _RegisterContent();
+class _CreateAccountContent extends StatelessWidget {
+  const _CreateAccountContent();
 
   @override
   Widget build(BuildContext context) {
@@ -11,18 +11,6 @@ class _RegisterContent extends StatelessWidget {
 
     return Column(
       children: [
-        const SizedBox(height: AttaSpacing.xl),
-        Text('Enregistre toi', style: AttaTextStyle.header.copyWith(fontSize: 36)),
-        const SizedBox(height: AttaSpacing.xl),
-        Text(
-          '''
-        Bienvenue sur ATTA, l'application parfaite pour vous mettre à table ! 
-        Commencez par créer votre compte pour pouvoir réserver une table dans votre restaurant préféré.
-                  ''',
-          textAlign: TextAlign.center,
-          style: AttaTextStyle.content,
-        ),
-        const SizedBox(height: AttaSpacing.l),
         Form(
           key: formKey,
           autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -31,28 +19,28 @@ class _RegisterContent extends StatelessWidget {
             children: [
               TextFormField(
                 onSaved: (value) => email = value,
-                decoration: const InputDecoration(hintText: 'Email'),
+                decoration: InputDecoration(hintText: translate('auth_page.email')),
                 keyboardType: TextInputType.emailAddress,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Veuillez entrer votre email';
+                    return translate('auth_page.required_email');
                   }
                   return null;
                 },
               ),
               const SizedBox(height: AttaSpacing.m),
               _PasswordField(
-                hintText: 'Mot de passe',
+                hintText: translate('auth_page.password'),
                 onSaved: (value) => password = value,
                 // Use onChanged to update the password variable and use it in confirm password field
                 onChanged: (value) => password = value,
               ),
               const SizedBox(height: AttaSpacing.m),
               _PasswordField(
-                hintText: 'Confirmer le mot de passe',
+                hintText: translate('auth_page.confirm_password'),
                 validator: (value) {
                   if (value != password) {
-                    return 'Les mots de passe ne correspondent pas';
+                    return translate('auth_page.password_not_match');
                   }
                   return null;
                 },
@@ -66,7 +54,7 @@ class _RegisterContent extends StatelessWidget {
                       if (status is AuthLoadingStatus) return;
                       if (formKey.currentState!.validate()) {
                         formKey.currentState?.save();
-                        context.read<AuthCubit>().onCreateAccount(email ?? '', password ?? '');
+                        context.read<AuthCubit>().onCreateAccount(email!, password!);
                       }
                     },
                     child: status is AuthLoadingStatus
@@ -77,7 +65,7 @@ class _RegisterContent extends StatelessWidget {
                               strokeWidth: 2,
                             ),
                           )
-                        : const Text('Créer son compte'),
+                        : Text(translate('auth_page.create_account_button')),
                   );
                 },
               ),
@@ -110,11 +98,36 @@ class _RegisterContent extends StatelessWidget {
           ],
         ),
         const SizedBox(height: AttaSpacing.xxl),
+        BlocSelector<AuthCubit, AttaAuthState, AuthStatus>(
+          selector: (state) => state.status,
+          builder: (context, status) {
+            if (status is AuthLoadingGoogleStatus) {
+              return Container(
+                width: 38,
+                height: 38,
+                padding: const EdgeInsets.all(AttaSpacing.xxs),
+                child: CircularProgressIndicator(
+                  color: AttaColors.black,
+                ),
+              );
+            }
+
+            return InkWell(
+              onTap: () => context.read<AuthCubit>().signInWithGoogle(),
+              child: Image.asset(
+                'assets/icons/google.png',
+                width: 38,
+                height: 38,
+              ),
+            );
+          },
+        ),
+        const SizedBox(height: AttaSpacing.l),
         SizedBox(
           width: double.infinity,
           child: TextButton(
             onPressed: () => context.read<AuthCubit>().onLogin(),
-            child: const Text('Se connecter'),
+            child: Text(translate('auth_page.login_button')),
           ),
         ),
       ],

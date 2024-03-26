@@ -27,6 +27,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_animations/flutter_map_animations.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
 
@@ -56,10 +57,10 @@ class _HomeScreen extends StatelessWidget {
     return BlocListener<HomeCubit, HomeState>(
       listenWhen: (previous, current) => previous.selectedRestaurant != current.selectedRestaurant,
       listener: (context, state) {
-        if (state.selectedRestaurant != null) {
+        if (state.selectedRestaurant != null && state.isOnListView) {
           showModalBottomSheet<void>(
             constraints: BoxConstraints(
-              minHeight: MediaQuery.of(context).size.height * 0.2,
+              minHeight: MediaQuery.sizeOf(context).height * 0.2,
             ),
             useRootNavigator: true,
             context: context,
@@ -106,14 +107,16 @@ class _HomeScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: AttaSpacing.s),
-                const _Filters(),
+                // Necessary key to change the language of the filters when the user changes the language
+                _Filters(key: ValueKey('filters-${user?.languageCode}')),
                 const SizedBox(height: AttaSpacing.s),
                 Expanded(
                   child: BlocBuilder<HomeCubit, HomeState>(
                     buildWhen: (previous, current) =>
                         previous.isOnSearch != current.isOnSearch || previous.isOnListView != current.isOnListView,
                     builder: (context, state) {
-                      Widget child = const _DefaultContent(key: ValueKey('default_content'));
+                      // Necessary key to change the language of the filters when the user changes the language
+                      Widget child = _DefaultContent(key: ValueKey('default_content-${user?.languageCode}'));
                       if (!state.isOnListView) {
                         child = const _MapContent(key: ValueKey('map_content'));
                       }

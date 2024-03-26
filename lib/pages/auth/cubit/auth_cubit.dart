@@ -19,7 +19,7 @@ class AuthCubit extends Cubit<AttaAuthState> {
     emit(state.copyWith(status: AuthLoadingStatus()));
     try {
       await userService.createAccount(email, password);
-      emit(state.copyWith(status: AuthSuccessStatus()));
+      emit(state.copyWith(status: AuthSuccessStatus(), isNewAccount: true));
     } catch (e) {
       emit(state.copyWith(status: AuthErrorStatus(e.toString())));
       emit(state.copyWith(status: AuthIdleStatus()));

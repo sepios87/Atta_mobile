@@ -9,9 +9,7 @@ class _SearchContent extends StatelessWidget {
       selector: (state) => state.filterRestaurants(state.searchRestaurants),
       builder: (context, restaurants) {
         if (restaurants.isEmpty) {
-          return const Center(
-            child: Text('Aucun résultat'),
-          );
+          return Center(child: Text(translate('home_page.no_restaurant_found')));
         }
 
         return ListView.builder(

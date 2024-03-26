@@ -3,10 +3,12 @@ part of '../user_reservations_page.dart';
 class _ReservationCardExpansion extends StatefulWidget {
   const _ReservationCardExpansion({
     required this.reservation,
+    required this.isPast,
     super.key,
   });
 
   final AttaReservation reservation;
+  final bool isPast;
 
   @override
   State<_ReservationCardExpansion> createState() => _ReservationCardExpansionState();
@@ -34,35 +36,35 @@ class _ReservationCardExpansionState extends State<_ReservationCardExpansion> {
       ),
       confirmDismiss: (direction) async {
         if (direction == DismissDirection.endToStart) {
-          final isConfirmed = await showDialog<bool>(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                title: const Text('Annuler la réservation'),
-                content: const Text('Êtes-vous sûr de vouloir supprimer cette réservation ?'),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.of(context).pop(false),
-                    child: const Text('Annuler'),
-                  ),
-                  TextButton(
-                    onPressed: () => Navigator.of(context).pop(true),
-                    child: const Text('Confirmer'),
-                  ),
-                ],
-              );
-            },
-          );
+          bool isConfirmed = true;
+          if (!widget.isPast) {
+            isConfirmed = await showDialog<bool>(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: Text(translate('user_reservation_page.cancel_reservation')),
+                      content: Text(translate('user_reservation_page.cancel_reservation_confirmation')),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.of(context).pop(false),
+                          child: Text(translate('user_reservation_page.cancel_reservation_button')),
+                        ),
+                        TextButton(
+                          onPressed: () => Navigator.of(context).pop(true),
+                          child: Text(translate('user_reservation_page.confirm_reservation_button')),
+                        ),
+                      ],
+                    );
+                  },
+                ) ??
+                false;
+          }
 
-          if (isConfirmed != null && isConfirmed == true) {
+          if (isConfirmed) {
             // ignore: use_build_context_synchronously
             await context.read<UserReservationsCubit>().onRemoveReservation(reservation);
           }
           return isConfirmed;
-        } else if (direction == DismissDirection.startToEnd) {
-          // context.adapativePushNamed(
-          //   HomePage.routeName,
-          // );
         }
         return false;
       },

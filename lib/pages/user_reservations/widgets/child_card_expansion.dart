@@ -88,7 +88,10 @@ class _ChildReservationTileExpansion extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () => Share.share(reservation.shareText(restaurant)),
+                      onPressed: () => context.read<UserReservationsCubit>().onShare(
+                            restaurant: restaurant,
+                            reservation: reservation,
+                          ),
                       style: Theme.of(context).elevatedButtonTheme.style?.copyWith(
                             minimumSize: MaterialStateProperty.all(Size.zero),
                             tapTargetSize: MaterialTapTargetSize.shrinkWrap, // Remove margin around the button

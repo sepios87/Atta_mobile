@@ -8,6 +8,7 @@ final class ReservationState {
     required this.selectedDate,
     required this.reservation,
     required this.status,
+    required this.plan,
   });
 
   factory ReservationState.initial({
@@ -15,6 +16,7 @@ final class ReservationState {
     required TimeOfDay? selectedTime,
     required DateTime selectedDate,
     required AttaReservation reservation,
+    required AttaRestaurantPlan? plan,
   }) =>
       ReservationState._(
         restaurant: restaurant,
@@ -22,6 +24,7 @@ final class ReservationState {
         selectedDate: selectedDate,
         reservation: reservation,
         status: ReservationIdleStatus(),
+        plan: plan,
       );
 
   final AttaRestaurant restaurant;
@@ -29,6 +32,7 @@ final class ReservationState {
   final DateTime selectedDate;
   final AttaReservation reservation;
   final ReservationStatus status;
+  final AttaRestaurantPlan? plan;
 
   bool isSelectableTable(AttaTable table, int numberOfSeats) {
     final tableNumberOfSeats = table.numberOfSeats;
@@ -48,6 +52,7 @@ final class ReservationState {
       selectedDate: selectedDate ?? this.selectedDate,
       reservation: reservation ?? this.reservation,
       status: status ?? this.status,
+      plan: plan,
     );
   }
 }

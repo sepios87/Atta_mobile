@@ -20,7 +20,9 @@ class HomeCubit extends Cubit<HomeState> {
           ),
         ) {
     _userSubscription = userService.userStream.listen((user) {
-      emit(state.copyWith(user: Wrapped.value(user)));
+      if (user?.id != state.user?.id) {
+        emit(state.copyWith(user: Wrapped.value(user)));
+      }
     });
     _loadRestaurantsCategories();
   }
@@ -106,6 +108,11 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   void onToogleListView() {
-    emit(state.copyWith(isOnListView: !state.isOnListView));
+    emit(
+      state.copyWith(
+        isOnListView: !state.isOnListView,
+        selectedRestaurant: const Wrapped.value(null),
+      ),
+    );
   }
 }

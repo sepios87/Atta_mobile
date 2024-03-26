@@ -11,18 +11,6 @@ class _LoginContent extends StatelessWidget {
 
     return Column(
       children: [
-        const SizedBox(height: AttaSpacing.l),
-        Text('Hello', style: AttaTextStyle.header.copyWith(fontSize: 36)),
-        const SizedBox(height: AttaSpacing.xl),
-        Text(
-          '''
-        Bienvenue sur ATTA, l'application parfaite pour vous mettre à table ! 
-        Commencez par créer votre compte pour pouvoir réserver une table dans votre restaurant préféré.
-                  ''',
-          textAlign: TextAlign.center,
-          style: AttaTextStyle.content,
-        ),
-        const SizedBox(height: AttaSpacing.l),
         Form(
           key: formKey,
           autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -34,18 +22,18 @@ class _LoginContent extends StatelessWidget {
                 children: [
                   TextFormField(
                     onSaved: (value) => email = value,
-                    decoration: const InputDecoration(hintText: 'Email'),
+                    decoration: InputDecoration(hintText: translate('auth_page.email')),
                     keyboardType: TextInputType.emailAddress,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Veuillez entrer votre email';
+                        return translate('auth_page.required_email');
                       }
                       return null;
                     },
                   ),
                   const SizedBox(height: AttaSpacing.m),
                   _PasswordField(
-                    hintText: 'Mot de passe',
+                    hintText: translate('auth_page.password'),
                     onSaved: (value) => password = value,
                   ),
                   const SizedBox(height: AttaSpacing.m),
@@ -61,10 +49,7 @@ class _LoginContent extends StatelessWidget {
                       }
                       context.read<AuthCubit>().onSendForgetPassword(email ?? '').then((_) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content:
-                                Text('Un email vous a été envoyé sur $email pour réinitialiser votre mot de passe'),
-                          ),
+                          SnackBar(content: Text(translate('auth_page.email_sent'))),
                         );
                       });
                     },
@@ -76,7 +61,7 @@ class _LoginContent extends StatelessWidget {
                               color: AttaColors.black,
                             ),
                           )
-                        : const Text('Mot de passe oublié ?'),
+                        : Text(translate('auth_page.forget_password_button')),
                   ),
                   const SizedBox(height: AttaSpacing.l),
                   ElevatedButton(
@@ -84,7 +69,7 @@ class _LoginContent extends StatelessWidget {
                       if (status is AuthLoadingStatus) return;
                       if (formKey.currentState!.validate()) {
                         formKey.currentState?.save();
-                        context.read<AuthCubit>().onSendLogin(email ?? '', password ?? '');
+                        context.read<AuthCubit>().onSendLogin(email!, password!);
                       }
                     },
                     child: status is AuthLoadingStatus
@@ -95,7 +80,7 @@ class _LoginContent extends StatelessWidget {
                               color: Colors.white,
                             ),
                           )
-                        : const Text('Se connecter'),
+                        : Text(translate('auth_page.login_button')),
                   ),
                 ],
               );
@@ -157,7 +142,7 @@ class _LoginContent extends StatelessWidget {
           width: double.infinity,
           child: TextButton(
             onPressed: () => context.read<AuthCubit>().onRegister(),
-            child: Text('Créer un compte', style: AttaTextStyle.caption),
+            child: Text(translate('auth_page.create_account_button')),
           ),
         ),
       ],

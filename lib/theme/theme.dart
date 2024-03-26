@@ -109,6 +109,15 @@ ThemeData get _attaThemeData {
         },
       ),
     ),
+    dialogTheme: DialogTheme(
+      backgroundColor: AttaColors.white,
+      surfaceTintColor: AttaColors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(AttaRadius.medium),
+        ),
+      ),
+    ),
   );
 }
 
