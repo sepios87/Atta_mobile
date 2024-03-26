@@ -139,7 +139,8 @@ class AttaReservation {
       'created_at': createdAt.toIso8601String(),
       'date_time': dateTime.toIso8601String(),
       'restaurant_id': restaurantId,
-      // 'table_id': tableId, // TODO(florian): revenir dessus
+      // TODO(florian): revenir dessus
+      // 'table_id': tableId,
       'number_of_persons': numberOfPersons,
       'comment': comment,
     };
