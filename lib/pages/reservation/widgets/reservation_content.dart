@@ -102,6 +102,7 @@ class _ReservationContentState extends State<_ReservationContent> {
                     child: Stack(
                       children: [
                         Panorama(
+                          // TODO(florian): mettre un vrai 360 depuis la BDD
                           child: Image.asset('assets/360.jpg'),
                         ),
                         Positioned(
