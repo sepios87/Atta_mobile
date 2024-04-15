@@ -88,6 +88,43 @@ class _ReservationContentState extends State<_ReservationContent> {
                   const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
                 ),
               const SizedBox(height: AttaSpacing.l),
+              Text(translate('reservation_page.preview_restaurant'), style: AttaTextStyle.content).withPadding(
+                const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
+              ),
+              const SizedBox(height: AttaSpacing.s),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: AttaSpacing.m),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(AttaRadius.small),
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: 220,
+                    child: Stack(
+                      children: [
+                        Panorama(
+                          child: Image.asset('assets/360.jpg'),
+                        ),
+                        Positioned(
+                          top: 0,
+                          right: 0,
+                          child: IconButton(
+                            icon: CircleAvatar(
+                              radius: 16,
+                              backgroundColor: AttaColors.primary,
+                              child: Icon(
+                                Icons.fullscreen,
+                                color: AttaColors.white,
+                              ),
+                            ),
+                            onPressed: () => _showPreviewRestaurantModal(context),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: AttaSpacing.l),
               if (state.reservation.dishIds.isNotEmpty) ...[
                 Text(translate('reservation_page.dish_selected'), style: AttaTextStyle.content).withPadding(
                   const EdgeInsets.symmetric(horizontal: AttaSpacing.m),

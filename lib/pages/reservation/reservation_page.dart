@@ -22,9 +22,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:go_router/go_router.dart';
+import 'package:panorama/panorama.dart';
 
 part 'widgets/reservation_content.dart';
 part 'widgets/select_table.dart';
+part 'modals/preview_restaurant_modal.dart';
 
 class ReservationPageArgument {
   const ReservationPageArgument({required this.restaurantId});

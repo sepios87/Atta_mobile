@@ -113,6 +113,7 @@
         "title": "Reservation",
         "number_of_persons": "For how many people?",
         "select_table": "Choose your table",
+        "preview_restaurant": "Restaurant 360 preview",
         "dish_selected": "Ordered Dishes",
         "menu_selected": "Ordered Menus",
         "comment": "Comment",

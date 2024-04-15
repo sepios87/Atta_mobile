@@ -30,6 +30,9 @@ dependencies:
   intl: ^0.18.1
   latlong2: ^0.9.0
   maps_launcher: ^2.2.1
+  panorama:
+    git:
+      url: https://github.com/sepios87/panorama.git
   rxdart: ^0.27.7
   share_plus: ^7.2.2
   sliver_tools: ^0.2.12
@@ -64,6 +67,7 @@ flutter:
     - assets/i18n/
     - assets/logo/
     - assets/icons/
+    - assets/360.jpg
 
   fonts:
     - family: Inter
