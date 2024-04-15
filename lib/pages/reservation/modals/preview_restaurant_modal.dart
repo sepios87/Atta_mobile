@@ -10,9 +10,12 @@ Future<void> _showPreviewRestaurantModal(BuildContext context) async {
       return Stack(
         clipBehavior: Clip.none,
         children: [
-          Panorama(child: Image.asset('assets/360.jpg')),
-          IgnorePointer(
-            child: Positioned.fill(
+          Panorama(
+            sensitivity: 2,
+            child: Image.asset('assets/360.jpg'),
+          ),
+          Positioned.fill(
+            child: IgnorePointer(
               child: Container(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
