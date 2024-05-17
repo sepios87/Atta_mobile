@@ -1,16 +1,4 @@
-# atta
+# Atta
 
-A new Flutter project.
+https://github.com/sepios87/Atta_mobile/assets/58748740/28041f20-f6f6-4640-b913-5fad73dad757
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
