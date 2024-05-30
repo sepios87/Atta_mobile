@@ -1,9 +1,8 @@
-output_code=$(flutter pub run dart_code_linter:metrics check-unused-code lib --no-congratulate)
+output_code=$(flutter pub run dart_code_linter:metrics check-unused-code lib)
           nb_unused_code=$(echo $output_code | rev | cut -f1 -d' ')
           if [ -z $nb_unused_code ]; then 
             message="✅ Aucun code non utilisé"
             echo $message
-            echo $message >> $GITHUB_STEP_SUMMARY
           else
             if (( $nb_unused_code > 0 )); then
               message="⚠️ Quantité de code non utilisée : $nb_unused_code"
