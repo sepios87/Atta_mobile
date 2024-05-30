@@ -10,4 +10,3 @@ jobs:
     uses: sepios87/Workflow-flutter/.github/workflows/flutter_workflow.yml@main
     with:
       flutter_version: '3.19.6'
-    
