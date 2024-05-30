@@ -10,3 +10,16 @@ jobs:
     uses: sepios87/Workflow-flutter/.github/workflows/flutter_workflow.yml@main
     with:
       flutter_version: '3.19.6'
+      ignore_file_tag: '// CWIF: ignore_file'
+      private_ssh_key: false
+      localization_dir_path: 'assets/i18n'
+      max_unused_code: 6
+      max_unused_files: 2
+      min_percent_comment: 20
+      min_char_for_count_comment: 20
+      max_line_file: 600
+      max_percent_coverage: 0
+      count_obsolete_packages: true
+      max_obsolete_packages: 10
+      build_apk: false
+      apk_build_command: 'flutter build apk'
