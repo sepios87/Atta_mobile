@@ -1,4 +1,4 @@
-output_code=$(flutter pub run dart_code_linter:metrics check-unused-code lib 2>&1)
+output_code=$(flutter pub run dart_code_linter:metrics check-unused-code lib 2>&1 || true)
           nb_unused_code=$(echo $output_code | rev | cut -f1 -d' ')
           if [ -z $nb_unused_code ]; then 
             message="✅ Aucun code non utilisé"
