@@ -11,3 +11,4 @@ jobs:
     with:
       flutter_version: '3.19.6'
       min_percent_comment: 0
+      build_apk: true
