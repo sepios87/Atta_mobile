@@ -1,5 +1,5 @@
  outdated_dep=$(flutter pub outdated --json --no-prereleases --no-dev-dependencies)
-          nb_outdated_dep=$(echo $outdated_dep | jq '[.packages[] | select(.kind == "direct")] | length')
+          nb_outdated_dep=$(echo $outdated_dep | jq '[.packages[] | select(.kind == "direct")] | length' <<< "$outdated_dep")
           message="Nombre de paquets a mettre a jour en version majeure : $nb_outdated_dep"
           echo $message
           echo $message >> $GITHUB_STEP_SUMMARY
