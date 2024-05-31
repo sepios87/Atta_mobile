@@ -1,16 +1,11 @@
-name: Call Reusable Workflow
+name: Flutter Workflow
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
-  call-workflow:
+  cwif:
     uses: sepios87/Workflow-flutter/.github/workflows/flutter_workflow.yml@main
     with:
       flutter_version: '3.19.6'
-      min_percent_comment: 0
-      build_apk: true
-      count_obsolete_packages: true
-      max_obsolete_packages: 15
