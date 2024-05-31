@@ -13,4 +13,4 @@ jobs:
       min_percent_comment: 0
       build_apk: true
       count_obsolete_packages: true
-      max_obsolete_packages: 12
+      max_obsolete_packages: 10
